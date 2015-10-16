@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{77cca01d-b1d6-43ec-9d1f-e477ffcfc5e3}</ProjectGuid>
+    <ProjectGuid>{77CCA01D-B1D6-43EC-9D1F-E477FFCFC5E3}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -53,6 +53,7 @@
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Entities\ArenaController.cs" />
+    <Compile Include="Entities\ArenaSkybox.cs" />
     <Compile Include="Entities\ArenaTable.cs" />
     <Compile Include="Entities\ArenaEnemy.cs" />
     <Compile Include="Entities\Character.cs" />
