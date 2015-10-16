@@ -42,6 +42,8 @@ namespace Titanium.Scenes
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
+
+        public List<Entity> collidables;
         
         /**
          * The default scene constructor.
@@ -98,6 +100,8 @@ namespace Titanium.Scenes
          */
         public override void loadScene()
         {
+            collidables = new List<Entity>();
+
             if (content == null)
                 content = new ContentManager(SceneManager.Game.Services, "Content");
 
@@ -217,6 +221,9 @@ namespace Titanium.Scenes
         /// <param name="difficulty">The new arena's difficulty</param>
         public void loadNewArena(ArenaDifficulty difficulty)
         {
+
+            collidables = new List<Entity>();
+
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
             baseArena = builder.buildArenaBase();
