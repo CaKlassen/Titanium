@@ -40,7 +40,10 @@ namespace Titanium.Scenes
         private Character Hero;
         public Camera camera;
         private ArenaTable table;
+        private ArenaSkybox skybox;
         private BasicEffect effect;
+
+        public List<Entity> collidables;
         
         /**
          * The default scene constructor.
@@ -97,6 +100,8 @@ namespace Titanium.Scenes
          */
         public override void loadScene()
         {
+            collidables = new List<Entity>();
+
             if (content == null)
                 content = new ContentManager(SceneManager.Game.Services, "Content");
 
@@ -115,6 +120,7 @@ namespace Titanium.Scenes
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             
             table = new ArenaTable(getStartTile(), content);
+            skybox = new ArenaSkybox(getStartTile(), content);
 
             // Debug arena
             printDebugArena();  
@@ -181,6 +187,10 @@ namespace Titanium.Scenes
             rs.CullMode = CullMode.None;
             SceneManager.GraphicsDevice.RasterizerState = rs;
 
+            // Draw the skybox
+            skybox.Draw(sb);
+
+
             // Draw the table
             table.Draw(sb);
 
@@ -211,6 +221,9 @@ namespace Titanium.Scenes
         /// <param name="difficulty">The new arena's difficulty</param>
         public void loadNewArena(ArenaDifficulty difficulty)
         {
+
+            collidables = new List<Entity>();
+
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
             baseArena = builder.buildArenaBase();
@@ -224,9 +237,7 @@ namespace Titanium.Scenes
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
-
-            table = new ArenaTable(getStartTile(), content);
-
+            
             // Debug arena
             printDebugArena();
         }

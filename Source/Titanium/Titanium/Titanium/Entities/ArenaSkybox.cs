@@ -10,25 +10,14 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Titanium.Arena;
 using Titanium.Scenes;
-using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
     /**
      * This class provides a base for all in-game entities that must be updated and rendered to the screen.
      */
-    public class ArenaEnemy : Entity
+    public class ArenaSkybox : Entity
     {
-        /// <summary>
-        /// The rate at which the enemy moves between tiles.
-        /// </summary>
-        public static int MOVE_RATE = 10;
-
-        /// <summary>
-        /// The number of turns to wait between moves.
-        /// </summary>
-        public static int WAIT_TURNS = 3;
-
         private Tile _currentTile;//the current tile we are standing on
         private Vector3 _Position;
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
@@ -36,36 +25,39 @@ namespace Titanium.Entities
         //MovableModel
         private float modelRotation;
         public Model myModel;
+        public Texture2D texture;
         //public Matrix ModelMatrix;
         //private SpriteBatch spriteBatch;
         //private String modelPath;
         private Vector3 modelPosition, cameraPosition;
         private Vector3 Target;
-        
-        private float scale;
 
-        private int waitTurns = WAIT_TURNS;
+        private int deltaX;
+        private int deltaZ;
+        private float rotAngle;
+        private float scale;
         
         /**
          * The default entity constructor.
          */
-        public ArenaEnemy(Tile createTile, ContentManager Content)
+        public ArenaSkybox(Tile createTile, ContentManager Content)
         {
-            // Add this to the collidables list
-            ArenaScene.instance.collidables.Add(this);
-
             _currentTile = createTile;
             _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
 
             //_Position = Vector3.Zero;
             _forward = ForwardDir.UP;
+
+            deltaX = 0;
+            deltaZ = 0;
+            rotAngle = 0;
+            scale = 80f;
+
+            modelRotation = 0.0f;
+            modelPosition = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z);//models position appears on the start tile.
             
-            scale = 0.5f;
-
-            // Set the wait turns randomly
-            waitTurns = ArenaController.instance.getGenerator().Next(1, WAIT_TURNS + 1);
-
-            myModel = myModel = Content.Load<Model>("Models/enemy");
+            myModel = Content.Load<Model>("Models/skybox");
+            texture = Content.Load<Texture2D>("Models/skyboxBG");
         }
         
         /**
@@ -73,31 +65,7 @@ namespace Titanium.Entities
          */
         public override void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState)
         {
-            // If the player moved this frame
-            if (ArenaController.instance.getPlayerMoved())
-            {
-                waitTurns--;
 
-                // If it's our turn to move
-                if (waitTurns == 0)
-                {
-                    waitTurns = WAIT_TURNS;
-
-                    TileConnections dir;
-                    Random r = ArenaController.instance.getGenerator();
-
-                    // Search for an adjacent tile
-                    do
-                    {
-                        dir = (TileConnections)r.Next(0, 4);
-                    } while (_currentTile.getConnection(dir) == null);
-
-                    _currentTile = _currentTile.getConnection(dir);
-                }
-            }
-
-            _Position.X += MathUtils.smoothChange(_Position.X, _currentTile.getDrawPos().X, MOVE_RATE);
-            _Position.Z += MathUtils.smoothChange(_Position.Z, _currentTile.getDrawPos().Y, MOVE_RATE);
         }
 
         /**
@@ -119,10 +87,16 @@ namespace Titanium.Entities
                     foreach (BasicEffect effect in mesh.Effects)
                     {
                         effect.EnableDefaultLighting();
+
+                        // Set the tile's UV Map
+                        effect.TextureEnabled = true;
+                        effect.Texture = texture;
+
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
-                            * Matrix.CreateTranslation(_Position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+                            * Matrix.CreateTranslation(modelPosition);
+                        effect.View = ArenaScene.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
+                        effect.Projection = ArenaScene.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
+                                                                                       //aspectRatio, 1.0f, 10000.0f);//1366/768
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
