@@ -39,9 +39,6 @@ namespace Titanium.Entities
          */
         public ArenaExit(Tile createTile, ContentManager Content)
         {
-            // Add this to the collidables list
-            ArenaScene.instance.collidables.Add(this);
-
             _currentTile = createTile;
             _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
 
