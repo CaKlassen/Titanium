@@ -281,16 +281,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Stats\PlayerFile.txt">
-      <Name>PlayerFile</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Stats\Stage_1_1.txt">
-      <Name>Stage_1_1</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="ButtonIcons\xboxControllerDPadDown.tga">
       <Name>xboxControllerDPadDown</Name>
       <Importer>TextureImporter</Importer>
@@ -311,6 +302,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+=======
+    <None Include="Stats\PlayerFile.txt">
+      <Name>PlayerFile</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Stats\Stage_1_1.txt">
+      <Name>Stage_1_1</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+>>>>>>> bcc7b755c30a4cd1b154bf5e59a19a90e1a11cf2
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

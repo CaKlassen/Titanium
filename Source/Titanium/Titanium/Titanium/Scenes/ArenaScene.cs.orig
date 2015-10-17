@@ -101,7 +101,13 @@ namespace Titanium.Scenes
          */
         public override void loadScene(ContentManager content)
         {
+<<<<<<< HEAD
+=======
             collidables = new List<Entity>();
+
+            if (content == null)
+                content = new ContentManager(SceneManager.Game.Services, "Content");
+>>>>>>> bcc7b755c30a4cd1b154bf5e59a19a90e1a11cf2
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
