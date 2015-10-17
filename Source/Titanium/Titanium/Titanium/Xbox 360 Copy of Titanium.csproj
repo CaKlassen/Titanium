@@ -64,6 +64,7 @@
     <Compile Include="Entities\SpriteChar.cs" />
     <Compile Include="Entities\UnitStats.cs" />
     <Compile Include="Gambits\BaseGambit.cs" />
+    <Compile Include="Gambits\Combo.cs" />
     <Compile Include="Gambits\Mash.cs" />
     <Compile Include="InputAction.cs" />
     <Compile Include="InputState.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\MathUtils.cs" />
+    <Compile Include="Utilities\PhysicsUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

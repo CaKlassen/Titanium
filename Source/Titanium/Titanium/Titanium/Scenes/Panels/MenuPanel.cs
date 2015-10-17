@@ -4,29 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
 
 namespace Titanium.Scenes.Panels
 {
     class MenuPanel: Panel
     {
         string title;
+        SpriteFont font;
 
         Color textColor = Color.DarkBlue;
-
-        // The font for the title
-        protected SpriteFont font;
-
-        // The font of the items
-        public SpriteFont itemFont;
 
         // Some padding so things aren't all squished
         private int SPACING = 5;
 
-        public MenuPanel(Scene scene, Vector2 pos, string menuTitle): base(scene, pos)
+        public MenuPanel(Vector2 pos, string menuTitle): base(pos)
         {
             this.title = menuTitle;
-            font = scene.SceneManager.Font;
-            itemFont = font;
         }
 
 
@@ -45,6 +39,12 @@ namespace Titanium.Scenes.Panels
                 currentHeight += item.GetHeight();
             }
 
+        }
+
+        public override void load(ContentManager content)
+        {
+            font = content.Load<SpriteFont>("TestFont");
+            base.load(content);
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace Titanium.Scenes.Panels
             return w;
         }
         
-        public override void draw(GameTime gameTime)
+        public override void draw(SpriteBatch sb)
         {
             sb.DrawString(font, title, Position, textColor);
-            base.draw(gameTime);
+            base.draw(sb);
         }
 
         public override void update(GameTime gameTime, InputState inputState)
@@ -90,10 +90,10 @@ namespace Titanium.Scenes.Panels
         /// <summary>
         /// Center this menu in the screen.
         /// </summary>
-        public void center()
+        public void center(Viewport v)
         {
-            int width = Scene.SceneManager.GraphicsDevice.Viewport.Width;
-            int height = Scene.SceneManager.GraphicsDevice.Viewport.Height;
+            int width = v.Width;
+            int height = v.Height;
 
             float x = width / 2 - totalWidth() / 2;
             float y = height / 2 - totalHeight() / 2;
