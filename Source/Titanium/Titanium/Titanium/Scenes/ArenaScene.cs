@@ -19,9 +19,9 @@ namespace Titanium.Scenes
      * 
      * Each game scene represents a distinct screen in the game.
      */
-    class enteties : Scene
+    class ArenaScene : Scene
     {
-        public static enteties instance;
+        public static ArenaScene instance;
 
         private Tile[,] baseArena;
 
@@ -49,7 +49,7 @@ namespace Titanium.Scenes
         /**
          * The default scene constructor.
          */
-        public enteties() : base()
+        public ArenaScene() : base()
         {
             instance = this;
 
@@ -102,6 +102,9 @@ namespace Titanium.Scenes
         public override void loadScene(ContentManager content)
         {
             collidables = new List<Entity>();
+
+            if (content == null)
+                content = new ContentManager(SceneManager.Game.Services, "Content");
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
@@ -223,8 +226,10 @@ namespace Titanium.Scenes
         /// <param name="difficulty">The new arena's difficulty</param>
         public void loadNewArena(ArenaDifficulty difficulty)
         {
-
             collidables = new List<Entity>();
+
+            if (content == null)
+                content = new ContentManager(SceneManager.Game.Services, "Content");
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
