@@ -11,7 +11,6 @@ namespace Titanium.Scenes.Panels
 {
     class MenuItem: Panel
     {
-        public static string ICON_DIR = "ButtonIcons/";
         public static int OFFSET = 50;
 
         string text;
@@ -44,32 +43,15 @@ namespace Titanium.Scenes.Panels
         {
             this.text = text;
             this.action = action;
-            font = menu.itemFont;
-            setIcon(action.getBtn());       
+            
         }
 
-        private void setIcon(Buttons btn)
+        public override void load(ContentManager content)
         {
-            ContentManager content = new ContentManager(Scene.SceneManager.Game.Services, "Content");
-
-            switch (btn)
-            {
-                case Buttons.A:
-                    icon = content.Load<Texture2D>(ICON_DIR + "xboxControllerButtonA");
-                    break;
-                case Buttons.B:
-                    icon = content.Load<Texture2D>(ICON_DIR + "xboxControllerButtonB");
-                    break;
-                case Buttons.X:
-                    icon = content.Load<Texture2D>(ICON_DIR + "xboxControllerButtonX");
-                    break;
-                case Buttons.Y:
-                    icon = content.Load<Texture2D>(ICON_DIR + "xboxControllerButtonY");
-                    break;
-                default:
-                    break;
-            }
+            icon = InputAction.GetIcon(content, action);
+            font = content.Load<SpriteFont>("TestFont");
         }
+
         public override void update(GameTime gametime, InputState inputState)
         {
             PlayerIndex player;
@@ -82,11 +64,11 @@ namespace Titanium.Scenes.Panels
             base.update(gametime, inputState);
         }
 
-        public override void draw(GameTime gameTime)
+        public override void draw(SpriteBatch sb)
         {
             sb.DrawString(font, text, Position, textColor);
             sb.Draw(icon, new Vector2(Position.X - OFFSET, Position.Y), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-            base.draw(gameTime);
+            base.draw(sb);
         }
         /// <summary>
         /// Queries how much space this menu entry requires.
