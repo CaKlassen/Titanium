@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FileHelpers">
-      <HintPath>..\..\..\..\..\..\..\Desktop\FileHelper\Lib\net40\FileHelpers.dll</HintPath>
+      <HintPath>..\..\..\..\Assets\DLLs\FileHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Game" />
