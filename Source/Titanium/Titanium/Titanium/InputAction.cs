@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -90,6 +92,44 @@ namespace Titanium
         public Buttons getBtn()
         {
             return buttons[0];
+        }
+
+        public static Texture2D GetIcon(ContentManager content, InputAction action)
+        {
+            Buttons btn = action.getBtn();
+            switch (btn)
+            {
+                case Buttons.A:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonA");
+                case Buttons.B:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonB");
+                case Buttons.X:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonX");
+                case Buttons.Y:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonY");
+                case Buttons.LeftShoulder:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerLeftShoulder");
+                case Buttons.RightShoulder:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerRightShoulder");
+                case Buttons.LeftTrigger:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerLeftTrigger");
+                case Buttons.RightTrigger:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerRightTrigger");
+                case Buttons.DPadUp:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadUp");
+                case Buttons.DPadDown:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadDown");
+                case Buttons.DPadLeft:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadLeft");
+                case Buttons.DPadRight:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadRight");
+                case Buttons.Start:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerStart");
+                case Buttons.Back:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerBack");
+                default:
+                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonA");
+            }
         }
     }
     

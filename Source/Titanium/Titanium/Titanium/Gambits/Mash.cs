@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Titanium.Scenes;
+using Microsoft.Xna.Framework.Content;
 
 namespace Titanium.Gambits
 {
@@ -20,6 +21,8 @@ namespace Titanium.Gambits
 
         private PlayerIndex controllingPlayer = PlayerIndex.One;
 
+        SpriteFont font;
+
         public Mash(GameTime gameTime, InputAction action) : base(gameTime)
         {
             this.action = action;
@@ -33,7 +36,12 @@ namespace Titanium.Gambits
             this.timeLeft = timeLimit;
         }
 
-        public override int update(GameTime gameTime, InputState state)
+        public override void load(ContentManager content)
+        {
+            font = content.Load<SpriteFont>("TestFont");
+        }
+
+        public override void update(GameTime gameTime, InputState state)
         {
             PlayerIndex player;
             timeLeft = timeLimit - timeElapsed(gameTime);
@@ -46,14 +54,10 @@ namespace Titanium.Gambits
             {
                 ++count;
             }
-            return count;
         }
 
-        public override void draw(Scene scene)
+        public override void draw(SpriteBatch sb)
         {
-            SpriteBatch sb = scene.SceneManager.SpriteBatch;
-            SpriteFont font = scene.SceneManager.Font;
-
             string msg = "Times Pressed: " + count + "\nTime Left: " + TimeSpan.FromMilliseconds(timeLeft);
 
             sb.DrawString(font, msg, Vector2.Zero, Color.Red);

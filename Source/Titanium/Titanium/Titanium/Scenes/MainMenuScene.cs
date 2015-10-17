@@ -15,6 +15,7 @@ namespace Titanium.Scenes
     /// </summary>
     class MainMenuScene : Scene
     {
+        List<Panel> panels;
         ContentManager content;
         SpriteFont font;
 
@@ -26,6 +27,8 @@ namespace Titanium.Scenes
 
         public MainMenuScene(): base()
         {
+            panels = new List<Panel>();
+
             // Initialize the player actions
             arena = new InputAction(
                 new Buttons[] {Buttons.A},
@@ -38,34 +41,37 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.B },
                 true
                 );
-        }
-
-        public override void draw(GameTime gameTime)
-        {
-            SceneManager.SpriteBatch.Begin();
-            base.draw(gameTime);
-            SceneManager.SpriteBatch.End();
-        }
-
-        // 
-        public override void loadScene()
-        {
-            if (content == null)
-                content = new ContentManager(SceneManager.Game.Services, "Content");
-
-            font = content.Load<SpriteFont>("TestFont");
 
             // Create the actual Main Menu panel
-            mainMenu = new MenuPanel(this, Vector2.Zero, "Main Menu");
+            mainMenu = new MenuPanel(Vector2.Zero, "Main Menu");
             List<MenuItem> options = new List<MenuItem>()
             {
                 new MenuItem("Enter the arena!", arena, mainMenu),
                 new MenuItem("Enter battle!", battle, mainMenu)
             };
 
-            addPanel(mainMenu);
 
-            mainMenu.center();
+            panels.Add(mainMenu);
+        }
+
+        public override void draw(GameTime gameTime)
+        {
+            SceneManager.SpriteBatch.Begin();
+            foreach (Panel panel in panels)
+                panel.draw(SceneManager.SpriteBatch);
+            SceneManager.SpriteBatch.End();
+        }
+
+        // 
+        public override void loadScene(ContentManager content)
+        { 
+
+            font = content.Load<SpriteFont>("TestFont");
+
+            foreach (Panel panel in panels)
+                panel.load(content);
+
+            mainMenu.center(SceneManager.GraphicsDevice.Viewport);
         }
 
         public override void unloadScene() {}
