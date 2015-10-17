@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace Titanium.Gambits
     {
         protected double startTime;
         protected bool finished;
+        protected float multiplier = 1f;
 
         public BaseGambit(GameTime gameTime)
         {
@@ -24,13 +27,16 @@ namespace Titanium.Gambits
             return (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
         }
 
-        public bool isComplete()
+        public bool isComplete(out float multiplier)
         {
+            multiplier = this.multiplier;
             return finished;
         }
 
-        public abstract int update(GameTime gameTime, InputState state);
+        public abstract void load(ContentManager content);
 
-        public abstract void draw(Scene scene);
+        public abstract void update(GameTime gameTime, InputState state);
+
+        public abstract void draw(SpriteBatch sb);
     }
 }

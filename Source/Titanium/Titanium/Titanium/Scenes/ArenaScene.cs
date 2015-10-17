@@ -96,10 +96,8 @@ namespace Titanium.Scenes
         /**
          * This function is called when a scene is made active.
          */
-        public override void loadScene()
+        public override void loadScene(ContentManager content)
         {
-            if (content == null)
-                content = new ContentManager(SceneManager.Game.Services, "Content");
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);

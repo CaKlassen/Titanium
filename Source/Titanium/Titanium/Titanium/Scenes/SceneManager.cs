@@ -31,6 +31,7 @@ namespace Titanium.Scenes
 
         SpriteBatch spriteBatch;
         SpriteFont font;
+        ContentManager content;
 
         bool isInitialized;
 
@@ -83,7 +84,7 @@ namespace Titanium.Scenes
         protected override void LoadContent()
         {
             // Load content belonging to the screen manager.
-            ContentManager content = Game.Content;
+            content = Game.Content;
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("TestFont");
@@ -92,7 +93,7 @@ namespace Titanium.Scenes
             foreach (Scene scene in scenes)
             {
                 if( scene != null )
-                    scene.loadScene();
+                    scene.loadScene(content);
             }
         }
 
@@ -118,7 +119,7 @@ namespace Titanium.Scenes
             // If we have a graphics device, tell the scene to load content.
             if (isInitialized)
             {
-                scene.loadScene();
+                scene.loadScene(content);
             }
 
             scenes[(int)state] = scene;
