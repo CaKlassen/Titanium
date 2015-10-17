@@ -87,6 +87,7 @@
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\MathUtils.cs" />
+    <Compile Include="Utilities\PhysicsUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

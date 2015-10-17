@@ -46,7 +46,7 @@ namespace Titanium.Entities
         /// </summary>
         public void moveToNextArena()
         {
-            ArenaScene.instance.loadNewArena(curDifficulty);
+            enteties.instance.loadNewArena(curDifficulty);
 
             // Increment the difficulty
             if (curDifficulty != ArenaDifficulty.HARD)

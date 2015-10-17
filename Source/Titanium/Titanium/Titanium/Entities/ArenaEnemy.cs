@@ -52,7 +52,7 @@ namespace Titanium.Entities
         public ArenaEnemy(Tile createTile, ContentManager Content)
         {
             // Add this to the collidables list
-            ArenaScene.instance.collidables.Add(this);
+            enteties.instance.collidables.Add(this);
 
             _currentTile = createTile;
             _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
@@ -100,6 +100,15 @@ namespace Titanium.Entities
             _Position.Z += MathUtils.smoothChange(_Position.Z, _currentTile.getDrawPos().Y, MOVE_RATE);
         }
 
+        /// <summary>
+        /// Method to get the characters current position.
+        /// </summary>
+        /// <returns>The position of the player character as a Vector3.</returns>
+        public Vector3 getPosition()
+        {
+            return _Position;
+        }
+
         /**
          * The draw function called at the end of each frame.
          */
@@ -121,8 +130,8 @@ namespace Titanium.Entities
                         effect.EnableDefaultLighting();
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(_Position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+                        effect.View = enteties.instance.camera.getView();
+                        effect.Projection = enteties.instance.camera.getProjection();
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
