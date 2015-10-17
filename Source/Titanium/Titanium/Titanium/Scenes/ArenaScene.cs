@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Titanium.Entities;
 using Titanium.Arena;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -18,9 +19,9 @@ namespace Titanium.Scenes
      * 
      * Each game scene represents a distinct screen in the game.
      */
-    class ArenaScene : Scene
+    class enteties : Scene
     {
-        public static ArenaScene instance;
+        public static enteties instance;
 
         private Tile[,] baseArena;
 
@@ -44,11 +45,11 @@ namespace Titanium.Scenes
         private BasicEffect effect;
 
         public List<Entity> collidables;
-        
+
         /**
          * The default scene constructor.
          */
-        public ArenaScene() : base()
+        public enteties() : base()
         {
             instance = this;
 
@@ -123,7 +124,7 @@ namespace Titanium.Scenes
             skybox = new ArenaSkybox(getStartTile(), content);
 
             // Debug arena
-            printDebugArena();  
+            printDebugArena();
         }
 
         /**
@@ -136,6 +137,10 @@ namespace Titanium.Scenes
             //update Character
             Hero.Update(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
             camera.UpdateCamera(Hero.getPosition());
+
+            
+
+            
             /*
             if (up.Evaluate(inputState, PlayerIndex.One, out player))
                 // Move up
