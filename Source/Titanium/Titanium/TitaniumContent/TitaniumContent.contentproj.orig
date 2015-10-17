@@ -281,26 +281,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Stats\PlayerFile.txt">
-      <Name>PlayerFile</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <Compile Include="combat_font.spritefont">
-      <Name>combat_font</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-    <None Include="Stats\Stage_1_1.txt">
-      <Name>Stage_1_1</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\HealthBar.png">
-      <Name>HealthBar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
+<<<<<<< HEAD
     <Compile Include="ButtonIcons\xboxControllerDPadDown.tga">
       <Name>xboxControllerDPadDown</Name>
       <Importer>TextureImporter</Importer>
@@ -321,23 +302,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="sfx\complete.wav">
-      <Name>complete</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sfx\failure.wav">
-      <Name>failure</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sfx\success.wav">
-      <Name>success</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
+=======
+    <None Include="Stats\PlayerFile.txt">
+      <Name>PlayerFile</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Stats\Stage_1_1.txt">
+      <Name>Stage_1_1</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+>>>>>>> bcc7b755c30a4cd1b154bf5e59a19a90e1a11cf2
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

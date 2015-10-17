@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,6 @@ namespace Titanium.Scenes.Panels
     {
         // The panels that are nested in this one
         protected List<Panel> subPanels;
-
-        // The scene that this panel belongs to 
-        Scene scene;
-        public Scene Scene
-        {
-            get { return scene; }
-            set { scene = value; }
-        }
-        
-        // We need the sprite batch to draw ourselves
-        protected SpriteBatch sb;
         
         /// <summary>
         /// The position of the panel relative to its origin
@@ -60,12 +50,10 @@ namespace Titanium.Scenes.Panels
         /// </summary>
         /// <param name="scene">The scene this panel should be drawn on</param>
         /// <param name="pos">The position </param>
-        public Panel(Scene scene, Vector2 pos)
+        public Panel(Vector2 pos)
         {
             this.origin = Vector2.Zero;
             this.offset = pos;
-            this.scene = scene;
-            sb = scene.SceneManager.SpriteBatch;
             subPanels = new List<Panel>();
         }
 
@@ -96,10 +84,16 @@ namespace Titanium.Scenes.Panels
         /// Draw this panel and its sub panels
         /// </summary>
         /// <param name="gameTime">The current game time</param>
-        public virtual void draw(GameTime gameTime)
+        public virtual void draw(SpriteBatch sb)
         {
             foreach (Panel panel in subPanels)
-                panel.draw(gameTime);
+                panel.draw(sb);
+        }
+
+        public virtual void load(ContentManager content)
+        {
+            foreach (Panel panel in subPanels)
+                panel.load(content);
         }
 
         /// <summary>
@@ -109,8 +103,6 @@ namespace Titanium.Scenes.Panels
         public void addSubPanel(Panel subPanel)
         {
             subPanel.Origin = this.Position;
-            subPanel.scene = this.scene;
-            subPanel.sb = this.sb;
             subPanels.Add(subPanel);
         }
 

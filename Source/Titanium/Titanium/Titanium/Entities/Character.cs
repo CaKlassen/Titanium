@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Content;
 namespace Titanium.Entities
 {
     public enum ForwardDir {UP, DOWN, LEFT, RIGHT};
-    class Character : Entity
+    public class Character : Entity
     {
         /// <summary>
         /// The rate at which the player moves between tiles.
@@ -56,7 +56,7 @@ namespace Titanium.Entities
         /// </summary>
         public Character()
         {
-            _StartTile = ArenaScene.instance.getStartTile();
+            _StartTile = enteties.instance.getStartTile();
             _currentTile = _StartTile;
             _Position = new Vector3(_StartTile.getModelPos().X, 0, _StartTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
             
@@ -102,8 +102,8 @@ namespace Titanium.Entities
                         effect.EnableDefaultLighting();
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale)* Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(_Position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+                        effect.View = enteties.instance.camera.getView();
+                        effect.Projection = enteties.instance.camera.getProjection();
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
@@ -132,6 +132,27 @@ namespace Titanium.Entities
 
             _Position.X += MathUtils.smoothChange(_Position.X, _currentTile.getDrawPos().X, MOVE_RATE);
             _Position.Z += MathUtils.smoothChange(_Position.Z, _currentTile.getDrawPos().Y, MOVE_RATE);
+
+           
+
+            if (enteties.instance.collidables != null && enteties.instance.collidables.Count != 0)//make sure the list isn't empty to check the collisions
+            {
+                //a placeholder to loop through so removing items wouldn't result in IndexOutOfBounds if the list was used to loop through
+                Entity[] collidablesArray = enteties.instance.collidables.ToArray();
+
+                for (int i = 0; i < collidablesArray.Length; i++)
+                {
+                    if (collidablesArray[i].GetType() == typeof(ArenaEnemy))//if the collideable is an enemy
+                    {
+                        PhysicsUtils.CheckCollision(this, (ArenaEnemy)collidablesArray[i]);
+                    }
+                    else if (enteties.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door
+                    {
+                        PhysicsUtils.CheckCollision(this, (ArenaExit)collidablesArray[i]);
+                    }
+                }
+            }
+
         }
 
         /// <summary>
@@ -141,6 +162,15 @@ namespace Titanium.Entities
         public Vector3 getPosition()
         {
             return _Position;
+        }
+
+        /// <summary>
+        /// the position the character will end at.
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 getNextPosition()
+        {
+            return _currentTile.getModelPos();
         }
 
         /// <summary>

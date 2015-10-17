@@ -23,11 +23,11 @@ namespace Titanium.Scenes
      */
     class BattleScene : Scene
     {
-        ContentManager content;
+        List<Panel> panels;
+        MenuPanel battleMenu;
 
         private List<Sprite> AllySprites = new List<Sprite>();
         private List<Sprite> EnemySprites = new List<Sprite>();
-        private int count;
 
         private enum State
         {
@@ -43,6 +43,7 @@ namespace Titanium.Scenes
         InputAction mash;
         InputAction menu;
         InputAction arena;
+        InputAction combo;
 
         /**
          * The default scene constructor.
@@ -56,7 +57,11 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.Enter },
                 true
                 );
-
+            combo = new InputAction(
+                new Buttons[] { Buttons.Y },
+                new Keys[] { Keys.Y },
+                true
+                );
             menu = new InputAction(
                 new Buttons[] { Buttons.B },
                 new Keys[] { Keys.Back, Keys.Escape },
@@ -68,26 +73,31 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.Space },
                 true
                 );
+
+            panels = new List<Panel>();
+
+            battleMenu = new MenuPanel(Vector2.Zero, "Battle Options");
+            List<MenuItem> options = new List<MenuItem>()
+            {
+                new MenuItem("Mash!", mash, battleMenu),
+                new MenuItem("Combo!", combo, battleMenu),
+                new MenuItem("Back to Arena", arena, battleMenu),
+                new MenuItem("Back to Main Menu", menu, battleMenu)
+            };
+            panels.Add(battleMenu);
         }
 
         /**
          * This function is called when a scene is made active.
          */
-        public override void loadScene()
+        public override void loadScene(ContentManager content)
         {
-            if (content == null)
-                content = new ContentManager(SceneManager.Game.Services, "Content");
 
-            MenuPanel battleMenu = new MenuPanel(this, Vector2.Zero, "Battle Options");
-            List<MenuItem> options = new List<MenuItem>()
-            {
-                new MenuItem("Mash!", mash, battleMenu),
-                new MenuItem("Back to Arena", arena, battleMenu),
-                new MenuItem("Back to Main Menu", menu, battleMenu)
-            };
-            battleMenu.center();
 
-            addPanel(battleMenu);
+
+            // Draw the UI Components
+            foreach (Panel panel in panels)
+                panel.load(content);
 
             /************************************************
             Sprite Creation Area; to be done via file parsing
@@ -120,6 +130,7 @@ namespace Titanium.Scenes
             /***********************************************
             Ends Here
             ************************************************/
+            battleMenu.center(SceneManager.GraphicsDevice.Viewport);
 
         }
 
@@ -155,19 +166,23 @@ namespace Titanium.Scenes
          */
         public override void update(GameTime gameTime, InputState inputState)
         {
+            float multiplier;
+
             PlayerIndex player;
             if (currentState == State.gambit)
             {
-                count = currentGambit.update(gameTime, inputState);
-                if (currentGambit.isComplete())
+                if (currentGambit.isComplete(out multiplier))
                 {
                     currentState = State.character;
                 }
+                else
+                    currentGambit.update(gameTime, inputState);
             }
             else if (mash.Evaluate(inputState, null, out player))
             {
                 currentState = State.gambit;
                 currentGambit = new Mash(gameTime, mash);
+                currentGambit.load(SceneManager.Game.Content);
             }
             else if (arena.Evaluate(inputState, null, out player))
             {
@@ -177,7 +192,12 @@ namespace Titanium.Scenes
             {
                 SceneManager.changeScene(SceneState.main);
             }
-
+            else if (combo.Evaluate(inputState, null, out player))
+            {
+                currentState = State.gambit;
+                currentGambit = new Combo(gameTime);
+                currentGambit.load(SceneManager.Game.Content);
+            }
             foreach (Sprite sp in AllySprites)
             {
                 sp.Update(gameTime);
@@ -208,9 +228,12 @@ namespace Titanium.Scenes
 
             if (currentState == State.gambit)
             {
-                currentGambit.draw(this);
+                currentGambit.draw(sb);
             }
-            base.draw(gameTime);
+
+            foreach (Panel panel in panels)
+                panel.draw(sb);
+
             sb.End();
         }
 

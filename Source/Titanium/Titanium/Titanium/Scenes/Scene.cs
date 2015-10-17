@@ -19,9 +19,6 @@ namespace Titanium.Scenes
      */
     abstract class Scene
     {
-
-        List<Panel> panels = new List<Panel>();
-
         /// <summary>
         /// Gets or sets this scene's SceneManager.
         /// </summary>
@@ -35,38 +32,22 @@ namespace Titanium.Scenes
         /**
          * This function is called when a scene is made active.
          */
-        public virtual void loadScene() { }
+        public virtual void loadScene(ContentManager content) { }
 
         /**
          * The update function called in each frame.
          */
-        public virtual void update(GameTime gameTime, InputState inputState)
-        {
-            foreach(Panel panel in panels)
-            {
-                panel.update(gameTime, inputState);
-            }
-        }
+        public virtual void update(GameTime gameTime, InputState inputState) {  }
 
         /**
          * The draw function called at the end of each frame.
          */
-        public virtual void draw(GameTime gameTime)
-        {
-            foreach (Panel panel in panels)
-            {
-                panel.draw(gameTime);
-            }
-        }
+        public virtual void draw(GameTime gameTime){}
 
         /**
          * This function is called when a scene is no longer active.
          */
         public abstract void unloadScene();
 
-        public virtual void addPanel(Panel p)
-        {
-            panels.Add(p);
-        }
     }
 }
