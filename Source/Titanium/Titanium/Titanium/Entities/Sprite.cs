@@ -15,6 +15,7 @@ namespace Titanium.Entities
         private double elapsed, delay;
         private int frames, posX, posY, frameCount;
         private UnitStats rawStats;
+        private CombatInfo combatInfo;
 
         //For testing purpose only
         Texture2D spriteFile;
@@ -27,6 +28,7 @@ namespace Titanium.Entities
             frames = 0;
             posX = 150;
             posY = 150;
+            combatInfo = new CombatInfo();
         }
 
 
@@ -34,6 +36,8 @@ namespace Titanium.Entities
         {
             spriteFile = content.Load<Texture2D>("Sprites/" + filePath);
             destRect = new Rectangle(posX, posY, spriteFile.Width / frameCount, spriteFile.Height);
+            combatInfo.init(content, destRect);
+            combatInfo.update(rawStats);
         }
 
         public void setParam(UnitStats u, int x, int y)
@@ -46,17 +50,10 @@ namespace Titanium.Entities
             this.rawStats.normalize();
         }
 
-        public void setParam(String s, int x, int y, int totalFrames)
-        {
-            filePath = s;
-            posX = x;
-            posY = y;
-            frameCount = totalFrames;
-        }
-
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(spriteFile, destRect, sourceRect, Color.White);
+            combatInfo.draw(sb);
         }
 
         public override void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState)
@@ -94,8 +91,11 @@ namespace Titanium.Entities
         **/
         public void takeDamage(int damage)
         {
+            Console.WriteLine(rawStats.name + " has " + rawStats.currentHP + " hp.");
             this.rawStats.currentHP -= damage;
+            Console.WriteLine(rawStats.name + " has taken " + damage + " damage!");
             checkDeath();
+            combatInfo.update(rawStats);
         }
 
         public void useMana(int mana)
