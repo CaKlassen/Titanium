@@ -114,6 +114,9 @@ namespace Titanium.Scenes
             {
                 sp.Load(content);
             }
+
+            AllySprites[0].quickAttack(EnemySprites[0]);
+            EnemySprites[1].quickAttack(AllySprites[1]);
             /***********************************************
             Ends Here
             ************************************************/
@@ -142,7 +145,7 @@ namespace Titanium.Scenes
                 for (int i = 0; i < l.Count; ++i)
                 {
                     l[i].setParam(tempList[i], xpos, ypos);
-                    ypos += 150;
+                    ypos += 250;
                 }
             }
         }

@@ -71,6 +71,7 @@
     <Compile Include="Entities\ArenaEnemy.cs" />
     <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\ArenaExit.cs" />
+    <Compile Include="Entities\CombatInfo.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\MovableModel.cs" />
     <Compile Include="Entities\Sprite.cs" />
