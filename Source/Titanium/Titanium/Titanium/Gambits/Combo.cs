@@ -7,11 +7,16 @@ using Titanium.Scenes;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Titanium.Gambits
 {
+
     class Combo : BaseGambit
     {
+        SoundEffect sfxSuccess;
+        SoundEffect sfxFailure;
+        SoundEffect sfxComplete;
 
         static InputAction[] buttons = {
             new InputAction(
@@ -107,7 +112,11 @@ namespace Titanium.Gambits
                 icons.Add(InputAction.GetIcon(content, action));
 
             font = content.Load<SpriteFont>("TestFont");
-                
+
+            sfxComplete = content.Load<SoundEffect>("sfx/complete");
+            sfxFailure = content.Load<SoundEffect>("sfx/failure");
+            sfxSuccess = content.Load<SoundEffect>("sfx/success");
+
         }
 
         public override void update(GameTime gameTime, InputState state)
@@ -119,20 +128,24 @@ namespace Titanium.Gambits
             {
                 multiplier = 0.75f;
                 finished = true;
+                sfxFailure.Play();
             }
             if (comboString.ElementAt(current).Evaluate(state, null, out player))
             {
                 current++;
+                sfxSuccess.Play(0.2f, 0f, 0f);
                 if(current >= comboString.Count)
                 {
                     multiplier = 0.75f + (((float)(timeLimit - timeElapsed(gameTime))/100)*5);
                     finished = true;
+                    sfxComplete.Play(0.5f, 0f, 0f);
                 }
             }
             else if (miss(state, player))
             {
                 multiplier = 0.75f + (((float)current / 100) * 2);
                 finished = true;
+                sfxFailure.Play();
             }
         }
 
