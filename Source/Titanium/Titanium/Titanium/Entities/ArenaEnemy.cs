@@ -34,17 +34,13 @@ namespace Titanium.Entities
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
         //MovableModel
-        private float modelRotation;
         public Model myModel;
-        //public Matrix ModelMatrix;
-        //private SpriteBatch spriteBatch;
-        //private String modelPath;
-        private Vector3 modelPosition, cameraPosition;
-        private Vector3 Target;
+        private float modelRotation = 0;
         
         private float scale;
 
         private int waitTurns = WAIT_TURNS;
+        private bool dead = false;
         
         /**
          * The default entity constructor.
@@ -52,7 +48,7 @@ namespace Titanium.Entities
         public ArenaEnemy(Tile createTile, ContentManager Content)
         {
             // Add this to the collidables list
-            enteties.instance.collidables.Add(this);
+            ArenaScene.instance.collidables.Add(this);
 
             _currentTile = createTile;
             _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
@@ -92,7 +88,10 @@ namespace Titanium.Entities
                         dir = (TileConnections)r.Next(0, 4);
                     } while (_currentTile.getConnection(dir) == null);
 
+                    // Swap the tile
+                    _currentTile.deleteEntity(this);
                     _currentTile = _currentTile.getConnection(dir);
+                    _currentTile.addEntity(this);
                 }
             }
 
@@ -108,6 +107,17 @@ namespace Titanium.Entities
         {
             return _Position;
         }
+
+
+        /// <summary>
+        /// This function kills the enemy.
+        /// </summary>
+        public void die()
+        {
+            dead = true;
+            _currentTile.deleteEntity(this);
+        }
+
 
         /**
          * The draw function called at the end of each frame.
@@ -130,8 +140,8 @@ namespace Titanium.Entities
                         effect.EnableDefaultLighting();
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(_Position);
-                        effect.View = enteties.instance.camera.getView();
-                        effect.Projection = enteties.instance.camera.getProjection();
+                        effect.View = ArenaScene.instance.camera.getView();
+                        effect.Projection = ArenaScene.instance.camera.getProjection();
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
