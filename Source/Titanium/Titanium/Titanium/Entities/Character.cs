@@ -56,7 +56,7 @@ namespace Titanium.Entities
         /// </summary>
         public Character()
         {
-            _StartTile = enteties.instance.getStartTile();
+            _StartTile = ArenaScene.instance.getStartTile();
             _currentTile = _StartTile;
             _Position = new Vector3(_StartTile.getModelPos().X, 0, _StartTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
             
@@ -102,8 +102,8 @@ namespace Titanium.Entities
                         effect.EnableDefaultLighting();
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale)* Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(_Position);
-                        effect.View = enteties.instance.camera.getView();
-                        effect.Projection = enteties.instance.camera.getProjection();
+                        effect.View = ArenaScene.instance.camera.getView();
+                        effect.Projection = ArenaScene.instance.camera.getProjection();
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
@@ -135,20 +135,28 @@ namespace Titanium.Entities
 
            
 
-            if (enteties.instance.collidables != null && enteties.instance.collidables.Count != 0)//make sure the list isn't empty to check the collisions
+            if (ArenaScene.instance.collidables != null && ArenaScene.instance.collidables.Count != 0)//make sure the list isn't empty to check the collisions
             {
                 //a placeholder to loop through so removing items wouldn't result in IndexOutOfBounds if the list was used to loop through
-                Entity[] collidablesArray = enteties.instance.collidables.ToArray();
+                Entity[] collidablesArray = ArenaScene.instance.collidables.ToArray();
 
                 for (int i = 0; i < collidablesArray.Length; i++)
                 {
                     if (collidablesArray[i].GetType() == typeof(ArenaEnemy))//if the collideable is an enemy
                     {
-                        PhysicsUtils.CheckCollision(this, (ArenaEnemy)collidablesArray[i]);
+                        if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)collidablesArray[i]))
+                        {
+                            // TEMP: Kill the enemy
+                            ((ArenaEnemy)collidablesArray[i]).die();
+                        }
                     }
-                    else if (enteties.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door
+                    else if (ArenaScene.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door
                     {
-                        PhysicsUtils.CheckCollision(this, (ArenaExit)collidablesArray[i]);
+                        if (PhysicsUtils.CheckCollision(this, (ArenaExit)collidablesArray[i]))
+                        {
+                            // Continue to the next arena
+                            ArenaController.instance.moveToNextArena();
+                        }
                     }
                 }
             }

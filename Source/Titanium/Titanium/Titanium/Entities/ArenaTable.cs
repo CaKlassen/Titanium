@@ -87,8 +87,8 @@ namespace Titanium.Entities
                         effect.EnableDefaultLighting();
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(modelPosition);
-                        effect.View = enteties.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
-                        effect.Projection = enteties.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
+                        effect.View = ArenaScene.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
+                        effect.Projection = ArenaScene.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
                                                                                        //aspectRatio, 1.0f, 10000.0f);//1366/768
                     }
                     // Draw the mesh, using the effects set above.
