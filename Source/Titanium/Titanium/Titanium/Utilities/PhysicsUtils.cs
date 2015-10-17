@@ -15,7 +15,7 @@ namespace Titanium.Utilities
         /// </summary>
         /// <param name="Hero">the main character.</param>
         /// <param name="enemy">the enemy in question.</param>
-        public static void CheckCollision(Character Hero, ArenaEnemy enemy)
+        public static bool CheckCollision(Character Hero, ArenaEnemy enemy)
         {
 
             for (int i = 0; i < Hero.myModel.Meshes.Count; i++)
@@ -31,10 +31,12 @@ namespace Titanium.Utilities
                     if (HeroSphere.Intersects(EnemySphere))
                     {
                         //collision!
-                        Console.Write("COLLISION!");
+                        return true;
                     }
                 }
             }
+
+            return false;
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Titanium.Utilities
         /// </summary>
         /// <param name="Hero">the main character.</param>
         /// <param name="exit">the arena door.</param>
-        public static void CheckCollision(Character Hero, ArenaExit exit)
+        public static bool CheckCollision(Character Hero, ArenaExit exit)
         {
             for (int i = 0; i < Hero.myModel.Meshes.Count; i++)
             {
@@ -57,10 +59,12 @@ namespace Titanium.Utilities
                     if (HeroSphere.Intersects(EnemySphere))
                     {
                         //collision!
-                        Console.Write("EXIT!");
+                        return true;
                     }
                 }
             }
+
+            return false;
         }
     }
 }

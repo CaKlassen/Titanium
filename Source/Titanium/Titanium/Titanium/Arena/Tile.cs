@@ -47,6 +47,7 @@ namespace Titanium.Arena
         private Tile parent;
 
         private List<Entity> entityList = new List<Entity>();
+        private List<Entity> queuedRemove = new List<Entity>();
         
         /// <summary>
         /// The base Tile constructor. This is responsible for loading the tile art and setting its position on the 'board'.
@@ -84,6 +85,14 @@ namespace Titanium.Arena
             {
                 entity.Update(gamepad, keyboard, mouse);
             }
+
+            // Clear out any entities deleted in this turn
+            foreach (Entity entity in queuedRemove)
+            {
+                entityList.Remove(entity);
+            }
+
+            queuedRemove.Clear();
         }
 
         /// <summary>
@@ -114,8 +123,8 @@ namespace Titanium.Arena
 
                         effect.World = transforms[mesh.ParentBone.Index]  * Matrix.CreateRotationY(-1.5708f) * Matrix.CreateScale(0.5f) * Matrix.CreateTranslation(modelPosition);
 
-                        effect.View = enteties.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
-                        effect.Projection = enteties.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
+                        effect.View = ArenaScene.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
+                        effect.Projection = ArenaScene.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
                                                                                  //aspectRatio, 1.0f, 10000.0f);//1366/768
                     }
                     // Draw the mesh, using the effects set above.
@@ -195,6 +204,15 @@ namespace Titanium.Arena
         public List<Entity> getEntities()
         {
             return entityList;
+        }
+
+        /// <summary>
+        /// This function deletes an entity from the list.
+        /// </summary>
+        /// <param name="e">The entity to delete.</param>
+        public void deleteEntity(Entity e)
+        {
+            queuedRemove.Add(e);
         }
 
         /// <summary>
