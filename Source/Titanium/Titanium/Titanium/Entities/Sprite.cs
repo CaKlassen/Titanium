@@ -11,14 +11,14 @@ namespace Titanium.Entities
 {
     class Sprite : Entity
     {
-        private Rectangle sourceRect, destRect;
+        protected Rectangle sourceRect, destRect;
         private double elapsed, delay;
         private int frames, posX, posY, frameCount;
-        private UnitStats rawStats;
-        private CombatInfo combatInfo;
+        protected UnitStats rawStats;
+        protected CombatInfo combatInfo;
 
         //For testing purpose only
-        Texture2D spriteFile;
+        protected Texture2D spriteFile;
         String filePath = "";
 
         public Sprite()
@@ -56,12 +56,8 @@ namespace Titanium.Entities
             combatInfo.draw(sb);
         }
 
-        public override void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, InputState inputState)
         {
             elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsed >= delay)
@@ -78,10 +74,11 @@ namespace Titanium.Entities
             }
 
             sourceRect = new Rectangle(spriteFile.Width / frameCount * frames, 0, spriteFile.Width / frameCount, spriteFile.Height);
+
         }
 
 
-
+       
 
 
 
@@ -103,7 +100,7 @@ namespace Titanium.Entities
             this.rawStats.currentMP -= mana;
         }
 
-        public void quickAttack(Sprite s)
+        public virtual void quickAttack(Sprite s)
         {
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
@@ -111,14 +108,14 @@ namespace Titanium.Entities
             s.takeDamage(damageDone);
         }
 
-        public void normalAttack(Sprite s)
+        public virtual void normalAttack(Sprite s)
         {
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             s.takeDamage(damageDone);
         }
 
-        public void strongAttack(Sprite s)
+        public virtual void strongAttack(Sprite s)
         {
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
@@ -133,6 +130,23 @@ namespace Titanium.Entities
             return false;
         }
 
+        public int width()
+        {
+            return spriteFile.Width/frameCount;
+        }
+
+        public int height()
+        {
+            return spriteFile.Height;
+        }
+
+        public void move(int x, int y)
+        {
+            this.posX = x;
+            this.posY = y;
+            destRect = new Rectangle(posX, posY, spriteFile.Width / frameCount, spriteFile.Height);
+            combatInfo.move(destRect);
+        }
 
     }
 }

@@ -138,7 +138,7 @@ namespace Titanium.Gambits
                 {
                     multiplier = 0.75f + (((float)(timeLimit - timeElapsed(gameTime))/100)*5);
                     finished = true;
-                    sfxComplete.Play(0.5f, 0f, 0f);
+                    sfxComplete.Play(0.4f, 0f, 0f);
                 }
             }
             else if (miss(state, player))

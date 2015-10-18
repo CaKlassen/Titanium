@@ -14,7 +14,7 @@ namespace Titanium.Gambits
     {
         private int count = 0;
 
-        private InputAction action;
+        private static InputAction action = new InputAction(new Buttons[] { Buttons.A }, new Keys[] { Keys.A }, true);
 
         private int timeLimit = 3000;
         private int timeLeft;
@@ -23,15 +23,13 @@ namespace Titanium.Gambits
 
         SpriteFont font;
 
-        public Mash(GameTime gameTime, InputAction action) : base(gameTime)
+        public Mash(GameTime gameTime) : base(gameTime)
         {
-            this.action = action;
             timeLeft = timeLimit;
         }
 
-        public Mash(GameTime gameTime, InputAction action, int timeLimit) : base(gameTime)
+        public Mash(GameTime gameTime, int timeLimit) : base(gameTime)
         {
-            this.action = action;
             this.timeLimit = timeLimit;
             this.timeLeft = timeLimit;
         }

@@ -60,7 +60,6 @@ namespace Titanium.Scenes
         public SceneManager(Game game): base(game)
         {
             registerScene(new MainMenuScene(), SceneState.main);
-            registerScene(new BattleScene(), SceneState.battle);
             registerScene(new ArenaScene(), SceneState.arena);
 
             currentState = SceneState.main;
@@ -159,7 +158,8 @@ namespace Titanium.Scenes
         /// <param name="change">true if the game should switch to that scene</param>
         public void setScene(SceneState state, Scene scene, bool change)
         {
-            scenes[(int)state] = scene;
+            registerScene(scene, state);
+
             if(change)
                 changeScene(state);
         }

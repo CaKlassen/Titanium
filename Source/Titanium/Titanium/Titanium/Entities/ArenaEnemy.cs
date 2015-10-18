@@ -67,7 +67,7 @@ namespace Titanium.Entities
         /**
          * The update function called in each frame.
          */
-        public override void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState)
+        public override void Update(GameTime gameTime, InputState inputState)
         {
             // If the player moved this frame
             if (ArenaController.instance.getPlayerMoved())

@@ -13,6 +13,7 @@ using Titanium.Gambits;
 using Titanium.Scenes.Panels;
 using FileHelpers;
 using System.Text;
+using Titanium.Battle;
 
 namespace Titanium.Scenes
 {
@@ -45,10 +46,12 @@ namespace Titanium.Scenes
         InputAction arena;
         InputAction combo;
 
+        Encounter currentEncounter;
+
         /**
          * The default scene constructor.
          */
-        public BattleScene() : base()
+        public BattleScene(Encounter encounter) : base()
         {
             currentState = State.character;
 
@@ -73,18 +76,9 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.Space },
                 true
                 );
+            
 
-            panels = new List<Panel>();
-
-            battleMenu = new MenuPanel(Vector2.Zero, "Battle Options");
-            List<MenuItem> options = new List<MenuItem>()
-            {
-                new MenuItem("Mash!", mash, battleMenu),
-                new MenuItem("Combo!", combo, battleMenu),
-                new MenuItem("Back to Arena", arena, battleMenu),
-                new MenuItem("Back to Main Menu", menu, battleMenu)
-            };
-            panels.Add(battleMenu);
+            currentEncounter = encounter;
         }
 
         /**
@@ -93,73 +87,11 @@ namespace Titanium.Scenes
         public override void loadScene(ContentManager content)
         {
 
-
-
-            // Draw the UI Components
-            foreach (Panel panel in panels)
-                panel.load(content);
-
-            /************************************************
-            Sprite Creation Area; to be done via file parsing
-            ************************************************/
-            Sprite s = new Sprite();
-            AllySprites.Add(s);
-            Sprite t = new Sprite();
-            AllySprites.Add(t);
-
-            loadStats(AllySprites, "PlayerFile.txt", 0);
-
-            Sprite u = new Sprite();
-            EnemySprites.Add(u);
-            Sprite v = new Sprite();
-            EnemySprites.Add(v);
-
-            loadStats(EnemySprites, "Stage_1_1.txt", 1);
-
-            foreach (Sprite sp in AllySprites)
-            {
-                sp.Load(content);
-            }
-            foreach (Sprite sp in EnemySprites)
-            {
-                sp.Load(content);
-            }
-
-            AllySprites[0].quickAttack(EnemySprites[0]);
-            EnemySprites[1].quickAttack(AllySprites[1]);
-            /***********************************************
-            Ends Here
-            ************************************************/
-            battleMenu.center(SceneManager.GraphicsDevice.Viewport);
+            currentEncounter.load(content);
 
         }
 
-        public void loadStats(List<Sprite> l, String target, int side)
-        {
-            var engine = new FileHelperAsyncEngine<UnitStats>();
-            int xpos = 0;
-            if (side == 0)
-                xpos = 1000;
-            else if (side == 1)
-                xpos = 500;
-            int ypos = 150;
-            String path = "../../../../TitaniumContent/Stats/";
-
-            using (engine.BeginReadFile(path + target))
-            {
-                List<UnitStats> tempList = new List<UnitStats>();
-                foreach (UnitStats u in engine)
-                {
-                    tempList.Add(u);
-                }
-
-                for (int i = 0; i < l.Count; ++i)
-                {
-                    l[i].setParam(tempList[i], xpos, ypos);
-                    ypos += 250;
-                }
-            }
-        }
+        
 
         /**
          * The update function called in each frame.
@@ -181,7 +113,7 @@ namespace Titanium.Scenes
             else if (mash.Evaluate(inputState, null, out player))
             {
                 currentState = State.gambit;
-                currentGambit = new Mash(gameTime, mash);
+                currentGambit = new Mash(gameTime);
                 currentGambit.load(SceneManager.Game.Content);
             }
             else if (arena.Evaluate(inputState, null, out player))
@@ -198,14 +130,8 @@ namespace Titanium.Scenes
                 currentGambit = new Combo(gameTime);
                 currentGambit.load(SceneManager.Game.Content);
             }
-            foreach (Sprite sp in AllySprites)
-            {
-                sp.Update(gameTime);
-            }
-            foreach (Sprite sp in EnemySprites)
-            {
-                sp.Update(gameTime);
-            }
+
+            currentEncounter.update(gameTime, inputState);
         }
 
         /**
@@ -217,22 +143,7 @@ namespace Titanium.Scenes
 
             sb.Begin();
 
-            foreach (Sprite sp in AllySprites)
-            {
-                sp.Draw(sb);
-            }
-            foreach (Sprite sp in EnemySprites)
-            {
-                sp.Draw(sb);
-            }
-
-            if (currentState == State.gambit)
-            {
-                currentGambit.draw(sb);
-            }
-
-            foreach (Panel panel in panels)
-                panel.draw(sb);
+            currentEncounter.draw(sb);
 
             sb.End();
         }

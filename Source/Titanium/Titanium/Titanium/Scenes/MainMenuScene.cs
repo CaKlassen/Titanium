@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Titanium.Scenes.Panels;
+using Titanium.Battle;
 
 namespace Titanium.Scenes
 {
@@ -46,8 +47,8 @@ namespace Titanium.Scenes
             mainMenu = new MenuPanel(Vector2.Zero, "Main Menu");
             List<MenuItem> options = new List<MenuItem>()
             {
-                new MenuItem("Enter the arena!", arena, mainMenu),
-                new MenuItem("Enter battle!", battle, mainMenu)
+                new MenuItem("Enter the arena!", arena),
+                new MenuItem("Enter battle!", battle)
             };
 
 
@@ -85,7 +86,7 @@ namespace Titanium.Scenes
             }
             else if (battle.Evaluate(inputState, null, out player))
             {
-                SceneManager.changeScene(SceneState.battle);
+                SceneManager.setScene(SceneState.battle, new BattleScene(new Encounter()), true);
             }
         }
     }
