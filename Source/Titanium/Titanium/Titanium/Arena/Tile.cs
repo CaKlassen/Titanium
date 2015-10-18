@@ -78,12 +78,12 @@ namespace Titanium.Arena
         /// <param name="gamepad">The gamepad state</param>
         /// <param name="keyboard">The keyboard state</param>
         /// <param name="mouse">The mouse state</param>
-        public override void Update(GamePadState gamepad, KeyboardState keyboard, MouseState mouse)
+        public override void Update(GameTime gameTime, InputState inputState)
         {
             // Update each entity
             foreach (Entity entity in entityList)
             {
-                entity.Update(gamepad, keyboard, mouse);
+                entity.Update(gameTime, inputState);
             }
 
             // Clear out any entities deleted in this turn

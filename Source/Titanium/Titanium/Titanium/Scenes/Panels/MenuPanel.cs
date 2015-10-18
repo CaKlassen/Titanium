@@ -23,6 +23,11 @@ namespace Titanium.Scenes.Panels
             this.title = menuTitle;
         }
 
+        public MenuPanel(List<MenuItem> items, string menuTitle): base()
+        {
+            subPanels = items.Cast<Panel>().ToList();
+            title = menuTitle;
+        }
 
         /// <summary>
         /// Updates the location of each of the items in the menu.
@@ -30,12 +35,13 @@ namespace Titanium.Scenes.Panels
         public void updateMenuItemLocations()
         {
             // The items should be below the title, if there is one
-            float currentHeight = string.IsNullOrEmpty(title) ? Position.Y : Position.Y + font.LineSpacing;
+            float currentHeight = string.IsNullOrEmpty(title) ? 0 : font.LineSpacing;
 
             // Update the location of each menu item
             foreach (MenuItem item in subPanels)
             {
-                item.Offset = new Vector2(item.Origin.X + Position.X, currentHeight + SPACING);
+                item.Origin = Position;
+                item.Offset = new Vector2(0, currentHeight + SPACING);
                 currentHeight += item.GetHeight();
             }
 
@@ -45,6 +51,7 @@ namespace Titanium.Scenes.Panels
         {
             font = content.Load<SpriteFont>("TestFont");
             base.load(content);
+            updateMenuItemLocations();
         }
 
         /// <summary>
