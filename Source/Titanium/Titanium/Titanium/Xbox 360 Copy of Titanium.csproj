@@ -58,6 +58,7 @@
     <Compile Include="Entities\ArenaEnemy.cs" />
     <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\ArenaExit.cs" />
+    <Compile Include="Entities\CombatInfo.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\MovableModel.cs" />
     <Compile Include="Entities\Sprite.cs" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <Reference Include="FileHelpers">
       <HintPath>..\..\..\..\Assets\DLLs\FileHelpers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Game" />
