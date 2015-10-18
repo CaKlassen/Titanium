@@ -39,11 +39,10 @@ namespace Titanium.Scenes.Panels
             set { text = value; }
         }
 
-        public MenuItem(string text, InputAction action, MenuPanel menu): base(menu, new Vector2(0, 0))
+        public MenuItem(string text, InputAction action): base()
         {
             this.text = text;
             this.action = action;
-            
         }
 
         public override void load(ContentManager content)
@@ -66,8 +65,8 @@ namespace Titanium.Scenes.Panels
 
         public override void draw(SpriteBatch sb)
         {
-            sb.DrawString(font, text, Position, textColor);
-            sb.Draw(icon, new Vector2(Position.X - OFFSET, Position.Y), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            sb.Draw(icon, Position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            sb.DrawString(font, text, Position + new Vector2(50,0), textColor);
             base.draw(sb);
         }
         /// <summary>
@@ -84,7 +83,7 @@ namespace Titanium.Scenes.Panels
         /// </summary>
         public virtual int GetWidth()
         {
-            return (int)font.MeasureString(Text).X;
+            return (int)font.MeasureString(Text).X + icon.Width;
         }
 
     }

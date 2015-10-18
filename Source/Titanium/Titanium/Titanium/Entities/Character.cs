@@ -30,16 +30,6 @@ namespace Titanium.Entities
         private Vector3 _Position;
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
-        //previous peripheral device state (Gamepad/Keyboard/Mouse)
-        private GamePadState _PrevGPState;
-        private KeyboardState _PrevKBState;
-        private MouseState _PrevMState;
-
-        //current peripheral device state (Gamepad/Keyboard/Mouse)
-        private GamePadState _GPState;
-        private KeyboardState _KBState;
-        private MouseState _MState;
-
         //MovableModel
         private float aspectRatio, modelRotation;
         public Model myModel;
@@ -50,6 +40,35 @@ namespace Titanium.Entities
         
         private float rotAngle;
         private float scale;
+
+        // Possible player actions
+        static InputAction up, down, left, right;
+        static Character()
+        {
+            up = new InputAction(
+                new Buttons[] { Buttons.LeftThumbstickUp, Buttons.DPadUp },
+                new Keys[] { Keys.W, Keys.Up },
+                true
+                );
+
+            down = new InputAction(
+                new Buttons[] { Buttons.LeftThumbstickDown, Buttons.DPadDown },
+                new Keys[] { Keys.S, Keys.Down },
+                true
+                );
+
+            left = new InputAction(
+                new Buttons[] { Buttons.LeftThumbstickLeft, Buttons.DPadLeft },
+                new Keys[] { Keys.A, Keys.Left },
+                true
+                );
+
+            right = new InputAction(
+                new Buttons[] { Buttons.LeftThumbstickRight, Buttons.DPadRight },
+                new Keys[] { Keys.D, Keys.Right },
+                true
+                );
+        }
 
         /// <summary>
         /// default constructor.
@@ -62,16 +81,14 @@ namespace Titanium.Entities
             
             _forward = ForwardDir.UP;
 
-            _PrevGPState = GamePad.GetState(PlayerIndex.One);
-            _PrevKBState = Keyboard.GetState();
-            _PrevMState = Mouse.GetState();
-            
             rotAngle = 0;
             scale = 0.5f;
             
             modelRotation = 0.0f;
 
             myModel = null;
+
+
         }
 
         public void LoadModel(ContentManager cm, float aspectRatio)
@@ -118,16 +135,13 @@ namespace Titanium.Entities
         /// <param name="gamepadState"></param>
         /// <param name="keyboardState"></param>
         /// <param name="mouseState"></param>
-        public override void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState)
+        public override void Update(GameTime gameTime, InputState inputState)
         {
-            _GPState = gamepadState;
-            _KBState = keyboardState;
-            _MState = mouseState;
 
             if (Vector2.Distance(new Vector2(_Position.X, _Position.Z), _currentTile.getDrawPos()) <= MIN_MOVE_DIS)
             {
                 // Only allow movement if the player is on the next tile
-                moveCharacter();
+                moveCharacter(inputState);
             }
 
             _Position.X += MathUtils.smoothChange(_Position.X, _currentTile.getDrawPos().X, MOVE_RATE);
@@ -186,79 +200,10 @@ namespace Titanium.Entities
         /// If any of the states indicate character movement, the characters _positon will be updated.
         /// </summary>
         /// <param name="baseArena"></param>
-        private void moveCharacter()
+        private void moveCharacter(InputState inputState)
         {
-            //GamePad
-            if (_GPState.IsConnected)
-            {
-                //move up
-                if(_GPState.DPad.Up == ButtonState.Pressed && _PrevGPState.DPad.Up == ButtonState.Released)
-                {
-                    if(_currentTile.getConnection(TileConnections.TOP) != null)
-                    {
-                        //deltaZ = deltaZ - Tile.TILE_HEIGHT;
-                        Tile temp = _currentTile.getConnection(TileConnections.TOP);
-                        _currentTile = temp;
-
-                        ArenaController.instance.setMoved();
-                    }
-
-                    rotAngle = MathHelper.ToRadians(180);
-                }
-
-                //move down
-                if(_GPState.DPad.Down == ButtonState.Pressed && _PrevGPState.DPad.Down == ButtonState.Released)
-                {
-                    if(_currentTile.getConnection(TileConnections.BOTTOM)!= null)
-                    {
-                        //deltaZ = deltaZ + Tile.TILE_HEIGHT;
-                        Tile temp = _currentTile.getConnection(TileConnections.BOTTOM);
-                        _currentTile = temp;
-
-                        ArenaController.instance.setMoved();
-                    }
-
-                    rotAngle = MathHelper.ToRadians(0);
-                }
-
-                //move left
-                if(_GPState.DPad.Left == ButtonState.Pressed && _PrevGPState.DPad.Left == ButtonState.Released)
-                {
-                    if(_currentTile.getConnection(TileConnections.LEFT)!=null)
-                    {
-                        //deltaX = deltaX - Tile.TILE_WIDTH;
-                        Tile temp = _currentTile.getConnection(TileConnections.LEFT);
-                        _currentTile = temp;
-
-                        ArenaController.instance.setMoved();
-                    }
-
-                    rotAngle = MathHelper.ToRadians(270);
-                }
-
-                //move right
-                if(_GPState.DPad.Right == ButtonState.Pressed && _PrevGPState.DPad.Right == ButtonState.Released)
-                {
-                    if(_currentTile.getConnection(TileConnections.RIGHT) != null)
-                    {
-                        //deltaX = deltaX + Tile.TILE_WIDTH;
-                        Tile temp = _currentTile.getConnection(TileConnections.RIGHT);
-                        _currentTile = temp;
-
-                        ArenaController.instance.setMoved();
-                    }
-
-                    rotAngle = MathHelper.ToRadians(90);
-                }
-            }
-            else
-            {
-                //controller is disconnected!
-            }
-
-            //Keyboard
-            //move up
-            if ((_KBState.IsKeyDown(Keys.Up) && _PrevKBState.IsKeyUp(Keys.Up)) || (_KBState.IsKeyDown(Keys.W) && _PrevKBState.IsKeyUp(Keys.W)))
+            PlayerIndex player;
+            if (up.Evaluate(inputState, PlayerIndex.One, out player))
             {
                 if (_currentTile.getConnection(TileConnections.TOP) != null)
                 {
@@ -272,13 +217,13 @@ namespace Titanium.Entities
                 rotAngle = MathHelper.ToRadians(180);
             }
 
-            //move down
-            if ((_KBState.IsKeyDown(Keys.Down) && _PrevKBState.IsKeyUp(Keys.Down)) || (_KBState.IsKeyDown(Keys.S) && _PrevKBState.IsKeyUp(Keys.S)))
+            if (down.Evaluate(inputState, PlayerIndex.One, out player))
             {
                 if (_currentTile.getConnection(TileConnections.BOTTOM) != null)
                 {
                     //deltaZ = deltaZ + Tile.TILE_HEIGHT;
-                    _currentTile = _currentTile.getConnection(TileConnections.BOTTOM);
+                    Tile temp = _currentTile.getConnection(TileConnections.BOTTOM);
+                    _currentTile = temp;
 
                     ArenaController.instance.setMoved();
                 }
@@ -286,13 +231,14 @@ namespace Titanium.Entities
                 rotAngle = MathHelper.ToRadians(0);
             }
 
-            //move left
-            if ((_KBState.IsKeyDown(Keys.Left) && _PrevKBState.IsKeyUp(Keys.Left)) || (_KBState.IsKeyDown(Keys.A) && _PrevKBState.IsKeyUp(Keys.A)))
+            
+            else if (left.Evaluate(inputState, PlayerIndex.One, out player))
             {
                 if (_currentTile.getConnection(TileConnections.LEFT) != null)
                 {
                     //deltaX = deltaX - Tile.TILE_WIDTH;
-                    _currentTile = _currentTile.getConnection(TileConnections.LEFT);
+                    Tile temp = _currentTile.getConnection(TileConnections.LEFT);
+                    _currentTile = temp;
 
                     ArenaController.instance.setMoved();
                 }
@@ -300,8 +246,7 @@ namespace Titanium.Entities
                 rotAngle = MathHelper.ToRadians(270);
             }
 
-            //move right
-            if ((_KBState.IsKeyDown(Keys.Right) && _PrevKBState.IsKeyUp(Keys.Right)) || (_KBState.IsKeyDown(Keys.D) && _PrevKBState.IsKeyUp(Keys.D)))
+            else if (right.Evaluate(inputState, PlayerIndex.One, out player))
             {
                 if (_currentTile.getConnection(TileConnections.RIGHT) != null)
                 {
@@ -315,13 +260,6 @@ namespace Titanium.Entities
                 rotAngle = MathHelper.ToRadians(90);
             }
 
-            //Mouse?
-
-            //save current input as previous
-            _PrevGPState = _GPState;
-            _PrevKBState = _KBState;
-            _PrevMState = _MState;
-            
             //update model rotation
             modelRotation = rotAngle;           
         }

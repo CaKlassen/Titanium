@@ -27,7 +27,7 @@ namespace Titanium.Entities
         /**
          * The update function called in each frame.
          */
-        public abstract void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState);
+        public abstract void Update(GameTime gameTime, InputState inputState);
 
         /**
          * The draw function called at the end of each frame.

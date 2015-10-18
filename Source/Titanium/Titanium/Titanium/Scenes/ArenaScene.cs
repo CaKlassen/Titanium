@@ -69,29 +69,7 @@ namespace Titanium.Scenes
                 true
                 );
 
-            up = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickUp, Buttons.DPadUp },
-                new Keys[] { Keys.W, Keys.Up},
-                true
-                );
-
-            down = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickDown, Buttons.DPadDown },
-                new Keys[] { Keys.S, Keys.Down},
-                true
-                );
-
-            left = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickLeft, Buttons.DPadLeft },
-                new Keys[] { Keys.A, Keys.Left },
-                true
-                );
-
-            right = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickRight, Buttons.DPadRight },
-                new Keys[] { Keys.D, Keys.Right },
-                true
-                );     
+            
            
           
         }
@@ -135,29 +113,20 @@ namespace Titanium.Scenes
             PlayerIndex player;
 
             //update Character
-            Hero.Update(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+            Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPosition());
 
             
 
             
-            /*
-            if (up.Evaluate(inputState, PlayerIndex.One, out player))
-                // Move up
-            else if (down.Evaluate(inputState, PlayerIndex.One, out player))
-                // Move down
-            else if (left.Evaluate(inputState, PlayerIndex.One, out player))
-                // Move left
-            else if (right.Evaluate(inputState, PlayerIndex.One, out player))
-                // Move right
-            */
+            
 
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
                 for (int j = 0; j < baseArena.GetLength(1); j++)
                 {
-                    baseArena[i, j].Update(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+                    baseArena[i, j].Update(gameTime, inputState);
                 }
             }
 
