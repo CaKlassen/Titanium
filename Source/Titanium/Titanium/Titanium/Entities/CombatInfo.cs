@@ -11,7 +11,6 @@ namespace Titanium.Entities
     class CombatInfo
     {
         Texture2D barFrame;
-        SpriteBatch mBatch;
         Rectangle destRect, frameRect;
         Color hpColor;
         String name = "";
@@ -65,7 +64,11 @@ namespace Titanium.Entities
             sb.DrawString(myFont, name, new Vector2(destRect.X, destRect.Y - 20), Color.Black);
         }
 
-
+        public void move(Rectangle tempRect)
+        {
+            frameRect = new Rectangle(tempRect.X + tempRect.Width, tempRect.Y, barFrame.Width / 2, 20);
+            destRect = frameRect;
+        }
 
 
 

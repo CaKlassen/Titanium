@@ -30,7 +30,7 @@ namespace Titanium.Entities
             return 0;
         }
 
-        override public void Update(GamePadState gamepadState, KeyboardState keyboardState, MouseState mouseState)
+        override public void Update(GameTime gameTime, InputState inputState)
         {
             //held off until later; avoiding conflict with Character class
         }

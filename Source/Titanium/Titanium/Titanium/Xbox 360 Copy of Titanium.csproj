@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Arena\ArenaBuilder.cs" />
     <Compile Include="Arena\Tile.cs" />
+    <Compile Include="Battle\Encounter.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Entities\ArenaController.cs" />
     <Compile Include="Entities\ArenaSkybox.cs" />
@@ -61,8 +62,8 @@
     <Compile Include="Entities\CombatInfo.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\MovableModel.cs" />
+    <Compile Include="Entities\PlayerSprite.cs" />
     <Compile Include="Entities\Sprite.cs" />
-    <Compile Include="Entities\SpriteChar.cs" />
     <Compile Include="Entities\UnitStats.cs" />
     <Compile Include="Gambits\BaseGambit.cs" />
     <Compile Include="Gambits\Combo.cs" />
@@ -75,9 +76,11 @@
     <Compile Include="Scenes\ArenaScene.cs" />
     <Compile Include="Scenes\BattleScene.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
+    <Compile Include="Scenes\Panels\BattleMenuPanel.cs" />
     <Compile Include="Scenes\Panels\MenuItem.cs" />
     <Compile Include="Scenes\Panels\MenuPanel.cs" />
     <Compile Include="Scenes\Panels\Panel.cs" />
+    <Compile Include="Scenes\Panels\SpritePanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\MathUtils.cs" />

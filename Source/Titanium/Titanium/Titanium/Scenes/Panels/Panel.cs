@@ -45,6 +45,14 @@ namespace Titanium.Scenes.Panels
             get { return Vector2.Add(origin, offset);  }
         }
 
+
+        public Panel()
+        {
+            this.Origin = Vector2.Zero;
+            this.Offset = Vector2.Zero;
+            subPanels = new List<Panel>();
+        }
+
         /// <summary>
         /// Initializes a new panel instance
         /// </summary>
