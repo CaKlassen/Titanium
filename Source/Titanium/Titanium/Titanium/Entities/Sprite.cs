@@ -28,7 +28,6 @@ namespace Titanium.Entities
             frames = 0;
             posX = 150;
             posY = 150;
-            combatInfo = new CombatInfo();
         }
 
 
@@ -36,6 +35,7 @@ namespace Titanium.Entities
         {
             spriteFile = content.Load<Texture2D>("Sprites/" + filePath);
             destRect = new Rectangle(posX, posY, spriteFile.Width / frameCount, spriteFile.Height);
+            combatInfo = new CombatInfo();
             combatInfo.init(content, destRect);
             combatInfo.update(rawStats);
         }
@@ -53,7 +53,6 @@ namespace Titanium.Entities
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(spriteFile, destRect, sourceRect, Color.White);
-            combatInfo.draw(sb);
         }
 
 
