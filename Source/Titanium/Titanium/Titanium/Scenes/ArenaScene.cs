@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Titanium.Entities;
 using Titanium.Arena;
 using Titanium.Utilities;
+using Titanium.Battle;
 
 namespace Titanium.Scenes
 {
@@ -58,20 +59,20 @@ namespace Titanium.Scenes
 
             // Define the user actions
             menu = new InputAction(
-                new Buttons[] {Buttons.B},
-                new Keys[] {Keys.Back, Keys.Escape},
+                new Buttons[] { Buttons.B },
+                new Keys[] { Keys.Back, Keys.Escape },
                 true
                 );
 
             battle = new InputAction(
-                new Buttons[] {Buttons.X},
-                new Keys[] {Keys.Enter, Keys.Space},
+                new Buttons[] { Buttons.X },
+                new Keys[] { Keys.Enter, Keys.Space },
                 true
                 );
 
-            
-           
-          
+
+
+
         }
 
         /**
@@ -90,14 +91,14 @@ namespace Titanium.Scenes
             StartTile = builder.getStartTile();
 
             //
-            if(effect ==null)
+            if (effect == null)
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
             Hero = new Character();
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
-            
+
             table = new ArenaTable(getStartTile(), content);
             skybox = new ArenaSkybox(getStartTile(), content);
 
@@ -116,11 +117,6 @@ namespace Titanium.Scenes
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPosition());
 
-            
-
-            
-            
-
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
@@ -130,11 +126,11 @@ namespace Titanium.Scenes
                 }
             }
 
-            if ( menu.Evaluate(inputState, null, out player))
+            if (menu.Evaluate(inputState, null, out player))
             {
                 SceneManager.changeScene(SceneState.main);
             }
-            else if( battle.Evaluate(inputState, null, out player) )
+            else if (battle.Evaluate(inputState, null, out player))
             {
                 SceneManager.changeScene(SceneState.battle);
             }
@@ -154,7 +150,7 @@ namespace Titanium.Scenes
         public override void draw(GameTime gameTime)
         {
             SpriteBatch sb = SceneManager.SpriteBatch;
-            SceneManager.GraphicsDevice.Clear(ClearOptions.Target|ClearOptions.DepthBuffer, Color.DarkSlateGray,1.0f,0);
+            SceneManager.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateGray, 1.0f, 0);
             SceneManager.GraphicsDevice.BlendState = BlendState.Opaque;
             SceneManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             RasterizerState rs = new RasterizerState();
@@ -186,7 +182,7 @@ namespace Titanium.Scenes
          */
         public override void unloadScene()
         {
-            
+
         }
 
         /// <summary>
@@ -213,10 +209,24 @@ namespace Titanium.Scenes
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
-            
+
             // Debug arena
             printDebugArena();
         }
+
+        public void startBattle()
+        {
+            // TODO: Create the party and enemies to fight
+            List<PlayerSprite> party = new List<PlayerSprite>();
+            List<Sprite> enemies = new List<Sprite>();
+            
+            // Create and switch to the battle
+            BattleScene battle = new BattleScene(
+                new Encounter());
+
+            SceneManager.setScene(SceneState.battle, battle, true);
+        }
+
 
         /// <summary>
         /// method for retrieving the Start Tile;
