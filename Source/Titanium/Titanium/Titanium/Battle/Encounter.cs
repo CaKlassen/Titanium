@@ -102,8 +102,8 @@ namespace Titanium.Battle
             ************************************************/
             List<PlayerSprite> heroList = new List<PlayerSprite>()
             {
-                new PlayerSprite(this),
-                new PlayerSprite(this)
+                new PlayerSprite(),
+                new PlayerSprite()
             };
             loadStats(heroList.Cast<Sprite>().ToList(), "PlayerFile.txt");
             heroes = new PlayerSpritePanel(heroList, SpritePanel.Side.east);

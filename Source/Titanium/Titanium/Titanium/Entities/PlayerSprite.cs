@@ -45,7 +45,7 @@ namespace Titanium.Entities
             
         }
 
-        public PlayerSprite(Encounter encounter):base()
+        public PlayerSprite():base()
         {
             state = UnitState.idle;
         }
