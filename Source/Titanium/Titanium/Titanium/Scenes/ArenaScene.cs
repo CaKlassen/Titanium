@@ -160,7 +160,7 @@ namespace Titanium.Scenes
             RasterizerState rs = new RasterizerState();
             rs.CullMode = CullMode.None;
             SceneManager.GraphicsDevice.RasterizerState = rs;
-
+            
             // Draw the skybox
             skybox.Draw(sb);
 

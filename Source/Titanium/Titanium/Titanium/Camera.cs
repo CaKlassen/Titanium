@@ -81,8 +81,8 @@ namespace Titanium
             //_effect.DirectionalLight0.DiffuseColor = Vector3.One;
             //_effect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
             //_effect.LightingEnabled = true;
-            _effect.EnableDefaultLighting();
 
+            //_effect.EnableDefaultLighting();
         }
 
         /// <summary>
@@ -108,6 +108,39 @@ namespace Titanium
             Vector3 camPos = position + CharacterPos;
             View = Matrix.CreateLookAt(camPos, CharacterPos, Vector3.Up);
             _effect.View = View;
+        }
+
+        /// <summary>
+        /// sets the lighting
+        /// </summary>
+        public void SetLighting(BasicEffect effect)
+        {
+            effect.LightingEnabled = true;
+            effect.AmbientLightColor = new Vector3(1.0f, 0.4f, 0.1f);
+                        
+            effect.DirectionalLight0.DiffuseColor = new Vector3(1,0.4f,0.1f);
+            effect.DirectionalLight0.Direction = new Vector3(6, -6, -0.2f);
+            
+            effect.DirectionalLight0.SpecularColor = new Vector3(5, 2, 0);//orange
+            
+
+            effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
+            //effect.EmissiveColor = new Vector3(0.5f, 0.2f, 0.1f);
+            //effect.DirectionalLight0.Enabled = true;   
+        }
+
+        public void setBoardLighting(BasicEffect effect)
+        {
+            effect.LightingEnabled = true;
+            effect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
+
+            effect.DirectionalLight0.DiffuseColor = new Vector3(0.5f, 0.5f, 0.5f);
+            effect.DirectionalLight0.Direction = new Vector3(0, 2, 0);
+
+            effect.DirectionalLight0.SpecularColor = new Vector3(0f, 0f, 0f);
+
+
+            effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
         }
 
     }
