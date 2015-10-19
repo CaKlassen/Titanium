@@ -115,8 +115,8 @@ namespace Titanium.Arena
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.EnableDefaultLighting();
-
+                        //effect.EnableDefaultLighting();
+                        ArenaScene.instance.camera.SetLighting(effect);
                         // Set the tile's UV Map
                         effect.TextureEnabled = true;
                         effect.Texture = texture;

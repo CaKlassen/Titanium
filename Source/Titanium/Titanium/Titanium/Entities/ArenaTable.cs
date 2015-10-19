@@ -84,7 +84,8 @@ namespace Titanium.Entities
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.EnableDefaultLighting();
+                        //effect.EnableDefaultLighting();
+                        ArenaScene.instance.camera.setBoardLighting(effect);
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(modelPosition);
                         effect.View = ArenaScene.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
