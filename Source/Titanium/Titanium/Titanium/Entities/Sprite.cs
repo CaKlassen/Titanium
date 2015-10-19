@@ -17,6 +17,8 @@ namespace Titanium.Entities
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
 
+        public delegate void SpriteAction(Sprite target, float multiplier);
+
         //For testing purpose only
         protected Texture2D spriteFile;
         String filePath = "";
@@ -71,9 +73,7 @@ namespace Titanium.Entities
                 }
                 elapsed = 0;
             }
-
             sourceRect = new Rectangle(spriteFile.Width / frameCount * frames, 0, spriteFile.Width / frameCount, spriteFile.Height);
-
         }
 
 

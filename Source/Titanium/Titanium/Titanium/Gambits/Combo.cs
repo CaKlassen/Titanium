@@ -46,7 +46,7 @@ namespace Titanium.Gambits
             ),
             new InputAction(
                 new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { Keys.D0 },
+                new Keys[] { Keys.D2 },
                 true
             ),
             new InputAction(
@@ -89,21 +89,40 @@ namespace Titanium.Gambits
             current = 0;
         }
 
+        public Combo(): base()
+        {
+            icons = new List<Texture2D>();
+        }
+
+        public override void start(GameTime gameTime)
+        {
+            comboString = makeComboString(gameTime);
+            current = 0;
+            base.start(gameTime);
+        }
+
         public override void draw(SpriteBatch sb)
         {
             int width = 0;
             int height = 0;
             Texture2D icon;
+            
+            if( v == null )
+            {
+                v = sb.GraphicsDevice.Viewport;
+                position = new Vector2(v.GetValueOrDefault().Width - (totalWidth() / 2), v.GetValueOrDefault().Height - totalHeight());
+            }
+
 
             for (int i=0; i<icons.Count; i++)
             {
                 icon = icons[i];
-                sb.Draw(icon, new Vector2(width, height), i < current ? Color.Black : Color.White);
+                sb.Draw(icon, position + new Vector2(width, height), i < current ? Color.Black : Color.White);
                 width += icon.Width;
             }
             height += icons[0].Height;
             string msg = "Time Left: " + TimeSpan.FromMilliseconds(timeLeft);
-            sb.DrawString(font, msg, new Vector2(0, height), Color.Red);
+            sb.DrawString(font, msg, position + new Vector2(0, height), Color.Red);
         }
 
         public override void load(ContentManager content)
@@ -171,6 +190,22 @@ namespace Titanium.Gambits
                 combo.Add(buttons.ElementAt(r.Next(inputCount)));
 
             return combo;
+        }
+
+        public int totalWidth()
+        {
+            int w = 0;
+            foreach (Texture2D icon in icons)
+                w += icon.Width;
+            return w;
+        }
+
+        public int totalHeight()
+        {
+            int h = 0;
+            foreach (Texture2D icon in icons)
+                h = icon.Height > h ? icon.Height : h;
+            return h + font.LineSpacing;
         }
     }
 }
