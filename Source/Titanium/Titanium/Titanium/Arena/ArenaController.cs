@@ -54,7 +54,7 @@ namespace Titanium.Entities
                 curDifficulty++;
             }
         }
-
+        
 
         /// <summary>
         /// This function marks that the player has moved this frame.
