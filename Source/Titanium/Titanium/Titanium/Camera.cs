@@ -74,15 +74,6 @@ namespace Titanium
 
             _effect.Projection = Projection;
             _effect.View = View;
-
-            //lighting            
-            //_effect.AmbientLightColor = new Vector3(2.0f, 2.0f, 2.0f);
-            //_effect.DirectionalLight0.Enabled = true;
-            //_effect.DirectionalLight0.DiffuseColor = Vector3.One;
-            //_effect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
-            //_effect.LightingEnabled = true;
-
-            //_effect.EnableDefaultLighting();
         }
 
         /// <summary>
@@ -126,9 +117,12 @@ namespace Titanium
 
             effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
             //effect.EmissiveColor = new Vector3(0.5f, 0.2f, 0.1f);
-            //effect.DirectionalLight0.Enabled = true;   
         }
 
+        /// <summary>
+        /// sets lighting for the board
+        /// </summary>
+        /// <param name="effect"></param>
         public void setBoardLighting(BasicEffect effect)
         {
             effect.LightingEnabled = true;
