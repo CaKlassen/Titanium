@@ -262,5 +262,37 @@ namespace Titanium.Arena
         {
             return tile;
         }
+
+        public bool hasEnemy()
+        {
+            bool hasEnemy = false;
+
+            foreach (Entity e in entityList)
+            {
+                if ( e.GetType() == typeof(ArenaEnemy))
+                {
+                    hasEnemy = true;
+                    break;
+                }
+            }
+
+            return hasEnemy;
+        }
+
+        public bool hasExit()
+        {
+            bool hasExit = false;
+
+            foreach (Entity e in entityList)
+            {
+                if (e.GetType() == typeof(ArenaExit))
+                {
+                    hasExit = true;
+                    break;
+                }
+            }
+
+            return hasExit;
+        }
     }
 }
