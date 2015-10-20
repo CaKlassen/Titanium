@@ -11,27 +11,30 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Titanium.Entities
 {
-    /**
-     * This class provides a base for all in-game entities that must be updated and rendered to the screen.
-     */
+    /// <summary>
+    /// This class represents an abstract entity in-game.
+    /// </summary>
     public abstract class Entity
     {
-        /**
-         * The default entity constructor.
-         */
+        /// <summary>
+        /// The default entity constructor
+        /// </summary>
         public Entity()
         {
 
         }
         
-        /**
-         * The update function called in each frame.
-         */
+        /// <summary>
+        /// This function updates the entity.
+        /// </summary>
+        /// <param name="gameTime">The game time for timing</param>
+        /// <param name="inputState">The input state for input</param>
         public abstract void Update(GameTime gameTime, InputState inputState);
 
-        /**
-         * The draw function called at the end of each frame.
-         */
+        /// <summary>
+        /// This function renders the entity to the screen.
+        /// </summary>
+        /// <param name="sb">The spritebatch for rendering</param>
         public abstract void Draw(SpriteBatch sb);
     }
 }

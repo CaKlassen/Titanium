@@ -14,9 +14,9 @@ using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
-    /**
-     * This class provides a base for all in-game entities that must be updated and rendered to the screen.
-     */
+    /// <summary>
+    /// This class represents an enemy in the arena.
+    /// </summary>
     public class ArenaEnemy : Entity
     {
         /// <summary>
@@ -42,9 +42,11 @@ namespace Titanium.Entities
         private int waitTurns = WAIT_TURNS;
         private bool dead = false;
         
-        /**
-         * The default entity constructor.
-         */
+        /// <summary>
+        /// This is the default constructor for the arena enemy.
+        /// </summary>
+        /// <param name="createTile">The tile to start on</param>
+        /// <param name="Content">The content manager for loading</param>
         public ArenaEnemy(Tile createTile, ContentManager Content)
         {
             // Add this to the collidables list
@@ -64,9 +66,11 @@ namespace Titanium.Entities
             myModel = myModel = Content.Load<Model>("Models/enemy");
         }
         
-        /**
-         * The update function called in each frame.
-         */
+        /// <summary>
+        /// This function updates the arena enemy.
+        /// </summary>
+        /// <param name="gameTime">The game time object for timing</param>
+        /// <param name="inputState">The input state object for input</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
             // If the player moved this frame
@@ -120,9 +124,10 @@ namespace Titanium.Entities
         }
 
 
-        /**
-         * The draw function called at the end of each frame.
-         */
+        /// <summary>
+        /// This function renders the arena enemy to the screen.
+        /// </summary>
+        /// <param name="sb">The spritebatch object for rendering</param>
         public override void Draw(SpriteBatch sb)
         {
             if (myModel != null)//don't do anything if the model is null

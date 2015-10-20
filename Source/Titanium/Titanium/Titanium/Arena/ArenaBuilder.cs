@@ -44,7 +44,7 @@ namespace Titanium
     }
 
     /// <summary>
-    /// This class provides static functions to construct an arena.
+    /// This class provides functionality to construct an arena.
     /// </summary>
     public class ArenaBuilder
     {
@@ -64,8 +64,13 @@ namespace Titanium
         
 
         /// <summary>
-        /// The base ArenaBuilder constructor.
+        /// The base arena builder constructor
         /// </summary>
+        /// <param name="width">The width of the arena</param>
+        /// <param name="height">The height of the arena</param>
+        /// <param name="Content">The content manager to use for loading</param>
+        /// <param name="aspectRatio">The aspect ratio of the screen</param>
+        /// <param name="difficulty">The difficulty of the arena</param>
         public ArenaBuilder(int width, int height, ContentManager Content, float aspectRatio, ArenaDifficulty difficulty)
         {
             instance = this;
@@ -80,10 +85,7 @@ namespace Titanium
         /// <summary>
         /// This function constructs the layout for an arena.
         /// </summary>
-        /// <param name="width">The width of the arena</param>
-        /// <param name="height">The height of the arena</param>
-        /// <param name="Content">The content manager for loading assets</param>
-        /// <returns></returns>
+        /// <returns>A 2D array of tiles</returns>
         public Tile[,] buildArenaBase()
         {
             // Create the tile array
@@ -114,7 +116,7 @@ namespace Titanium
         /// <param name="dir">The direction from the parent (or null)</param>
         /// <param name="numConnections">The number of connections to try to create</param>
         /// <param name="maxLength">The maximum length of this path</param>
-        /// <returns></returns>
+        /// <returns>The generated tile</returns>
         private Tile generateTile(Tile parent, TileConnections dir, int numConnections, int maxLength)
         {
             Tile tile;

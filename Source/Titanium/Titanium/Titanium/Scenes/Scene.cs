@@ -12,11 +12,9 @@ using Titanium.Scenes.Panels;
 
 namespace Titanium.Scenes
 {
-    /**
-     * This class provides a base for all game scenes.
-     * 
-     * Each game scene represents a distinct screen in the game.
-     */
+    /// <summary>
+    /// This class represents a scene in game. Each scene represents a distinct part of the game.
+    /// </summary>
     abstract class Scene
     {
         /// <summary>
@@ -29,24 +27,28 @@ namespace Titanium.Scenes
         }
         SceneManager sceneManager;
 
-        /**
-         * This function is called when a scene is made active.
-         */
+        /// <summary>
+        /// This function is called when a scene is made active.
+        /// </summary>
+        /// <param name="content">The content manager</param>
         public virtual void loadScene(ContentManager content) { }
 
-        /**
-         * The update function called in each frame.
-         */
+        /// <summary>
+        /// This function updates the scene each frame.
+        /// </summary>
+        /// <param name="gameTime">The game time for timing</param>
+        /// <param name="inputState">The input state for input</param>
         public virtual void update(GameTime gameTime, InputState inputState) {  }
 
-        /**
-         * The draw function called at the end of each frame.
-         */
+        /// <summary>
+        /// This function renders the scene.
+        /// </summary>
+        /// <param name="gameTime">The game time for timing</param>
         public virtual void draw(GameTime gameTime){}
 
-        /**
-         * This function is called when a scene is no longer active.
-         */
+        /// <summary>
+        /// This function unloads the scene.
+        /// </summary>
         public abstract void unloadScene();
 
     }

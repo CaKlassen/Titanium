@@ -164,6 +164,10 @@ namespace Titanium.Entities
                             // TEMP: Kill the enemy
                             ((ArenaEnemy)collidablesArray[i]).die();
                             ArenaScene.instance.startBattle();
+
+                            // Snap to the target tile
+                            _Position.X = _currentTile.getDrawPos().X;
+                            _Position.Z = _currentTile.getDrawPos().Y;
                         }
                     }
                     else if (ArenaScene.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door
