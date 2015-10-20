@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Media;
 using Titanium.Entities;
 using Titanium.Gambits;
 using Titanium.Scenes.Panels;
-using FileHelpers;
 using System.Text;
 using Titanium.Battle;
 
