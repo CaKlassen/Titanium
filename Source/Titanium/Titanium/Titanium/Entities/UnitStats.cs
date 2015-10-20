@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FileHelpers;
 
 namespace Titanium.Entities
 {
-    [DelimitedRecord(",")]
     class UnitStats
     {
         public String name;
@@ -20,15 +18,28 @@ namespace Titanium.Entities
         public int baseHP;
         public int baseMP;
         public int baseSpeed;
-
-        [FieldHidden]
         public int currentHP;
-        [FieldHidden]
         public int currentMP;
 
         public UnitStats()
         {
 
+        }
+
+        public void init(string[] s)
+        {
+            name = s[0];
+            model = s[1];
+            modelFrameCount = Convert.ToInt32(s[2]);
+            level = Convert.ToInt32(s[3]);
+            strength = Convert.ToInt32(s[4]);
+            agility = Convert.ToInt32(s[5]);
+            intelligence = Convert.ToInt32(s[6]);
+            baseAttack = Convert.ToInt32(s[7]);
+            baseHP = Convert.ToInt32(s[8]);
+            baseMP = Convert.ToInt32(s[9]);
+            baseSpeed = Convert.ToInt32(s[10]);
+            normalize();
         }
 
         public void normalize()

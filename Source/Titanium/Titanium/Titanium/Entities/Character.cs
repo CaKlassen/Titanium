@@ -116,7 +116,8 @@ namespace Titanium.Entities
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.EnableDefaultLighting();
+                        //effect.EnableDefaultLighting();//lighting
+                        ArenaScene.instance.camera.SetLighting(effect);
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale)* Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(_Position);
                         effect.View = ArenaScene.instance.camera.getView();
@@ -161,8 +162,8 @@ namespace Titanium.Entities
                         if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)collidablesArray[i]))
                         {
                             // TEMP: Kill the enemy
-                            ArenaScene.instance.startBattle();
                             ((ArenaEnemy)collidablesArray[i]).die();
+                            ArenaScene.instance.startBattle();
                         }
                     }
                     else if (ArenaScene.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door

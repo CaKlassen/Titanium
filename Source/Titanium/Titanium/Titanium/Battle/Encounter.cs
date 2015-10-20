@@ -1,5 +1,4 @@
-﻿using FileHelpers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +9,7 @@ using System.Text;
 using Titanium.Entities;
 using Titanium.Gambits;
 using Titanium.Scenes.Panels;
+using Titanium.Utilities;
 
 namespace Titanium.Battle
 {
@@ -125,19 +125,12 @@ namespace Titanium.Battle
 
         public void loadStats(List<Sprite> l, String target)
         {
-            var engine = new FileHelperAsyncEngine<UnitStats>();
-            String path = "../../../../TitaniumContent/Stats/";
-            using (engine.BeginReadFile(path + target))
-            {
-                List<UnitStats> tempList = new List<UnitStats>();
-                foreach (UnitStats u in engine)
-                {
-                    tempList.Add(u);
-                }
-
-                for (int i = 0; i < l.Count; ++i)
-                    l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
-            }
+            String path = "Content/Stats/";
+            List<UnitStats> tempList = new List<UnitStats>();
+            FileUtils myFileUtil = new FileUtils();
+            tempList = myFileUtil.FileToSprite(path + target);
+            for (int i = 0; i < l.Count; ++i)
+                l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
         }
 
         public void load(ContentManager content)

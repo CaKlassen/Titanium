@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Media;
 using Titanium.Entities;
 using Titanium.Gambits;
 using Titanium.Scenes.Panels;
-using FileHelpers;
 using System.Text;
 using Titanium.Battle;
 
@@ -117,6 +116,11 @@ namespace Titanium.Scenes
                 paused = true;
 
             currentEncounter.update(gameTime, inputState);
+
+            if (currentEncounter.outcome() != null)
+            {
+                SceneManager.changeScene(SceneState.arena);
+            }
         }
 
         /**
