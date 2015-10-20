@@ -84,6 +84,7 @@
     <Compile Include="Scenes\Panels\SpritePanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
+    <Compile Include="Utilities\FileUtils.cs" />
     <Compile Include="Utilities\MathUtils.cs" />
     <Compile Include="Utilities\PhysicsUtils.cs" />
   </ItemGroup>
@@ -94,7 +95,6 @@
     <None Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FileHelpers">
