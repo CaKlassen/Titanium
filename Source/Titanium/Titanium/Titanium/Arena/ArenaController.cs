@@ -87,6 +87,10 @@ namespace Titanium.Entities
             return playerMoved;
         }
 
+        /// <summary>
+        /// This function returns the arena's Random generator.
+        /// </summary>
+        /// <returns></returns>
         public Random getGenerator()
         {
             return generator;

@@ -41,9 +41,9 @@ namespace Titanium
         SceneManager sceneManager;
 
 
-        /**
-         * The base constructor for the game.
-         */
+        /// <summary>
+        /// The base constructor for the game.
+        /// </summary>
         public BaseGame()
         {
             graphics = new GraphicsDeviceManager(this);
