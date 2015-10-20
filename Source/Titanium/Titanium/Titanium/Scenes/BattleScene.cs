@@ -59,8 +59,32 @@ namespace Titanium.Scenes
                 }
                 );
 
-
             currentEncounter = encounter;
+        }
+
+        public BattleScene() : base()
+        {
+            pause = new InputAction(
+                new Buttons[] { Buttons.Start },
+                new Keys[] { Keys.Escape },
+                true
+                );
+
+            arena = new InputAction(
+                new Buttons[] { Buttons.Y },
+                new Keys[] { Keys.Y },
+                true
+                );
+
+            pauseMenu = new MenuPanel("Pause Menu",
+                new List<MenuItem>()
+                {
+                    new MenuItem("Back to arena", arena),
+                    new MenuItem("Back to battle", pause)
+                }
+                );
+
+            currentEncounter = new Encounter();
         }
 
         /**
