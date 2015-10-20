@@ -46,12 +46,26 @@ namespace Titanium.Entities
         /// </summary>
         public void moveToNextArena()
         {
-            ArenaScene.instance.loadNewArena(curDifficulty);
+            List<Entity> collidables = ArenaScene.instance.collidables;
+            int numEnemies = 0;
 
-            // Increment the difficulty
-            if (curDifficulty != ArenaDifficulty.HARD)
+            foreach (Entity e in collidables)
             {
-                curDifficulty++;
+                if (e.GetType() == typeof(ArenaEnemy))
+                {
+                    numEnemies++;
+                }
+            }
+
+            if (numEnemies == 0)
+            {
+                ArenaScene.instance.loadNewArena(curDifficulty);
+
+                // Increment the difficulty
+                if (curDifficulty != ArenaDifficulty.HARD)
+                {
+                    curDifficulty++;
+                }
             }
         }
         

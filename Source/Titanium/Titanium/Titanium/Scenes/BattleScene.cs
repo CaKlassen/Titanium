@@ -93,6 +93,11 @@ namespace Titanium.Scenes
                 paused = true;
 
             currentEncounter.update(gameTime, inputState);
+
+            if (currentEncounter.outcome() != null)
+            {
+                SceneManager.changeScene(SceneState.arena);
+            }
         }
 
         /**
