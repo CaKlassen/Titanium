@@ -25,6 +25,11 @@ namespace Titanium.Entities
         public static int MOVE_RATE = 10;
 
         /// <summary>
+        /// The maximum number of times to try to move.
+        /// </summary>
+        public static int MAX_TRIES = 20;
+
+        /// <summary>
         /// The number of turns to wait between moves.
         /// </summary>
         public static int WAIT_TURNS = 3;
@@ -83,19 +88,34 @@ namespace Titanium.Entities
                 {
                     waitTurns = WAIT_TURNS;
 
-                    TileConnections dir;
+                    TileConnections dir = TileConnections.NONE;
                     Random r = ArenaController.instance.getGenerator();
 
                     // Search for an adjacent tile
-                    do
+                    for (int i = 0; i < MAX_TRIES; i++)
                     {
                         dir = (TileConnections)r.Next(0, 4);
-                    } while (_currentTile.getConnection(dir) == null);
 
-                    // Swap the tile
-                    _currentTile.deleteEntity(this);
-                    _currentTile = _currentTile.getConnection(dir);
-                    _currentTile.addEntity(this);
+                        if (_currentTile.getConnection(dir) != null &&
+                            !_currentTile.getConnection(dir).hasEnemy() &&
+                            !_currentTile.getConnection(dir).hasExit())
+                        {
+                            // We found a good tile
+                            break;
+                        }
+                        else
+                        {
+                            dir = TileConnections.NONE;
+                        }
+                    }
+
+                    if (dir != TileConnections.NONE)
+                    {
+                        // Swap the tile
+                        _currentTile.deleteEntity(this);
+                        _currentTile = _currentTile.getConnection(dir);
+                        _currentTile.addEntity(this);
+                    }
                 }
             }
 
