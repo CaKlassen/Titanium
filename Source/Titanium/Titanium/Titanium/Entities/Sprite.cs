@@ -17,6 +17,8 @@ namespace Titanium.Entities
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
 
+        public delegate void SpriteAction(Sprite target, float multiplier);
+
         //For testing purpose only
         protected Texture2D spriteFile;
         String filePath = "";
@@ -28,7 +30,6 @@ namespace Titanium.Entities
             frames = 0;
             posX = 150;
             posY = 150;
-            combatInfo = new CombatInfo();
         }
 
 
@@ -36,6 +37,7 @@ namespace Titanium.Entities
         {
             spriteFile = content.Load<Texture2D>("Sprites/" + filePath);
             destRect = new Rectangle(posX, posY, spriteFile.Width / frameCount, spriteFile.Height);
+            combatInfo = new CombatInfo();
             combatInfo.init(content, destRect);
             combatInfo.update(rawStats);
         }
@@ -52,29 +54,36 @@ namespace Titanium.Entities
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(spriteFile, destRect, sourceRect, Color.White);
-            combatInfo.draw(sb);
+            if (checkDeath())
+                sb.Draw(spriteFile, destRect, sourceRect, Color.Black);
+            else
+            {
+                sb.Draw(spriteFile, destRect, sourceRect, Color.White);
+                combatInfo.draw(sb);
+            }
+
         }
 
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (elapsed >= delay)
+            if (!checkDeath())
             {
-                if (frames >= (frameCount - 1))
+                elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (elapsed >= delay)
                 {
-                    frames = 0;
+                    if (frames >= (frameCount - 1))
+                    {
+                        frames = 0;
+                    }
+                    else
+                    {
+                        frames++;
+                    }
+                    elapsed = 0;
                 }
-                else
-                {
-                    frames++;
-                }
-                elapsed = 0;
+                sourceRect = new Rectangle(spriteFile.Width / frameCount * frames, 0, spriteFile.Width / frameCount, spriteFile.Height);
             }
-
-            sourceRect = new Rectangle(spriteFile.Width / frameCount * frames, 0, spriteFile.Width / frameCount, spriteFile.Height);
-
         }
 
 
@@ -146,6 +155,11 @@ namespace Titanium.Entities
             this.posY = y;
             destRect = new Rectangle(posX, posY, spriteFile.Width / frameCount, spriteFile.Height);
             combatInfo.move(destRect);
+        }
+
+        public Vector2 getPosition()
+        {
+            return new Vector2(posX, posY);
         }
 
     }

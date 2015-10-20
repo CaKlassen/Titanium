@@ -80,6 +80,7 @@
     <Compile Include="Scenes\Panels\MenuItem.cs" />
     <Compile Include="Scenes\Panels\MenuPanel.cs" />
     <Compile Include="Scenes\Panels\Panel.cs" />
+    <Compile Include="Scenes\Panels\PlayerSpritePanel.cs" />
     <Compile Include="Scenes\Panels\SpritePanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />

@@ -18,12 +18,17 @@ namespace Titanium.Scenes.Panels
         // Some padding so things aren't all squished
         private int SPACING = 5;
 
+        public MenuPanel(string menuTitle) : base()
+        {
+            this.title = menuTitle;
+        }
+
         public MenuPanel(Vector2 pos, string menuTitle): base(pos)
         {
             this.title = menuTitle;
         }
 
-        public MenuPanel(List<MenuItem> items, string menuTitle): base()
+        public MenuPanel(string menuTitle, List<MenuItem> items) : base()
         {
             subPanels = items.Cast<Panel>().ToList();
             title = menuTitle;
@@ -107,6 +112,14 @@ namespace Titanium.Scenes.Panels
 
             this.Origin = new Vector2(x, y);
             updateMenuItemLocations();
+        }
+
+        public InputAction getSelectedAction(InputState inputState)
+        {
+            foreach (MenuItem item in subPanels)
+                if (item.wasChosen(inputState))
+                    return item.action;
+            return null;
         }
     }
 }

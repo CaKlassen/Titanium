@@ -46,7 +46,7 @@ namespace Titanium.Gambits
             ),
             new InputAction(
                 new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { Keys.D0 },
+                new Keys[] { Keys.D2 },
                 true
             ),
             new InputAction(
@@ -71,7 +71,7 @@ namespace Titanium.Gambits
             )
         };
 
-        int length = 4;
+        int length = 8;
         int timeLimit = 10000;
 
         int current;
@@ -84,9 +84,21 @@ namespace Titanium.Gambits
 
         public Combo(GameTime gameTime):base(gameTime)
         {
-            comboString = makeComboString(gameTime);
+            comboString = makeComboString(DateTime.Now.Millisecond);
             icons = new List<Texture2D>();
             current = 0;
+        }
+
+        public Combo(): base()
+        {
+            comboString = makeComboString(DateTime.Now.Millisecond);
+            icons = new List<Texture2D>();
+        }
+
+        public override void start(GameTime gameTime)
+        {
+            current = 0;
+            base.start(gameTime);
         }
 
         public override void draw(SpriteBatch sb)
@@ -94,16 +106,23 @@ namespace Titanium.Gambits
             int width = 0;
             int height = 0;
             Texture2D icon;
+            
+            if( v == null )
+            {
+                v = sb.GraphicsDevice.Viewport;
+                position = new Vector2((v.GetValueOrDefault().Width / 2) - (totalWidth() / 2), (v.GetValueOrDefault().Height/2) - (totalHeight()/2));
+            }
+
 
             for (int i=0; i<icons.Count; i++)
             {
                 icon = icons[i];
-                sb.Draw(icon, new Vector2(width, height), i < current ? Color.Black : Color.White);
+                sb.Draw(icon, position + new Vector2(width, height), i < current ? Color.Black : Color.White);
                 width += icon.Width;
             }
             height += icons[0].Height;
             string msg = "Time Left: " + TimeSpan.FromMilliseconds(timeLeft);
-            sb.DrawString(font, msg, new Vector2(0, height), Color.Red);
+            sb.DrawString(font, msg, position + new Vector2(0, height), Color.Red);
         }
 
         public override void load(ContentManager content)
@@ -161,16 +180,40 @@ namespace Titanium.Gambits
             return false;
         }
 
-        public List<InputAction> makeComboString(GameTime gameTime)
+        public List<InputAction> makeComboString(int seed)
         {
             List<InputAction> combo = new List<InputAction>();
             int inputCount = buttons.Length-1;
-            Random r = new Random(gameTime.TotalGameTime.Seconds);
+            Random r = new Random(seed);
 
             for (int i = 0; i < length; i++)
                 combo.Add(buttons.ElementAt(r.Next(inputCount)));
 
             return combo;
         }
+
+        public override int totalWidth()
+        {
+            int w = 0;
+            foreach (Texture2D icon in icons)
+                w += icon.Width;
+            return w;
+        }
+
+        public override int totalHeight()
+        {
+            int h = 0;
+            foreach (Texture2D icon in icons)
+                h = icon.Height > h ? icon.Height : h;
+            return h + font.LineSpacing;
+        }
+
+        public override bool isComplete(out float multiplier)
+        {
+            multiplier = 1f + current/33f;
+            return finished;
+        }
+
+
     }
 }

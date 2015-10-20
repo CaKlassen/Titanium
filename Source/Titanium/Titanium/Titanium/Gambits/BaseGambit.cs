@@ -15,6 +15,8 @@ namespace Titanium.Gambits
         protected double startTime;
         protected bool finished;
         protected float multiplier = 1f;
+        protected Viewport? v = null;
+        protected Vector2 position = Vector2.Zero;
 
         public BaseGambit(GameTime gameTime)
         {
@@ -22,12 +24,16 @@ namespace Titanium.Gambits
             finished = false;
         }
 
+        public BaseGambit() { finished = false; }
+
+        public virtual void start(GameTime gameTime) { startTime = gameTime.TotalGameTime.TotalMilliseconds; }
+
         public int timeElapsed(GameTime gameTime)
         {
             return (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
         }
 
-        public bool isComplete(out float multiplier)
+        public virtual bool isComplete(out float multiplier)
         {
             multiplier = this.multiplier;
             return finished;
@@ -38,5 +44,9 @@ namespace Titanium.Gambits
         public abstract void update(GameTime gameTime, InputState state);
 
         public abstract void draw(SpriteBatch sb);
+
+        public abstract int totalWidth();
+
+        public abstract int totalHeight();
     }
 }
