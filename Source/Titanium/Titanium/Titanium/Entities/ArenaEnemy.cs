@@ -116,6 +116,7 @@ namespace Titanium.Entities
         {
             dead = true;
             _currentTile.deleteEntity(this);
+            ArenaScene.instance.collidables.Remove(this);
         }
 
 

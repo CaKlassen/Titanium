@@ -162,8 +162,8 @@ namespace Titanium.Entities
                         if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)collidablesArray[i]))
                         {
                             // TEMP: Kill the enemy
-                            ArenaScene.instance.startBattle();
                             ((ArenaEnemy)collidablesArray[i]).die();
+                            ArenaScene.instance.startBattle();
                         }
                     }
                     else if (ArenaScene.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door
