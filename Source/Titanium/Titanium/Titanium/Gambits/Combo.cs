@@ -71,7 +71,7 @@ namespace Titanium.Gambits
             )
         };
 
-        int length = 4;
+        int length = 8;
         int timeLimit = 10000;
 
         int current;
@@ -84,19 +84,19 @@ namespace Titanium.Gambits
 
         public Combo(GameTime gameTime):base(gameTime)
         {
-            comboString = makeComboString(gameTime);
+            comboString = makeComboString(DateTime.Now.Millisecond);
             icons = new List<Texture2D>();
             current = 0;
         }
 
         public Combo(): base()
         {
+            comboString = makeComboString(DateTime.Now.Millisecond);
             icons = new List<Texture2D>();
         }
 
         public override void start(GameTime gameTime)
         {
-            comboString = makeComboString(gameTime);
             current = 0;
             base.start(gameTime);
         }
@@ -110,7 +110,7 @@ namespace Titanium.Gambits
             if( v == null )
             {
                 v = sb.GraphicsDevice.Viewport;
-                position = new Vector2(v.GetValueOrDefault().Width - (totalWidth() / 2), v.GetValueOrDefault().Height - totalHeight());
+                position = new Vector2((v.GetValueOrDefault().Width / 2) - (totalWidth() / 2), (v.GetValueOrDefault().Height/2) - (totalHeight()/2));
             }
 
 
@@ -180,11 +180,11 @@ namespace Titanium.Gambits
             return false;
         }
 
-        public List<InputAction> makeComboString(GameTime gameTime)
+        public List<InputAction> makeComboString(int seed)
         {
             List<InputAction> combo = new List<InputAction>();
             int inputCount = buttons.Length-1;
-            Random r = new Random(gameTime.TotalGameTime.Seconds);
+            Random r = new Random(seed);
 
             for (int i = 0; i < length; i++)
                 combo.Add(buttons.ElementAt(r.Next(inputCount)));
@@ -192,7 +192,7 @@ namespace Titanium.Gambits
             return combo;
         }
 
-        public int totalWidth()
+        public override int totalWidth()
         {
             int w = 0;
             foreach (Texture2D icon in icons)
@@ -200,12 +200,20 @@ namespace Titanium.Gambits
             return w;
         }
 
-        public int totalHeight()
+        public override int totalHeight()
         {
             int h = 0;
             foreach (Texture2D icon in icons)
                 h = icon.Height > h ? icon.Height : h;
             return h + font.LineSpacing;
         }
+
+        public override bool isComplete(out float multiplier)
+        {
+            multiplier = 1f + current/33f;
+            return finished;
+        }
+
+
     }
 }

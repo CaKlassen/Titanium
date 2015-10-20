@@ -16,8 +16,8 @@ namespace Titanium.Scenes.Panels
         Side side;
         int height;
 
-
-        public bool isActive;
+        List<Texture2D> icons;
+        ContentManager content;
 
 
         public SpritePanel(List<Sprite> sprites, Side side):base()
@@ -35,6 +35,8 @@ namespace Titanium.Scenes.Panels
 
             height = sprites[0].height();
 
+            this.content = content;
+
             base.load(content);
         }
 
@@ -47,8 +49,20 @@ namespace Titanium.Scenes.Panels
                 orientSprites(v.GetValueOrDefault());
             }
 
-            foreach (Sprite sprite in sprites)
-                sprite.Draw(sb);
+            if( icons != null )
+            {
+                for(int i=0; i<sprites.Count; ++i)
+                {
+                    sprites[i].Draw(sb);
+                    sb.Draw(icons[i], side == Side.east ? sprites[i].getPosition() + new Vector2(50, 0) : sprites[i].getPosition() - new Vector2(50, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+                }
+            }
+            
+            else
+                foreach (Sprite sprite in sprites)
+                    sprite.Draw(sb);
+            
+                    
 
             base.draw(sb);
         }
@@ -59,10 +73,6 @@ namespace Titanium.Scenes.Panels
             foreach (Sprite sprite in sprites)
                 sprite.Update(gameTime, inputState);
 
-            if(isActive)
-            {
-                // AI LOGIC
-            }
 
             base.update(gameTime, inputState);
         }
@@ -73,11 +83,11 @@ namespace Titanium.Scenes.Panels
             switch(side)
             {
                 case Side.west:
-                    Origin = Vector2.Zero;
+                    Origin = new Vector2(200, 0);
                     break;
                 case Side.east:
                 default:
-                    Origin = new Vector2(view.Width - sprites[0].width(), 0 );
+                    Origin = new Vector2(view.Width - sprites[0].width() - 200, 0 );
                     break;
             }
             foreach(Sprite sprite in sprites)
@@ -97,6 +107,25 @@ namespace Titanium.Scenes.Panels
             if (i < sprites.Count)
                 return sprites[i];
             return null;
+        }
+
+        public void target(bool target, List<InputAction> actions)
+        {
+            if (target)
+            {
+                this.icons = new List<Texture2D>();
+                foreach (InputAction action in actions)
+                    if (icons.Count < sprites.Count)
+                        icons.Add(InputAction.GetIcon(content, action));
+            }
+            else
+                this.icons = null;
+        }
+
+        public void act(List<Sprite> players)
+        {
+            foreach (Sprite sprite in sprites)
+                sprite.quickAttack(players[0]);
         }
 
         public enum Side
