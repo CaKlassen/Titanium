@@ -252,5 +252,14 @@ namespace Titanium.Battle
             return null;
         }
 
+        public bool? outcome()
+        {
+            if (enemies.dead())
+                return true;
+            else if (heroes.dead())
+                return false;
+            else
+                return null;
+        }
     }
 }
