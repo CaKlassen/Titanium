@@ -125,7 +125,7 @@ namespace Titanium.Battle
 
         public void loadStats(List<Sprite> l, String target)
         {
-            String path = "../../../../TitaniumContent/Stats/";
+            String path = "Content/Stats/";
             List<UnitStats> tempList = new List<UnitStats>();
             FileUtils myFileUtil = new FileUtils();
             tempList = myFileUtil.FileToSprite(path + target);
