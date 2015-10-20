@@ -28,6 +28,11 @@ namespace Titanium.Gambits
             timeLeft = timeLimit;
         }
 
+        public Mash() : base()
+        {
+            timeLeft = timeLimit;
+        }
+
         public Mash(GameTime gameTime, int timeLimit) : base(gameTime)
         {
             this.timeLimit = timeLimit;

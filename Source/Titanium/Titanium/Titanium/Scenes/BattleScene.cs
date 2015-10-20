@@ -24,27 +24,14 @@ namespace Titanium.Scenes
      */
     class BattleScene : Scene
     {
-        List<Panel> panels;
-        MenuPanel battleMenu;
+        MenuPanel pauseMenu;
 
-        private List<Sprite> AllySprites = new List<Sprite>();
-        private List<Sprite> EnemySprites = new List<Sprite>();
-
-        private enum State
-        {
-            character,
-            target,
-            gambit
-        }
-
-        State currentState;
+        bool paused;
 
         BaseGambit currentGambit;
 
-        InputAction mash;
-        InputAction menu;
+        InputAction pause;
         InputAction arena;
-        InputAction combo;
 
         Encounter currentEncounter;
 
@@ -53,30 +40,26 @@ namespace Titanium.Scenes
          */
         public BattleScene(Encounter encounter) : base()
         {
-            currentState = State.character;
-
-            mash = new InputAction(
-                new Buttons[] { Buttons.A },
-                new Keys[] { Keys.Enter },
-                true
-                );
-            combo = new InputAction(
-                new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.Y },
-                true
-                );
-            menu = new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.Back, Keys.Escape },
+            pause = new InputAction(
+                new Buttons[] { Buttons.Start },
+                new Keys[] { Keys.Escape },
                 true
                 );
 
             arena = new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.Space },
+                new Buttons[] { Buttons.Y },
+                new Keys[] { Keys.Y },
                 true
                 );
-            
+
+            pauseMenu = new MenuPanel("Pause Menu",
+                new List<MenuItem>()
+                {
+                    new MenuItem("Back to arena", arena),
+                    new MenuItem("Back to battle", pause)
+                }
+                );
+
 
             currentEncounter = encounter;
         }
@@ -86,9 +69,9 @@ namespace Titanium.Scenes
          */
         public override void loadScene(ContentManager content)
         {
-
             currentEncounter.load(content);
-
+            pauseMenu.load(content);
+            pauseMenu.center(SceneManager.GraphicsDevice.Viewport);
         }
 
         
@@ -98,38 +81,16 @@ namespace Titanium.Scenes
          */
         public override void update(GameTime gameTime, InputState inputState)
         {
-            float multiplier;
-
             PlayerIndex player;
-            if (currentState == State.gambit)
+            if(paused)
             {
-                if (currentGambit.isComplete(out multiplier))
-                {
-                    currentState = State.character;
-                }
-                else
-                    currentGambit.update(gameTime, inputState);
+                if (pause.Evaluate(inputState, null, out player))
+                    paused = false;
+                if (arena.Evaluate(inputState, null, out player))
+                    SceneManager.changeScene(SceneState.arena);
             }
-            else if (mash.Evaluate(inputState, null, out player))
-            {
-                currentState = State.gambit;
-                currentGambit = new Mash(gameTime);
-                currentGambit.load(SceneManager.Game.Content);
-            }
-            else if (arena.Evaluate(inputState, null, out player))
-            {
-                SceneManager.changeScene(SceneState.arena);
-            }
-            else if (menu.Evaluate(inputState, null, out player))
-            {
-                SceneManager.changeScene(SceneState.main);
-            }
-            else if (combo.Evaluate(inputState, null, out player))
-            {
-                currentState = State.gambit;
-                currentGambit = new Combo(gameTime);
-                currentGambit.load(SceneManager.Game.Content);
-            }
+            else if (pause.Evaluate(inputState, null, out player))
+                paused = true;
 
             currentEncounter.update(gameTime, inputState);
         }
@@ -142,6 +103,9 @@ namespace Titanium.Scenes
             SpriteBatch sb = SceneManager.SpriteBatch;
 
             sb.Begin();
+
+            if (paused)
+                pauseMenu.draw(sb);
 
             currentEncounter.draw(sb);
 

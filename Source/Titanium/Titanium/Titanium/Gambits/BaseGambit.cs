@@ -15,12 +15,18 @@ namespace Titanium.Gambits
         protected double startTime;
         protected bool finished;
         protected float multiplier = 1f;
+        protected Viewport? v = null;
+        protected Vector2 position = Vector2.Zero;
 
         public BaseGambit(GameTime gameTime)
         {
             startTime = gameTime.TotalGameTime.TotalMilliseconds;
             finished = false;
         }
+
+        public BaseGambit() { finished = false; }
+
+        public virtual void start(GameTime gameTime) { startTime = gameTime.TotalGameTime.TotalMilliseconds; }
 
         public int timeElapsed(GameTime gameTime)
         {

@@ -11,10 +11,14 @@ namespace Titanium.Scenes.Panels
 {
     class SpritePanel: Panel
     {
-        List<Sprite> sprites;
+        protected List<Sprite> sprites;
         Viewport? v;
         Side side;
         int height;
+
+
+        public bool isActive;
+
 
         public SpritePanel(List<Sprite> sprites, Side side):base()
         {
@@ -23,13 +27,7 @@ namespace Titanium.Scenes.Panels
             v = null;
         }
 
-        public SpritePanel(List<PlayerSprite> sprites, Side side)
-        {
-            this.side = side;
-            v = null;
-            this.sprites = sprites.Cast<Sprite>().ToList();
-        }
-
+        
         public override void load(ContentManager content)
         {
             foreach (Sprite sprite in sprites)
@@ -60,6 +58,11 @@ namespace Titanium.Scenes.Panels
             
             foreach (Sprite sprite in sprites)
                 sprite.Update(gameTime, inputState);
+
+            if(isActive)
+            {
+                // AI LOGIC
+            }
 
             base.update(gameTime, inputState);
         }
@@ -101,5 +104,8 @@ namespace Titanium.Scenes.Panels
             east,
             west
         }
+
+        
+
     }
 }

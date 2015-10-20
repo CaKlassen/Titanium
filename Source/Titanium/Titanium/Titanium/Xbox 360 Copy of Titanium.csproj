@@ -50,10 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arena\ArenaBuilder.cs" />
+    <Compile Include="Arena\ArenaController.cs" />
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Battle\Encounter.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Entities\ArenaController.cs" />
     <Compile Include="Entities\ArenaSkybox.cs" />
     <Compile Include="Entities\ArenaTable.cs" />
     <Compile Include="Entities\ArenaEnemy.cs" />
@@ -80,6 +80,7 @@
     <Compile Include="Scenes\Panels\MenuItem.cs" />
     <Compile Include="Scenes\Panels\MenuPanel.cs" />
     <Compile Include="Scenes\Panels\Panel.cs" />
+    <Compile Include="Scenes\Panels\PlayerSpritePanel.cs" />
     <Compile Include="Scenes\Panels\SpritePanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />

@@ -22,7 +22,7 @@ namespace Titanium.Scenes.Panels
         }
         SpriteFont font;
 
-        InputAction action;
+        public InputAction action;
 
         public bool selected;
         public bool confirmed;
@@ -86,5 +86,16 @@ namespace Titanium.Scenes.Panels
             return (int)font.MeasureString(Text).X + icon.Width;
         }
 
+        public bool wasChosen(InputState inputState)
+        {
+            PlayerIndex player;
+            return action.Evaluate(inputState, null, out player);
+        }
+
+        public bool wasChosen(InputState inputState, PlayerIndex player)
+        {
+            PlayerIndex p;
+            return action.Evaluate(inputState, player, out p);
+        }
     }
 }
