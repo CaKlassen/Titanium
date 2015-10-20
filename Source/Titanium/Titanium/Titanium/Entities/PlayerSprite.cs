@@ -73,7 +73,7 @@ namespace Titanium.Entities
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
-            s.takeDamage(damageDone);
+            s.takeDamage(0);
             state = UnitState.resting;
         }
 
