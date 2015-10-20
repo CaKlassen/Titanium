@@ -33,7 +33,7 @@ namespace Titanium.Gambits
             return (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
         }
 
-        public bool isComplete(out float multiplier)
+        public virtual bool isComplete(out float multiplier)
         {
             multiplier = this.multiplier;
             return finished;
@@ -44,5 +44,9 @@ namespace Titanium.Gambits
         public abstract void update(GameTime gameTime, InputState state);
 
         public abstract void draw(SpriteBatch sb);
+
+        public abstract int totalWidth();
+
+        public abstract int totalHeight();
     }
 }

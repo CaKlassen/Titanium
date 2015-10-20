@@ -16,7 +16,7 @@ namespace Titanium.Gambits
 
         private static InputAction action = new InputAction(new Buttons[] { Buttons.A }, new Keys[] { Keys.A }, true);
 
-        private int timeLimit = 3000;
+        private int timeLimit = 5000;
         private int timeLeft;
 
         private PlayerIndex controllingPlayer = PlayerIndex.One;
@@ -61,12 +61,31 @@ namespace Titanium.Gambits
 
         public override void draw(SpriteBatch sb)
         {
+            if (v == null)
+            {
+                v = sb.GraphicsDevice.Viewport;
+                position = new Vector2((v.GetValueOrDefault().Width / 2) - (totalWidth() / 2), (v.GetValueOrDefault().Height / 2) - (totalHeight() / 2));
+            }
+
             string msg = "Times Pressed: " + count + "\nTime Left: " + TimeSpan.FromMilliseconds(timeLeft);
 
-            sb.DrawString(font, msg, Vector2.Zero, Color.Red);
+            sb.DrawString(font, msg, position, Color.Red);
         }
 
-        
-        
+        public override int totalHeight()
+        {
+            return font.LineSpacing * 2;
+        }
+
+        public override int totalWidth()
+        {
+            return (int)font.MeasureString("Times Pressed: " + count + "\nTime Left: " + TimeSpan.FromMilliseconds(timeLeft)).X;
+        }
+
+        public override bool isComplete(out float multiplier)
+        {
+            multiplier = 1f + ((count - 15)/100);
+            return finished;
+        }
     }
 }

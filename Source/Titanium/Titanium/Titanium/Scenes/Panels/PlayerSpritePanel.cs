@@ -60,28 +60,36 @@ namespace Titanium.Scenes.Panels
             base.draw(sb);
         }
 
-        public void selectNext()
-        {
+        public bool selectNext()
+        {            
             if (selected < sprites.Count - 1)
                 Selected += 1;
             else
                 Selected = 0;
+            return finished();
+
         }
 
-        public void selectPrevious()
+        public bool selectPrevious()
         {
             if (selected > 0)
                 Selected -= 1;
             else
                 Selected = sprites.Count - 1;
+            return finished();
         }
 
         public void resetStates()
         {
-            foreach (PlayerSprite sprite in sprites)
-                if (sprite.state != PlayerSprite.UnitState.resting)
-                    sprite.state = PlayerSprite.UnitState.idle;
-            ((PlayerSprite)sprites[Selected]).state = PlayerSprite.UnitState.selected;
+            for (int i = 0 ; i < sprites.Count; i++)
+            {
+                if (((PlayerSprite)sprites[i]).state != PlayerSprite.UnitState.resting)
+                {
+                    ((PlayerSprite)sprites[i]).state = PlayerSprite.UnitState.idle;
+                    if( i == Selected )
+                        ((PlayerSprite)sprites[i]).state = PlayerSprite.UnitState.selected;
+                }
+            }
         }
 
         public Sprite.SpriteAction getAction(InputState inputState, out BaseGambit gambit)
@@ -94,5 +102,25 @@ namespace Titanium.Scenes.Panels
                 return null;
         }
 
+        public bool finished()
+        {
+            foreach (PlayerSprite sprite in sprites)
+                if (sprite.state != PlayerSprite.UnitState.resting)
+                    return false;
+
+            return true;
+        }
+
+        public List<Sprite> Sprites()
+        {
+            return sprites;
+        }
+
+        public void activate()
+        {
+            foreach (PlayerSprite sprite in sprites)
+                sprite.state = PlayerSprite.UnitState.idle;
+            Selected = 0;
+        }
     }
 }

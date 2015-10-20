@@ -56,6 +56,7 @@ namespace Titanium.Entities
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * 0.5);
             s.takeDamage(damageDone);
+            state = UnitState.resting;
         }
 
         public void normalAttack(Sprite s, float multiplier)
@@ -64,6 +65,7 @@ namespace Titanium.Entities
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
             s.takeDamage(damageDone);
+            state = UnitState.resting;
         }
 
         public  void strongAttack(Sprite s, float multiplier)
@@ -72,6 +74,7 @@ namespace Titanium.Entities
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
             s.takeDamage(damageDone);
+            state = UnitState.resting;
         }
 
         public override void Draw(SpriteBatch sb)
@@ -81,9 +84,15 @@ namespace Titanium.Entities
             if(active)
                 sb.Draw(spriteFile, destRect, sourceRect, Color.White);
             else
-                sb.Draw(spriteFile, destRect, sourceRect, Color.Black);
+                sb.Draw(spriteFile, destRect, sourceRect, Color.Gray);
 
             combatInfo.draw(sb);
+        }
+
+        public override void Update(GameTime gameTime, InputState inputState)
+        {
+            if (state != UnitState.resting)
+                base.Update(gameTime, inputState);
         }
 
         public List<MenuItem> getMenuItems()
@@ -101,6 +110,7 @@ namespace Titanium.Entities
             return new MenuPanel(rawStats.name, getMenuItems());
         }
 
+        
         public SpriteAction getAction(InputAction action, out BaseGambit gambit)
         {
             
@@ -129,5 +139,7 @@ namespace Titanium.Entities
             targeting,
             resting
         }
+
+        
     }
 }

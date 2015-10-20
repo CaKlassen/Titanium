@@ -116,6 +116,7 @@ namespace Titanium.Entities
         {
             dead = true;
             _currentTile.deleteEntity(this);
+            ArenaScene.instance.collidables.Remove(this);
         }
 
 
@@ -137,7 +138,8 @@ namespace Titanium.Entities
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.EnableDefaultLighting();
+                        //effect.EnableDefaultLighting();
+                        ArenaScene.instance.camera.SetLighting(effect);
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
                             * Matrix.CreateTranslation(_Position);
                         effect.View = ArenaScene.instance.camera.getView();
