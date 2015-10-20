@@ -134,7 +134,12 @@ namespace Titanium.Scenes.Panels
             west
         }
 
-        
-
+        public bool dead()
+        {
+            foreach (Sprite sprite in sprites)
+                if (!sprite.checkDeath())
+                    return false;
+            return true;
+        }
     }
 }
