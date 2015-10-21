@@ -13,8 +13,14 @@ using Titanium.Utilities;
 
 namespace Titanium.Battle
 {
+    /// <summary>
+    /// This object represents a single "battle" between the player and a set of enemies
+    /// </summary>
     class Encounter
     {
+        /// <summary>
+        /// The possible states of the current battle
+        /// </summary>
         enum BattleState
         {
             idle,
@@ -22,24 +28,38 @@ namespace Titanium.Battle
             gambit,
             enemy
         }
-
         BattleState state;
+
+        // The player characters
         PlayerSpritePanel heroes;
+
         SpritePanel enemies;
+
+        // The current target of the player
         Sprite target;
 
+        // The gambit currently being played
         BaseGambit currentGambit;
+
+        // The action to resolve after the current gambit is finished
         Sprite.SpriteAction pendingAction;
 
+        // The multiplier strength of the attack
         float multiplier = 1f;
 
+        // The possible actions to target an enemy
         static List<InputAction> targetActions;
+
+        // Actions to select the next hero, previous hero and cancel target selection
         static InputAction heroNext;
         static InputAction heroPrev;
         static InputAction cancel;
 
         ContentManager content;
 
+        /// <summary>
+        /// Initialize the actions
+        /// </summary>
         static Encounter()
         {
             targetActions = new List<InputAction>()
@@ -92,6 +112,11 @@ namespace Titanium.Battle
                 );
         }
 
+        /// <summary>
+        /// This object represents a single "battle" between the player and a set of enemies
+        /// </summary>
+        /// <param name="heroes">The list of PlayerSprites that the player controls</param>
+        /// <param name="enemies">The list of enemies the player is fighting</param>
         public Encounter(List<PlayerSprite> heroes, List<Sprite> enemies)
         {
             this.heroes = new PlayerSpritePanel(heroes, SpritePanel.Side.east);
@@ -99,6 +124,9 @@ namespace Titanium.Battle
             state = BattleState.idle;
         }
 
+        /// <summary>
+        /// Initializes a blank Encounter for debug / bug fixing purposes
+        /// </summary>
         public Encounter()
         {
             /************************************************
@@ -123,6 +151,7 @@ namespace Titanium.Battle
 
         }
 
+
         public void loadStats(List<Sprite> l, String target)
         {
             String path = "Content/Stats/";
@@ -133,6 +162,10 @@ namespace Titanium.Battle
                 l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
         }
 
+        /// <summary>
+        /// Load the two sprite panels and save a reference to the content manager
+        /// </summary>
+        /// <param name="content"></param>
         public void load(ContentManager content)
         {
             this.content = content;
@@ -140,6 +173,10 @@ namespace Titanium.Battle
             enemies.load(content);
         }
 
+        /// <summary>
+        /// Draw this encounter
+        /// </summary>
+        /// <param name="sb">The SpriteBatch to be used</param>
         public void draw(SpriteBatch sb)
         {
             switch (state)
@@ -160,11 +197,19 @@ namespace Titanium.Battle
             enemies.draw(sb);
         }
 
+        /// <summary>
+        /// This function will detect the current state of the battle and update the necessary components only
+        /// </summary>
+        /// <param name="gameTime">The current GameTime object</param>
+        /// <param name="inputState">The state of the inputs to be used for input handling</param>
         public void update(GameTime gameTime, InputState inputState)
         {
             PlayerIndex player;
+
+            // If all the player characters have acted then it is the enemy's turn
             if (heroes.finished())
                 state = BattleState.enemy;
+
             switch (state)
             {
                 case BattleState.targeting:
@@ -234,6 +279,7 @@ namespace Titanium.Battle
             enemies.update(gameTime, inputState);
         }
 
+        // Returns the enemy associated with the user's target input
         public Sprite targetSelected(InputState inputState)
         {
             PlayerIndex player;
@@ -245,6 +291,10 @@ namespace Titanium.Battle
             return null;
         }
 
+        /// <summary>
+        /// Returns the result of this encounter
+        /// </summary>
+        /// <returns>true if all the enemies are dead, false if all the players are dead. null otherwise.</returns>
         public bool? outcome()
         {
             if (enemies.dead())

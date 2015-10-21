@@ -10,21 +10,15 @@ using Titanium.Gambits;
 
 namespace Titanium.Scenes.Panels
 {
+    /// <summary>
+    /// Class represents the Player controlled characters on the battlefield
+    /// </summary>
     class PlayerSpritePanel: SpritePanel
     {
-        enum Mode
-        {
-            target,
-            input,
-            gambit
-        }
-
-        Mode mode;
-
+        // The menu to be used to control the units
         BattleMenuPanel battleMenu;
-
         
-
+        // The currently selected unit
         int selected;
         public int Selected
         {
@@ -60,6 +54,10 @@ namespace Titanium.Scenes.Panels
             base.draw(sb);
         }
 
+        /// <summary>
+        /// Select the next unit
+        /// </summary>
+        /// <returns>Whether or not all units have acted</returns>
         public bool selectNext()
         {            
             if (selected < sprites.Count - 1)
@@ -70,6 +68,10 @@ namespace Titanium.Scenes.Panels
 
         }
 
+        /// <summary>
+        /// Select the previous unit
+        /// </summary>
+        /// <returns>Whether or not all units have acted</returns>
         public bool selectPrevious()
         {
             if (selected > 0)
@@ -79,6 +81,9 @@ namespace Titanium.Scenes.Panels
             return finished();
         }
 
+        /// <summary>
+        /// Reset the states of the player controlled units, unless they have already acted.
+        /// </summary>
         public void resetStates()
         {
             for (int i = 0 ; i < sprites.Count; i++)
@@ -92,6 +97,12 @@ namespace Titanium.Scenes.Panels
             }
         }
 
+        /// <summary>
+        /// Get the SpriteAction delegate associated with the user's inputs
+        /// </summary>
+        /// <param name="inputState">The state of the inputs</param>
+        /// <param name="gambit">The gambit the player must perform, if there is one</param>
+        /// <returns>The SpriteAction delegate associated with the user's inputs</returns>
         public Sprite.SpriteAction getAction(InputState inputState, out BaseGambit gambit)
         {
             gambit = null;
@@ -102,6 +113,10 @@ namespace Titanium.Scenes.Panels
                 return null;
         }
 
+        /// <summary>
+        /// Returns true if all units have acted this turn
+        /// </summary>
+        /// <returns></returns>
         public bool finished()
         {
             foreach (PlayerSprite sprite in sprites)
@@ -111,11 +126,18 @@ namespace Titanium.Scenes.Panels
             return true;
         }
 
+        /// <summary>
+        /// Returns the list of sprites
+        /// </summary>
+        /// <returns></returns>
         public List<Sprite> Sprites()
         {
             return sprites;
         }
 
+        /// <summary>
+        /// Activate all player controlled sprites in prep for a new turn.
+        /// </summary>
         public void activate()
         {
             foreach (PlayerSprite sprite in sprites)

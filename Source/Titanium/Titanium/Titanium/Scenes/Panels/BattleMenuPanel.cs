@@ -10,6 +10,9 @@ using Titanium.Gambits;
 
 namespace Titanium.Scenes.Panels
 {
+    /// <summary>
+    /// Class contains a menu for each player controlled sprite.
+    /// </summary>
     class BattleMenuPanel: Panel
     {
 
@@ -67,7 +70,12 @@ namespace Titanium.Scenes.Panels
 
         }
 
-
+        /// <summary>
+        /// Get the action that the user wishes to perform
+        /// </summary>
+        /// <param name="inputState"></param>
+        /// <param name="selected"></param>
+        /// <returns></returns>
         public InputAction getAction(InputState inputState, int selected)
         {
             MenuPanel panel = (MenuPanel)subPanels[selected];

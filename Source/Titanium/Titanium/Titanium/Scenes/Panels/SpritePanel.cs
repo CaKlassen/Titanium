@@ -9,11 +9,22 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Titanium.Scenes.Panels
 {
+    /// <summary>
+    /// Class represents all of the sprites the player in fighting against
+    /// </summary>
     class SpritePanel: Panel
     {
         protected List<Sprite> sprites;
         Viewport? v;
+
+        // The side of the screeen the sprites should be drawn on
+        public enum Side
+        {
+            east,
+            west
+        }
         Side side;
+
         int height;
 
         List<Texture2D> icons;
@@ -77,6 +88,10 @@ namespace Titanium.Scenes.Panels
             base.update(gameTime, inputState);
         }
 
+        /// <summary>
+        /// Orients the sprites contained in this panel depending on the side
+        /// </summary>
+        /// <param name="view">The viewport to orient within</param>
         public void orientSprites(Viewport view)
         {
             int currentHeight = 0;
@@ -97,6 +112,10 @@ namespace Titanium.Scenes.Panels
             }
         }
 
+        /// <summary>
+        /// The number of sprites
+        /// </summary>
+        /// <returns></returns>
         public int count()
         {
             return sprites.Count;
@@ -109,6 +128,11 @@ namespace Titanium.Scenes.Panels
             return null;
         }
 
+        /// <summary>
+        /// Toggles the target mode on or off
+        /// </summary>
+        /// <param name="target">Whether or not target mode is active</param>
+        /// <param name="actions">The list of actions that will be used to target a sprite</param>
         public void target(bool target, List<InputAction> actions)
         {
             if (target)
@@ -122,18 +146,21 @@ namespace Titanium.Scenes.Panels
                 this.icons = null;
         }
 
+        /// <summary>
+        /// Basic AI for the enemy sprites. Attacks the unit in the first position.
+        /// </summary>
+        /// <param name="players">The list of players</param>
         public void act(List<Sprite> players)
         {
             foreach (Sprite sprite in sprites)
                 sprite.quickAttack(players[0]);
         }
 
-        public enum Side
-        {
-            east,
-            west
-        }
-
+        
+        /// <summary>
+        /// Returns true if all of the sprites in this panel are dead
+        /// </summary>
+        /// <returns></returns>
         public bool dead()
         {
             foreach (Sprite sprite in sprites)

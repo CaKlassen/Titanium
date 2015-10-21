@@ -11,13 +11,17 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Titanium.Gambits
 {
-
+    /// <summary>
+    /// Gambit that has the user perform a series of inputs correctly and within a certain time frame
+    /// </summary>
     class Combo : BaseGambit
     {
+        // Sound Effects
         SoundEffect sfxSuccess;
         SoundEffect sfxFailure;
         SoundEffect sfxComplete;
 
+        // The possible buttons in the combo
         static InputAction[] buttons = {
             new InputAction(
                 new Buttons[] { Buttons.A },
@@ -71,30 +75,35 @@ namespace Titanium.Gambits
             )
         };
 
+        // The number of inputs the user must perform
         int length = 8;
+
+        // The time limit in ms
         int timeLimit = 10000;
 
+        // The current input the user must perform
         int current;
+
+        // The time left before the gambit is finished
         int timeLeft;
 
+        // The actual combo buttons to be input
         List<InputAction> comboString;
+
+        // The icon associated with each combo action
         List<Texture2D> icons;
 
         SpriteFont font;
 
-        public Combo(GameTime gameTime):base(gameTime)
-        {
-            comboString = makeComboString(DateTime.Now.Millisecond);
-            icons = new List<Texture2D>();
-            current = 0;
-        }
 
+        
         public Combo(): base()
         {
             comboString = makeComboString(DateTime.Now.Millisecond);
             icons = new List<Texture2D>();
         }
 
+        
         public override void start(GameTime gameTime)
         {
             current = 0;
@@ -168,6 +177,12 @@ namespace Titanium.Gambits
             }
         }
 
+        /// <summary>
+        /// Detects if the player input the wrong button
+        /// </summary>
+        /// <param name="state">The input state to check</param>
+        /// <param name="player">The controlling player</param>
+        /// <returns>true if the user missed, false if they didnt</returns>
         public bool miss(InputState state, PlayerIndex player)
         {
             foreach (InputAction button in buttons)
@@ -180,6 +195,11 @@ namespace Titanium.Gambits
             return false;
         }
 
+        /// <summary>
+        /// Makes a random combo string with the given seed.
+        /// </summary>
+        /// <param name="seed">The seed for the random number generator</param>
+        /// <returns>The combo string</returns>
         public List<InputAction> makeComboString(int seed)
         {
             List<InputAction> combo = new List<InputAction>();

@@ -11,6 +11,7 @@ namespace Titanium.Scenes.Panels
 {
     class MenuItem: Panel
     {
+        // The spacing between elements
         public static int OFFSET = 50;
 
         string text;
@@ -30,6 +31,7 @@ namespace Titanium.Scenes.Panels
         Texture2D icon;
 
         Color textColor = Color.Black;
+
         /// <summary>
         /// Gets or sets the text of this menu entry.
         /// </summary>
@@ -69,6 +71,7 @@ namespace Titanium.Scenes.Panels
             sb.DrawString(font, text, Position + new Vector2(50,0), textColor);
             base.draw(sb);
         }
+
         /// <summary>
         /// Queries how much space this menu entry requires.
         /// </summary>
@@ -86,16 +89,15 @@ namespace Titanium.Scenes.Panels
             return (int)font.MeasureString(Text).X + icon.Width;
         }
 
+        /// <summary>
+        /// Returns true if the user input the action representing this MenuItem
+        /// </summary>
+        /// <param name="inputState"></param>
+        /// <returns></returns>
         public bool wasChosen(InputState inputState)
         {
             PlayerIndex player;
             return action.Evaluate(inputState, null, out player);
-        }
-
-        public bool wasChosen(InputState inputState, PlayerIndex player)
-        {
-            PlayerIndex p;
-            return action.Evaluate(inputState, player, out p);
         }
     }
 }
