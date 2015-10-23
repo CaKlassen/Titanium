@@ -18,8 +18,8 @@ namespace Titanium
     /// </summary>
     public class BaseGame : Microsoft.Xna.Framework.Game
     {
-        public static int SCREEN_WIDTH = 1366;
-        public static int SCREEN_HEIGHT = 768;
+        public static int SCREEN_WIDTH = 1280;
+        public static int SCREEN_HEIGHT = 720;
 
         GraphicsDeviceManager graphics;
 
