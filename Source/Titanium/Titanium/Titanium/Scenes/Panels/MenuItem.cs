@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Titanium.Scenes.Panels
 {
-    class MenuItem: Panel
+    public class MenuItem: Panel
     {
         // The spacing between elements
         public static int OFFSET = 50;

@@ -16,7 +16,7 @@ namespace Titanium.Battle
     /// <summary>
     /// This object represents a single "battle" between the player and a set of enemies
     /// </summary>
-    class Encounter
+    public class Encounter
     {
         /// <summary>
         /// The possible states of the current battle

@@ -13,7 +13,7 @@ namespace Titanium.Scenes.Panels
     /// <summary>
     /// Class represents the Player controlled characters on the battlefield
     /// </summary>
-    class PlayerSpritePanel: SpritePanel
+    public class PlayerSpritePanel: SpritePanel
     {
         // The menu to be used to control the units
         BattleMenuPanel battleMenu;

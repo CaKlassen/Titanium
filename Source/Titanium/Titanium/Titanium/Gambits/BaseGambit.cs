@@ -13,7 +13,7 @@ namespace Titanium.Gambits
     /// <summary>
     /// Base class representing the actions the player must take to improve a certain attack or spell
     /// </summary>
-    abstract class BaseGambit
+    public abstract class BaseGambit
     {
         protected double startTime;
         protected bool finished;
