@@ -95,6 +95,7 @@
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\FileUtils.cs" />
     <Compile Include="Utilities\MathUtils.cs" />
+    <Compile Include="Utilities\PartyUtils.cs" />
     <Compile Include="Utilities\PhysicsUtils.cs" />
   </ItemGroup>
   <ItemGroup>

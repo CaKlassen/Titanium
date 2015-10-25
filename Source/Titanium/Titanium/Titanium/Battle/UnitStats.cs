@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Titanium.Battle
 {
-    class UnitStats
+    public class UnitStats
     {
         public String name;
         public String model;

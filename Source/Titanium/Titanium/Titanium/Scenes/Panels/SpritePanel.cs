@@ -12,7 +12,7 @@ namespace Titanium.Scenes.Panels
     /// <summary>
     /// Class represents all of the sprites the player in fighting against
     /// </summary>
-    class SpritePanel: Panel
+    public class SpritePanel: Panel
     {
         protected List<Sprite> sprites;
         Viewport? v;

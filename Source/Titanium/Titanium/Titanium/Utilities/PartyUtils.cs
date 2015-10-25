@@ -9,14 +9,14 @@ namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
-        static List<Sprite> partyMembers;
+        public static List<Sprite> partyMembers;
 
         static PartyUtils()
         {
             partyMembers = new List<Sprite>();
         }
 
-        static List<Sprite> loadPartyMembers()
+        public static List<Sprite> loadPartyMembers()
         {
             using (var reader = File.OpenText(@"Content/Stats/PlayerFile.txt"))
             {
@@ -29,9 +29,9 @@ namespace Titanium.Utilities
             return partyMembers;
         }
 
-        static List<Sprite> getParty() { return partyMembers; }
+        public static List<Sprite> getParty() { return partyMembers; }
 
-        static int[] getPartyHealth()
+        public static int[] getPartyHealth()
         {
             int[] result = new int[partyMembers.Count];
             for(int i = 0; i < partyMembers.Count; ++i)
@@ -41,7 +41,7 @@ namespace Titanium.Utilities
             return result;
         }
 
-        static int[] getPartyMana()
+        public static int[] getPartyMana()
         {
             int[] result = new int[partyMembers.Count];
             for (int i = 0; i < partyMembers.Count; ++i)
@@ -51,7 +51,7 @@ namespace Titanium.Utilities
             return result;
         }
 
-        static int[] inflictPartyDamage(int damage)
+        public static int[] inflictPartyDamage(int damage)
         {
             int[] result = new int[partyMembers.Count];
             for (int i = 0; i < partyMembers.Count; ++i)
@@ -62,7 +62,7 @@ namespace Titanium.Utilities
             return result;
         }
 
-        private static void loadStats(List<Sprite> l, String target)
+        public static void loadStats(List<Sprite> l, String target)
         {
             String path = "Content/Stats/";
             List<UnitStats> tempList = new List<UnitStats>();

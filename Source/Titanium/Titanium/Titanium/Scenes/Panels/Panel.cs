@@ -11,7 +11,7 @@ namespace Titanium.Scenes.Panels
     /// <summary>
     /// Defines a 2d panel that can be placed on the game screen
     /// </summary>
-    class Panel
+    public class Panel
     {
         // The panels that are nested in this one
         protected List<Panel> subPanels;

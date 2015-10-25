@@ -13,7 +13,7 @@ namespace Titanium.Scenes.Panels
     /// <summary>
     /// Class contains a menu for each player controlled sprite.
     /// </summary>
-    class BattleMenuPanel: Panel
+    public class BattleMenuPanel: Panel
     {
 
         Viewport? v;
