@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Titanium.Battle
 {
-    class CombatInfo
+    public class CombatInfo
     {
         Texture2D barFrame;
         Rectangle destRect, frameRect;
