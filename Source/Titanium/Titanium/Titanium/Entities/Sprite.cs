@@ -87,7 +87,8 @@ namespace Titanium.Entities
             }
         }
 
-
+        public int getHealth() { return rawStats.currentHP; }
+        public int getMana() { return rawStats.currentMP; }
        
 
 
