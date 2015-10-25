@@ -13,9 +13,9 @@ using Titanium.Scenes;
 
 namespace Titanium.Entities
 {
-    /**
-     * This class provides a base for all in-game entities that must be updated and rendered to the screen.
-     */
+    /// <summary>
+    /// This class represents an arena table.
+    /// </summary>
     public class ArenaTable : Entity
     {
         private Tile _currentTile;//the current tile we are standing on
@@ -25,20 +25,14 @@ namespace Titanium.Entities
         //MovableModel
         private float modelRotation;
         public Model myModel;
-        //public Matrix ModelMatrix;
-        //private SpriteBatch spriteBatch;
-        //private String modelPath;
-        private Vector3 modelPosition, cameraPosition;
-        private Vector3 Target;
-
-        private int deltaX;
-        private int deltaZ;
-        private float rotAngle;
+        private Vector3 modelPosition;
         private float scale;
-        
-        /**
-         * The default entity constructor.
-         */
+
+        /// <summary>
+        /// This is the default constructor for the arena table.
+        /// </summary>
+        /// <param name="createTile">The tile to start on</param>
+        /// <param name="Content">The content manager for loading</param>
         public ArenaTable(Tile createTile, ContentManager Content)
         {
             _currentTile = createTile;
@@ -46,10 +40,6 @@ namespace Titanium.Entities
 
             //_Position = Vector3.Zero;
             _forward = ForwardDir.UP;
-
-            deltaX = 0;
-            deltaZ = 0;
-            rotAngle = 0;
             scale = 1f;
 
             modelRotation = 0.0f;
@@ -57,18 +47,21 @@ namespace Titanium.Entities
             
             myModel = myModel = Content.Load<Model>("Models/table");
         }
-        
-        /**
-         * The update function called in each frame.
-         */
+
+        /// <summary>
+        /// This function updates the arena table.
+        /// </summary>
+        /// <param name="gameTime">The game time object for timing</param>
+        /// <param name="inputState">The input state object for input</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
 
         }
 
-        /**
-         * The draw function called at the end of each frame.
-         */
+        /// <summary>
+        /// This function renders the arena table to the screen.
+        /// </summary>
+        /// <param name="sb">The spritebatch object for rendering</param>
         public override void Draw(SpriteBatch sb)
         {
             if (myModel != null)//don't do anything if the model is null

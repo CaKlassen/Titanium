@@ -61,6 +61,7 @@ namespace Titanium.Scenes
         {
             registerScene(new MainMenuScene(), SceneState.main);
             registerScene(new ArenaScene(), SceneState.arena);
+            registerScene(new BattleScene(), SceneState.battle);
 
             currentState = SceneState.main;
             

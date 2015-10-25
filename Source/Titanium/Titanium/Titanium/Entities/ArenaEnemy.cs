@@ -14,15 +14,20 @@ using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
-    /**
-     * This class provides a base for all in-game entities that must be updated and rendered to the screen.
-     */
+    /// <summary>
+    /// This class represents an enemy in the arena.
+    /// </summary>
     public class ArenaEnemy : Entity
     {
         /// <summary>
         /// The rate at which the enemy moves between tiles.
         /// </summary>
         public static int MOVE_RATE = 10;
+
+        /// <summary>
+        /// The maximum number of times to try to move.
+        /// </summary>
+        public static int MAX_TRIES = 20;
 
         /// <summary>
         /// The number of turns to wait between moves.
@@ -42,9 +47,11 @@ namespace Titanium.Entities
         private int waitTurns = WAIT_TURNS;
         private bool dead = false;
         
-        /**
-         * The default entity constructor.
-         */
+        /// <summary>
+        /// This is the default constructor for the arena enemy.
+        /// </summary>
+        /// <param name="createTile">The tile to start on</param>
+        /// <param name="Content">The content manager for loading</param>
         public ArenaEnemy(Tile createTile, ContentManager Content)
         {
             // Add this to the collidables list
@@ -64,9 +71,11 @@ namespace Titanium.Entities
             myModel = myModel = Content.Load<Model>("Models/enemy");
         }
         
-        /**
-         * The update function called in each frame.
-         */
+        /// <summary>
+        /// This function updates the arena enemy.
+        /// </summary>
+        /// <param name="gameTime">The game time object for timing</param>
+        /// <param name="inputState">The input state object for input</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
             // If the player moved this frame
@@ -79,19 +88,34 @@ namespace Titanium.Entities
                 {
                     waitTurns = WAIT_TURNS;
 
-                    TileConnections dir;
+                    TileConnections dir = TileConnections.NONE;
                     Random r = ArenaController.instance.getGenerator();
 
                     // Search for an adjacent tile
-                    do
+                    for (int i = 0; i < MAX_TRIES; i++)
                     {
                         dir = (TileConnections)r.Next(0, 4);
-                    } while (_currentTile.getConnection(dir) == null);
 
-                    // Swap the tile
-                    _currentTile.deleteEntity(this);
-                    _currentTile = _currentTile.getConnection(dir);
-                    _currentTile.addEntity(this);
+                        if (_currentTile.getConnection(dir) != null &&
+                            !_currentTile.getConnection(dir).hasEnemy() &&
+                            !_currentTile.getConnection(dir).hasExit())
+                        {
+                            // We found a good tile
+                            break;
+                        }
+                        else
+                        {
+                            dir = TileConnections.NONE;
+                        }
+                    }
+
+                    if (dir != TileConnections.NONE)
+                    {
+                        // Swap the tile
+                        _currentTile.deleteEntity(this);
+                        _currentTile = _currentTile.getConnection(dir);
+                        _currentTile.addEntity(this);
+                    }
                 }
             }
 
@@ -120,9 +144,10 @@ namespace Titanium.Entities
         }
 
 
-        /**
-         * The draw function called at the end of each frame.
-         */
+        /// <summary>
+        /// This function renders the arena enemy to the screen.
+        /// </summary>
+        /// <param name="sb">The spritebatch object for rendering</param>
         public override void Draw(SpriteBatch sb)
         {
             if (myModel != null)//don't do anything if the model is null

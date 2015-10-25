@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Titanium.Scenes.Panels
 {
+    /// <summary>
+    /// Class represents a single menu to be drawn on the game screen
+    /// </summary>
     class MenuPanel: Panel
     {
         string title;

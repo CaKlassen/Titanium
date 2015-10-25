@@ -73,11 +73,10 @@ namespace Titanium.Arena
         }
 
         /// <summary>
-        /// This function updates the tile's entities.
+        /// This function updates the tile.
         /// </summary>
-        /// <param name="gamepad">The gamepad state</param>
-        /// <param name="keyboard">The keyboard state</param>
-        /// <param name="mouse">The mouse state</param>
+        /// <param name="gameTime">The gametime object for timing</param>
+        /// <param name="inputState">The input state object for input</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
             // Update each entity
@@ -172,11 +171,20 @@ namespace Titanium.Arena
             return connections[(int) dir];
         }
 
+        /// <summary>
+        /// This function returns the tile's connections.
+        /// </summary>
+        /// <returns>The tile's connections</returns>
         public Tile[] getConnections()
         {
             return connections;
         }
 
+
+        /// <summary>
+        /// This function returns the number of connections that the tile has.
+        /// </summary>
+        /// <returns>The number of connections</returns>
         public int getNumConnections()
         {
             int numConnections = 0;
@@ -192,6 +200,10 @@ namespace Titanium.Arena
             return numConnections;
         }
 
+        /// <summary>
+        /// This function adds an entity to the tile.
+        /// </summary>
+        /// <param name="entity">The entity to add</param>
         public void addEntity(Entity entity)
         {
             entityList.Add(entity);
@@ -233,14 +245,54 @@ namespace Titanium.Arena
             return drawPos;
         }
 
+        /// <summary>
+        /// This function returns the position of the model on-screen
+        /// </summary>
+        /// <returns>The model position</returns>
         public Vector3 getModelPos()
         {
             return modelPosition;
         }
 
+        /// <summary>
+        /// This function returns the type of the tile.
+        /// </summary>
+        /// <returns>The tile type</returns>
         public ArenaTiles getType()
         {
             return tile;
+        }
+
+        public bool hasEnemy()
+        {
+            bool hasEnemy = false;
+
+            foreach (Entity e in entityList)
+            {
+                if ( e.GetType() == typeof(ArenaEnemy))
+                {
+                    hasEnemy = true;
+                    break;
+                }
+            }
+
+            return hasEnemy;
+        }
+
+        public bool hasExit()
+        {
+            bool hasExit = false;
+
+            foreach (Entity e in entityList)
+            {
+                if (e.GetType() == typeof(ArenaExit))
+                {
+                    hasExit = true;
+                    break;
+                }
+            }
+
+            return hasExit;
         }
     }
 }

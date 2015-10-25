@@ -45,7 +45,9 @@ namespace Titanium.Scenes.Panels
             get { return Vector2.Add(origin, offset);  }
         }
 
-
+        /// <summary>
+        /// Class represents a 2D area which can be placed in the viewport. Allows for nested panels to be placed in relation to this one
+        /// </summary>
         public Panel()
         {
             this.Origin = Vector2.Zero;
@@ -98,6 +100,10 @@ namespace Titanium.Scenes.Panels
                 panel.draw(sb);
         }
 
+        /// <summary>
+        /// Load this panel's contents and that of all of its subPanels
+        /// </summary>
+        /// <param name="content">The ContentManager to use</param>
         public virtual void load(ContentManager content)
         {
             foreach (Panel panel in subPanels)

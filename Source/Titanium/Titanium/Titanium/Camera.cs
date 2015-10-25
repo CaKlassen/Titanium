@@ -106,16 +106,17 @@ namespace Titanium
         /// </summary>
         public void SetLighting(BasicEffect effect)
         {
-            effect.LightingEnabled = true;
-            effect.AmbientLightColor = new Vector3(1.0f, 0.4f, 0.1f);
+            effect.EnableDefaultLighting();
+            //effect.LightingEnabled = true;
+            //effect.AmbientLightColor = new Vector3(1.0f, 0.4f, 0.1f);
                         
-            effect.DirectionalLight0.DiffuseColor = new Vector3(1,0.4f,0.1f);
-            effect.DirectionalLight0.Direction = new Vector3(6, -6, -0.2f);
-            
-            effect.DirectionalLight0.SpecularColor = new Vector3(5, 2, 0);//orange
+            //effect.DirectionalLight0.DiffuseColor = new Vector3(1,0.4f,0.1f);
+            //effect.DirectionalLight0.Direction = new Vector3(6, -6, -0.2f);
+
+            //effect.DirectionalLight0.SpecularColor = new Vector3(5, 2, 0);//orange
             
 
-            effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
+            //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
             //effect.EmissiveColor = new Vector3(0.5f, 0.2f, 0.1f);
         }
 
@@ -125,16 +126,17 @@ namespace Titanium
         /// <param name="effect"></param>
         public void setBoardLighting(BasicEffect effect)
         {
-            effect.LightingEnabled = true;
-            effect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
+            effect.EnableDefaultLighting();
+            //effect.LightingEnabled = true;
+            //effect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
 
-            effect.DirectionalLight0.DiffuseColor = new Vector3(0.5f, 0.5f, 0.5f);
-            effect.DirectionalLight0.Direction = new Vector3(0, 2, 0);
+            //effect.DirectionalLight0.DiffuseColor = new Vector3(0.5f, 0.5f, 0.5f);
+            //effect.DirectionalLight0.Direction = new Vector3(0, 2, 0);
 
-            effect.DirectionalLight0.SpecularColor = new Vector3(0f, 0f, 0f);
+            //effect.DirectionalLight0.SpecularColor = new Vector3(0f, 0f, 0f);
 
 
-            effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
+            //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
         }
 
     }
