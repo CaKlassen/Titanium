@@ -12,10 +12,13 @@ namespace Titanium.Entities.Traps
     class ProjectileDispenser : Entity
     {
         //attributes
+        public Model ProjModel;
         public Model myModel;
         private float scale = 1f;
         private float modelOrientation = 0.0f;
         private Vector3 Orientation;
+        private Vector3 position;
+        private int projdmg;
 
         float timer = 4;
         const float TIMER = 4;
@@ -25,14 +28,14 @@ namespace Titanium.Entities.Traps
         //attributes
         public Vector3 Position
         {
-            get { return Position; }
-            set { Position = value; }
+            get { return position; }
+            set { position = value; }
         }
 
         public int ProjectileDamage
         {
-            get { return ProjectileDamage; }
-            set { ProjectileDamage = value; }
+            get { return projdmg; }
+            set { projdmg = value; }
         }
 
         /// <summary>
@@ -59,7 +62,8 @@ namespace Titanium.Entities.Traps
 
         public void LoadModel(ContentManager cm, float aspectRatio)
         {
-            myModel = cm.Load<Model>("Models/hero");//change to actual model
+            myModel = cm.Load<Model>("Models/enemy");//change to actual dispenser model
+            ProjModel = cm.Load<Model>("Models/enemy");//change to actual projectile model
         }
 
         public override void Update(GameTime gameTime, InputState inputState)
@@ -77,6 +81,10 @@ namespace Titanium.Entities.Traps
             if (Projectiles != null && Projectiles.Count > 0)
             {
                 CleanProjectiles();
+                foreach(Projectile p in Projectiles)
+                {
+                    p.Update(gameTime, inputState);
+                }
             }
 
         }
@@ -88,7 +96,7 @@ namespace Titanium.Entities.Traps
         {          
             foreach(Projectile p in Projectiles)
             {
-                if(p.dead)
+                if(p.Dead)
                 {
                     Projectiles.Remove(p);
                 }
@@ -100,7 +108,7 @@ namespace Titanium.Entities.Traps
         /// </summary>
         private void FireProjectile()
         {
-            Projectile p = new Projectile(Position, Orientation, ProjectileDamage);
+            Projectile p = new Projectile(Position, Orientation, ProjectileDamage, ProjModel);
             Projectiles.Add(p);
         }
 
