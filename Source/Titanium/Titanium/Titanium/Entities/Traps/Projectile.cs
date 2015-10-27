@@ -14,12 +14,17 @@ namespace Titanium.Entities.Traps
     {
         //attributes
         public Model myModel;
-        private float scale = 1f;
+        private float scale = 0.40f;
         private float modelOrientation = 0.0f;
         private Boolean dead;
 
         Vector3 position;
-        static Vector3 VELOCITY = new Vector3(10,10,10);
+        private Vector3 velocity = new Vector3(2,0,2);
+        private float lifespan = 2f;
+
+        float timer;
+        const float TIMER = 2.5f;
+
 
         private int damage;
         
@@ -47,10 +52,11 @@ namespace Titanium.Entities.Traps
         public Projectile(Vector3 position, Vector3 direction, int damage, Model m)
         {
             this.position = position;
-            VELOCITY *= direction;
+            velocity *= direction;
             this.damage = damage;
             dead = false;
             myModel = m;
+            timer = 2;
         }
 
         //public void LoadModel(ContentManager cm, float aspectRatio)
@@ -88,13 +94,20 @@ namespace Titanium.Entities.Traps
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            position += VELOCITY;
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timer -= elapsedTime;
+            position += velocity;
 
             //if collision true
             if(PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, this))
             {
                 //take away life and set death flag
                 dead = true;
+            }else if (timer < 0)
+            {
+                //fire projectile
+                dead = true;
+                //timer = TIMER;
             }
         }
 
