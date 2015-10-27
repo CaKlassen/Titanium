@@ -65,6 +65,8 @@
     <Compile Include="Entities\MovableModel.cs" />
     <Compile Include="Entities\PlayerSprite.cs" />
     <Compile Include="Entities\Sprite.cs" />
+    <Compile Include="Entities\Traps\Projectile.cs" />
+    <Compile Include="Entities\Traps\ProjectileDispenser.cs" />
     <Compile Include="Gambits\BaseGambit.cs" />
     <Compile Include="Gambits\Combo.cs" />
     <Compile Include="Gambits\Mash.cs" />

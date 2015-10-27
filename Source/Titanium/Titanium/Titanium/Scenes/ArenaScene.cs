@@ -39,7 +39,7 @@ namespace Titanium.Scenes
         ContentManager content;
 
         public ArenaController controller;
-        private Character Hero;
+        public Character Hero;
         public Camera camera;
         private ArenaTable table;
         private ArenaSkybox skybox;
