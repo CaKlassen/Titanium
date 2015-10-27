@@ -16,13 +16,14 @@ namespace Titanium.Entities.Traps
         public Model myModel;
         private float scale = 1f;
         private float modelOrientation = 0.0f;
+        private Boolean dead;
 
         Vector3 position;
         static Vector3 VELOCITY = new Vector3(10,10,10);
 
         private int damage;
         
-        public bool dead
+        public Boolean Dead
         {
             get { return dead; }
             set { dead = value; }
@@ -43,18 +44,19 @@ namespace Titanium.Entities.Traps
         /// <param name="position">Initial spawn position.</param>
         /// <param name="direction">Direction of projectile given by a Vector3.</param>
         /// <param name="damage">amount of damage this projectile inflicts.</param>
-        public Projectile(Vector3 position, Vector3 direction, int damage)
+        public Projectile(Vector3 position, Vector3 direction, int damage, Model m)
         {
             this.position = position;
             VELOCITY *= direction;
             this.damage = damage;
             dead = false;
+            myModel = m;
         }
 
-        public void LoadModel(ContentManager cm, float aspectRatio)
-        {
-            myModel = cm.Load<Model>("Models/hero");//change to actual model
-        }
+        //public void LoadModel(ContentManager cm, float aspectRatio)
+        //{
+        //    myModel = cm.Load<Model>("Models/enemy");//change to actual model
+        //}
 
         public override void Draw(SpriteBatch sb)
         {
