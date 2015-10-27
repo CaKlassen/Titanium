@@ -12,6 +12,7 @@ using Titanium.Entities;
 using Titanium.Arena;
 using Titanium.Utilities;
 using Titanium.Battle;
+using Titanium.Entities.Traps;
 
 namespace Titanium.Scenes
 {
@@ -44,6 +45,9 @@ namespace Titanium.Scenes
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
+
+        //temp for testing
+        ProjectileDispenser ProjTrap;
 
         public List<Entity> collidables;
 
@@ -99,6 +103,11 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
 
+
+            //test projectile dispenser
+            ProjTrap = new ProjectileDispenser(baseArena[5, 5].getModelPos(), new Vector3(-1,0,0), 10);
+            ProjTrap.LoadModel(content);
+
             table = new ArenaTable(getStartTile(), content);
             skybox = new ArenaSkybox(getStartTile(), content);
 
@@ -116,6 +125,9 @@ namespace Titanium.Scenes
             //update Character
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPosition());
+
+            //test projectile update
+            ProjTrap.Update(gameTime, inputState);
 
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
@@ -175,6 +187,10 @@ namespace Titanium.Scenes
 
             //Draw character
             Hero.Draw(sb);
+
+
+            //test projectile drawing
+            ProjTrap.Draw(sb);
         }
 
         /**
