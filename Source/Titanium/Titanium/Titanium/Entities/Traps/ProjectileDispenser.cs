@@ -22,6 +22,13 @@ namespace Titanium.Entities.Traps
 
         public List<Projectile> Projectiles;
 
+        //attributes
+        public Vector3 Position
+        {
+            get { return Position; }
+            set { Position = value; }
+        }
+
         public int ProjectileDamage
         {
             get { return ProjectileDamage; }
@@ -48,12 +55,7 @@ namespace Titanium.Entities.Traps
             ProjectileDamage = projectileDamage;
         }
 
-        //attributes
-        public Vector3 Position
-        {
-            get { return Position; }
-            set { Position = value; }
-        }
+
 
         public void LoadModel(ContentManager cm, float aspectRatio)
         {
@@ -71,8 +73,31 @@ namespace Titanium.Entities.Traps
                 FireProjectile();
                 timer = TIMER;
             }
+
+            if (Projectiles != null && Projectiles.Count > 0)
+            {
+                CleanProjectiles();
+            }
+
         }
     
+        /// <summary>
+        /// clean up the list of projectiles; remove dead projectiles.
+        /// </summary>
+        private void CleanProjectiles()
+        {          
+            foreach(Projectile p in Projectiles)
+            {
+                if(p.dead)
+                {
+                    Projectiles.Remove(p);
+                }
+            }
+        }
+
+        /// <summary>
+        /// create a new projectile and add it to the list of projectiles.
+        /// </summary>
         private void FireProjectile()
         {
             Projectile p = new Projectile(Position, Orientation, ProjectileDamage);

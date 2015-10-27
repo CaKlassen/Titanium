@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Titanium.Scenes;
+using Titanium.Utilities;
 
 namespace Titanium.Entities.Traps
 {
@@ -21,6 +22,11 @@ namespace Titanium.Entities.Traps
 
         private int damage;
         
+        public bool dead
+        {
+            get { return dead; }
+            set { dead = value; }
+        }
 
         /// <summary>
         /// creates new projectile based on starting position and
@@ -41,7 +47,8 @@ namespace Titanium.Entities.Traps
         {
             this.position = position;
             VELOCITY *= direction;
-            this.damage = damage; 
+            this.damage = damage;
+            dead = false;
         }
 
         public void LoadModel(ContentManager cm, float aspectRatio)
@@ -80,6 +87,18 @@ namespace Titanium.Entities.Traps
         public override void Update(GameTime gameTime, InputState inputState)
         {
             position += VELOCITY;
+
+            //if collision true
+            if(PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, this))
+            {
+                //take away life and set death flag
+                dead = true;
+            }
+        }
+
+        public Vector3 getPosition()
+        {
+            return position;
         }
 
     }
