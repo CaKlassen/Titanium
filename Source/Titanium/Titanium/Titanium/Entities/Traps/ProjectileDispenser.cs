@@ -56,11 +56,12 @@ namespace Titanium.Entities.Traps
             Position = position;
             Orientation = orientation;
             ProjectileDamage = projectileDamage;
+            Projectiles = new List<Projectile>();
         }
 
 
 
-        public void LoadModel(ContentManager cm, float aspectRatio)
+        public void LoadModel(ContentManager cm)
         {
             myModel = cm.Load<Model>("Models/enemy");//change to actual dispenser model
             ProjModel = cm.Load<Model>("Models/enemy");//change to actual projectile model
@@ -94,7 +95,7 @@ namespace Titanium.Entities.Traps
         /// </summary>
         private void CleanProjectiles()
         {          
-            foreach(Projectile p in Projectiles)
+            foreach(Projectile p in Projectiles.ToList())
             {
                 if(p.Dead)
                 {
@@ -108,7 +109,7 @@ namespace Titanium.Entities.Traps
         /// </summary>
         private void FireProjectile()
         {
-            Projectile p = new Projectile(Position, Orientation, ProjectileDamage, ProjModel);
+            Projectile p = new Projectile(new Vector3(position.X, position.Y+50, position.Z), Orientation, ProjectileDamage, ProjModel);
             Projectiles.Add(p);
         }
 
