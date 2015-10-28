@@ -41,7 +41,7 @@ namespace Titanium.Utilities
                 string[] parts = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
                 UnitStats u = new UnitStats();
                 u.init(parts);
-                if(u.name.CompareTo(path)==0)
+                if(u.model.CompareTo(path)==0)
                 {
                     result.setParam(u, 0, 0);
                     return result;
