@@ -14,16 +14,17 @@ namespace Titanium.Entities.Traps
     {
         //attributes
         public Model myModel;
-        private float scale = 0.45f;
+        private float scale = 0.5f;
         private float modelOrientation = 0.0f;
         private Boolean dead;
 
         Vector3 position;
-        private Vector3 velocity = new Vector3(2,0,2);
-        private float AbsVel = 2; //absolute value of velocity regardless of direction
-        
 
-        float lifeSpan;
+        private static float AbsVel = 5; //absolute value of velocity regardless of direction
+        private Vector3 velocity = new Vector3(AbsVel, 0, AbsVel);
+
+        public static int LIFE_SPAN = 110;
+        float lifeSpan = LIFE_SPAN;
         
 
 
@@ -57,7 +58,6 @@ namespace Titanium.Entities.Traps
             this.damage = damage;
             dead = false;
             myModel = m;
-            lifeSpan = 220;
         }
 
         //public void LoadModel(ContentManager cm, float aspectRatio)
