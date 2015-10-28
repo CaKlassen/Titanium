@@ -283,12 +283,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RightThumbCCW.tga">
+    <Compile Include="ButtonIcons\RightThumbCCW.tga">
       <Name>RightThumbCCW</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="RightThumbCW.tga">
+    <Compile Include="ButtonIcons\RightThumbCW.tga">
       <Name>RightThumbCW</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

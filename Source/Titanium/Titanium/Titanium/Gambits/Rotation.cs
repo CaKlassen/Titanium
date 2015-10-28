@@ -12,7 +12,7 @@ namespace Titanium.Gambits
     class Rotation : BaseGambit
     {
         // The time limit in ms
-        int timeLimit = 10000;
+        int timeLimit = 5000;
 
         // The current input the user must perform
         int current;
@@ -79,7 +79,7 @@ namespace Titanium.Gambits
         {
             current = 0;
             count = 0;
-            clockwise = new Random(gameTime.ElapsedGameTime.Milliseconds).Next(2) == 0;
+            clockwise = new Random(gameTime.TotalGameTime.Milliseconds).Next(2) == 0;
             icon = icons[clockwise ? 0 : 1];
             timeLeft = timeLimit;
             base.start(gameTime);
@@ -89,8 +89,8 @@ namespace Titanium.Gambits
         {
             font = content.Load<SpriteFont>("TestFont");
 
-            icons[0] = content.Load<Texture2D>("RightThumbCW");
-            icons[1] = content.Load<Texture2D>("RightThumbCCW");
+            icons[0] = content.Load<Texture2D>("ButtonIcons/RightThumbCW");
+            icons[1] = content.Load<Texture2D>("ButtonIcons/RightThumbCCW");
         }
 
         public override int totalHeight()
@@ -132,7 +132,7 @@ namespace Titanium.Gambits
             if (timeLeft < 0)
             {
                 finished = true;
-                multiplier = 0.7f + ((count - 10) / 10);
+                multiplier = 0.7f + ((count - 5) / 10);
             }
         }
 
