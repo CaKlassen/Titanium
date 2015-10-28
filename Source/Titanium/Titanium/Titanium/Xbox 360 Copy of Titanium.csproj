@@ -70,6 +70,7 @@
     <Compile Include="Gambits\BaseGambit.cs" />
     <Compile Include="Gambits\Combo.cs" />
     <Compile Include="Gambits\Mash.cs" />
+    <Compile Include="Gambits\Rotation.cs" />
     <Compile Include="InputAction.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
