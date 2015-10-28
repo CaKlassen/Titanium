@@ -29,5 +29,25 @@ namespace Titanium.Utilities
             }
             return result;
         }
+
+        public Sprite CreateNewSprite(String path)
+        {
+            Sprite result = new Sprite();
+            string line;
+            System.IO.StreamReader file = new System.IO.StreamReader("Content/Sprites/"+path);
+            while ((line = file.ReadLine()) != null)
+            {
+                char[] delimiters = new char[] { ',' };
+                string[] parts = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                UnitStats u = new UnitStats();
+                u.init(parts);
+                if(u.model.CompareTo(path)==0)
+                {
+                    result.setParam(u, 0, 0);
+                    return result;
+                }
+            }
+            return result;
+        }
     }
 }

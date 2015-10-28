@@ -9,6 +9,8 @@ namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
+        public enum Enemy { Prinny, PrinnyBlue, PrinnyRed, Catsaber, CatsaberBlue, CatsaberRed, Empty };
+
         public static List<Sprite> partyMembers;
 
         static PartyUtils()
@@ -70,6 +72,21 @@ namespace Titanium.Utilities
             tempList = myFileUtil.FileToSprite(path + target);
             for (int i = 0; i < l.Count; ++i)
                 l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
+        }
+
+        public static List<Sprite> makeEnemies(Enemy a, Enemy b = Enemy.Empty, Enemy c = Enemy.Empty, Enemy d = Enemy.Empty)
+        {
+            FileUtils myFileUtil = new FileUtils();
+            List<Sprite> result = new List<Sprite>();
+            if (a != Enemy.Empty && !a.Equals(null))
+                result.Add(myFileUtil.CreateNewSprite(a.ToString()));
+            if (b != Enemy.Empty && !b.Equals(null))
+                result.Add(myFileUtil.CreateNewSprite(b.ToString()));
+            if (c != Enemy.Empty && !c.Equals(null))
+                result.Add(myFileUtil.CreateNewSprite(c.ToString()));
+            if (d != Enemy.Empty && !d.Equals(null))
+                result.Add(myFileUtil.CreateNewSprite(d.ToString()));
+            return result;
         }
     }
 }
