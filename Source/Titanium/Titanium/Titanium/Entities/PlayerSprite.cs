@@ -173,7 +173,7 @@ namespace Titanium.Entities
             }
             if (action == strong)
             {
-                gambit = new Mash();
+                gambit = new Rotation();
                 return strongAttack;
             }
             else

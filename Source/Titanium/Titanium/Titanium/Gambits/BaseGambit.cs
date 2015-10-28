@@ -20,6 +20,7 @@ namespace Titanium.Gambits
         protected float multiplier = 1f;
         protected Viewport? v = null;
         protected Vector2 position = Vector2.Zero;
+        protected SpriteFont font;
 
         public BaseGambit(GameTime gameTime)
         {

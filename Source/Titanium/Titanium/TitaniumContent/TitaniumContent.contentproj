@@ -283,6 +283,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RightThumbCCW.tga">
+      <Name>RightThumbCCW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="RightThumbCW.tga">
+      <Name>RightThumbCW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <None Include="Stats\PlayerFile.txt">
       <Name>PlayerFile</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

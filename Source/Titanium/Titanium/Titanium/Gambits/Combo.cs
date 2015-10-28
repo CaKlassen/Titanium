@@ -93,10 +93,10 @@ namespace Titanium.Gambits
         // The icon associated with each combo action
         List<Texture2D> icons;
 
-        SpriteFont font;
+
+        PlayerIndex player;
 
 
-        
         public Combo(): base()
         {
             comboString = makeComboString(DateTime.Now.Millisecond);
@@ -149,12 +149,12 @@ namespace Titanium.Gambits
 
         public override void update(GameTime gameTime, InputState state)
         {
-            PlayerIndex player;
+            
             timeLeft = timeLimit - timeElapsed(gameTime);
 
             if (timeLeft <= 0)
             {
-                multiplier = 0.75f;
+                multiplier = 0.7f;
                 finished = true;
                 sfxFailure.Play();
             }
@@ -164,14 +164,14 @@ namespace Titanium.Gambits
                 sfxSuccess.Play(0.2f, 0f, 0f);
                 if(current >= comboString.Count)
                 {
-                    multiplier = 0.75f + (((float)(timeLimit - timeElapsed(gameTime))/100)*5);
+                    multiplier = 1.2f;
                     finished = true;
                     sfxComplete.Play(0.4f, 0f, 0f);
                 }
             }
             else if (miss(state, player))
             {
-                multiplier = 0.75f + (((float)current / 100) * 2);
+                multiplier = 0.7f;
                 finished = true;
                 sfxFailure.Play();
             }
@@ -226,12 +226,6 @@ namespace Titanium.Gambits
             foreach (Texture2D icon in icons)
                 h = icon.Height > h ? icon.Height : h;
             return h + font.LineSpacing;
-        }
-
-        public override bool isComplete(out float multiplier)
-        {
-            multiplier = 1f + current/33f;
-            return finished;
         }
 
 
