@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Titanium.Entities;
+using Titanium.Entities.Traps;
 using Titanium.Scenes;
 
 namespace Titanium.Utilities
@@ -64,6 +65,35 @@ namespace Titanium.Utilities
                 }
             }
 
+            return false;
+        }
+
+        /// <summary>
+        /// Checks for a collision between the pojectile and the main character.
+        /// </summary>
+        /// <param name="Hero">the main character.</param>
+        /// <param name="p">the projectile.</param>
+        /// <returns></returns>
+        public static bool CheckCollision(Character Hero, Projectile p)
+        {
+            for (int i = 0; i < p.myModel.Meshes.Count; i++)
+            {
+                BoundingSphere ProjSphere = p.myModel.Meshes[i].BoundingSphere;
+                ProjSphere.Center += p.getPosition();
+
+                for (int j = 0; j < Hero.myModel.Meshes.Count; j++)
+                {
+                    BoundingSphere HeroSphere = Hero.myModel.Meshes[j].BoundingSphere;
+                    HeroSphere.Center += Hero.getPosition();
+
+                    if (ProjSphere.Intersects(HeroSphere))
+                    {
+                        //collision!
+                        return true;
+                    }
+                }
+            }
+            //no collision
             return false;
         }
     }

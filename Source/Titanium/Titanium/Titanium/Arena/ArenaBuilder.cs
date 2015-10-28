@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Titanium.Arena;
 using Titanium.Entities;
+using Titanium.Entities.Traps;
 
 namespace Titanium
 {
@@ -105,6 +106,9 @@ namespace Titanium
 
             // Generate the enemies in the arena
             generateEnemies();
+
+            // Generate the obstacles in the arena
+            generateObstacles();
 
             return tiles;
         }
@@ -317,6 +321,60 @@ namespace Titanium
 
                 // Create an enemy
                 tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content));
+            }
+        }
+
+        /// <summary>
+        /// This function generates obstacles for the arena
+        /// </summary>
+        private void generateObstacles()
+        {
+            int numObstacles = r.Next(1, 3);
+            Tile tile = null;
+
+            for (int i = 0; i < numObstacles; i++)
+            {
+                switch (difficulty)
+                {
+                    case ArenaDifficulty.EASY:
+                    {
+                        // Projectile Dispensers
+                        ProjectileDispenser dispenser;
+
+                        do
+                        {
+                            tile = tiles[r.Next(height), r.Next(width)];
+                        }
+                        while (tile == startTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+
+                        // Create the dispenser to fire across the path
+                        Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
+                        Vector3 pos = tile.getModelPos();
+                        pos.X -= (Tile.TILE_WIDTH / 2) * dir.X;
+                        pos.Z -= (Tile.TILE_HEIGHT / 2) * dir.Z;
+
+                        dispenser = new ProjectileDispenser(pos, dir, 10);
+                        dispenser.LoadModel(Content);
+
+                        tile.addEntity(dispenser);
+
+                        break;
+                    }
+
+                    case ArenaDifficulty.MEDIUM:
+                    {
+
+
+                        break;
+                    }
+
+                    case ArenaDifficulty.HARD:
+                    {
+
+
+                        break;
+                    }
+                }
             }
         }
 
