@@ -283,6 +283,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Dispenser.fbx">
+      <Name>Dispenser</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Projectile.fbx">
+      <Name>Projectile</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <None Include="Stats\PlayerFile.txt">
       <Name>PlayerFile</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
