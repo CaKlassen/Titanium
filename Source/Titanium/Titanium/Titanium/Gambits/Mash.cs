@@ -25,7 +25,7 @@ namespace Titanium.Gambits
         private int timeLimit = 5000;
         private int timeLeft;
 
-        SpriteFont font;
+        PlayerIndex player;
 
         public Mash(GameTime gameTime) : base(gameTime)
         {
@@ -50,12 +50,13 @@ namespace Titanium.Gambits
 
         public override void update(GameTime gameTime, InputState state)
         {
-            PlayerIndex player;
+            
             timeLeft = timeLimit - timeElapsed(gameTime);
 
             if (timeLeft <= 0)
             {
                 finished = true;
+                multiplier = 0.7f + ((count - 15) / 10);
             }
             else if (action.Evaluate(state, null, out player))
             {
@@ -86,10 +87,5 @@ namespace Titanium.Gambits
             return (int)font.MeasureString("Times Pressed: " + count + "\nTime Left: " + TimeSpan.FromMilliseconds(timeLeft)).X;
         }
 
-        public override bool isComplete(out float multiplier)
-        {
-            multiplier = 1f + ((count - 15)/100);
-            return finished;
-        }
     }
 }
