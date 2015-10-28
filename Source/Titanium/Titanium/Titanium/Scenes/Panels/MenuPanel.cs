@@ -11,7 +11,7 @@ namespace Titanium.Scenes.Panels
     /// <summary>
     /// Class represents a single menu to be drawn on the game screen
     /// </summary>
-    class MenuPanel: Panel
+    public class MenuPanel: Panel
     {
         string title;
         SpriteFont font;

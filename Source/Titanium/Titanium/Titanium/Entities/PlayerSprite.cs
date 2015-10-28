@@ -13,7 +13,7 @@ namespace Titanium.Entities
 {
     
 
-    class PlayerSprite: Sprite
+    public class PlayerSprite: Sprite
     {
         // The Input actions associated with the actions the player can perform
         static InputAction quick;

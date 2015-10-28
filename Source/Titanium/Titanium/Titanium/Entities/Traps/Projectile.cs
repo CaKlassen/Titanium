@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Titanium.Scenes;
+using Titanium.Utilities;
 
 namespace Titanium.Entities.Traps
 {
@@ -13,14 +14,27 @@ namespace Titanium.Entities.Traps
     {
         //attributes
         public Model myModel;
-        private float scale = 1f;
+        private float scale = 0.5f;
         private float modelOrientation = 0.0f;
+        private Boolean dead;
 
         Vector3 position;
-        static Vector3 VELOCITY = new Vector3(10,10,10);
+
+        private static float AbsVel = 5; //absolute value of velocity regardless of direction
+        private Vector3 velocity = new Vector3(AbsVel, 0, AbsVel);
+
+        public static int LIFE_SPAN = 110;
+        float lifeSpan = LIFE_SPAN;
+        
+
 
         private int damage;
         
+        public Boolean Dead
+        {
+            get { return dead; }
+            set { dead = value; }
+        }
 
         /// <summary>
         /// creates new projectile based on starting position and
@@ -37,17 +51,19 @@ namespace Titanium.Entities.Traps
         /// <param name="position">Initial spawn position.</param>
         /// <param name="direction">Direction of projectile given by a Vector3.</param>
         /// <param name="damage">amount of damage this projectile inflicts.</param>
-        public Projectile(Vector3 position, Vector3 direction, int damage)
+        public Projectile(Vector3 position, Vector3 direction, int damage, Model m)
         {
             this.position = position;
-            VELOCITY *= direction;
-            this.damage = damage; 
+            velocity *= direction;
+            this.damage = damage;
+            dead = false;
+            myModel = m;
         }
 
-        public void LoadModel(ContentManager cm, float aspectRatio)
-        {
-            myModel = cm.Load<Model>("Models/hero");//change to actual model
-        }
+        //public void LoadModel(ContentManager cm, float aspectRatio)
+        //{
+        //    myModel = cm.Load<Model>("Models/enemy");//change to actual model
+        //}
 
         public override void Draw(SpriteBatch sb)
         {
@@ -79,7 +95,27 @@ namespace Titanium.Entities.Traps
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            position += VELOCITY;
+            //float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //lifeSpan -= elapsedTime;
+            lifeSpan -= AbsVel;
+            position += velocity;
+
+            //if collision true
+            if(PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, this))
+            {
+                //take away life and set death flag
+                PartyUtils.inflictPartyDamage(10);
+                dead = true;
+            }else if (lifeSpan <= 0)
+            {
+                //fire projectile
+                dead = true;
+            }
+        }
+
+        public Vector3 getPosition()
+        {
+            return position;
         }
 
     }

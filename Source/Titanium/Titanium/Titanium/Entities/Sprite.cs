@@ -10,7 +10,7 @@ using Titanium.Battle;
 
 namespace Titanium.Entities
 {
-    class Sprite : Entity
+    public class Sprite : Entity
     {
         protected Rectangle sourceRect, destRect;
         private double elapsed, delay;
@@ -87,7 +87,8 @@ namespace Titanium.Entities
             }
         }
 
-
+        public int getHealth() { return rawStats.currentHP; }
+        public int getMana() { return rawStats.currentMP; }
        
 
 

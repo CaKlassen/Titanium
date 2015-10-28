@@ -13,7 +13,7 @@ namespace Titanium.Gambits
     /// <summary>
     /// Represents the gambit that has the player repeatedly press a button in a certain time frame;
     /// </summary>
-    class Mash: BaseGambit
+    public class Mash: BaseGambit
     {
         // The number of times the user has pressed the button
         private int count = 0;

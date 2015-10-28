@@ -12,6 +12,7 @@ using Titanium.Entities;
 using Titanium.Arena;
 using Titanium.Utilities;
 using Titanium.Battle;
+using Titanium.Entities.Traps;
 
 namespace Titanium.Scenes
 {
@@ -39,12 +40,12 @@ namespace Titanium.Scenes
         ContentManager content;
 
         public ArenaController controller;
-        private Character Hero;
+        public Character Hero;
         public Camera camera;
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
-
+        
         public List<Entity> collidables;
 
         /**
@@ -116,7 +117,7 @@ namespace Titanium.Scenes
             //update Character
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPosition());
-
+            
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {

@@ -283,6 +283,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Dispenser.fbx">
+      <Name>Dispenser</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Projectile.fbx">
+      <Name>Projectile</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <Compile Include="ButtonIcons\RightThumbCCW.tga">
       <Name>RightThumbCCW</Name>
       <Importer>TextureImporter</Importer>

@@ -14,7 +14,7 @@ namespace Titanium.Gambits
     /// <summary>
     /// Gambit that has the user perform a series of inputs correctly and within a certain time frame
     /// </summary>
-    class Combo : BaseGambit
+    public class Combo : BaseGambit
     {
         // Sound Effects
         SoundEffect sfxSuccess;
