@@ -129,7 +129,37 @@ namespace Titanium.Battle
         /// </summary>
         public Encounter()
         {
+            /************************************************
+            Sprite Creation Area; to be done via file parsing
+            ************************************************/
+            List<PlayerSprite> heroList = new List<PlayerSprite>()
+            {
+                new PlayerSprite(),
+                new PlayerSprite()
+            };
+            loadStats(heroList.Cast<Sprite>().ToList(), "PlayerFile.txt");
+            heroes = new PlayerSpritePanel(heroList, SpritePanel.Side.east);
 
+            List<Sprite> enemyList = new List<Sprite>
+            {
+                new Sprite(),
+                new Sprite()
+            };
+            loadStats(enemyList, "Stage_1_1.txt");
+            enemies = new SpritePanel(enemyList, SpritePanel.Side.west);
+
+
+        }
+
+
+        public void loadStats(List<Sprite> l, String target)
+        {
+            String path = "Content/Stats/";
+            List<UnitStats> tempList = new List<UnitStats>();
+            FileUtils myFileUtil = new FileUtils();
+            tempList = myFileUtil.FileToSprite(path + target);
+            for (int i = 0; i < l.Count; ++i)
+                l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
         }
 
         /// <summary>
