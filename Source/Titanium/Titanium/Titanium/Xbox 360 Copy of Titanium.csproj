@@ -41,6 +41,7 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <XnaCompressContent>true</XnaCompressContent>
+    <LangVersion>4</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\TitaniumContent\TitaniumContent.contentproj">
