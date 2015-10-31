@@ -72,7 +72,8 @@ namespace Titanium.Entities
         public void quickAttack(Sprite s, float multiplier)
         {
             targetRect = s.originalRect;
-            changeState(State.Run);
+            changeState(State.Running);
+            
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * 0.5);
@@ -88,7 +89,7 @@ namespace Titanium.Entities
         public void normalAttack(Sprite s, float multiplier)
         {
             targetRect = s.originalRect;
-            changeState(State.Run);
+            changeState(State.Running);
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
@@ -104,7 +105,7 @@ namespace Titanium.Entities
         public void strongAttack(Sprite s, float multiplier)
         {
             targetRect = s.originalRect;
-            changeState(State.Run);
+            changeState(State.Running);
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
@@ -135,7 +136,7 @@ namespace Titanium.Entities
         /// <param name="inputState">The state of the inputs</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            if (state != UnitState.resting)
+            //if (state != UnitState.resting)
                 base.Update(gameTime, inputState);
         }
 
