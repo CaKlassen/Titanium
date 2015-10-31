@@ -26,6 +26,7 @@ namespace Titanium.Entities.Items
         public Potion(Vector3 position, float healPrecentage)
         {
             HealPercent = healPrecentage;
+            Position = position;
         }
 
 
@@ -67,6 +68,7 @@ namespace Titanium.Entities.Items
             if(PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, this))
             {
                 //heal party members a certain precentage
+                PartyUtils.HealParty(HealPercent);
             }
         }
 
