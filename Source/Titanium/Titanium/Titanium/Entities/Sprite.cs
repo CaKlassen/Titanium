@@ -107,9 +107,7 @@ namespace Titanium.Entities
         **/
         public void takeDamage(int damage)
         {
-            Console.WriteLine(rawStats.name + " has " + rawStats.currentHP + " hp.");
             this.rawStats.currentHP -= damage;
-            Console.WriteLine(rawStats.name + " has taken " + damage + " damage!");
             checkDeath();
             combatInfo.update(rawStats);
         }
