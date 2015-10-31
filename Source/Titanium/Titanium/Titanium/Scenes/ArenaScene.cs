@@ -45,7 +45,10 @@ namespace Titanium.Scenes
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
-        
+
+        //test spikes
+        Spikes spikeTrap;
+
         public List<Entity> collidables;
 
         /**
@@ -100,6 +103,10 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
 
+            //test spikes
+            spikeTrap = new Spikes(baseArena[0, 0].getModelPos());
+            spikeTrap.LoadModel(content);
+
             table = new ArenaTable(getStartTile(), content);
             skybox = new ArenaSkybox(getStartTile(), content);
 
@@ -117,7 +124,10 @@ namespace Titanium.Scenes
             //update Character
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPosition());
-            
+
+            //spike test
+            spikeTrap.Update(gameTime, inputState);
+
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
@@ -176,6 +186,9 @@ namespace Titanium.Scenes
 
             //Draw character
             Hero.Draw(sb);
+
+            //test spikes
+            spikeTrap.Draw(sb);
         }
 
         /**

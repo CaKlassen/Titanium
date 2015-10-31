@@ -59,6 +59,7 @@ namespace Titanium.Entities.Traps
             Orientation = orientation;
             ProjectileDamage = projectileDamage;
             Projectiles = new List<Projectile>();
+            setModelOrientation();
         }
 
 
@@ -132,7 +133,7 @@ namespace Titanium.Entities.Traps
                     {
                         //effect.EnableDefaultLighting();//lighting
                         ArenaScene.instance.camera.SetLighting(effect);
-                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelOrientation)
+                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(MathHelper.ToRadians(modelOrientation))
                             * Matrix.CreateTranslation(Position);
                         effect.View = ArenaScene.instance.camera.getView();
                         effect.Projection = ArenaScene.instance.camera.getProjection();
@@ -166,7 +167,7 @@ namespace Titanium.Entities.Traps
                 case ArenaTiles.CORNER_BL:
                 {
                     dir.X = -1;
-                    dir.Z = 1;
+                    dir.Z = 1;                    
                     break;
                 }
 
@@ -216,5 +217,66 @@ namespace Titanium.Entities.Traps
 
             return dir;
         }
+
+        /// <summary>
+        /// sets the models orientation
+        /// </summary>
+        private void setModelOrientation()
+        {
+            switch((int)Orientation.X)
+            {
+                case 1:
+                {
+                    if(Orientation.Z == 1)
+                    {
+                        modelOrientation = -135f;
+                    }
+                    
+                    if(Orientation.Z == -1)
+                    {
+                        modelOrientation = -45f;
+                    }
+
+                    if(Orientation.Z == 0)
+                    {
+                        modelOrientation = -90f;
+                    }
+                    break;
+                }
+                case -1:
+                {
+                    if (Orientation.Z == 1)
+                    {
+                        modelOrientation = 135f;
+                    }
+
+                    if (Orientation.Z == -1)
+                    {
+                        modelOrientation = 45f;
+                    }
+
+                    if (Orientation.Z == 0)
+                    {
+                        modelOrientation = 90f;
+                    }
+                    break;
+                }
+                case 0:
+                {
+                    if (Orientation.Z == 1)
+                    {
+                        modelOrientation = 180f;
+                    }
+
+                    if (Orientation.Z == -1)
+                    {
+                        modelOrientation = 0f;
+                    }
+                    break;
+                }
+
+            }
+        }
+
     }
 }
