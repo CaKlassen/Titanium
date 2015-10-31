@@ -94,6 +94,10 @@ namespace Titanium.Entities
                     }
                     elapsed = 0;
                 }
+                if (currentState == State.Run)
+                {
+                    updateRun();
+                }
                 sourceRect = new Rectangle(currentSpriteFile.Width / frameCount * frames, 0, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 if (currentState == State.Hurt)
                 {
@@ -107,10 +111,6 @@ namespace Titanium.Entities
                         hurtFrameCount++;
                     }
                 }
-                if (currentState == State.Run)
-                {
-                    updateRun();
-                }
             }
         }
 
@@ -120,23 +120,27 @@ namespace Titanium.Entities
 
             if (this.destRect.X + this.destRect.Width < this.targetRect.X)
             {
-                this.destRect.X+=5;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X+=5, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
             else if (this.destRect.X > this.targetRect.X + this.targetRect.Width)
             {
-                this.destRect.X-=5;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X-=5, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
 
             if (this.destRect.Y < this.targetRect.Y)
             {
-                this.destRect.Y+=5;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X, tempRect.Y+=5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
             else if (this.destRect.Y < this.targetRect.Y)
             {
-                this.destRect.Y-=5;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X, tempRect.Y-=5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
 
