@@ -135,10 +135,11 @@ namespace Titanium.Battle
             List<PlayerSprite> heroList = new List<PlayerSprite>()
             {
                 new PlayerSprite(),
+                new PlayerSprite(),
                 new PlayerSprite()
             };
             loadStats(heroList.Cast<Sprite>().ToList(), "PlayerFile.txt");
-            heroes = new PlayerSpritePanel(heroList, SpritePanel.Side.east);
+            heroes = new PlayerSpritePanel(heroList, SpritePanel.Side.west);
 
             List<Sprite> enemyList = new List<Sprite>
             {
@@ -146,7 +147,7 @@ namespace Titanium.Battle
                 new Sprite()
             };
             loadStats(enemyList, "Stage_1_1.txt");
-            enemies = new SpritePanel(enemyList, SpritePanel.Side.west);
+            enemies = new SpritePanel(enemyList, SpritePanel.Side.east);
 
 
         }
@@ -209,7 +210,7 @@ namespace Titanium.Battle
             // If all the player characters have acted then it is the enemy's turn
             if (heroes.finished())
                 state = BattleState.enemy;
-
+            
             switch (state)
             {
                 case BattleState.targeting:
@@ -275,6 +276,7 @@ namespace Titanium.Battle
                 default:
                     break;
             }
+
             heroes.update(gameTime, inputState);
             enemies.update(gameTime, inputState);
         }

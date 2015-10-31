@@ -44,7 +44,7 @@ namespace Titanium.Scenes.Panels
             foreach (Sprite sprite in sprites)
                 sprite.Load(content);
 
-            height = sprites[0].height();
+            height = sprites[0].getHeight();
 
             this.content = content;
 
@@ -102,7 +102,7 @@ namespace Titanium.Scenes.Panels
                     break;
                 case Side.east:
                 default:
-                    Origin = new Vector2(view.Width - sprites[0].width() - 200, 0 );
+                    Origin = new Vector2(view.Width - sprites[0].getWidth() - 200, 0 );
                     break;
             }
             foreach(Sprite sprite in sprites)
@@ -153,7 +153,10 @@ namespace Titanium.Scenes.Panels
         public void act(List<Sprite> players)
         {
             foreach (Sprite sprite in sprites)
-                sprite.quickAttack(players[0]);
+            {
+                int target = new Random().Next(0, players.Count - 1);
+                sprite.quickAttack(players[target]);
+            }
         }
 
         
