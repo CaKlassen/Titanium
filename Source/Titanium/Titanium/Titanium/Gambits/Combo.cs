@@ -54,6 +54,16 @@ namespace Titanium.Gambits
                 true
             ),
             new InputAction(
+                new Buttons[] { Buttons.LeftTrigger },
+                new Keys[] { Keys.Q },
+                true
+            ),
+            new InputAction(
+                new Buttons[] { Buttons.RightTrigger },
+                new Keys[] { Keys.W },
+                true
+            ),
+            new InputAction(
                 new Buttons[] { Buttons.DPadUp },
                 new Keys[] { Keys.Up },
                 true

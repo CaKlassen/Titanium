@@ -100,35 +100,35 @@ namespace Titanium
             switch (btn)
             {
                 case Buttons.A:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonA");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Face-A");
                 case Buttons.B:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonB");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Face-B");
                 case Buttons.X:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonX");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Face-X");
                 case Buttons.Y:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonY");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Face-Y");
                 case Buttons.LeftShoulder:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerLeftShoulder");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Shoulder-Left");
                 case Buttons.RightShoulder:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerRightShoulder");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Shoulder-Right");
                 case Buttons.LeftTrigger:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerLeftTrigger");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Trigger-Left");
                 case Buttons.RightTrigger:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerRightTrigger");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Trigger-Right");
                 case Buttons.DPadUp:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadUp");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-DPad-Up");
                 case Buttons.DPadDown:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadDown");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-DPad-Down");
                 case Buttons.DPadLeft:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadLeft");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-DPad-Left");
                 case Buttons.DPadRight:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerDPadRight");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-DPad-Right");
                 case Buttons.Start:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerStart");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Oval-Start");
                 case Buttons.Back:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerBack");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Oval-Back");
                 default:
-                    return content.Load<Texture2D>("ButtonIcons/xboxControllerButtonA");
+                    return content.Load<Texture2D>("ButtonIcons/HUD-Face-A");
             }
         }
     }
