@@ -89,8 +89,8 @@ namespace Titanium.Gambits
         {
             font = content.Load<SpriteFont>("TestFont");
 
-            icons[0] = content.Load<Texture2D>("ButtonIcons/RightThumbCW");
-            icons[1] = content.Load<Texture2D>("ButtonIcons/RightThumbCCW");
+            icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
+            icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
         }
 
         public override int totalHeight()
