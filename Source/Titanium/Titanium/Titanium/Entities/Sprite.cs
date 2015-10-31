@@ -92,7 +92,15 @@ namespace Titanium.Entities
        
 
 
-
+        /// <summary>
+        /// currently for Arena potion pick up.
+        /// </summary>
+        /// <param name="healPercent">percentage of health to heal</param>
+        public void heal(float healPercent)
+        {
+            int healAmount = (int)healPercent / this.rawStats.baseHP;
+            this.rawStats.currentHP += healAmount;
+        }
 
         /**
         *COMBAT STARTS HERE

@@ -64,6 +64,22 @@ namespace Titanium.Utilities
             return result;
         }
 
+        /// <summary>
+        /// Heals the party members by a percentage
+        /// </summary>
+        /// <param name="percentage">percent to heal the party by</param>
+        /// <returns></returns>
+        public static int[] HealParty(float percentage)
+        {
+            int[] result = new int[partyMembers.Count];
+            for (int i = 0; i < partyMembers.Count; ++i)
+            {
+                partyMembers[i].heal(percentage);
+                result[i] = partyMembers[i].getHealth();
+            }
+            return result;
+        }
+
         public static void loadStats(List<Sprite> l, String target)
         {
             String path = "Content/Stats/";

@@ -10,6 +10,7 @@ using Titanium.Scenes;
 using Titanium.Utilities;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace Titanium.Entities
 {
     public enum ForwardDir {UP, DOWN, LEFT, RIGHT};
