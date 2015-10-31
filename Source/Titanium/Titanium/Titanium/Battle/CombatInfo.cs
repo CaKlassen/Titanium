@@ -66,7 +66,13 @@ namespace Titanium.Battle
 
         public void move(Rectangle tempRect)
         {
-            frameRect = new Rectangle(tempRect.X + tempRect.Width, tempRect.Y, barFrame.Width / 2, 20);
+            if(tempRect.X < GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/2)
+            {
+                frameRect = new Rectangle(tempRect.X - barFrame.Width/2, tempRect.Y + 50, barFrame.Width / 2, 20);
+            } else
+            {
+                frameRect = new Rectangle(tempRect.X + tempRect.Width, tempRect.Y + 50, barFrame.Width / 2, 20);
+            }
             destRect = frameRect;
         }
 

@@ -33,7 +33,6 @@ namespace Titanium.Entities
         }
         public UnitState state;
 
-
         // Initialize the actions
         static PlayerSprite()
         {
@@ -72,6 +71,9 @@ namespace Titanium.Entities
         /// <param name="multiplier">The multiplier of the attack</param>
         public void quickAttack(Sprite s, float multiplier)
         {
+            targetRect = s.originalRect;
+            changeState(State.Running);
+            
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * 0.5);
@@ -86,6 +88,8 @@ namespace Titanium.Entities
         /// <param name="multiplier">The multiplier of the attack</param>
         public void normalAttack(Sprite s, float multiplier)
         {
+            targetRect = s.originalRect;
+            changeState(State.Running);
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
@@ -100,6 +104,8 @@ namespace Titanium.Entities
         /// <param name="multiplier">The multiplier of the attack</param>
         public void strongAttack(Sprite s, float multiplier)
         {
+            targetRect = s.originalRect;
+            changeState(State.Running);
             int damageDone = 0;
             damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
             damageDone = (int)Math.Round(damageDone * multiplier);
@@ -116,9 +122,9 @@ namespace Titanium.Entities
             bool active = state == UnitState.selected || state == UnitState.gambit || state == UnitState.targeting;
 
             if(active)
-                sb.Draw(spriteFile, destRect, sourceRect, Color.White);
+                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
             else
-                sb.Draw(spriteFile, destRect, sourceRect, Color.Gray);
+                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Gray);
 
             combatInfo.draw(sb);
         }
@@ -130,7 +136,7 @@ namespace Titanium.Entities
         /// <param name="inputState">The state of the inputs</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            if (state != UnitState.resting)
+            //if (state != UnitState.resting)
                 base.Update(gameTime, inputState);
         }
 
