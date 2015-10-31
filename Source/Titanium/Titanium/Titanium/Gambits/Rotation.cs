@@ -24,7 +24,7 @@ namespace Titanium.Gambits
 
         Texture2D icon;
 
-        bool clockwise;
+        bool? clockwise;
 
         static InputAction left, right, up, down;
 
@@ -63,6 +63,24 @@ namespace Titanium.Gambits
             icons = new Texture2D[2];
         }
 
+        public Rotation(int timeLimit) : base()
+        {
+            icons = new Texture2D[2];
+            this.timeLimit = timeLimit;
+        }
+
+        public Rotation(bool clockwise) : base()
+        {
+            icons = new Texture2D[2];
+        }
+
+        public Rotation(int timeLimit, bool clockwise) : base()
+        {
+            icons = new Texture2D[2];
+            this.timeLimit = timeLimit;
+            this.clockwise = clockwise;
+        }
+
         public override void draw(SpriteBatch sb)
         {
             if (v == null)
@@ -79,8 +97,11 @@ namespace Titanium.Gambits
         {
             current = 0;
             count = 0;
-            clockwise = new Random(gameTime.TotalGameTime.Milliseconds).Next(2) == 0;
-            icon = icons[clockwise ? 0 : 1];
+
+            if(clockwise == null)
+                clockwise = new Random(gameTime.TotalGameTime.Milliseconds).Next(2) == 0;
+
+            icon = icons[clockwise.GetValueOrDefault() ? 0 : 1];
             timeLeft = timeLimit;
             base.start(gameTime);
         }
@@ -156,7 +177,7 @@ namespace Titanium.Gambits
                     break;
             }
 
-            if (!clockwise)
+            if (!clockwise.GetValueOrDefault())
                 actions.Reverse();
 
             circle = actions.ToArray();
