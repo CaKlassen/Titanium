@@ -37,6 +37,7 @@ namespace Titanium.Entities
         //private SpriteBatch spriteBatch;
         //private String modelPath;
         private Vector3 modelPosition;
+        private int stepsTaken;
         
         private float rotAngle;
         private float scale;
@@ -87,7 +88,7 @@ namespace Titanium.Entities
             modelRotation = 0.0f;
 
             myModel = null;
-
+            stepsTaken = 0;
 
         }
 
@@ -218,6 +219,8 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
+
+                   stepsTaken++;
                 }
 
                 rotAngle = MathHelper.ToRadians(180);
@@ -232,6 +235,8 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
+
+                    stepsTaken++;
                 }
 
                 rotAngle = MathHelper.ToRadians(0);
@@ -247,6 +252,8 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
+
+                    stepsTaken++;
                 }
 
                 rotAngle = MathHelper.ToRadians(270);
@@ -261,6 +268,8 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
+
+                    stepsTaken++;
                 }
 
                 rotAngle = MathHelper.ToRadians(90);
@@ -268,6 +277,24 @@ namespace Titanium.Entities
 
             //update model rotation
             modelRotation = rotAngle;           
+        }
+
+        /// <summary>
+        /// gets the number of steps the character has taken
+        /// </summary>
+        /// <returns></returns>
+        public int getSteps()
+        {
+            return stepsTaken;
+        }
+
+
+        /// <summary>
+        /// resets the amount of steps taken by the character to 0
+        /// </summary>
+        public void resetSteps()
+        {
+            stepsTaken = 0;
         }
 
 
