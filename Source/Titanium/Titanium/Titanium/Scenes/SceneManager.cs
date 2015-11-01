@@ -23,16 +23,18 @@ namespace Titanium.Scenes
     class SceneManager : DrawableGameComponent
     {
         public static int NUM_SCENESTATES = 3;
+        public static int WAIT_TIME = 15;
 
         Scene[] scenes = new Scene[NUM_SCENESTATES];
 
         SceneState currentScene;
         SceneState nextScene;
         Texture2D curtains;
-        static int transitionSpeed = 10;
+        static int transitionSpeed = 7;
         float transitionPosition;
         int midPoint;
         InputState input = new InputState();
+        private int waitTime = WAIT_TIME;
 
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -44,6 +46,7 @@ namespace Titanium.Scenes
         {
             transitionOff,
             transitionOn,
+            wait,
             active
         }
         State state;
@@ -168,16 +171,31 @@ namespace Titanium.Scenes
             {
                 case State.transitionOff:
                     transitionPosition += MathUtils.smoothChange(transitionPosition, midPoint+1, transitionSpeed);
-                    if (transitionPosition >= midPoint)
+                    if (transitionPosition >= midPoint - 1f)
                     {
+                        transitionPosition = midPoint;
+                        state = State.wait;
+                    }
+                    break;
+                case State.wait:
+                    if (waitTime > 0)
+                    {
+                        waitTime--;
+                    }
+                    else
+                    {
+                        waitTime = WAIT_TIME;
                         state = State.transitionOn;
                         currentScene = nextScene;
                     }
                     break;
                 case State.transitionOn:
                     transitionPosition += MathUtils.smoothChange(transitionPosition, -1, transitionSpeed);
-                    if (transitionPosition <= 0)
+                    if (transitionPosition <= 1f)
+                    {
                         state = State.active;
+                        transitionPosition = 0;
+                    }
                     break;
                 default:
                     break;
@@ -197,6 +215,7 @@ namespace Titanium.Scenes
             switch (state)
             {
                 case State.transitionOff:
+                case State.wait:
                 case State.transitionOn:
                     SpriteBatch.Begin();
                     SpriteBatch.Draw(curtains, new Vector2(transitionPosition - midPoint, 0), Color.White);

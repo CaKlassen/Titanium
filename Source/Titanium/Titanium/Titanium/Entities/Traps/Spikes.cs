@@ -14,13 +14,13 @@ namespace Titanium.Entities.Traps
     {
         public Model myModel;
         private Vector3 Position;
-        private float scale = 1f;
+        private float scale = 0.5f;
         private float modelOrientation = 0f;
         private bool collisions;
 
         const float TIMER = 1.5f;
         float timer = TIMER;
-        private static float SPIKES_LOWERED = -10;
+        private static float SPIKES_LOWERED = -30;
         private static float SPIKES_RAISED = 0;
         /// <summary>
         /// contstructor.
@@ -35,7 +35,7 @@ namespace Titanium.Entities.Traps
 
         public void LoadModel(ContentManager cm)
         {
-            myModel = cm.Load<Model>("Models/hero");
+            myModel = cm.Load<Model>("Models/Spikes");
         }
 
         public override void Draw(SpriteBatch sb)
