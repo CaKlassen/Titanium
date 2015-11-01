@@ -64,17 +64,17 @@ namespace Titanium.Entities.Items
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            //collision
-            if(PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, this))
-            {
-                //heal party members a certain precentage
-                PartyUtils.HealParty(HealPercent);
-            }
+
         }
 
         public Vector3 getPosition()
         {
             return Position;
+        }
+
+        public float getHealPercent()
+        {
+            return HealPercent;
         }
     }
 }
