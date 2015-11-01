@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -25,8 +26,12 @@ namespace Titanium.Scenes
 
         Scene[] scenes = new Scene[NUM_SCENESTATES];
 
-        SceneState currentState;
-
+        SceneState currentScene;
+        SceneState nextScene;
+        Texture2D curtains;
+        static int transitionSpeed = 10;
+        float transitionPosition;
+        int midPoint;
         InputState input = new InputState();
 
         SpriteBatch spriteBatch;
@@ -34,6 +39,14 @@ namespace Titanium.Scenes
         ContentManager content;
 
         bool isInitialized;
+
+        enum State
+        {
+            transitionOff,
+            transitionOn,
+            active
+        }
+        State state;
 
         /// <summary>
         /// A default SpriteBatch shared by all the scenes. This saves
@@ -44,7 +57,7 @@ namespace Titanium.Scenes
             get { return spriteBatch; }
         }
 
-
+        
         /// <summary>
         /// A default font shared by all the scenes. This saves
         /// each screen having to bother loading their own local copy.
@@ -63,8 +76,6 @@ namespace Titanium.Scenes
             registerScene(new ArenaScene(), SceneState.arena);
             registerScene(new BattleScene(), SceneState.battle);
 
-            currentState = SceneState.main;
-            
         }
 
 
@@ -83,11 +94,22 @@ namespace Titanium.Scenes
         /// </summary>
         protected override void LoadContent()
         {
+            midPoint = GraphicsDevice.Viewport.Width/2;
+
             // Load content belonging to the screen manager.
             content = Game.Content;
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("TestFont");
+            curtains = new Texture2D(GraphicsDevice, midPoint, GraphicsDevice.Viewport.Height);
+
+            // TODO: LOAD ACTUAL CURTAINS
+            Color[] data = new Color[curtains.Width * curtains.Height];
+            for ( int i=0; i<data.Length; ++i)
+            {
+                data[i] = Color.Black;
+            }
+            curtains.SetData(data);
 
             // Tell each of the screens to load their content.
             foreach (Scene scene in scenes)
@@ -95,6 +117,11 @@ namespace Titanium.Scenes
                 if( scene != null )
                     scene.loadScene(content);
             }
+
+            currentScene = SceneState.main;
+            nextScene = SceneState.main;
+            state = State.transitionOn;
+            transitionPosition = midPoint;
         }
 
         /// <summary>
@@ -133,11 +160,29 @@ namespace Titanium.Scenes
             // Read the keyboard and gamepad.
             input.update();
 
+            
+            if (scenes[(int)currentScene] != null)
+                scenes[(int)currentScene].update(gameTime, input);
 
-            if (scenes[(int)currentState] != null)
-                scenes[(int)currentState].update(gameTime, input);
-            else
-                throw new NullReferenceException();
+            switch (state)
+            {
+                case State.transitionOff:
+                    transitionPosition += MathUtils.smoothChange(transitionPosition, midPoint+1, transitionSpeed);
+                    if (transitionPosition >= midPoint)
+                    {
+                        state = State.transitionOn;
+                        currentScene = nextScene;
+                    }
+                    break;
+                case State.transitionOn:
+                    transitionPosition += MathUtils.smoothChange(transitionPosition, -1, transitionSpeed);
+                    if (transitionPosition <= 0)
+                        state = State.active;
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -145,10 +190,23 @@ namespace Titanium.Scenes
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            if (scenes[(int)currentState] != null)
-                scenes[(int)currentState].draw(gameTime);
-            else
-                throw new NullReferenceException();
+            
+            if (scenes[(int)currentScene] != null)
+                scenes[(int)currentScene].draw(gameTime);
+
+            switch (state)
+            {
+                case State.transitionOff:
+                case State.transitionOn:
+                    SpriteBatch.Begin();
+                    SpriteBatch.Draw(curtains, new Vector2(transitionPosition - midPoint, 0), Color.White);
+                    SpriteBatch.Draw(curtains, new Vector2(GraphicsDevice.Viewport.Width - transitionPosition, 0), Color.White);
+                    SpriteBatch.End();
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -168,11 +226,12 @@ namespace Titanium.Scenes
         /// <summary>
         /// Change the scene.
         /// </summary>
-        /// <param name="state">The scene state to transition to</param>
+        /// <param name="scene">The scene state to transition to</param>
         //TODO: animate the scene transitions
-        public void changeScene(SceneState state)
+        public void changeScene(SceneState scene)
         {
-            currentState = state;
+            this.state = State.transitionOff;
+            nextScene = scene;
         }
     }
 }
