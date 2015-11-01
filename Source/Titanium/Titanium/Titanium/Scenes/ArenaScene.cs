@@ -13,6 +13,7 @@ using Titanium.Arena;
 using Titanium.Utilities;
 using Titanium.Battle;
 using Titanium.Entities.Traps;
+using Microsoft.Xna.Framework.Storage;
 
 namespace Titanium.Scenes
 {
@@ -45,6 +46,7 @@ namespace Titanium.Scenes
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
+        public int potionsUsed;
 
         //test spikes
         Spikes spikeTrap;
@@ -73,9 +75,7 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.Enter, Keys.Space },
                 true
                 );
-
             
-
 
         }
 
@@ -109,6 +109,8 @@ namespace Titanium.Scenes
 
             table = new ArenaTable(getStartTile(), content);
             skybox = new ArenaSkybox(getStartTile(), content);
+
+            potionsUsed = 0;
 
             // Debug arena
             printDebugArena();
@@ -223,6 +225,7 @@ namespace Titanium.Scenes
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
+            potionsUsed = 0;
 
             // Debug arena
             printDebugArena();
