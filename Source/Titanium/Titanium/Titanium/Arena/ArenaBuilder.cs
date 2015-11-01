@@ -363,7 +363,22 @@ namespace Titanium
 
                     case ArenaDifficulty.MEDIUM:
                     {
+                        // Spikes
+                        Spikes spikes;
 
+                        do
+                        {
+                            tile = tiles[r.Next(height), r.Next(width)];
+                        }
+                        while (tile == startTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+
+                        // Create the spikes on the path
+                        Vector3 pos = tile.getModelPos();
+
+                        spikes = new Spikes(pos);
+                        spikes.LoadModel(Content);
+
+                        tile.addEntity(spikes);
 
                         break;
                     }
