@@ -117,9 +117,13 @@ namespace Titanium.Scenes
 
             currentEncounter.update(gameTime, inputState);
 
-            if (currentEncounter.outcome() != null)
+            if (currentEncounter.success())
             {
                 SceneManager.changeScene(SceneState.arena);
+            }
+            else if(currentEncounter.failure())
+            {
+                SceneManager.changeScene(SceneState.main);
             }
         }
 
