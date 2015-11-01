@@ -40,83 +40,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonIcons\xboxControllerBack.tga">
-      <Name>xboxControllerBack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerButtonA.tga">
-      <Name>xboxControllerButtonA</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerButtonB.tga">
-      <Name>xboxControllerButtonB</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerButtonGuide.tga">
-      <Name>xboxControllerButtonGuide</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerButtonX.tga">
-      <Name>xboxControllerButtonX</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerButtonY.tga">
-      <Name>xboxControllerButtonY</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerDPad.tga">
-      <Name>xboxControllerDPad</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerLeftShoulder.tga">
-      <Name>xboxControllerLeftShoulder</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerLeftThumbstick.tga">
-      <Name>xboxControllerLeftThumbstick</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerLeftTrigger.tga">
-      <Name>xboxControllerLeftTrigger</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerRightShoulder.tga">
-      <Name>xboxControllerRightShoulder</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerRightThumbstick.tga">
-      <Name>xboxControllerRightThumbstick</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerRightTrigger.tga">
-      <Name>xboxControllerRightTrigger</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerSpriteFont.tga">
-      <Name>xboxControllerSpriteFont</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerStart.tga">
-      <Name>xboxControllerStart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sprites\ArenaEnemy.png">
       <Name>ArenaEnemy</Name>
       <Importer>TextureImporter</Importer>
@@ -294,15 +217,10 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="ButtonIcons\RightThumbCCW.tga">
-      <Name>RightThumbCCW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\RightThumbCW.tga">
-      <Name>RightThumbCW</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Models\Spikes.fbx">
+      <Name>Spikes</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
     <None Include="Stats\PlayerFile.txt">
       <Name>PlayerFile</Name>
@@ -317,26 +235,6 @@
   <ItemGroup>
     <Compile Include="Sprites\HealthBar.png">
       <Name>HealthBar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerDPadDown.tga">
-      <Name>xboxControllerDPadDown</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerDPadLeft.tga">
-      <Name>xboxControllerDPadLeft</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerDPadRight.tga">
-      <Name>xboxControllerDPadRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ButtonIcons\xboxControllerDPadUp.tga">
-      <Name>xboxControllerDPadUp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -363,6 +261,194 @@
       <Name>Stage_1_1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Prince-Hurt-Spritesheet.png">
+      <Name>prince_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Prince-Idle-Spritesheet.png">
+      <Name>prince_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Prince-Run-Spritesheet.png">
+      <Name>prince_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Thief-Hurt-Spritesheet.png">
+      <Name>thief_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Thief-Idle-Spritesheet.png">
+      <Name>thief_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Thief-Run-Spritesheet.png">
+      <Name>thief_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Wolf-Hurt-Spritesheet.png">
+      <Name>wolf_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Wolf-Idle-Spritesheet.png">
+      <Name>wolf_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Wolf-Run-Spritesheet.png">
+      <Name>wolf_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ButtonIcons\HUD-DPad-Down.png">
+      <Name>HUD-DPad-Down</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-DPad-Left.png">
+      <Name>HUD-DPad-Left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-DPad-Right.png">
+      <Name>HUD-DPad-Right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-DPad-Up.png">
+      <Name>HUD-DPad-Up</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Face-A.png">
+      <Name>HUD-Face-A</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Face-B.png">
+      <Name>HUD-Face-B</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Face-X.png">
+      <Name>HUD-Face-X</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Face-Y.png">
+      <Name>HUD-Face-Y</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Shoulder-Left.png">
+      <Name>HUD-Shoulder-Left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Shoulder-Right.png">
+      <Name>HUD-Shoulder-Right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Trigger-Left.png">
+      <Name>HUD-Trigger-Left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Trigger-Right.png">
+      <Name>HUD-Trigger-Right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ButtonIcons\HUD-Oval-Back.png">
+      <Name>HUD-Oval-Back</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Oval-Start.png">
+      <Name>HUD-Oval-Start</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Stick-Left-CCW.png">
+      <Name>HUD-Stick-Left-CCW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Stick-Left-CW.png">
+      <Name>HUD-Stick-Left-CW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Stick-Right-CCW.png">
+      <Name>HUD-Stick-Right-CCW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ButtonIcons\HUD-Stick-Right-CW.png">
+      <Name>HUD-Stick-Right-CW</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Prince-Hurt-Spritesheet.png">
+      <Name>prince_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Prince-Idle-Spritesheet.png">
+      <Name>prince_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Prince-Run-Spritesheet.png">
+      <Name>prince_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Thief-Hurt-Spritesheet.png">
+      <Name>thief_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Thief-Idle-Spritesheet.png">
+      <Name>thief_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Thief-Run-Spritesheet.png">
+      <Name>thief_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Wolf-Hurt-Spritesheet.png">
+      <Name>wolf_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Wolf-Idle-Spritesheet.png">
+      <Name>wolf_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Wolf-Run-Spritesheet.png">
+      <Name>wolf_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
