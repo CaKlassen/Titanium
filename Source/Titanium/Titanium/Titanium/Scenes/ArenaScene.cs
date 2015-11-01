@@ -46,15 +46,8 @@ namespace Titanium.Scenes
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
-<<<<<<< HEAD
         public int potionsUsed;
 
-        //test spikes
-        Spikes spikeTrap;
-
-=======
-        
->>>>>>> 13d0456184af783fb9c33d85593c0cd2d1c41559
         public List<Entity> collidables;
 
         /**
@@ -79,11 +72,6 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.Enter, Keys.Space },
                 true
                 );
-<<<<<<< HEAD
-            
-
-=======
->>>>>>> 13d0456184af783fb9c33d85593c0cd2d1c41559
         }
 
         /**
