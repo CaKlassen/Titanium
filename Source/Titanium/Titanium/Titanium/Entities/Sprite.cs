@@ -25,8 +25,13 @@ namespace Titanium.Entities
         protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile;
         String filePath = "";
 
-        public enum State { Idle, Running, FinishedRunning, Hurt, FinishedHurting }
+
+        public enum Direction { Up, Down, Left, Right, None }
+        public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
+        public enum State { Idle, Running, FinishedRunning, Attacking, Hurt, FinishedHurting }
         protected State currentState;
+        public Sprite enemySprite;
+        public float attackMultiplier;
 
         public Sprite()
         {
@@ -38,6 +43,7 @@ namespace Titanium.Entities
             posX = 150;
             posY = 150;
             currentState = State.Idle;
+            attackMultiplier = 1.0f;
         }
 
 
@@ -52,7 +58,7 @@ namespace Titanium.Entities
             combatInfo = new CombatInfo();
             combatInfo.init(content, destRect);
             combatInfo.update(rawStats);
-            frames = 4;
+            enemySprite = new Sprite();
         }
 
         public void setParam(UnitStats u, int x, int y)
@@ -112,11 +118,16 @@ namespace Titanium.Entities
                         hurtFrameCount++;
                     }
                 }
+                if (currentState == State.Attacking)
+                {
+                    int damageDone = 0;
+                    damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * attackMultiplier);
+                    enemySprite.takeDamage(damageDone);
+                    changeState(State.Idle);
+                    destRect = originalRect;
+                }
             }
         }
-
-        public enum Direction { Up, Down, Left, Right, None }
-        public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
 
         public void updateRun()
         {
@@ -151,11 +162,9 @@ namespace Titanium.Entities
                 destRect = new Rectangle(tempRect.X, tempRect.Y-=5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
-
             if (!changed)
             {
-                changeState(State.Idle);
-                destRect = originalRect;
+                changeState(State.Attacking);
             }
         }
 
@@ -211,35 +220,31 @@ namespace Titanium.Entities
             currentState = s;
         }
 
-        public virtual bool quickAttack(Sprite s)
+        public void hitTarget(Sprite s, float multiplier)
+        {
+            this.enemySprite = s;
+            this.attackMultiplier = multiplier;
+        }
+
+        public virtual void quickAttack(Sprite s)
         {
             targetRect = s.originalRect;
             changeState(State.Running);
-
-            int damageDone = 0;
-            damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
-            damageDone = (int)Math.Round(damageDone * 0.8);
-            s.takeDamage(damageDone);
-            return false;
+            hitTarget(s, 0.8f);
         }
 
         public virtual void normalAttack(Sprite s)
         {
             targetRect = s.originalRect;
             changeState(State.Running);
-            int damageDone = 0;
-            damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
-            s.takeDamage(damageDone);
+            hitTarget(s, 1.0f);
         }
 
         public virtual void strongAttack(Sprite s)
         {
             targetRect = s.originalRect;
             changeState(State.Running);
-            int damageDone = 0;
-            damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
-            damageDone = (int)Math.Round(damageDone * 1.2);
-            s.takeDamage(damageDone);
+            hitTarget(s, 1.5f);
         }
 
         public Boolean checkDeath()

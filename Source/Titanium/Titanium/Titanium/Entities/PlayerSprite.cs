@@ -73,11 +73,7 @@ namespace Titanium.Entities
         {
             targetRect = s.originalRect;
             changeState(State.Running);
-            
-            int damageDone = 0;
-            damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
-            damageDone = (int)Math.Round(damageDone * 0.5);
-            s.takeDamage(damageDone);
+            hitTarget(s, multiplier);
             state = UnitState.resting;
         }
 
@@ -90,10 +86,7 @@ namespace Titanium.Entities
         {
             targetRect = s.originalRect;
             changeState(State.Running);
-            int damageDone = 0;
-            damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
-            damageDone = (int)Math.Round(damageDone * multiplier);
-            s.takeDamage(damageDone);
+            hitTarget(s, multiplier);
             state = UnitState.resting;
         }
 
@@ -106,10 +99,7 @@ namespace Titanium.Entities
         {
             targetRect = s.originalRect;
             changeState(State.Running);
-            int damageDone = 0;
-            damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * 1.5);
-            damageDone = (int)Math.Round(damageDone * multiplier);
-            s.takeDamage(damageDone);
+            hitTarget(s, multiplier);
             state = UnitState.resting;
         }
 
