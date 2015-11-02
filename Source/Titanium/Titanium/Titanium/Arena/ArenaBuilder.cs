@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Titanium.Arena;
 using Titanium.Entities;
 using Titanium.Entities.Traps;
+using Titanium.Entities.Items;
 
 namespace Titanium
 {
@@ -56,6 +57,7 @@ namespace Titanium
 
         private Tile[,] tiles;
         private Tile startTile;
+        private Tile endTile;
 
         private int width;
         private int height;
@@ -109,6 +111,9 @@ namespace Titanium
 
             // Generate the obstacles in the arena
             generateObstacles();
+
+            // Generate the potion in the arena
+            generatePotion();
 
             return tiles;
         }
@@ -276,6 +281,7 @@ namespace Titanium
 
             // Add the exit door to the tile
             curTile.addEntity(new ArenaExit(curTile, Content));
+            endTile = curTile;
         }
         
         /// <summary>
@@ -317,7 +323,7 @@ namespace Titanium
                     x = r.Next(width);
                     y = r.Next(height);
                 }
-                while (tiles[y, x].getNumConnections() == 0 || tiles[y, x] == startTile);
+                while (tiles[y, x].getNumConnections() == 0 || tiles[y, x] == endTile || tiles[y, x] == startTile);
 
                 // Create an enemy
                 tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content));
@@ -345,7 +351,7 @@ namespace Titanium
                         {
                             tile = tiles[r.Next(height), r.Next(width)];
                         }
-                        while (tile == startTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+                        while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
 
                         // Create the dispenser to fire across the path
                         Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
@@ -370,7 +376,7 @@ namespace Titanium
                         {
                             tile = tiles[r.Next(height), r.Next(width)];
                         }
-                        while (tile == startTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+                        while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0);
 
                         // Create the spikes on the path
                         Vector3 pos = tile.getModelPos();
@@ -391,6 +397,29 @@ namespace Titanium
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// This function generates the potion for the arena
+        /// </summary>
+        private void generatePotion()
+        {
+            Tile tile;
+            Potion potion;
+
+            do
+            {
+                tile = tiles[r.Next(height), r.Next(width)];
+            }
+            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() != 1);
+
+            // Create the potion
+            Vector3 pos = tile.getModelPos();
+
+            potion = new Potion(pos, 1);
+            potion.LoadModel(Content);
+
+            tile.addEntity(potion);
         }
 
         /// <summary>
