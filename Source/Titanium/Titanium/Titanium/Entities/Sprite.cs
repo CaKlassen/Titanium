@@ -15,7 +15,7 @@ namespace Titanium.Entities
         protected Rectangle sourceRect, targetRect;
         public Rectangle destRect, originalRect;
         private double elapsed, delay;
-        protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount;
+        protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount;
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
 
@@ -68,6 +68,7 @@ namespace Titanium.Entities
             this.posY = y;
             this.filePath += rawStats.model;
             this.frameCount = rawStats.modelFrameCount;
+            this.idleFrameCount = this.frameCount;
             this.rawStats.normalize();
         }
 
@@ -218,7 +219,7 @@ namespace Titanium.Entities
                     break;
                 case State.Idle:
                     this.currentSpriteFile = idleFile;
-                    this.frameCount = 1;
+                    this.frameCount = this.idleFrameCount;
                     break;
             }
             currentState = s;
