@@ -91,6 +91,7 @@
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\FileUtils.cs" />
+    <Compile Include="Utilities\HighScoreUtils.cs" />
     <Compile Include="Utilities\MathUtils.cs" />
     <Compile Include="Utilities\PartyUtils.cs" />
     <Compile Include="Utilities\PhysicsUtils.cs" />
@@ -112,6 +113,7 @@
     <Reference Include="Microsoft.Xna.Framework.Game" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
     <Reference Include="Microsoft.Xna.Framework.Graphics" />
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

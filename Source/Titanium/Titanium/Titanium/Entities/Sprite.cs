@@ -184,6 +184,10 @@ namespace Titanium.Entities
             this.rawStats.currentHP += healAmount;
         }
 
+        public int getBaseHP()
+        {
+            return this.rawStats.baseHP;
+        }
         /**
         *COMBAT STARTS HERE
         **/

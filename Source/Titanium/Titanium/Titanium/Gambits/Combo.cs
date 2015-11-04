@@ -113,7 +113,14 @@ namespace Titanium.Gambits
             icons = new List<Texture2D>();
         }
 
-        
+        public Combo(int comboLength, int timeLimit) : base()
+        {
+            comboString = makeComboString(DateTime.Now.Millisecond);
+            icons = new List<Texture2D>();
+            this.timeLimit = timeLimit;
+            this.length = comboLength;
+        }
+
         public override void start(GameTime gameTime)
         {
             current = 0;

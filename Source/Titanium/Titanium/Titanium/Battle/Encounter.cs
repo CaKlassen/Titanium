@@ -57,6 +57,8 @@ namespace Titanium.Battle
 
         ContentManager content;
 
+        bool resolved;
+
         /// <summary>
         /// Initialize the actions
         /// </summary>
@@ -172,6 +174,7 @@ namespace Titanium.Battle
             this.content = content;
             heroes.load(content);
             enemies.load(content);
+            resolved = false;
         }
 
         /// <summary>
@@ -293,18 +296,25 @@ namespace Titanium.Battle
             return null;
         }
 
-        /// <summary>
-        /// Returns the result of this encounter
-        /// </summary>
-        /// <returns>true if all the enemies are dead, false if all the players are dead. null otherwise.</returns>
-        public bool? outcome()
+        public bool success()
         {
-            if (enemies.dead())
+            if (enemies.dead() && !resolved)
+            {
+                resolved = true;
                 return true;
-            else if (heroes.dead())
-                return false;
-            else
-                return null;
+            }
+            return false;            
+        }
+
+        public bool failure()
+        {
+            if (heroes.dead() && !resolved)
+            {
+                resolved = true;
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -59,13 +59,13 @@ namespace Titanium.Entities
 
             if (numEnemies == 0)
             {
-                ArenaScene.instance.loadNewArena(curDifficulty);
-
                 // Increment the difficulty
                 if (curDifficulty != ArenaDifficulty.HARD)
                 {
                     curDifficulty++;
                 }
+
+                ArenaScene.instance.loadNewArena(curDifficulty);
             }
         }
         

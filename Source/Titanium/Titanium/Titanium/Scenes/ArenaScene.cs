@@ -13,6 +13,7 @@ using Titanium.Arena;
 using Titanium.Utilities;
 using Titanium.Battle;
 using Titanium.Entities.Traps;
+using Microsoft.Xna.Framework.Storage;
 
 namespace Titanium.Scenes
 {
@@ -45,9 +46,7 @@ namespace Titanium.Scenes
         private ArenaTable table;
         private ArenaSkybox skybox;
         private BasicEffect effect;
-
-        //test spikes
-        Spikes spikeTrap;
+        public int potionsUsed;
 
         public List<Entity> collidables;
 
@@ -73,10 +72,6 @@ namespace Titanium.Scenes
                 new Keys[] { Keys.Enter, Keys.Space },
                 true
                 );
-
-            
-
-
         }
 
         /**
@@ -102,13 +97,11 @@ namespace Titanium.Scenes
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
-
-            //test spikes
-            spikeTrap = new Spikes(baseArena[0, 0].getModelPos());
-            spikeTrap.LoadModel(content);
-
+            
             table = new ArenaTable(getStartTile(), content);
             skybox = new ArenaSkybox(getStartTile(), content);
+
+            potionsUsed = 0;
 
             // Debug arena
             printDebugArena();
@@ -124,10 +117,7 @@ namespace Titanium.Scenes
             //update Character
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPosition());
-
-            //spike test
-            spikeTrap.Update(gameTime, inputState);
-
+            
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
@@ -186,9 +176,6 @@ namespace Titanium.Scenes
 
             //Draw character
             Hero.Draw(sb);
-
-            //test spikes
-            spikeTrap.Draw(sb);
         }
 
         /**
@@ -223,6 +210,7 @@ namespace Titanium.Scenes
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
+            potionsUsed = 0;
 
             // Debug arena
             printDebugArena();
