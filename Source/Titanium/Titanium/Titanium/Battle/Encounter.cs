@@ -28,6 +28,14 @@ namespace Titanium.Battle
         /// </summary>
         public Encounter(List<PartyUtils.Enemy> enemyList)
         {
+\
+            /************************************************
+            Sprite Creation Area; to be done via file parsing
+            ************************************************/
+            heroes = new PlayerSpritePanel(PartyUtils.partyMembers, SpritePanel.Side.west);
+
+            List<Sprite> enemyList = PartyUtils.makeEnemies(PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat);
+            enemies = new SpritePanel(enemyList, SpritePanel.Side.east);
         }
 
         /// <summary>

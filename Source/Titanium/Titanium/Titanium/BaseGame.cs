@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Titanium.Scenes;
 using Titanium.Entities;
+using Titanium.Utilities;
 
 namespace Titanium
 {
@@ -51,6 +52,7 @@ namespace Titanium
 
             instance = this;
 
+            PartyUtils.loadPartyMembers();
             sceneManager = new SceneManager(this);
 
             // Set default window properties
@@ -58,7 +60,6 @@ namespace Titanium
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
 
             modelList = new List<Entity>();
-
         }
 
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Titanium.Battle;
 using Titanium.Entities;
 
@@ -9,32 +10,29 @@ namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
-        public enum Enemy { wolf, prince, thief, Empty };
+        public enum Enemy { Bat, Empty };
 
-        public static List<Sprite> partyMembers;
-
-        static FileUtils fileHelper;
+        public static List<PlayerSprite> partyMembers = new List<PlayerSprite>();
 
         static PartyUtils()
         {
-            partyMembers = new List<Sprite>();
-            fileHelper = new FileUtils();
+
         }
 
-        public static List<Sprite> loadPartyMembers()
+        public static List<PlayerSprite> loadPartyMembers()
         {
             using (var reader = File.OpenText(@"Content/Stats/PlayerFile.txt"))
             {
                 while (reader.ReadLine() != null)
                 {
-                    partyMembers.Add(new Sprite());
+                    partyMembers.Add(new PlayerSprite());
                 }
             }
-            loadStats(partyMembers, "PlayerFile.txt");
+            loadStats(partyMembers.Cast<Sprite>().ToList(), "PlayerFile.txt");
             return partyMembers;
         }
 
-        public static List<Sprite> getParty() { return partyMembers; }
+        public static List<PlayerSprite> getParty() { return partyMembers; }
 
         public static int[] getPartyHealth()
         {
