@@ -9,7 +9,7 @@ using Titanium.Arena;
 using Titanium.Scenes;
 using Titanium.Utilities;
 using Microsoft.Xna.Framework.Content;
-
+using Titanium.Entities.Items;
 
 namespace Titanium.Entities
 {
@@ -131,39 +131,60 @@ namespace Titanium.Entities
             _Position.X += MathUtils.smoothChange(_Position.X, _currentTile.getDrawPos().X, MOVE_RATE);
             _Position.Z += MathUtils.smoothChange(_Position.Z, _currentTile.getDrawPos().Y, MOVE_RATE);
 
-           
+            checkCharacterCollisions();
+
+
+        }
+
+        /// <summary>
+        /// Detects and handles collision between the character
+        /// and other entities in the level.
+        /// </summary>
+        private void checkCharacterCollisions()
+        {
 
             if (ArenaScene.instance.collidables != null && ArenaScene.instance.collidables.Count != 0)//make sure the list isn't empty to check the collisions
             {
-                //a placeholder to loop through so removing items wouldn't result in IndexOutOfBounds if the list was used to loop through
-                Entity[] collidablesArray = ArenaScene.instance.collidables.ToArray();
-
-                for (int i = 0; i < collidablesArray.Length; i++)
+                foreach (Entity e in ArenaScene.instance.collidables.ToList())
                 {
-                    if (collidablesArray[i].GetType() == typeof(ArenaEnemy))//if the collideable is an enemy
+                    switch(e.GetType().Name)
                     {
-                        if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)collidablesArray[i]))
-                        {
-                            // TEMP: Kill the enemy
-                            ((ArenaEnemy)collidablesArray[i]).die();
-                            ArenaScene.instance.startBattle();
+                        case "ArenaEnemy":
+                            if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)e))
+                            {
+                                // TEMP: Kill the enemy
+                                ((ArenaEnemy)e).die();
+                                ArenaScene.instance.startBattle();
 
-                            // Snap to the target tile
-                            _Position.X = _currentTile.getDrawPos().X;
-                            _Position.Z = _currentTile.getDrawPos().Y;
-                        }
-                    }
-                    else if (ArenaScene.instance.collidables[i].GetType() == typeof(ArenaExit))//if the collideable is the door
-                    {
-                        if (PhysicsUtils.CheckCollision(this, (ArenaExit)collidablesArray[i]))
-                        {
-                            // Continue to the next arena
-                            ArenaController.instance.moveToNextArena();
-                        }
+                                // Snap to the target tile
+                                _Position.X = _currentTile.getDrawPos().X;
+                                _Position.Z = _currentTile.getDrawPos().Y;
+                            }
+                            break;
+
+                        case "ArenaExit":
+                            if (PhysicsUtils.CheckCollision(this, (ArenaExit)e))
+                            {
+                                // Continue to the next arena
+                                ArenaController.instance.moveToNextArena();
+                            }
+                            break;
+
+                        case "Potion":
+                            if (PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, (Potion)e))
+                            {
+                                Potion p = (Potion)e;
+                                //heal party members a certain precentage
+                                PartyUtils.HealParty(p.getHealPercent());
+                                ArenaScene.instance.potionsUsed++;
+
+                                //remove from collidables list; please change if put in another list!
+                                ArenaScene.instance.collidables.Remove(e);
+                            }
+                            break;
                     }
                 }
             }
-
         }
 
         /// <summary>
