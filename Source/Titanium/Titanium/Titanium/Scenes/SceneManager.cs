@@ -247,7 +247,7 @@ namespace Titanium.Scenes
         /// </summary>
         /// <param name="scene">The scene state to transition to</param>
         //TODO: animate the scene transitions
-        public void changeScene(SceneState scene)
+         public void changeScene(SceneState scene)
         {
             this.state = State.transitionOff;
             nextScene = scene;

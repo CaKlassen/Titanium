@@ -32,6 +32,117 @@ namespace Titanium
         private delegate bool ButtonPress(Buttons button, PlayerIndex? controllingPlayer, out PlayerIndex player);
         private delegate bool KeyPress(Keys key, PlayerIndex? controllingPlayer, out PlayerIndex player);
 
+        public static InputAction A, B, X, Y;
+        public static InputAction LB, RB, LT, RT;
+        public static InputAction START, SELECT;
+        public static InputAction UP, DOWN, LEFT, RIGHT;
+        public static InputAction RSUP, RSDOWN, RSLEFT, RSRIGHT;
+        public static InputAction LCLICK, RCLICK;
+        
+        static InputAction()
+        {
+            A = new InputAction(
+                new Buttons[] { Buttons.A },
+                new Keys[] { Keys.A },
+                true
+            );
+            B = new InputAction(
+                new Buttons[] { Buttons.B },
+                new Keys[] { Keys.B },
+                true
+            );
+            X = new InputAction(
+                new Buttons[] { Buttons.X },
+                new Keys[] { Keys.X },
+                true
+            );
+            Y = new InputAction(
+                new Buttons[] { Buttons.Y },
+                new Keys[] { Keys.Y },
+                true
+            );
+            LB = new InputAction(
+                new Buttons[] { Buttons.LeftShoulder },
+                new Keys[] { Keys.D1 },
+                true
+            );
+            RB = new InputAction(
+                new Buttons[] { Buttons.RightShoulder },
+                new Keys[] { Keys.D2 },
+                true
+            );
+            LT = new InputAction(
+                new Buttons[] { Buttons.LeftTrigger },
+                new Keys[] { Keys.Q },
+                true
+            );
+            RT = new InputAction(
+                new Buttons[] { Buttons.RightTrigger },
+                new Keys[] { Keys.W },
+                true
+            );
+            UP = new InputAction(
+                new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
+                new Keys[] { Keys.W },
+                true
+            );
+            DOWN = new InputAction(
+                new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
+                new Keys[] { Keys.S },
+                true
+            );
+            LEFT = new InputAction(
+                new Buttons[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft },
+                new Keys[] { Keys.A },
+                true
+            );
+            RIGHT = new InputAction(
+                new Buttons[] { Buttons.DPadRight, Buttons.LeftThumbstickRight },
+                new Keys[] { Keys.D },
+                true
+            );
+            RSUP = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickUp },
+                new Keys[] { Keys.Up },
+                true
+            );
+            RSDOWN = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickDown },
+                new Keys[] { Keys.Down },
+                true
+            );
+            RSLEFT = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickLeft },
+                new Keys[] { Keys.Left },
+                true
+            );
+            RSRIGHT = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickRight },
+                new Keys[] { Keys.Right },
+                true
+            );
+            START = new InputAction(
+                new Buttons[] { Buttons.Start },
+                new Keys[] { Keys.Enter },
+                true
+            );
+            SELECT = new InputAction(
+                new Buttons[] { Buttons.Back },
+                new Keys[] { Keys.Escape },
+                true
+            );
+            RCLICK = new InputAction(
+                new Buttons[] { Buttons.RightStick },
+                new Keys[] { },
+                true
+            );
+            LCLICK = new InputAction(
+                new Buttons[] { Buttons.LeftStick },
+                new Keys[] { },
+                true
+            );
+        }
+
         /// <summary>
         /// Initializes a new InputAction.
         /// </summary>
@@ -131,6 +242,7 @@ namespace Titanium
                     return content.Load<Texture2D>("ButtonIcons/HUD-Face-A");
             }
         }
+
     }
     
 }

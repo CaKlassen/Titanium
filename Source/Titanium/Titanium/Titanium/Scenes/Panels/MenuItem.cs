@@ -13,7 +13,6 @@ namespace Titanium.Scenes.Panels
     {
         // The spacing between elements
         public static int OFFSET = 50;
-
         string text;
 
         public SpriteFont Font

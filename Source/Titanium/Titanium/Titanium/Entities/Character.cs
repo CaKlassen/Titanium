@@ -47,29 +47,10 @@ namespace Titanium.Entities
         static InputAction up, down, left, right;
         static Character()
         {
-            up = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickUp, Buttons.DPadUp },
-                new Keys[] { Keys.W, Keys.Up },
-                true
-                );
-
-            down = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickDown, Buttons.DPadDown },
-                new Keys[] { Keys.S, Keys.Down },
-                true
-                );
-
-            left = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickLeft, Buttons.DPadLeft },
-                new Keys[] { Keys.A, Keys.Left },
-                true
-                );
-
-            right = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickRight, Buttons.DPadRight },
-                new Keys[] { Keys.D, Keys.Right },
-                true
-                );
+            up = InputAction.UP;
+            down = InputAction.DOWN;
+            left = InputAction.LEFT;
+            right = InputAction.RIGHT;
         }
 
         /// <summary>

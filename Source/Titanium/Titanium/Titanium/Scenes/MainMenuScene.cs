@@ -26,30 +26,23 @@ namespace Titanium.Scenes
 
         MenuPanel mainMenu;
 
+        public delegate void MenuEventHandler(object sender, EventArgs e);
+
         public MainMenuScene(): base()
         {
             panels = new List<Panel>();
 
             // Initialize the player actions
-            arena = new InputAction(
-                new Buttons[] {Buttons.A},
-                new Keys[] {Keys.A},
-                true
-                );
+            arena = InputAction.A;
 
-            battle = new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.B },
-                true
-                );
+            battle = InputAction.X;
 
             // Create the actual Main Menu panel
-            mainMenu = new MenuPanel(Vector2.Zero, "Main Menu");
-            List<MenuItem> options = new List<MenuItem>()
+            mainMenu = new MenuPanel("Main Menu", new List<MenuItem>()
             {
                 new MenuItem("Enter the arena!", arena),
                 new MenuItem("Enter battle!", battle)
-            };
+            });
 
 
             panels.Add(mainMenu);
@@ -65,8 +58,7 @@ namespace Titanium.Scenes
 
         // 
         public override void loadScene(ContentManager content)
-        { 
-
+        {
             font = content.Load<SpriteFont>("TestFont");
 
             foreach (Panel panel in panels)
@@ -80,14 +72,11 @@ namespace Titanium.Scenes
         public override void update(GameTime gameTime, InputState inputState)
         {
             PlayerIndex player;
-            if(arena.Evaluate(inputState, null, out player))
-            {
+
+            if (arena.Evaluate(inputState, null, out player))
                 SceneManager.changeScene(SceneState.arena);
-            }
             else if (battle.Evaluate(inputState, null, out player))
-            {
-                SceneManager.setScene(SceneState.battle, new BattleScene(new Encounter()), true);
-            }
+                SceneManager.changeScene(SceneState.battle);
         }
     }
 }

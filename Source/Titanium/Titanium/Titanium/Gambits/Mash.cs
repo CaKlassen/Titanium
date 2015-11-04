@@ -19,7 +19,7 @@ namespace Titanium.Gambits
         private int count = 0;
 
         // The button the user will have to mash
-        private static InputAction action = new InputAction(new Buttons[] { Buttons.A }, new Keys[] { Keys.A }, true);
+        private static InputAction action = InputAction.A;
 
         // The time limit in ms
         private int timeLimit = 5000;

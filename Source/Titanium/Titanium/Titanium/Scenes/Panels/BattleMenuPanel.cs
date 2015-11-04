@@ -13,18 +13,14 @@ namespace Titanium.Scenes.Panels
     /// <summary>
     /// Class contains a menu for each player controlled sprite.
     /// </summary>
-    public class BattleMenuPanel: Panel
+    public class BattleMenuPanel: MenuPanel
     {
 
         Viewport? v;
 
-        public BattleMenuPanel(List<PlayerSprite> heroes): base()
+        public BattleMenuPanel(): base("Battle Menu")
         {
-            foreach(PlayerSprite hero in heroes)
-            {
-                addSubPanel(hero.getMenuPanel());
-            }
-            v = null;
+            
         }
 
 
@@ -70,16 +66,5 @@ namespace Titanium.Scenes.Panels
 
         }
 
-        /// <summary>
-        /// Get the action that the user wishes to perform
-        /// </summary>
-        /// <param name="inputState"></param>
-        /// <param name="selected"></param>
-        /// <returns></returns>
-        public InputAction getAction(InputState inputState, int selected)
-        {
-            MenuPanel panel = (MenuPanel)subPanels[selected];
-            return panel.getSelectedAction(inputState);
-        }
     }
 }

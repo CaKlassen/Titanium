@@ -9,13 +9,16 @@ namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
-        public enum Enemy { Prinny, PrinnyBlue, PrinnyRed, Catsaber, CatsaberBlue, CatsaberRed, Empty };
+        public enum Enemy { wolf, prince, thief, Empty };
 
         public static List<Sprite> partyMembers;
+
+        static FileUtils fileHelper;
 
         static PartyUtils()
         {
             partyMembers = new List<Sprite>();
+            fileHelper = new FileUtils();
         }
 
         public static List<Sprite> loadPartyMembers()

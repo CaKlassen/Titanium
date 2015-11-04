@@ -84,7 +84,7 @@ namespace Titanium.Scenes
                 }
                 );
 
-            currentEncounter = new Encounter();
+            currentEncounter = new Encounter(new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.wolf } );
         }
 
         /**

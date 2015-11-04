@@ -23,66 +23,18 @@ namespace Titanium.Gambits
 
         // The possible buttons in the combo
         static InputAction[] buttons = {
-            new InputAction(
-                new Buttons[] { Buttons.A },
-                new Keys[] { Keys.A },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.B },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.X },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.Y },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.LeftShoulder },
-                new Keys[] { Keys.D1 },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { Keys.D2 },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.LeftTrigger },
-                new Keys[] { Keys.Q },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.RightTrigger },
-                new Keys[] { Keys.W },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadUp },
-                new Keys[] { Keys.Up },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadDown },
-                new Keys[] { Keys.Down },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadLeft },
-                new Keys[] { Keys.Left },
-                true
-            ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadRight },
-                new Keys[] { Keys.Right },
-                true
-            )
+            InputAction.A,
+            InputAction.B,
+            InputAction.X,
+            InputAction.Y,
+            InputAction.LB,
+            InputAction.RB,
+            InputAction.LT,
+            InputAction.RT,
+            InputAction.UP,
+            InputAction.DOWN,
+            InputAction.LEFT,
+            InputAction.RIGHT,
         };
 
         // The number of inputs the user must perform
