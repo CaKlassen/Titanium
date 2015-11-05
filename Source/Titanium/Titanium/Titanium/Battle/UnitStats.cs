@@ -21,9 +21,11 @@ namespace Titanium.Battle
         public int currentHP;
         public int currentMP;
 
+        public bool initialized;
+
         public UnitStats()
         {
-
+            initialized = false;
         }
 
         public void init(string[] s)
@@ -40,6 +42,7 @@ namespace Titanium.Battle
             baseMP = Convert.ToInt32(s[9]);
             baseSpeed = Convert.ToInt32(s[10]);
             normalize();
+            initialized = true;
         }
 
         public void normalize()

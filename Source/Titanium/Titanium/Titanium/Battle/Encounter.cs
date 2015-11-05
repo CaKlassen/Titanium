@@ -122,6 +122,7 @@ namespace Titanium.Battle
         public Encounter(List<PlayerSprite> heroes, List<Sprite> enemies)
         {
             this.heroes = new PlayerSpritePanel(heroes, SpritePanel.Side.east);
+
             this.enemies = new SpritePanel(enemies, SpritePanel.Side.west);
             state = BattleState.idle;
         }
@@ -134,24 +135,10 @@ namespace Titanium.Battle
             /************************************************
             Sprite Creation Area; to be done via file parsing
             ************************************************/
-            List<PlayerSprite> heroList = new List<PlayerSprite>()
-            {
-                new PlayerSprite(),
-                new PlayerSprite(),
-                new PlayerSprite()
-            };
-            loadStats(heroList.Cast<Sprite>().ToList(), "PlayerFile.txt");
-            heroes = new PlayerSpritePanel(heroList, SpritePanel.Side.west);
+            heroes = new PlayerSpritePanel(PartyUtils.partyMembers, SpritePanel.Side.west);
 
-            List<Sprite> enemyList = new List<Sprite>
-            {
-                new Sprite(),
-                new Sprite()
-            };
-            loadStats(enemyList, "Stage_1_1.txt");
+            List<Sprite> enemyList = PartyUtils.makeEnemies(PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat);
             enemies = new SpritePanel(enemyList, SpritePanel.Side.east);
-
-
         }
 
 
