@@ -16,7 +16,6 @@ namespace Titanium.Scenes
     /// </summary>
     class MainMenuScene : Scene
     {
-        List<Panel> panels;
         ContentManager content;
         SpriteFont font;
 
@@ -30,8 +29,6 @@ namespace Titanium.Scenes
 
         public MainMenuScene(): base()
         {
-            panels = new List<Panel>();
-
             // Initialize the player actions
             arena = InputAction.A;
 
@@ -44,15 +41,12 @@ namespace Titanium.Scenes
                 new MenuItem("Enter battle!", battle)
             });
 
-
-            panels.Add(mainMenu);
         }
 
         public override void draw(GameTime gameTime)
         {
             SceneManager.SpriteBatch.Begin();
-            foreach (Panel panel in panels)
-                panel.draw(SceneManager.SpriteBatch);
+            mainMenu.draw(SceneManager.SpriteBatch);
             SceneManager.SpriteBatch.End();
         }
 
@@ -61,10 +55,9 @@ namespace Titanium.Scenes
         {
             font = content.Load<SpriteFont>("TestFont");
 
-            foreach (Panel panel in panels)
-                panel.load(content);
+            mainMenu.load(content, SceneManager.GraphicsDevice.Viewport);
 
-            mainMenu.center(SceneManager.GraphicsDevice.Viewport);
+            mainMenu.center();
         }
 
         public override void unloadScene() {}
@@ -77,6 +70,8 @@ namespace Titanium.Scenes
                 SceneManager.changeScene(SceneState.arena);
             else if (battle.Evaluate(inputState, null, out player))
                 SceneManager.changeScene(SceneState.battle);
+
+            mainMenu.update(gameTime, inputState);
         }
     }
 }

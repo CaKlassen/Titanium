@@ -16,7 +16,6 @@ namespace Titanium.Scenes.Panels
     public class BattleMenuPanel: MenuPanel
     {
 
-        Viewport? v;
 
         public BattleMenuPanel(): base("Battle Menu")
         {
@@ -24,46 +23,19 @@ namespace Titanium.Scenes.Panels
         }
 
 
+        public override void load(ContentManager content, Viewport v)
+        {
+            base.load(content, v);
+        }
 
         public override void draw(SpriteBatch sb)
         {
-            if( v == null )
-            {
-                int offset = 0;
-                v = sb.GraphicsDevice.Viewport;
-                Origin = new Vector2(0, v.GetValueOrDefault().Height - ((MenuPanel)subPanels[0]).totalHeight());
-                foreach (MenuPanel menu in subPanels)
-                {
-                    menu.Origin = Origin;
-                    menu.Offset = new Vector2(offset, 0);
-                    menu.updateMenuItemLocations();
-                    offset += (int)menu.totalWidth();
-                }
-            }
-
             base.draw(sb);
- 
         }
 
-
-        public void draw(SpriteBatch sb, int selected)
+        public override void update(GameTime gameTime, InputState inputState)
         {
-            if (v == null)
-            {
-                int offset = 0;
-                v = sb.GraphicsDevice.Viewport;
-                Origin = new Vector2(0, v.GetValueOrDefault().Height - ((MenuPanel)subPanels[0]).totalHeight());
-                foreach (MenuPanel menu in subPanels)
-                {
-                    menu.Origin = Origin;
-                    menu.Offset = new Vector2(offset, 0);
-                    menu.updateMenuItemLocations();
-                    offset += (int)menu.totalWidth();
-                }
-            }
-
-            subPanels[selected].draw(sb);
-
+            base.update(gameTime, inputState);
         }
 
     }

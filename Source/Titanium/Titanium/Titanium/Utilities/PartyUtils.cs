@@ -12,6 +12,8 @@ namespace Titanium.Utilities
     {
         public enum Enemy { Bat, Empty };
 
+        static int MAX_ENEMIES = 4;
+
         public static List<PlayerSprite> partyMembers = new List<PlayerSprite>();
 
         static PartyUtils()
@@ -93,16 +95,29 @@ namespace Titanium.Utilities
 
         public static List<Sprite> makeEnemies(Enemy a, Enemy b = Enemy.Empty, Enemy c = Enemy.Empty, Enemy d = Enemy.Empty)
         {
-            FileUtils myFileUtil = new FileUtils();
             List<Sprite> result = new List<Sprite>();
             if (a != Enemy.Empty && !a.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(a.ToString()));
+                result.Add(FileUtils.CreateNewSprite(a.ToString()));
             if (b != Enemy.Empty && !b.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(b.ToString()));
+                result.Add(FileUtils.CreateNewSprite(b.ToString()));
             if (c != Enemy.Empty && !c.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(c.ToString()));
+                result.Add(FileUtils.CreateNewSprite(c.ToString()));
             if (d != Enemy.Empty && !d.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(d.ToString()));
+                result.Add(FileUtils.CreateNewSprite(d.ToString()));
+            return result;
+        }
+
+        public static List<Sprite> makeEnemies(List<Enemy> enemies)
+        {
+            List<Sprite> result = new List<Sprite>();
+
+            for(int i=0; i < enemies.Count; i++)
+            {
+                if (i == MAX_ENEMIES)
+                    break;
+
+                result.Add(FileUtils.CreateNewSprite(enemies[i].ToString()));
+            }
             return result;
         }
     }

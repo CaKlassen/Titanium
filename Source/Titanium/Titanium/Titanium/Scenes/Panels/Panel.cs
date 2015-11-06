@@ -45,6 +45,8 @@ namespace Titanium.Scenes.Panels
             get { return Vector2.Add(origin, offset);  }
         }
 
+        protected Viewport v;
+
         /// <summary>
         /// Class represents a 2D area which can be placed in the viewport. Allows for nested panels to be placed in relation to this one
         /// </summary>
@@ -70,12 +72,12 @@ namespace Titanium.Scenes.Panels
         /// <summary>
         /// Creates an instance of a panel and adds it as a subpanel
         /// </summary>
-        /// <param name="panel">The panel to add this one to</param>
+        /// <param name="parentPanel">The panel to add this one to</param>
         /// <param name="pos">The position of this panel relative to the origin</param>
-        public Panel(Panel panel, Vector2 pos)
+        public Panel(Panel parentPanel, Vector2 pos)
         {
             this.offset = pos;
-            panel.addSubPanel(this);
+            parentPanel.addSubPanel(this);
             subPanels = new List<Panel>();
         }
 
@@ -104,10 +106,12 @@ namespace Titanium.Scenes.Panels
         /// Load this panel's contents and that of all of its subPanels
         /// </summary>
         /// <param name="content">The ContentManager to use</param>
-        public virtual void load(ContentManager content)
+        public virtual void load(ContentManager content, Viewport v)
         {
             foreach (Panel panel in subPanels)
-                panel.load(content);
+                panel.load(content,v);
+
+            this.v = v;
         }
 
         /// <summary>

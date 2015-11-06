@@ -59,8 +59,7 @@ namespace Titanium.Entities
         /// <param name="sb">The SpriteBatch to be used to draw</param>
         public override void Draw(SpriteBatch sb)
         {
-
-            combatInfo.draw(sb);
+            base.Draw(sb);
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace Titanium.Entities
         /// <param name="inputState">The state of the inputs</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
-                base.Update(gameTime, inputState);
+            base.Update(gameTime, inputState);
         }
 
         

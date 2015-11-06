@@ -272,19 +272,17 @@ namespace Titanium.Entities
             return currentSpriteFile.Height;
         }
 
-        public void move(int x, int y)
-        {
-            this.posX = x;
-            this.posY = y;
-            destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
-            combatInfo.move(destRect);
-            originalRect = destRect;
-        }
+
 
         public Vector2 getPosition()
         {
             return new Vector2(posX, posY);
         }
 
+        public void move(Vector2 v)
+        {
+            posX = (int)v.X;
+            posY = (int)v.Y;
+        }
     }
 }

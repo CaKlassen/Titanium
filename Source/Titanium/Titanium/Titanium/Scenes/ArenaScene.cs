@@ -206,7 +206,7 @@ namespace Titanium.Scenes
 
         public void startBattle()
         {
-            List<PartyUtils.Enemy> enemies = new List<PartyUtils.Enemy>() { PartyUtils.Enemy.wolf, PartyUtils.Enemy.wolf };
+            List<PartyUtils.Enemy> enemies = new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat };
             
             // Create and switch to the battle
             BattleScene battle = new BattleScene(

@@ -23,28 +23,27 @@ namespace Titanium.Battle
 
         bool resolved;
 
+        PartyPanel party;
+        EnemyPanel enemies;
+
         /// <summary>
         /// Initializes a blank Encounter for debug / bug fixing purposes
         /// </summary>
         public Encounter(List<PartyUtils.Enemy> enemyList)
         {
-\
-            /************************************************
-            Sprite Creation Area; to be done via file parsing
-            ************************************************/
-            heroes = new PlayerSpritePanel(PartyUtils.partyMembers, SpritePanel.Side.west);
-
-            List<Sprite> enemyList = PartyUtils.makeEnemies(PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat);
-            enemies = new SpritePanel(enemyList, SpritePanel.Side.east);
+            enemies = new EnemyPanel(PartyUtils.makeEnemies(enemyList));
+            party = new PartyPanel();
         }
 
         /// <summary>
         /// Load the two sprite panels and save a reference to the content manager
         /// </summary>
         /// <param name="content"></param>
-        public void load(ContentManager content)
+        public void load(ContentManager content, Viewport v)
         {
             this.content = content;
+            enemies.load(content, v);
+            party.load(content, v);
             resolved = true;
         }
 
@@ -54,7 +53,8 @@ namespace Titanium.Battle
         /// <param name="sb">The SpriteBatch to be used</param>
         public void draw(SpriteBatch sb)
         {
-
+            enemies.draw(sb);
+            party.draw(sb);
         }
 
         /// <summary>
@@ -64,7 +64,8 @@ namespace Titanium.Battle
         /// <param name="inputState">The state of the inputs to be used for input handling</param>
         public void update(GameTime gameTime, InputState inputState)
         {
-
+            enemies.update(gameTime, inputState);
+            party.update(gameTime, inputState);
         }
 
 

@@ -13,6 +13,7 @@ using Titanium.Gambits;
 using Titanium.Scenes.Panels;
 using System.Text;
 using Titanium.Battle;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -84,7 +85,7 @@ namespace Titanium.Scenes
                 }
                 );
 
-            currentEncounter = new Encounter(new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.wolf } );
+            currentEncounter = new Encounter(new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat } );
         }
 
         /**
@@ -92,9 +93,11 @@ namespace Titanium.Scenes
          */
         public override void loadScene(ContentManager content)
         {
-            currentEncounter.load(content);
-            pauseMenu.load(content);
-            pauseMenu.center(SceneManager.GraphicsDevice.Viewport);
+            currentEncounter.load(content, SceneManager.GraphicsDevice.Viewport);
+            pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
+
+            foreach (PlayerSprite player in PartyUtils.getParty())
+                player.Load(content);
         }
 
         

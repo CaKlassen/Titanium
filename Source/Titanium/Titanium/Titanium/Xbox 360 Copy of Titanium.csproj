@@ -83,9 +83,11 @@
     <Compile Include="Scenes\BattleScene.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Scenes\Panels\BattleMenuPanel.cs" />
+    <Compile Include="Scenes\Panels\EnemyPanel.cs" />
     <Compile Include="Scenes\Panels\MenuItem.cs" />
     <Compile Include="Scenes\Panels\MenuPanel.cs" />
     <Compile Include="Scenes\Panels\Panel.cs" />
+    <Compile Include="Scenes\Panels\PartyPanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\FileUtils.cs" />

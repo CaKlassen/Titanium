@@ -30,7 +30,7 @@ namespace Titanium.Utilities
             return result;
         }
 
-        public Sprite CreateNewSprite(String path)
+        public static Sprite CreateNewSprite(String path)
         {
             Sprite result = new Sprite();
             string line;
@@ -50,4 +50,5 @@ namespace Titanium.Utilities
             return result;
         }
     }
+
 }

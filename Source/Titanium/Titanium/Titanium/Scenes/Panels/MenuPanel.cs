@@ -49,10 +49,10 @@ namespace Titanium.Scenes.Panels
 
         }
 
-        public override void load(ContentManager content)
+        public override void load(ContentManager content, Viewport v)
         {
-            font = content.Load<SpriteFont>("TestFont");
-            base.load(content);
+            base.load(content, v);
+            font = content.Load<SpriteFont>("TestFont");    
             updateMenuItemLocations();
         }
 
@@ -99,7 +99,7 @@ namespace Titanium.Scenes.Panels
         /// <summary>
         /// Center this menu in the screen.
         /// </summary>
-        public void center(Viewport v)
+        public void center()
         {
             int width = v.Width;
             int height = v.Height;
