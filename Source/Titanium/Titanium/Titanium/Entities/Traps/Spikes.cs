@@ -12,7 +12,7 @@ namespace Titanium.Entities.Traps
 {
     public class Spikes : Entity
     {
-        public Model myModel;
+        //public Model myModel;
         private Vector3 Position;
         private float scale = 0.5f;
         private float modelOrientation = 0f;
@@ -105,7 +105,7 @@ namespace Titanium.Entities.Traps
         /// method that returns the models position
         /// </summary>
         /// <returns></returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return Position;
         }

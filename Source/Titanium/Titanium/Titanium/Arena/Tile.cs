@@ -294,5 +294,15 @@ namespace Titanium.Arena
 
             return hasExit;
         }
+
+        /// <summary>
+        /// returns modelPosition;
+        /// does the same as method getModelPositon()
+        /// </summary>
+        /// <returns>model's position</returns>
+        public override Vector3 getPOSITION()
+        {
+            return modelPosition;
+        }
     }
 }
