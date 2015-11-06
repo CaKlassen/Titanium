@@ -14,11 +14,15 @@ namespace Titanium.Battle
         Rectangle destRect, frameRect;
         Color hpColor;
         String name = "";
+        String health = "";
         int curHP, maxHP;
+        float hpLength;
         SpriteFont myFont;
+        UnitStats unitStats;
 
         public CombatInfo()
         {
+            unitStats = new UnitStats();
         }
 
         public void init(ContentManager content, Rectangle r)
@@ -33,13 +37,17 @@ namespace Titanium.Battle
         public void update(UnitStats u)
         {
             //hp calc
-            this.name = u.name;
+            if (this.name.CompareTo("") == 0)
+                this.name = u.name;
 
+            unitStats = u;
 
             float hpPercent = (float)u.currentHP / u.baseHP;
-            float newLength = destRect.Width * hpPercent;
+            float newLength = frameRect.Width * hpPercent;
 
             destRect = new Rectangle(destRect.X, destRect.Y, (int)newLength, 20);
+
+            health = u.currentHP + "/" + u.baseHP;
 
             if (hpPercent > 0.75)
             {
@@ -57,11 +65,21 @@ namespace Titanium.Battle
 
         }
 
+        public void smallUpdate()
+        {
+            destRect = new Rectangle(frameRect.X, frameRect.Y, (int)(unitStats.currentHP / unitStats.baseHP), 20);
+        }
+
         public void draw(SpriteBatch sb)
         {
+
             sb.Draw(barFrame, frameRect, new Rectangle(0, 0, barFrame.Width, barFrame.Height / 2), Color.White);
             sb.Draw(barFrame, destRect, new Rectangle(0, barFrame.Height / 2, barFrame.Width,  barFrame.Height / 2), hpColor);
-            sb.DrawString(myFont, name, new Vector2(destRect.X, destRect.Y - 20), Color.Black);
+            sb.DrawString(myFont, name, new Vector2(frameRect.X, frameRect.Y - 20), Color.Black);
+
+            Vector2 spacing = myFont.MeasureString(health);
+
+            sb.DrawString(myFont, health, new Vector2(frameRect.X-spacing.X+frameRect.X, frameRect.Y), Color.Black);
         }
 
         public void move(Rectangle tempRect)

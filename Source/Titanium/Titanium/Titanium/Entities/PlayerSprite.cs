@@ -59,7 +59,22 @@ namespace Titanium.Entities
         /// <param name="sb">The SpriteBatch to be used to draw</param>
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb);
+            if (checkDeath())
+            {
+                changeState(State.Hurt);
+                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Black);
+            }
+            else
+            {
+                bool active = state == UnitState.selected || state == UnitState.gambit || state == UnitState.targeting;
+
+                if (active)
+                    sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
+                else
+                    sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Gray);
+
+                combatInfo.draw(sb);
+            }
         }
 
         /// <summary>

@@ -44,6 +44,7 @@ namespace Titanium.Entities
             posY = 150;
             currentState = State.Idle;
             attackMultiplier = 1.0f;
+            combatInfo = new CombatInfo();
         }
 
 
@@ -55,9 +56,7 @@ namespace Titanium.Entities
             currentSpriteFile = idleFile;
             destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
             originalRect = destRect;
-            combatInfo = new CombatInfo();
             combatInfo.init(content, destRect);
-            combatInfo.update(rawStats);
             enemySprite = new Sprite();
         }
 
@@ -75,7 +74,9 @@ namespace Titanium.Entities
         public override void Draw(SpriteBatch sb)
         {
             if (checkDeath())
-                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Black);
+            {
+
+            }
             else
             {
                 sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
@@ -90,6 +91,7 @@ namespace Titanium.Entities
             if (!checkDeath())
             {
                 elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
+                combatInfo.update(rawStats);
                 if (elapsed >= delay)
                 {
                     if (frames >= (frameCount - 1))
@@ -195,7 +197,11 @@ namespace Titanium.Entities
         public void takeDamage(int damage)
         {
             changeState(State.Hurt);
-            this.rawStats.currentHP -= damage;
+            int newHealth = this.rawStats.currentHP;
+            newHealth -= damage;
+            if (newHealth < 0)
+                newHealth = 0;
+            this.rawStats.currentHP = newHealth;
             checkDeath();
             combatInfo.update(rawStats);
         }
