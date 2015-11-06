@@ -33,7 +33,7 @@ namespace Titanium.Entities
 
         //MovableModel
         private float aspectRatio, modelRotation;
-        public Model myModel;
+        //public Model myModel;
         //public Matrix ModelMatrix;
         //private SpriteBatch spriteBatch;
         //private String modelPath;
@@ -166,11 +166,11 @@ namespace Titanium.Entities
             {
                 foreach (Entity e in ArenaScene.instance.collidables.ToList())
                 {
-                    switch(e.GetType().Name)
+                    if (PhysicsUtils.CheckCollision(this, e))
                     {
-                        case "ArenaEnemy":
-                            if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)e))
-                            {
+                        switch (e.GetType().Name)
+                        {
+                            case "ArenaEnemy":
                                 // TEMP: Kill the enemy
                                 ((ArenaEnemy)e).die();
                                 ArenaScene.instance.startBattle();
@@ -178,20 +178,14 @@ namespace Titanium.Entities
                                 // Snap to the target tile
                                 _Position.X = _currentTile.getDrawPos().X;
                                 _Position.Z = _currentTile.getDrawPos().Y;
-                            }
-                            break;
+                                break;
 
-                        case "ArenaExit":
-                            if (PhysicsUtils.CheckCollision(this, (ArenaExit)e))
-                            {
+                            case "ArenaExit":
                                 // Continue to the next arena
                                 ArenaController.instance.moveToNextArena();
-                            }
-                            break;
+                                break;
 
-                        case "Potion":
-                            if (PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, (Potion)e))
-                            {
+                            case "Potion":
                                 Potion p = (Potion)e;
                                 //heal party members a certain precentage
                                 PartyUtils.HealParty(p.getHealPercent());
@@ -199,9 +193,11 @@ namespace Titanium.Entities
 
                                 //remove from collidables list; please change if put in another list!
                                 ArenaScene.instance.collidables.Remove(e);
-                            }
-                            break;
+                                break;
+                        }
                     }
+
+   
                 }
             }
         }
@@ -210,7 +206,7 @@ namespace Titanium.Entities
         /// Method to get the characters current position.
         /// </summary>
         /// <returns>The position of the player character as a Vector3.</returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return _Position;
         }

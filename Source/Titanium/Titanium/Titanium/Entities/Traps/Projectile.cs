@@ -13,7 +13,7 @@ namespace Titanium.Entities.Traps
     public class Projectile : Entity
     {
         //attributes
-        public Model myModel;
+        //public Model myModel;
         private float scale = 0.5f;
         private float modelOrientation = 0.0f;
         private Boolean dead;
@@ -113,7 +113,7 @@ namespace Titanium.Entities.Traps
             }
         }
 
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return position;
         }

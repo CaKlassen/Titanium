@@ -94,7 +94,7 @@ namespace Titanium.Scenes
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
             Hero = new Character();
-            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
+            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPOSITION());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             
@@ -116,7 +116,7 @@ namespace Titanium.Scenes
 
             //update Character
             Hero.Update(gameTime, inputState);
-            camera.UpdateCamera(Hero.getPosition());
+            camera.UpdateCamera(Hero.getPOSITION());
             
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
@@ -207,7 +207,7 @@ namespace Titanium.Scenes
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
             Hero = new Character();
-            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
+            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPOSITION());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;

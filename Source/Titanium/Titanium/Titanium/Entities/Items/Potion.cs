@@ -12,7 +12,7 @@ namespace Titanium.Entities.Items
 {
     public class Potion : Entity
     {
-        public Model myModel;
+        //public Model myModel;
         private Vector3 Position;
         private float scale = 1f;
         private float modelOrientation = 0f;
@@ -67,7 +67,7 @@ namespace Titanium.Entities.Items
 
         }
 
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return Position;
         }
@@ -76,5 +76,6 @@ namespace Titanium.Entities.Items
         {
             return HealPercent;
         }
+
     }
 }
