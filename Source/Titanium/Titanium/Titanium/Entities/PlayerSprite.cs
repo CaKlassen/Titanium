@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Titanium.Gambits;
 using Titanium.Battle;
 using Titanium.Scenes.Panels;
+using Microsoft.Xna.Framework.Content;
 
 namespace Titanium.Entities
 {
@@ -15,7 +16,24 @@ namespace Titanium.Entities
 
     public class PlayerSprite: Sprite
     {
+        public Skill quick;
+        public Skill skill1;
+        public Skill skill2;
 
+        Skill selectedSkill;
+        public delegate void PlayerAction(Sprite s, float multiplier);
+
+        public PlayerSprite(Skill s1, Skill s2): base()
+        {
+            skill1 = s1;
+            skill2 = s2;
+
+            quick = new Skill("Quick Attack", new Mash());
+
+            skill1.assign(this, normalAttack);
+            skill2.assign(this, strongAttack);
+            quick.assign(this, quickAttack);
+        }
 
         /// <summary>
         /// A quick attack that does not require a gambit
@@ -53,6 +71,14 @@ namespace Titanium.Entities
             hitTarget(s, multiplier);
         }
 
+        public override void Load(ContentManager content)
+        {
+            quick.load(content);
+            skill1.load(content);
+            skill2.load(content);
+            base.Load(content);
+        }
+
         /// <summary>
         /// Draw the sprite depending on its state
         /// </summary>
@@ -66,13 +92,7 @@ namespace Titanium.Entities
             }
             else
             {
-                bool active = state == UnitState.selected || state == UnitState.gambit || state == UnitState.targeting;
-
-                if (active)
-                    sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
-                else
-                    sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Gray);
-
+                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
                 combatInfo.draw(sb);
             }
         }
@@ -87,6 +107,34 @@ namespace Titanium.Entities
             base.Update(gameTime, inputState);
         }
 
-        
+        public string getName()
+        {
+            return rawStats.name;
+        }
+
+
+        public void Quick()
+        {
+            selectedSkill = quick;
+        }
+
+        public void Skill1()
+        {
+            selectedSkill = skill1;
+        }
+        public void Skill2()
+        {
+            selectedSkill = skill2;
+        }
+
+        public BaseGambit execute(Sprite target, GameTime gameTime)
+        {
+            return selectedSkill.execute(target, gameTime);
+        }
+
+        public void Resolve(float multiplier)
+        {
+            selectedSkill.resolve(multiplier);
+        }
     }
 }

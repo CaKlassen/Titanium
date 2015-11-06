@@ -5,14 +5,31 @@ using System.IO;
 using System.Linq;
 using Titanium.Battle;
 using Titanium.Entities;
+using Titanium.Gambits;
 
 namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
+        static Skill[][] SKILLS =
+        {
+            new Skill[]{
+                new Skill("Fireball", new Combo()),
+                new Skill("Frostbolt", new Combo())
+            },
+            new Skill[]{
+                new Skill("Arcane Arrow", new Rotation()),
+                new Skill("Throwing Knife", new Rotation())
+            },
+            new Skill[]{
+                new Skill("Bite", new Mash()),
+                new Skill("Claw", new Mash())
+            }
+        };
+
         public enum Enemy { Bat, Empty };
 
-        static int MAX_ENEMIES = 4;
+        static int MAX_ENEMIES = 2;
 
         public static List<PlayerSprite> partyMembers = new List<PlayerSprite>();
 
@@ -25,9 +42,10 @@ namespace Titanium.Utilities
         {
             using (var reader = File.OpenText(@"Content/Stats/PlayerFile.txt"))
             {
+                int i = 0;
                 while (reader.ReadLine() != null)
                 {
-                    partyMembers.Add(new PlayerSprite());
+                    partyMembers.Add(new PlayerSprite(SKILLS[i][0], SKILLS[i][1]));
                 }
             }
             loadStats(partyMembers.Cast<Sprite>().ToList(), "PlayerFile.txt");
@@ -111,14 +129,19 @@ namespace Titanium.Utilities
         {
             List<Sprite> result = new List<Sprite>();
 
-            for(int i=0; i < enemies.Count; i++)
+            for(int i=0; i < MAX_ENEMIES; i++)
             {
-                if (i == MAX_ENEMIES)
-                    break;
-
-                result.Add(FileUtils.CreateNewSprite(enemies[i].ToString()));
+                if (enemies[i] == Enemy.Empty)
+                    result.Add(null);
+                else
+                    result.Add(FileUtils.CreateNewSprite(enemies[i].ToString()));
             }
             return result;
+        }
+
+        public static Sprite getRandomPartyMember()
+        {
+            return partyMembers.ElementAt(new Random().Next(partyMembers.Count));
         }
     }
 }

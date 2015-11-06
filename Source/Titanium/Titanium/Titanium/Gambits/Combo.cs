@@ -106,7 +106,7 @@ namespace Titanium.Gambits
         public override void load(ContentManager content)
         {
             foreach (InputAction action in comboString)
-                icons.Add(InputAction.GetIcon(content, action));
+                icons.Add(InputAction.GetIcon(action));
 
             font = content.Load<SpriteFont>("TestFont");
 

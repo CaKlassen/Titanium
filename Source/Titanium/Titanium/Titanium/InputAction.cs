@@ -26,7 +26,7 @@ namespace Titanium
         private readonly Buttons[] buttons;
         private readonly Keys[] keys;
         private readonly bool newPressOnly;
-
+        static ContentManager content;
         // These delegate types map to the methods on InputState. We use these to simplify the evalute method
         // by allowing us to map the appropriate delegates and invoke them, rather than having two separate code paths.
         private delegate bool ButtonPress(Buttons button, PlayerIndex? controllingPlayer, out PlayerIndex player);
@@ -205,7 +205,18 @@ namespace Titanium
             return buttons[0];
         }
 
-        public static Texture2D GetIcon(ContentManager content, InputAction action)
+        public bool wasPressed(InputState state)
+        {
+            PlayerIndex player;
+            return Evaluate(state, null, out player);
+        }
+
+        public static void Load(ContentManager c)
+        {
+            content = c;
+        }
+
+        public static Texture2D GetIcon(InputAction action)
         {
             Buttons btn = action.getBtn();
             switch (btn)
@@ -243,6 +254,10 @@ namespace Titanium
             }
         }
 
+        public Texture2D icon()
+        {
+            return InputAction.GetIcon(this);
+        }
     }
     
 }

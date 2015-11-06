@@ -34,7 +34,12 @@ namespace Titanium.Gambits
         /// Start this gambit from the given time. Must be called before the gambit can be used
         /// </summary>
         /// <param name="gameTime">The current GameTime object</param>
-        public virtual void start(GameTime gameTime) { startTime = gameTime.TotalGameTime.TotalMilliseconds; }
+        public virtual void start(GameTime gameTime)
+        {
+            startTime = gameTime.TotalGameTime.TotalMilliseconds;
+            multiplier = 1f;
+            finished = false;
+        }
 
         /// <summary>
         /// The time since the gambit was started

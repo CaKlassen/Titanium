@@ -132,5 +132,31 @@ namespace Titanium.Scenes.Panels
             subPanels.Clear();
         }
 
+        /// <summary>
+        /// Center this panel in the screen.
+        /// </summary>
+        public virtual void center()
+        {
+            int width = v.Width;
+            int height = v.Height;
+
+            float x = width / 2 - totalWidth() / 2;
+            float y = height / 2 - totalHeight() / 2;
+
+            this.Origin = new Vector2(x, y);
+
+            foreach (Panel panel in subPanels)
+                panel.origin = this.Position;
+        }
+
+        public virtual float totalHeight()
+        {
+            return 0;
+        }
+
+        public virtual float totalWidth()
+        {
+            return 0;
+        }
     }
 }

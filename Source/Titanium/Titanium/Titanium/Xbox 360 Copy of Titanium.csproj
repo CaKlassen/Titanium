@@ -55,6 +55,7 @@
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Battle\CombatInfo.cs" />
     <Compile Include="Battle\Encounter.cs" />
+    <Compile Include="Battle\Skill.cs" />
     <Compile Include="Battle\UnitStats.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Entities\ArenaSkybox.cs" />

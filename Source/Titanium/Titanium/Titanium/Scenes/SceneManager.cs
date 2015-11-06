@@ -96,11 +96,13 @@ namespace Titanium.Scenes
         /// Load your graphics content.
         /// </summary>
         protected override void LoadContent()
-        {
+        {             
             midPoint = GraphicsDevice.Viewport.Width/2;
 
             // Load content belonging to the screen manager.
             content = Game.Content;
+
+            InputAction.Load(content);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("TestFont");
@@ -161,11 +163,8 @@ namespace Titanium.Scenes
         public override void Update(GameTime gameTime)
         {
             // Read the keyboard and gamepad.
-            input.update();
-
+            input.update(); 
             
-            if (scenes[(int)currentScene] != null)
-                scenes[(int)currentScene].update(gameTime, input);
 
             switch (state)
             {
@@ -198,6 +197,8 @@ namespace Titanium.Scenes
                     }
                     break;
                 default:
+                    if (scenes[(int)currentScene] != null)
+                        scenes[(int)currentScene].update(gameTime, input);
                     break;
             }
 

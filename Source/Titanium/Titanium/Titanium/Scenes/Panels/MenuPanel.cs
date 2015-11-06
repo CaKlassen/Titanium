@@ -60,7 +60,7 @@ namespace Titanium.Scenes.Panels
         /// The height of the menu.
         /// </summary>
         /// <returns>The total height of this menu</returns>
-        public float totalHeight()
+        public override float totalHeight()
         {
             float h = string.IsNullOrEmpty(title) ? Position.Y : font.LineSpacing + Position.Y;
             foreach (MenuItem item in subPanels)
@@ -72,7 +72,7 @@ namespace Titanium.Scenes.Panels
         /// The width of the menu.
         /// </summary>
         /// <returns>The total width of the menu.</returns>
-        public float totalWidth()
+        public override float totalWidth()
         {
             float w = 0f;
             float tmp;
@@ -96,25 +96,21 @@ namespace Titanium.Scenes.Panels
             base.update(gameTime, inputState);
         }
 
-        /// <summary>
-        /// Center this menu in the screen.
-        /// </summary>
-        public void center()
+        public override void center()
         {
-            int width = v.Width;
-            int height = v.Height;
-
-            float x = width / 2 - totalWidth() / 2;
-            float y = height / 2 - totalHeight() / 2;
-
-            this.Origin = new Vector2(x, y);
+            base.center();
             updateMenuItemLocations();
         }
+
 
         public void addMenuItem(MenuItem item)
         {
             addSubPanel(item);
         }
         
+        public void setTitle(string str)
+        {
+            title = str;
+        }
     }
 }

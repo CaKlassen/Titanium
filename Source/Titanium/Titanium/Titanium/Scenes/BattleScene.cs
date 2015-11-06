@@ -38,7 +38,7 @@ namespace Titanium.Scenes
         /**
          * The default scene constructor.
          */
-        public BattleScene(Encounter encounter) : base()
+        public BattleScene(List<PartyUtils.Enemy> front, List<PartyUtils.Enemy> back) : base()
         {
             pause = new InputAction(
                 new Buttons[] { Buttons.Start },
@@ -60,7 +60,7 @@ namespace Titanium.Scenes
                 }
                 );
 
-            currentEncounter = encounter;
+            currentEncounter = new Encounter(front, back);
         }
 
         public BattleScene() : base()
@@ -85,7 +85,10 @@ namespace Titanium.Scenes
                 }
                 );
 
-            currentEncounter = new Encounter(new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat } );
+            currentEncounter = new Encounter(
+                new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat },
+                new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat }
+                );
         }
 
         /**

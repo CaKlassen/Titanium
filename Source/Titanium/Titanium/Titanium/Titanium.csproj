@@ -64,6 +64,7 @@
     <Compile Include="Arena\ArenaController.cs" />
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Battle\Encounter.cs" />
+    <Compile Include="Battle\Skill.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Entities\ArenaSkybox.cs" />
     <Compile Include="Entities\ArenaTable.cs" />

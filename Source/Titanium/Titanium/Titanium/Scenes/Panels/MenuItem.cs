@@ -49,7 +49,7 @@ namespace Titanium.Scenes.Panels
         public override void load(ContentManager content, Viewport v)
         {
             base.load(content, v);
-            icon = InputAction.GetIcon(content, action);
+            icon = InputAction.GetIcon(action);
             font = content.Load<SpriteFont>("TestFont");
         }
 

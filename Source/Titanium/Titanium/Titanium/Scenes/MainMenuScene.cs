@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Titanium.Scenes.Panels;
 using Titanium.Battle;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -69,7 +70,13 @@ namespace Titanium.Scenes
             if (arena.Evaluate(inputState, null, out player))
                 SceneManager.changeScene(SceneState.arena);
             else if (battle.Evaluate(inputState, null, out player))
-                SceneManager.changeScene(SceneState.battle);
+            {
+                BattleScene battle = new BattleScene(
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat },
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat }
+                    );
+                SceneManager.setScene(SceneState.battle, battle, true);
+            }
 
             mainMenu.update(gameTime, inputState);
         }

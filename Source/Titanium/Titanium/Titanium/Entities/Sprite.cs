@@ -28,8 +28,8 @@ namespace Titanium.Entities
 
         public enum Direction { Up, Down, Left, Right, None }
         public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
-        public enum State { Idle, Running, FinishedRunning, Attacking, Hurt, FinishedHurting }
-        protected State currentState;
+        public enum State { Idle, Running, FinishedRunning, Attacking, Hurt, FinishedHurting, Resting }
+        public State currentState;
         public Sprite enemySprite;
         public float attackMultiplier;
 
@@ -48,7 +48,7 @@ namespace Titanium.Entities
         }
 
 
-        public void Load(ContentManager content)
+        public virtual void Load(ContentManager content)
         {
             idleFile = content.Load<Texture2D>("Sprites/" + filePath + "_idle");
             runFile = content.Load<Texture2D>("Sprites/" + filePath + "_run");
@@ -289,6 +289,9 @@ namespace Titanium.Entities
         {
             posX = (int)v.X;
             posY = (int)v.Y;
+            destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+            originalRect = destRect;
+            combatInfo.move(destRect);
         }
     }
 }

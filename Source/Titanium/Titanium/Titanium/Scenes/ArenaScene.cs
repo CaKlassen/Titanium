@@ -209,8 +209,7 @@ namespace Titanium.Scenes
             List<PartyUtils.Enemy> enemies = new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat };
             
             // Create and switch to the battle
-            BattleScene battle = new BattleScene(
-                new Encounter(enemies));
+            BattleScene battle = new BattleScene(enemies, enemies);
 
             SceneManager.setScene(SceneState.battle, battle, true);
         }
