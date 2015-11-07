@@ -10,21 +10,33 @@ using Titanium.Scenes;
 
 namespace Titanium.Gambits
 {
+    public struct GambitResult
+    {
+        public GambitResult(float multiplier, int completionTime)
+        {
+            this.multiplier = multiplier;
+            this.completionTime = completionTime;
+        }
+        public float multiplier;
+        public int completionTime;
+    }
     /// <summary>
     /// Base class representing the actions the player must take to improve a certain attack or spell
     /// </summary>
     public abstract class BaseGambit
     {
-        protected double startTime;
+        protected int startTime;
+        protected int timeElapsed;
         protected bool finished;
-        protected float multiplier = 1f;
+        GambitResult result;
         protected Viewport? v = null;
         protected Vector2 position = Vector2.Zero;
         protected SpriteFont font;
+        protected float multiplier = 1f;
 
         public BaseGambit(GameTime gameTime)
         {
-            startTime = gameTime.TotalGameTime.TotalMilliseconds;
+            startTime = (int)gameTime.TotalGameTime.TotalMilliseconds;
             finished = false;
         }
 
@@ -36,19 +48,9 @@ namespace Titanium.Gambits
         /// <param name="gameTime">The current GameTime object</param>
         public virtual void start(GameTime gameTime)
         {
-            startTime = gameTime.TotalGameTime.TotalMilliseconds;
-            multiplier = 1f;
+            startTime = (int)gameTime.TotalGameTime.TotalMilliseconds;
+            result = new GambitResult(multiplier, int.MaxValue);
             finished = false;
-        }
-
-        /// <summary>
-        /// The time since the gambit was started
-        /// </summary>
-        /// <param name="gameTime">The current GameTime object</param>
-        /// <returns></returns>
-        public int timeElapsed(GameTime gameTime)
-        {
-            return (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
         }
 
         /// <summary>
@@ -56,15 +58,21 @@ namespace Titanium.Gambits
         /// </summary>
         /// <param name="multiplier">Float that will be assigned the multiplier based on the user's performance</param>
         /// <returns></returns>
-        public virtual bool isComplete(out float multiplier)
+        public virtual bool isComplete(out GambitResult result)
         {
-            multiplier = this.multiplier;
+            if (finished)
+                result = new GambitResult(multiplier, timeElapsed);
+
+            result = this.result;
             return finished;
         }
 
         public abstract void load(ContentManager content);
 
-        public abstract void update(GameTime gameTime, InputState state);
+        public virtual void update(GameTime gameTime, InputState state)
+        {
+            timeElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
+        }
 
         public abstract void draw(SpriteBatch sb);
         
@@ -79,5 +87,6 @@ namespace Titanium.Gambits
         /// </summary>
         /// <returns>The total height</returns>
         public abstract int totalHeight();
+
     }
 }

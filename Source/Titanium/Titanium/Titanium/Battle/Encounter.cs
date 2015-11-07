@@ -27,6 +27,11 @@ namespace Titanium.Battle
             Animating,
             EnemyTurn,
         }
+
+        InputAction[] PartySelectActions;
+        InputAction[] ActionSelectActions;
+        InputAction[] EnemySelectActions;
+
         public EncounterState state;
         ContentManager content;
 
@@ -36,8 +41,8 @@ namespace Titanium.Battle
         EnemyPanel enemies;
         BattleMenuPanel battleMenu;
 
-        Skill selectedSkill;
         BaseGambit currentGambit;
+        GambitResult result;
 
         /// <summary>
         /// Initializes a blank Encounter for debug / bug fixing purposes
@@ -102,7 +107,16 @@ namespace Titanium.Battle
             }
         }
 
-        public void drawEnemyIcons(SpriteBatch sb) { }
+        public void drawEnemyIcons(SpriteBatch sb)
+        {
+            Texture2D[] icons = { InputAction.LB.icon(), InputAction.LT.icon(), InputAction.RB.icon(), InputAction.RT.icon() };
+            for (int i = 0; i < icons.Length; ++i)
+            {
+                if (enemies[i].checkDeath() || enemies[i] == null)
+                    continue;
+                sb.Draw(icons[i], enemies[i].getPosition(), Color.White);
+            }
+        }
 
         /// <summary>
         /// This function will detect the current state of the battle and update the necessary components only
@@ -141,10 +155,9 @@ namespace Titanium.Battle
                     break;
                 case EncounterState.Gambit:
                     currentGambit.update(gameTime, inputState);
-                    float m;
-                    if (currentGambit.isComplete(out m))
+                    if (currentGambit.isComplete(out result))
                     {
-                        PartyUtils.getParty().ElementAt(battleMenu.selected).Resolve(m);
+                        party[battleMenu.selected].resolve(result);
                         state = EncounterState.Animating;
                     }
                     break;
@@ -203,30 +216,15 @@ namespace Titanium.Battle
 
         public void act(int n)
         {
-            switch(n)
-            {
-                case 0:
-                    PartyUtils.getParty().ElementAt(battleMenu.selected).Quick();
-                    state = EncounterState.EnemySelect;
-                    break;
-                case 1:
-                    PartyUtils.getParty().ElementAt(battleMenu.selected).Skill1();
-                    state = EncounterState.EnemySelect;
-                    break;
-                case 2:
-                    PartyUtils.getParty().ElementAt(battleMenu.selected).Skill2();
-                    state = EncounterState.EnemySelect;
-                    break;
-                default: break;
-            }
+            party[battleMenu.selected].selectSkill(n);
+            state = EncounterState.EnemySelect;
         }
 
         public void attack(int n, GameTime gameTime)
         {
-            Sprite target;
-            if ((target = enemies.get(n)) != null)
+            if (enemies[n] != null)
             {
-                currentGambit = PartyUtils.getParty().ElementAt(battleMenu.selected).execute(target, gameTime);
+                currentGambit = party[battleMenu.selected].execute(enemies[n], gameTime);
                 state = EncounterState.Gambit;
             }
              

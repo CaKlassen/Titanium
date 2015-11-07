@@ -17,24 +17,30 @@ namespace Titanium.Scenes.Panels
     /// </summary>
     public class BattleMenuPanel: Panel
     {
+        int height = 300;
+        int width = 150;
         public int selected;
-        List<MenuPanel> playerMenus;
         Encounter encounter;
 
         public BattleMenuPanel(Encounter e): base()
         {
             selected = 0;
             encounter = e;
-            playerMenus = new List<MenuPanel>();
             foreach (PlayerSprite player in PartyUtils.getParty())
-                addSubPanel(new MenuPanel(player.getName()));
-
+                addSubPanel(player.makeMenuPanel());
         }
 
 
+        public override void center()
+        {
+            base.center();
+            foreach (MenuPanel menu in subPanels)
+                menu.updateMenuItemLocations();
+        }
+
         public override void load(ContentManager content, Viewport v)
         {
-            foreach (MenuPanel menu in playerMenus)
+            foreach (MenuPanel menu in subPanels)
                 menu.load(content, v);
 
             base.load(content, v);
@@ -61,6 +67,14 @@ namespace Titanium.Scenes.Panels
             base.update(gameTime, inputState);
         }
 
-        
+        public override float totalHeight()
+        {
+            return height;
+        }
+
+        public override float totalWidth()
+        {
+            return width;
+        }
     }
 }

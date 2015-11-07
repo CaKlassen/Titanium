@@ -65,6 +65,7 @@
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Battle\Encounter.cs" />
     <Compile Include="Battle\Skill.cs" />
+    <Compile Include="Battle\SpriteSheet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Entities\ArenaSkybox.cs" />
     <Compile Include="Entities\ArenaTable.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\ArenaExit.cs" />
     <Compile Include="Battle\CombatInfo.cs" />
+    <Compile Include="Entities\EnemySprite.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Items\Potion.cs" />
     <Compile Include="Entities\MovableModel.cs" />

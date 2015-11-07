@@ -100,7 +100,7 @@ namespace Titanium.Gambits
 
         public override void update(GameTime gameTime, InputState state)
         {
-            timeleft = timeLimit - timeElapsed(gameTime);
+            timeleft = timeLimit - timeElapsed;
 
             if (circle == null)
             {
@@ -129,6 +129,7 @@ namespace Titanium.Gambits
                 finished = true;
                 multiplier = 0.7f + ((count - 5) / 10);
             }
+            base.update(gameTime, state);
         }
 
         private void makeCircle(Direction start)

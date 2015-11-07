@@ -32,7 +32,7 @@ namespace Titanium.Utilities
 
         public static Sprite CreateNewSprite(String path)
         {
-            Sprite result = new Sprite();
+            Sprite result = new Sprite(new List<Sprite.SpriteAction>());
             string line;
             System.IO.StreamReader file = new System.IO.StreamReader("Content/Stats/"+path+".txt");
             while ((line = file.ReadLine()) != null)

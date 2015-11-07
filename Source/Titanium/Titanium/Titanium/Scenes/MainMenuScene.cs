@@ -55,7 +55,6 @@ namespace Titanium.Scenes
         public override void loadScene(ContentManager content)
         {
             font = content.Load<SpriteFont>("TestFont");
-
             mainMenu.load(content, SceneManager.GraphicsDevice.Viewport);
 
             mainMenu.center();
@@ -77,7 +76,6 @@ namespace Titanium.Scenes
                     );
                 SceneManager.setScene(SceneState.battle, battle, true);
             }
-
             mainMenu.update(gameTime, inputState);
         }
     }

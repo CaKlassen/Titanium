@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
+using Titanium.Entities;
 
 namespace Titanium.Scenes.Panels
 {
@@ -22,7 +23,8 @@ namespace Titanium.Scenes.Panels
         private int SPACING = 5;
         public MenuPanel(string menuTitle, List<MenuItem> items) : base()
         {
-            subPanels = items.Cast<Panel>().ToList();
+            foreach (Panel item in items)
+                addSubPanel(item);
             title = menuTitle;
         }
 
@@ -112,5 +114,6 @@ namespace Titanium.Scenes.Panels
         {
             title = str;
         }
+
     }
 }

@@ -46,7 +46,7 @@ namespace Titanium.Gambits
         public override void update(GameTime gameTime, InputState state)
         {
             
-            timeLeft = timeLimit - timeElapsed(gameTime);
+            timeLeft = timeLimit - timeElapsed;
 
             if (timeLeft <= 0)
             {
@@ -57,6 +57,7 @@ namespace Titanium.Gambits
             {
                 ++count;
             }
+            base.update(gameTime, state);
         }
 
         public override void draw(SpriteBatch sb)

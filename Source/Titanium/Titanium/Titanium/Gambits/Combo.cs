@@ -55,27 +55,11 @@ namespace Titanium.Gambits
         // The icon associated with each combo action
         List<Texture2D> icons;
 
-
-        PlayerIndex player;
-
-
-        public Combo(): base()
-        {
-            comboString = makeComboString(DateTime.Now.Millisecond);
-            icons = new List<Texture2D>();
-        }
-
-        public Combo(int comboLength, int timeLimit) : base()
-        {
-            comboString = makeComboString(DateTime.Now.Millisecond);
-            icons = new List<Texture2D>();
-            this.timeLimit = timeLimit;
-            this.length = comboLength;
-        }
-
         public override void start(GameTime gameTime)
         {
+            icons = new List<Texture2D>();
             current = 0;
+            comboString = makeComboString(DateTime.Now.Millisecond);
             base.start(gameTime);
         }
 
@@ -105,8 +89,6 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            foreach (InputAction action in comboString)
-                icons.Add(InputAction.GetIcon(action));
 
             font = content.Load<SpriteFont>("TestFont");
 
@@ -119,7 +101,7 @@ namespace Titanium.Gambits
         public override void update(GameTime gameTime, InputState state)
         {
             
-            timeLeft = timeLimit - timeElapsed(gameTime);
+            timeLeft = timeLimit - timeElapsed;
 
             if (timeLeft <= 0)
             {
@@ -127,7 +109,7 @@ namespace Titanium.Gambits
                 finished = true;
                 sfxFailure.Play();
             }
-            if (comboString.ElementAt(current).Evaluate(state, null, out player))
+            if (comboString[current].wasPressed(state))
             {
                 current++;
                 sfxSuccess.Play(0.2f, 0f, 0f);
@@ -138,12 +120,13 @@ namespace Titanium.Gambits
                     sfxComplete.Play(0.4f, 0f, 0f);
                 }
             }
-            else if (miss(state, player))
+            else if (miss(state))
             {
                 multiplier = 0.7f;
                 finished = true;
                 sfxFailure.Play();
             }
+            base.update(gameTime, state);
         }
 
         /// <summary>
@@ -152,11 +135,11 @@ namespace Titanium.Gambits
         /// <param name="state">The input state to check</param>
         /// <param name="player">The controlling player</param>
         /// <returns>true if the user missed, false if they didnt</returns>
-        public bool miss(InputState state, PlayerIndex player)
+        public bool miss(InputState state)
         {
             foreach (InputAction button in buttons)
             {
-                if (!button.Evaluate(state, null, out player))
+                if (!button.wasPressed(state))
                     continue;
                 else
                     return true;
@@ -177,6 +160,9 @@ namespace Titanium.Gambits
 
             for (int i = 0; i < length; i++)
                 combo.Add(buttons.ElementAt(r.Next(inputCount)));
+
+            foreach (InputAction action in combo)
+                icons.Add(InputAction.GetIcon(action));
 
             return combo;
         }

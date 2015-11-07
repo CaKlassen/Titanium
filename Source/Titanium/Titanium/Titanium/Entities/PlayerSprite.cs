@@ -9,6 +9,7 @@ using Titanium.Gambits;
 using Titanium.Battle;
 using Titanium.Scenes.Panels;
 using Microsoft.Xna.Framework.Content;
+using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
@@ -16,66 +17,23 @@ namespace Titanium.Entities
 
     public class PlayerSprite: Sprite
     {
-        public Skill quick;
-        public Skill skill1;
-        public Skill skill2;
+        List<Skill> skills;
 
         Skill selectedSkill;
-        public delegate void PlayerAction(Sprite s, float multiplier);
 
-        public PlayerSprite(Skill s1, Skill s2): base()
+        public PlayerSprite(List<Skill> skills): base(new List<SpriteAction>())
         {
-            skill1 = s1;
-            skill2 = s2;
-
-            quick = new Skill("Quick Attack", new Mash());
-
-            skill1.assign(this, normalAttack);
-            skill2.assign(this, strongAttack);
-            quick.assign(this, quickAttack);
-        }
-
-        /// <summary>
-        /// A quick attack that does not require a gambit
-        /// </summary>
-        /// <param name="s">The sprite to be attacked</param>
-        /// <param name="multiplier">The multiplier of the attack</param>
-        public void quickAttack(Sprite s, float multiplier)
-        {
-            targetRect = s.originalRect;
-            changeState(State.Running);
-            hitTarget(s, multiplier);
-        }
-
-        /// <summary>
-        /// A normal attack that requires a Combo gambit
-        /// </summary>
-        /// <param name="s">The sprite to be attacked</param>
-        /// <param name="multiplier">The multiplier of the attack</param>
-        public void normalAttack(Sprite s, float multiplier)
-        {
-            targetRect = s.originalRect;
-            changeState(State.Running);
-            hitTarget(s, multiplier);
-        }
-
-        /// <summary>
-        /// A strong attack that requires the Mash gambit
-        /// </summary>
-        /// <param name="s">The sprite to be attacked</param>
-        /// <param name="multiplier">The multiplier of the attack</param>
-        public void strongAttack(Sprite s, float multiplier)
-        {
-            targetRect = s.originalRect;
-            changeState(State.Running);
-            hitTarget(s, multiplier);
+            this.skills = new List<Skill>();
+            
+            this.skills.Add(new Skill("Quick Attack", new Mash(), PartyUtils.testAction));
+            this.skills = this.skills.Concat(skills).ToList();
         }
 
         public override void Load(ContentManager content)
         {
-            quick.load(content);
-            skill1.load(content);
-            skill2.load(content);
+            foreach (Skill skill in skills)
+                skill.load(content);
+
             base.Load(content);
         }
 
@@ -107,34 +65,32 @@ namespace Titanium.Entities
             base.Update(gameTime, inputState);
         }
 
-        public string getName()
-        {
-            return rawStats.name;
-        }
-
-
-        public void Quick()
-        {
-            selectedSkill = quick;
-        }
-
-        public void Skill1()
-        {
-            selectedSkill = skill1;
-        }
-        public void Skill2()
-        {
-            selectedSkill = skill2;
-        }
 
         public BaseGambit execute(Sprite target, GameTime gameTime)
         {
             return selectedSkill.execute(target, gameTime);
         }
 
-        public void Resolve(float multiplier)
+        public void resolve(GambitResult result)
         {
-            selectedSkill.resolve(multiplier);
+            selectedSkill.resolve(this, result);
+        }
+
+        public string name() { return rawStats.name; }
+
+        public MenuPanel makeMenuPanel()
+        {
+            List<MenuItem> items = new List<MenuItem>();
+            List<InputAction> actions = new List<InputAction>() { InputAction.Y, InputAction.A, InputAction.X };
+            for(int i=0; i<skills.Count; ++i)
+                items.Add(skills[i].makeMenuItem(actions[i]));
+            MenuPanel result = new MenuPanel(rawStats.name, items);
+            return result;
+        }
+
+        public void selectSkill(int n)
+        {
+            selectedSkill = skills[n];
         }
     }
 }

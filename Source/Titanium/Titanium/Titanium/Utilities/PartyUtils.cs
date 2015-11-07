@@ -11,19 +11,26 @@ namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
+        public delegate void PlayerAction(PlayerSprite player, Sprite target, GambitResult gambitResult);
+
+        public static void testAction(PlayerSprite player, Sprite target, GambitResult gambitResult)
+        {
+            player.hitTarget(target, gambitResult.multiplier);
+        }
+
         static Skill[][] SKILLS =
         {
             new Skill[]{
-                new Skill("Fireball", new Combo()),
-                new Skill("Frostbolt", new Combo())
+                new Skill("Fireball", new Combo(), testAction),
+                new Skill("Frostbolt", new Combo(), testAction)
             },
             new Skill[]{
-                new Skill("Arcane Arrow", new Rotation()),
-                new Skill("Throwing Knife", new Rotation())
+                new Skill("Arcane Arrow", new Rotation(), testAction),
+                new Skill("Throwing Knife", new Rotation(), testAction)
             },
             new Skill[]{
-                new Skill("Bite", new Mash()),
-                new Skill("Claw", new Mash())
+                new Skill("Bite", new Mash(), testAction),
+                new Skill("Claw", new Mash(), testAction)
             }
         };
 
@@ -45,7 +52,7 @@ namespace Titanium.Utilities
                 int i = 0;
                 while (reader.ReadLine() != null)
                 {
-                    partyMembers.Add(new PlayerSprite(SKILLS[i][0], SKILLS[i][1]));
+                    partyMembers.Add(new PlayerSprite(SKILLS[i].ToList()));
                 }
             }
             loadStats(partyMembers.Cast<Sprite>().ToList(), "PlayerFile.txt");
@@ -143,5 +150,7 @@ namespace Titanium.Utilities
         {
             return partyMembers.ElementAt(new Random().Next(partyMembers.Count));
         }
+
+        
     }
 }
