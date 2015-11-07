@@ -160,8 +160,7 @@ namespace Titanium.Scenes
             input.update();
 
             
-            if (scenes[(int)currentScene] != null)
-                scenes[(int)currentScene].update(gameTime, input);
+            
 
             switch (state)
             {
@@ -183,6 +182,8 @@ namespace Titanium.Scenes
                         waitTime = WAIT_TIME;
                         state = State.transitionOn;
                         currentScene = nextScene;
+                        if (scenes[(int)currentScene] != null)
+                            scenes[(int)currentScene].update(gameTime, input);
                     }
                     break;
                 case State.transitionOn:
@@ -192,8 +193,12 @@ namespace Titanium.Scenes
                         state = State.active;
                         transitionPosition = 0;
                     }
+                    if (scenes[(int)currentScene] != null)
+                        scenes[(int)currentScene].update(gameTime, input);
                     break;
                 default:
+                    if (scenes[(int)currentScene] != null)
+                        scenes[(int)currentScene].update(gameTime, input);
                     break;
             }
 
