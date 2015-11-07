@@ -38,6 +38,8 @@ namespace Titanium.Entities
         private Vector3 _Position;
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
+        private PartyUtils.Enemy type;
+
         //MovableModel
         //public Model myModel;
         private float modelRotation = 0;
@@ -68,6 +70,7 @@ namespace Titanium.Entities
             // Set the wait turns randomly
             waitTurns = ArenaController.instance.getGenerator().Next(1, WAIT_TURNS + 1);
 
+            type = PartyUtils.Enemy.Bat;
             myModel = myModel = Content.Load<Model>("Models/enemy");
         }
         
@@ -174,6 +177,11 @@ namespace Titanium.Entities
                     mesh.Draw();
                 }
             }
+        }
+
+        public PartyUtils.Enemy getEnemyType()
+        {
+            return type;
         }
     }
 }

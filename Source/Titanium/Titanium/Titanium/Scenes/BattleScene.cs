@@ -35,6 +35,8 @@ namespace Titanium.Scenes
 
         Encounter currentEncounter;
 
+        Texture2D background;
+
         /**
          * The default scene constructor.
          */
@@ -101,6 +103,8 @@ namespace Titanium.Scenes
 
             foreach (PlayerSprite player in PartyUtils.getParty())
                 player.Load(content);
+
+            background = content.Load<Texture2D>("Sprites/Battle-Base");
         }
 
         
@@ -141,6 +145,8 @@ namespace Titanium.Scenes
             SpriteBatch sb = SceneManager.SpriteBatch;
 
             sb.Begin();
+
+            sb.Draw(background, new Vector2(0, 0), Color.White);
 
             if (paused)
                 pauseMenu.draw(sb);

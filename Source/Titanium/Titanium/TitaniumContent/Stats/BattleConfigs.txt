@@ -1,0 +1,6 @@
+Bat~Bat-Empty-Empty-Empty
+Bat~Bat-Empty-Bat-Empty
+Bat~Bat-Empty-Bat-Bat
+Bat~Bat-Bat-Empty-Empty
+Bat~Bat-Bat-Bat-Empty
+Bat~Bat-Bat-Bat-Bat
