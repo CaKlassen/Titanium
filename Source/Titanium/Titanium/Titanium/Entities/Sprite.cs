@@ -292,5 +292,9 @@ namespace Titanium.Entities
             return new Vector2(posX, posY);
         }
 
+        public override Vector3 getPOSITION()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

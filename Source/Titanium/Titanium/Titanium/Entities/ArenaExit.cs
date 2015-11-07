@@ -25,7 +25,7 @@ namespace Titanium.Entities
 
         //MovableModel
         private float modelRotation;
-        public Model myModel;
+        //public Model myModel;
         private float scale;
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Titanium.Entities
         /// Method to get the characters current position.
         /// </summary>
         /// <returns>The position of the player character as a Vector3.</returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return _Position;
         }

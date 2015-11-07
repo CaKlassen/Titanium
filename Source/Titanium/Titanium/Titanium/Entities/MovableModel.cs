@@ -8,7 +8,7 @@ namespace Titanium.Entities
     class MovableModel : Entity
     {
         private float aspectRatio, modelRotation;
-        private Model myModel;
+        //private Model myModel;
         private SpriteBatch spriteBatch;
         private String modelPath;
         private Vector3 modelPosition, cameraPosition;
@@ -59,6 +59,11 @@ namespace Titanium.Entities
                 // Draw the mesh, using the effects set above.
                 mesh.Draw();
             }
+        }
+
+        public override Vector3 getPOSITION()
+        {
+            return modelPosition;
         }
     }
 }

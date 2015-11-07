@@ -24,7 +24,7 @@ namespace Titanium.Entities
 
         //MovableModel
         private float modelRotation;
-        public Model myModel;
+        //public Model myModel;
         private Vector3 modelPosition;
         private float scale;
 
@@ -89,6 +89,11 @@ namespace Titanium.Entities
                     mesh.Draw();
                 }
             }
+        }
+
+        public override Vector3 getPOSITION()
+        {
+            return _Position;
         }
     }
 }

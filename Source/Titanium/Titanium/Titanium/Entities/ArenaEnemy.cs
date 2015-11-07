@@ -39,7 +39,7 @@ namespace Titanium.Entities
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
         //MovableModel
-        public Model myModel;
+        //public Model myModel;
         private float modelRotation = 0;
         
         private float scale;
@@ -127,7 +127,7 @@ namespace Titanium.Entities
         /// Method to get the characters current position.
         /// </summary>
         /// <returns>The position of the player character as a Vector3.</returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return _Position;
         }
