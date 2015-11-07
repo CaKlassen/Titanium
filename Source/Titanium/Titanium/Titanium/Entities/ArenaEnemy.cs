@@ -42,8 +42,10 @@ namespace Titanium.Entities
 
         //MovableModel
         //public Model myModel;
-        private float modelRotation = 0;
-        
+        private float modelRotation = MathHelper.ToRadians(180);
+
+        private Texture2D texture;
+
         private float scale;
 
         private int waitTurns = WAIT_TURNS;
@@ -54,7 +56,7 @@ namespace Titanium.Entities
         /// </summary>
         /// <param name="createTile">The tile to start on</param>
         /// <param name="Content">The content manager for loading</param>
-        public ArenaEnemy(Tile createTile, ContentManager Content)
+        public ArenaEnemy(Tile createTile, ContentManager Content, PartyUtils.Enemy type)
         {
             // Add this to the collidables list
             ArenaScene.instance.collidables.Add(this);
@@ -70,8 +72,11 @@ namespace Titanium.Entities
             // Set the wait turns randomly
             waitTurns = ArenaController.instance.getGenerator().Next(1, WAIT_TURNS + 1);
 
-            type = PartyUtils.Enemy.Bat;
-            myModel = myModel = Content.Load<Model>("Models/enemy");
+            this.type = type;
+
+            myModel = Content.Load<Model>("Models/hero");
+
+            setTexture(Content);
         }
         
         /// <summary>
@@ -166,6 +171,9 @@ namespace Titanium.Entities
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (BasicEffect effect in mesh.Effects)
                     {
+                        effect.TextureEnabled = true;
+                        effect.Texture = texture;
+
                         //effect.EnableDefaultLighting();
                         ArenaScene.instance.camera.SetLighting(effect);
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
@@ -182,6 +190,28 @@ namespace Titanium.Entities
         public PartyUtils.Enemy getEnemyType()
         {
             return type;
+        }
+
+        /// <summary>
+        /// This function sets the texture for the enemy.
+        /// </summary>
+        /// <param name="Content"></param>
+        private void setTexture(ContentManager Content)
+        {
+            switch(type)
+            {
+                case PartyUtils.Enemy.Bat:
+                {
+                    texture = Content.Load<Texture2D>("Models/BatMap");
+                    break;
+                }
+
+                default:
+                {
+                    texture = Content.Load<Texture2D>("Models/BatMap");
+                    break;
+                }
+            }
         }
     }
 }
