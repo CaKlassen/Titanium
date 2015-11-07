@@ -39,12 +39,15 @@ namespace Titanium.Entities
         //private String modelPath;
         private Vector3 modelPosition;
         private int stepsTaken;
+
+        private Texture2D texture;
         
         private float rotAngle;
         private float scale;
 
         // Possible player actions
         static InputAction up, down, left, right;
+
         static Character()
         {
             up = InputAction.UP;
@@ -64,10 +67,10 @@ namespace Titanium.Entities
             
             _forward = ForwardDir.UP;
 
-            rotAngle = 0;
+            rotAngle = MathHelper.ToRadians(180);
             scale = 0.5f;
             
-            modelRotation = 0.0f;
+            modelRotation = 180.0f;
 
             myModel = null;
             stepsTaken = 0;
@@ -77,6 +80,7 @@ namespace Titanium.Entities
         public void LoadModel(ContentManager cm, float aspectRatio)
         {
             myModel = cm.Load<Model>("Models/hero");
+            texture = cm.Load<Texture2D>("Models/PlayerMap");
             this.aspectRatio = aspectRatio;
         }
 
@@ -95,10 +99,12 @@ namespace Titanium.Entities
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
                 {
-                    
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (BasicEffect effect in mesh.Effects)
                     {
+                        effect.TextureEnabled = true;
+                        effect.Texture = texture;
+
                         //effect.EnableDefaultLighting();//lighting
                         ArenaScene.instance.camera.SetLighting(effect);
                         effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale)* Matrix.CreateRotationY(modelRotation)
@@ -223,8 +229,6 @@ namespace Titanium.Entities
 
                    stepsTaken++;
                 }
-
-                rotAngle = MathHelper.ToRadians(180);
             }
 
             if (down.Evaluate(inputState, PlayerIndex.One, out player))
@@ -239,8 +243,6 @@ namespace Titanium.Entities
 
                     stepsTaken++;
                 }
-
-                rotAngle = MathHelper.ToRadians(0);
             }
 
             
@@ -257,7 +259,7 @@ namespace Titanium.Entities
                     stepsTaken++;
                 }
 
-                rotAngle = MathHelper.ToRadians(270);
+                rotAngle = MathHelper.ToRadians(0);
             }
 
             else if (right.Evaluate(inputState, PlayerIndex.One, out player))
@@ -273,7 +275,7 @@ namespace Titanium.Entities
                     stepsTaken++;
                 }
 
-                rotAngle = MathHelper.ToRadians(90);
+                rotAngle = MathHelper.ToRadians(180);
             }
 
             //update model rotation

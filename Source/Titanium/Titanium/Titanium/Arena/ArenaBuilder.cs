@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Titanium.Arena;
 using Titanium.Entities;
 using Titanium.Entities.Traps;
+using Titanium.Utilities;
 using Titanium.Entities.Items;
 
 namespace Titanium
@@ -326,7 +327,7 @@ namespace Titanium
                 while (tiles[y, x].getNumConnections() == 0 || tiles[y, x] == endTile || tiles[y, x] == startTile);
 
                 // Create an enemy
-                tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content));
+                tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content, PartyUtils.Enemy.Bat));
             }
         }
 
