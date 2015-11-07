@@ -22,7 +22,7 @@ namespace Titanium.Scenes.Panels
         public int selected;
         Encounter encounter;
 
-        public BattleMenuPanel(Encounter e): base()
+        public BattleMenuPanel(Encounter e)
         {
             selected = 0;
             encounter = e;

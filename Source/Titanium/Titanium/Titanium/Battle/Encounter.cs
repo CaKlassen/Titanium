@@ -65,7 +65,7 @@ namespace Titanium.Battle
             party.load(content, v);
             battleMenu.load(content, v);
             battleMenu.center();
-            resolved = true;
+            resolved = false;
         }
 
         /// <summary>
@@ -165,14 +165,20 @@ namespace Titanium.Battle
                     if (party.idle())
                     {
                         if (party.hasActed())
+                        {
                             state = EncounterState.EnemyTurn;
+                            enemies.activate(gameTime);
+                        }
                         else
                             state = EncounterState.HeroSelect;
                     }
                     break;
                 case EncounterState.EnemyTurn:
-                    if (!enemies.acting(gameTime))
+                    if (!enemies.acting())
+                    {
                         state = EncounterState.HeroSelect;
+                        party.activate();
+                    }
                     break;
                 default:
                     if (InputAction.B.wasPressed(inputState))
@@ -188,30 +194,22 @@ namespace Titanium.Battle
 
         public void select(int n)
         {
-            battleMenu.selected = n;
-            state = EncounterState.ActionSelect;
+            if (party[n].currentState != Sprite.State.Resting)
+            {
+                battleMenu.selected = n;
+                state = EncounterState.ActionSelect;
+            }
         }
 
 
         public bool success()
         {
-            if (!resolved)
-            {
-                resolved = true;
-                return true;
-            }
-            return false;            
+            return enemies.dead();        
         }
 
         public bool failure()
         {
-            if (!resolved)
-            {
-                resolved = true;
-                return true;
-            }
-
-            return false;
+            return party.dead();
         }
 
         public void act(int n)

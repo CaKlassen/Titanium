@@ -11,9 +11,9 @@ namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
-        public delegate void PlayerAction(PlayerSprite player, Sprite target, GambitResult gambitResult);
+        public delegate void PlayerAction(Sprite player, Sprite target, GambitResult gambitResult);
 
-        public static void testAction(PlayerSprite player, Sprite target, GambitResult gambitResult)
+        public static void testAction(Sprite player, Sprite target, GambitResult gambitResult)
         {
             player.hitTarget(target, gambitResult.multiplier);
         }

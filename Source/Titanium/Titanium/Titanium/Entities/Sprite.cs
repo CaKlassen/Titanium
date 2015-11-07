@@ -24,12 +24,10 @@ namespace Titanium.Entities
         //For testing purpose only
         protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile;
         String filePath = "";
-        List<SpriteAction> actions;
-
 
         public enum Direction { Up, Down, Left, Right, None }
         public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
-        public enum State { Idle, Running, FinishedRunning, Attacking, Hurt, FinishedHurting, Resting }
+        public enum State { Idle, Running, FinishedRunning, Attacking, Hurt, FinishedHurting, Resting, Dead }
         public State currentState;
         public Sprite enemySprite;
         public float attackMultiplier;
@@ -43,7 +41,7 @@ namespace Titanium.Entities
             runFrameCount = 0;
             posX = 150;
             posY = 150;
-            currentState = State.Idle;
+            changeState(State.Idle);
             attackMultiplier = 1.0f;
             combatInfo = new CombatInfo();
         }
@@ -75,7 +73,7 @@ namespace Titanium.Entities
         {
             if (checkDeath())
             {
-
+                changeState(State.Dead);
             }
             else if (currentState == State.Resting)
             {
@@ -230,6 +228,7 @@ namespace Titanium.Entities
                     break;
                 case State.Idle:
                 case State.Resting:
+                default:
                     this.currentSpriteFile = idleFile;
                     this.frameCount = this.idleFrameCount;
                     break;
@@ -249,7 +248,7 @@ namespace Titanium.Entities
         {
             if (this.rawStats.currentHP <= 0)
             {
-                changeState(State.Hurt);
+                changeState(State.Dead);
                 return true;
             }
             return false;

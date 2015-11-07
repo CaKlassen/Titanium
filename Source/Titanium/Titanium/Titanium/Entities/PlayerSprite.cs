@@ -25,7 +25,7 @@ namespace Titanium.Entities
         {
             this.skills = new List<Skill>();
             
-            this.skills.Add(new Skill("Quick Attack", new Mash(), PartyUtils.testAction));
+            this.skills.Add(new Skill("Quick Attack", new Quick(), PartyUtils.testAction));
             this.skills = this.skills.Concat(skills).ToList();
         }
 

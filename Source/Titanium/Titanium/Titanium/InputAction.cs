@@ -83,42 +83,42 @@ namespace Titanium
             );
             UP = new InputAction(
                 new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
-                new Keys[] { Keys.W },
+                new Keys[] { Keys.W, Keys.Up },
                 true
             );
             DOWN = new InputAction(
                 new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
-                new Keys[] { Keys.S },
+                new Keys[] { Keys.S, Keys.Down },
                 true
             );
             LEFT = new InputAction(
                 new Buttons[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft },
-                new Keys[] { Keys.A },
+                new Keys[] { Keys.A, Keys.Left },
                 true
             );
             RIGHT = new InputAction(
                 new Buttons[] { Buttons.DPadRight, Buttons.LeftThumbstickRight },
-                new Keys[] { Keys.D },
+                new Keys[] { Keys.D, Keys.Right },
                 true
             );
             RSUP = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickUp },
-                new Keys[] { Keys.Up },
+                new Keys[] { Keys.NumPad8 },
                 true
             );
             RSDOWN = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickDown },
-                new Keys[] { Keys.Down },
+                new Keys[] { Keys.NumPad2 },
                 true
             );
             RSLEFT = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickLeft },
-                new Keys[] { Keys.Left },
+                new Keys[] { Keys.NumPad4 },
                 true
             );
             RSRIGHT = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickRight },
-                new Keys[] { Keys.Right },
+                new Keys[] { Keys.NumPad6 },
                 true
             );
             START = new InputAction(
