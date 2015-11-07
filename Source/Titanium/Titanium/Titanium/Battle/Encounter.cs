@@ -86,14 +86,13 @@ namespace Titanium.Battle
                     drawEnemyIcons(sb);
                     break;
                 case EncounterState.ActionSelect:
-                    battleMenu.draw(sb);
-                    break;
                 case EncounterState.Animating:
                 case EncounterState.EnemyTurn:
                     break;
             }
             enemies.draw(sb);
             party.draw(sb);
+            battleMenu.draw(sb);
         }
 
         public void drawHeroIcons(SpriteBatch sb)
@@ -142,6 +141,8 @@ namespace Titanium.Battle
                         act(1);
                     else if (InputAction.A.wasPressed(inputState))
                         act(2);
+                    if (InputAction.B.wasPressed(inputState))
+                        state = EncounterState.HeroSelect;
                     break;
                 case EncounterState.EnemySelect:
                     if (InputAction.LB.wasPressed(inputState))
@@ -152,6 +153,8 @@ namespace Titanium.Battle
                         attack(2, gameTime);
                     else if (InputAction.RT.wasPressed(inputState))
                         attack(3, gameTime);
+                    else if (InputAction.B.wasPressed(inputState))
+                        state = EncounterState.HeroSelect;
                     break;
                 case EncounterState.Gambit:
                     currentGambit.update(gameTime, inputState);
@@ -181,8 +184,6 @@ namespace Titanium.Battle
                     }
                     break;
                 default:
-                    if (InputAction.B.wasPressed(inputState))
-                        state = EncounterState.HeroSelect;
                     break;
             }
             

@@ -21,6 +21,7 @@ namespace Titanium.Scenes.Panels
         int width = 150;
         public int selected;
         Encounter encounter;
+        SpriteFont font;
 
         public BattleMenuPanel(Encounter e)
         {
@@ -43,6 +44,8 @@ namespace Titanium.Scenes.Panels
             foreach (MenuPanel menu in subPanels)
                 menu.load(content, v);
 
+            font = content.Load<SpriteFont>("TestFont");
+
             base.load(content, v);
         }
 
@@ -51,9 +54,13 @@ namespace Titanium.Scenes.Panels
             switch(encounter.state)
             {
                 case Encounter.EncounterState.HeroSelect:
+                    sb.DrawString(font, "Select a hero", Position, Color.Black);
                     break;
                 case Encounter.EncounterState.ActionSelect:
                     subPanels.ElementAt(selected).draw(sb);
+                    break;
+                case Encounter.EncounterState.EnemyTurn:
+                    sb.DrawString(font, "Enemy turn", Position, Color.Black);
                     break;
                 default:
                     break;
