@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Titanium.Scenes;
 using Titanium.Utilities;
 using Microsoft.Xna.Framework.Content;
+using Titanium.Arena;
 
 namespace Titanium.Entities.Items
 {
@@ -17,19 +18,22 @@ namespace Titanium.Entities.Items
         private float scale = 1f;
         private float modelOrientation = 0f;
         private float HealPercent;
+        private Tile  PotionTile;
 
         /// <summary>
         /// constructor.
         /// </summary>
         /// <param name="position">position of the items model</param>
         /// <param name="healPrecentage">precentage of health the potion will heal (between 1 and 100)</param>
-        public Potion(Vector3 position, float healPrecentage)
+        /// <param name="potionTile">The tile the potion is on.</param>
+        public Potion(Vector3 position, float healPrecentage, Tile potionTile)
         {
             // Add this to the collidables list
             ArenaScene.instance.collidables.Add(this);
 
             HealPercent = healPrecentage;
             Position = position;
+            PotionTile = potionTile;
         }
 
 
@@ -68,6 +72,15 @@ namespace Titanium.Entities.Items
         public override void Update(GameTime gameTime, InputState inputState)
         {
 
+        }
+
+        /// <summary>
+        /// return the tile the potion is on.
+        /// </summary>
+        /// <returns>the tile the potion is on.</returns>
+        public Tile getTile()
+        {
+            return PotionTile;
         }
 
         public override Vector3 getPOSITION()
