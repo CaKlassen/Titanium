@@ -50,12 +50,16 @@ namespace Titanium.Utilities
             return result;
         }
 
+        /// <summary>
+        /// This function loads battle configuration possibilities from a file.
+        /// </summary>
+        /// <returns>A dictionary of battle configurations</returns>
         public static Dictionary<PartyUtils.Enemy, List<List<PartyUtils.Enemy>>> LoadBattleConfigurations()
         {
             Dictionary<PartyUtils.Enemy, List<List<PartyUtils.Enemy>>> battleConfigs = new Dictionary<PartyUtils.Enemy, List<List<PartyUtils.Enemy>>>();
 
             string line;
-            char[] delimiters = new char[] { '~', '-' };
+            char[] delimiters = new char[] { '~', ' ' };
 
             System.IO.StreamReader file = new System.IO.StreamReader("Content/Stats/BattleConfigs.txt");
 
@@ -97,6 +101,11 @@ namespace Titanium.Utilities
             return battleConfigs;
         }
 
+        /// <summary>
+        /// This function converts a string to an enemy enum.
+        /// </summary>
+        /// <param name="enemy">The enemy string</param>
+        /// <returns>The enemy enum</returns>
         private static PartyUtils.Enemy stringToEnemy(string enemy)
         {
             string check = enemy.ToLower();
