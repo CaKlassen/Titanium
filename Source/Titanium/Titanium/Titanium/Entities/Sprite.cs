@@ -184,7 +184,12 @@ namespace Titanium.Entities
         public void heal(float healPercent)
         {
             int healAmount = (int)healPercent / this.rawStats.baseHP;
-            this.rawStats.currentHP += healAmount;
+
+            //if the heal amount puts the players HP higher than full health
+            if (this.rawStats.currentHP + healAmount > this.rawStats.baseHP)
+                this.rawStats.currentHP = this.rawStats.baseHP;//set the health to full health
+            else
+                this.rawStats.currentHP += healAmount;//otherwise heal by the healAmount
         }
 
         public int getBaseHP()

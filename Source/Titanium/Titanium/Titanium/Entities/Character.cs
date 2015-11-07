@@ -186,12 +186,14 @@ namespace Titanium.Entities
                                 break;
 
                             case "Potion":
+                                Console.Write("potion collision!\n");
                                 Potion p = (Potion)e;
                                 //heal party members a certain precentage
                                 PartyUtils.HealParty(p.getHealPercent());
                                 ArenaScene.instance.potionsUsed++;
 
-                                //remove from collidables list; please change if put in another list!
+                                //remove from tile and list
+                                p.getTile().deleteEntity(e);
                                 ArenaScene.instance.collidables.Remove(e);
                                 break;
                         }
