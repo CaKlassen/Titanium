@@ -17,7 +17,7 @@ namespace Titanium.Scenes.Panels
         Encounter encounter;
 
         static float topOffset = 0.2f;
-        static float leftOffset = 0.1f;
+        static float leftOffset = 0f;
 
         public PlayerSprite this[int key]
         {
