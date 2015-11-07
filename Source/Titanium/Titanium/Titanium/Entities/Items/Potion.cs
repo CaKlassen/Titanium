@@ -25,6 +25,9 @@ namespace Titanium.Entities.Items
         /// <param name="healPrecentage">precentage of health the potion will heal (between 1 and 100)</param>
         public Potion(Vector3 position, float healPrecentage)
         {
+            // Add this to the collidables list
+            ArenaScene.instance.collidables.Add(this);
+
             HealPercent = healPrecentage;
             Position = position;
         }
