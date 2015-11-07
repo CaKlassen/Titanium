@@ -14,7 +14,7 @@ namespace Titanium.Entities.Traps
     {
         //attributes
         public Model ProjModel;
-        public Model myModel;
+        //public Model myModel;
         private float scale = 0.5f;
         private float modelOrientation = 0.0f;
         private Vector3 Orientation;
@@ -278,5 +278,9 @@ namespace Titanium.Entities.Traps
             }
         }
 
+        public override Vector3 getPOSITION()
+        {
+            return position;
+        }
     }
 }
