@@ -64,6 +64,8 @@
     <Compile Include="Arena\ArenaController.cs" />
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Battle\Encounter.cs" />
+    <Compile Include="Battle\Skill.cs" />
+    <Compile Include="Battle\SpriteSheet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Entities\ArenaSkybox.cs" />
     <Compile Include="Entities\ArenaTable.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\ArenaExit.cs" />
     <Compile Include="Battle\CombatInfo.cs" />
+    <Compile Include="Entities\EnemySprite.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Items\Potion.cs" />
     <Compile Include="Entities\MovableModel.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="Gambits\BaseGambit.cs" />
     <Compile Include="Gambits\Combo.cs" />
     <Compile Include="Gambits\Mash.cs" />
+    <Compile Include="Gambits\Quick.cs" />
     <Compile Include="Gambits\Rotation.cs" />
     <Compile Include="InputAction.cs" />
     <Compile Include="InputState.cs" />
@@ -93,11 +97,11 @@
     <Compile Include="Scenes\BattleScene.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Scenes\Panels\BattleMenuPanel.cs" />
+    <Compile Include="Scenes\Panels\EnemyPanel.cs" />
     <Compile Include="Scenes\Panels\MenuItem.cs" />
     <Compile Include="Scenes\Panels\MenuPanel.cs" />
     <Compile Include="Scenes\Panels\Panel.cs" />
-    <Compile Include="Scenes\Panels\PlayerSpritePanel.cs" />
-    <Compile Include="Scenes\Panels\SpritePanel.cs" />
+    <Compile Include="Scenes\Panels\PartyPanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Utilities\FileUtils.cs" />

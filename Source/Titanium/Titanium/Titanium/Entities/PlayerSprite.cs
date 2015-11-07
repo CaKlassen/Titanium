@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Input;
 using Titanium.Gambits;
 using Titanium.Battle;
 using Titanium.Scenes.Panels;
+using Microsoft.Xna.Framework.Content;
+using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
@@ -15,92 +17,24 @@ namespace Titanium.Entities
 
     public class PlayerSprite: Sprite
     {
-        // The Input actions associated with the actions the player can perform
-        static InputAction quick;
-        static InputAction normal;
-        static InputAction strong;
+        List<Skill> skills;
 
-        /// <summary>
-        /// The possible states that this unit can be in
-        /// </summary>
-        public enum UnitState
+        Skill selectedSkill;
+
+        public PlayerSprite(List<Skill> skills): base(new List<SpriteAction>())
         {
-            idle,
-            selected,
-            gambit,
-            targeting,
-            resting
-        }
-        public UnitState state;
-
-        // Initialize the actions
-        static PlayerSprite()
-        {
-            quick = new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.X },
-                true
-            );
-
-            normal = new InputAction(
-                new Buttons[] { Buttons.A },
-                new Keys[] { Keys.A },
-                true
-            );
-
-            strong = new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.B },
-                true
-            );
+            this.skills = new List<Skill>();
             
+            this.skills.Add(new Skill("Quick Attack", new Quick(), PartyUtils.testAction));
+            this.skills = this.skills.Concat(skills).ToList();
         }
 
-        /// <summary>
-        /// Creates an empty PlayerSprite - must load the information in before it is usable.
-        /// </summary>
-        public PlayerSprite():base()
+        public override void Load(ContentManager content)
         {
-            state = UnitState.idle;
-        }
+            foreach (Skill skill in skills)
+                skill.load(content);
 
-        /// <summary>
-        /// A quick attack that does not require a gambit
-        /// </summary>
-        /// <param name="s">The sprite to be attacked</param>
-        /// <param name="multiplier">The multiplier of the attack</param>
-        public void quickAttack(Sprite s, float multiplier)
-        {
-            targetRect = s.originalRect;
-            changeState(State.Running);
-            hitTarget(s, multiplier);
-            state = UnitState.resting;
-        }
-
-        /// <summary>
-        /// A normal attack that requires a Combo gambit
-        /// </summary>
-        /// <param name="s">The sprite to be attacked</param>
-        /// <param name="multiplier">The multiplier of the attack</param>
-        public void normalAttack(Sprite s, float multiplier)
-        {
-            targetRect = s.originalRect;
-            changeState(State.Running);
-            hitTarget(s, multiplier);
-            state = UnitState.resting;
-        }
-
-        /// <summary>
-        /// A strong attack that requires the Mash gambit
-        /// </summary>
-        /// <param name="s">The sprite to be attacked</param>
-        /// <param name="multiplier">The multiplier of the attack</param>
-        public void strongAttack(Sprite s, float multiplier)
-        {
-            targetRect = s.originalRect;
-            changeState(State.Running);
-            hitTarget(s, multiplier);
-            state = UnitState.resting;
+            base.Load(content);
         }
 
         /// <summary>
@@ -116,13 +50,7 @@ namespace Titanium.Entities
             }
             else
             {
-                bool active = state == UnitState.selected || state == UnitState.gambit || state == UnitState.targeting;
-
-                if (active)
-                    sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
-                else
-                    sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Gray);
-
+                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
                 combatInfo.draw(sb);
             }
         }
@@ -134,61 +62,35 @@ namespace Titanium.Entities
         /// <param name="inputState">The state of the inputs</param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            //if (state != UnitState.resting)
-                base.Update(gameTime, inputState);
+            base.Update(gameTime, inputState);
         }
 
-        /// <summary>
-        /// Get the possible player actions as a list of MenuItems to be used in the battle menu
-        /// </summary>
-        /// <returns></returns>
-        public List<MenuItem> getMenuItems()
+
+        public BaseGambit execute(Sprite target, GameTime gameTime)
         {
-            return new List<MenuItem>()
-            {
-                new MenuItem("Normal Attack", normal),
-                new MenuItem("Quick Attack", quick),
-                new MenuItem("Strong Attack", strong),
-            };
+            return selectedSkill.execute(target, gameTime);
         }
 
-        /// <summary>
-        /// Return a menu panel based on this sprite
-        /// </summary>
-        /// <returns>A MenuPanel whose title is this sprite's name</returns>
-        public MenuPanel getMenuPanel()
+        public void resolve(GambitResult result)
         {
-            return new MenuPanel(rawStats.name, getMenuItems());
+            selectedSkill.resolve(this, result);
         }
 
-        /// <summary>
-        /// Returns the appropriate action, and gambit if applicable, of the given InputAction
-        /// </summary>
-        /// <param name="action">The InputAction to resolve</param>
-        /// <param name="gambit">The gambit that needs to be performed, null if none</param>
-        /// <returns>The SpriteAction delegate to be called when this action is resolved.</returns>
-        public SpriteAction getAction(InputAction action, out BaseGambit gambit)
+        public string name() { return rawStats.name; }
+
+        public MenuPanel makeMenuPanel()
         {
-            
-            if (action == normal)
-            {
-                gambit = new Combo();
-                return normalAttack;
-            }
-            if (action == strong)
-            {
-                gambit = new Rotation();
-                return strongAttack;
-            }
-            else
-            {   
-                gambit = null;
-                return quickAttack;           
-            }
+            List<MenuItem> items = new List<MenuItem>();
+            List<InputAction> actions = new List<InputAction>() { InputAction.Y, InputAction.A, InputAction.X };
+            for(int i=0; i<skills.Count; ++i)
+                items.Add(skills[i].makeMenuItem(actions[i]));
+            MenuPanel result = new MenuPanel(rawStats.name, items);
+            return result;
         }
 
-        
-
-        
+        public void selectSkill(int n)
+        {
+            selectedSkill = skills[n];
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
+using Titanium.Entities;
 
 namespace Titanium.Scenes.Panels
 {
@@ -20,20 +21,15 @@ namespace Titanium.Scenes.Panels
 
         // Some padding so things aren't all squished
         private int SPACING = 5;
+        public MenuPanel(string menuTitle, List<MenuItem> items) : base()
+        {
+            foreach (Panel item in items)
+                addSubPanel(item);
+            title = menuTitle;
+        }
 
         public MenuPanel(string menuTitle) : base()
         {
-            this.title = menuTitle;
-        }
-
-        public MenuPanel(Vector2 pos, string menuTitle): base(pos)
-        {
-            this.title = menuTitle;
-        }
-
-        public MenuPanel(string menuTitle, List<MenuItem> items) : base()
-        {
-            subPanels = items.Cast<Panel>().ToList();
             title = menuTitle;
         }
 
@@ -55,10 +51,10 @@ namespace Titanium.Scenes.Panels
 
         }
 
-        public override void load(ContentManager content)
+        public override void load(ContentManager content, Viewport v)
         {
-            font = content.Load<SpriteFont>("TestFont");
-            base.load(content);
+            base.load(content, v);
+            font = content.Load<SpriteFont>("TestFont");    
             updateMenuItemLocations();
         }
 
@@ -66,7 +62,7 @@ namespace Titanium.Scenes.Panels
         /// The height of the menu.
         /// </summary>
         /// <returns>The total height of this menu</returns>
-        public float totalHeight()
+        public override float totalHeight()
         {
             float h = string.IsNullOrEmpty(title) ? Position.Y : font.LineSpacing + Position.Y;
             foreach (MenuItem item in subPanels)
@@ -78,7 +74,7 @@ namespace Titanium.Scenes.Panels
         /// The width of the menu.
         /// </summary>
         /// <returns>The total width of the menu.</returns>
-        public float totalWidth()
+        public override float totalWidth()
         {
             float w = 0f;
             float tmp;
@@ -102,27 +98,22 @@ namespace Titanium.Scenes.Panels
             base.update(gameTime, inputState);
         }
 
-        /// <summary>
-        /// Center this menu in the screen.
-        /// </summary>
-        public void center(Viewport v)
+        public override void center()
         {
-            int width = v.Width;
-            int height = v.Height;
-
-            float x = width / 2 - totalWidth() / 2;
-            float y = height / 2 - totalHeight() / 2;
-
-            this.Origin = new Vector2(x, y);
+            base.center();
             updateMenuItemLocations();
         }
 
-        public InputAction getSelectedAction(InputState inputState)
+
+        public void addMenuItem(MenuItem item)
         {
-            foreach (MenuItem item in subPanels)
-                if (item.wasChosen(inputState))
-                    return item.action;
-            return null;
+            addSubPanel(item);
         }
+        
+        public void setTitle(string str)
+        {
+            title = str;
+        }
+
     }
 }

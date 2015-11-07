@@ -32,11 +32,7 @@ namespace Titanium.Scenes
 
         // Possible user actions
         InputAction menu,
-                    battle,
-                    up,
-                    down,
-                    left,
-                    right;
+                    battle;
 
         ContentManager content;
 
@@ -61,17 +57,9 @@ namespace Titanium.Scenes
             controller = new ArenaController();
 
             // Define the user actions
-            menu = new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.Back, Keys.Escape },
-                true
-                );
+            menu = InputAction.SELECT;
 
-            battle = new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.Enter, Keys.Space },
-                true
-                );
+            battle = InputAction.X;
         }
 
         /**
@@ -218,13 +206,10 @@ namespace Titanium.Scenes
 
         public void startBattle()
         {
-            // TODO: Create the party and enemies to fight
-            List<PlayerSprite> party = new List<PlayerSprite>();
-            List<Sprite> enemies = new List<Sprite>();
+            List<PartyUtils.Enemy> enemies = new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat };
             
             // Create and switch to the battle
-            BattleScene battle = new BattleScene(
-                new Encounter());
+            BattleScene battle = new BattleScene(enemies, enemies);
 
             SceneManager.setScene(SceneState.battle, battle, true);
         }

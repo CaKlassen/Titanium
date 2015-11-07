@@ -26,11 +26,122 @@ namespace Titanium
         private readonly Buttons[] buttons;
         private readonly Keys[] keys;
         private readonly bool newPressOnly;
-
+        static ContentManager content;
         // These delegate types map to the methods on InputState. We use these to simplify the evalute method
         // by allowing us to map the appropriate delegates and invoke them, rather than having two separate code paths.
         private delegate bool ButtonPress(Buttons button, PlayerIndex? controllingPlayer, out PlayerIndex player);
         private delegate bool KeyPress(Keys key, PlayerIndex? controllingPlayer, out PlayerIndex player);
+
+        public static InputAction A, B, X, Y;
+        public static InputAction LB, RB, LT, RT;
+        public static InputAction START, SELECT;
+        public static InputAction UP, DOWN, LEFT, RIGHT;
+        public static InputAction RSUP, RSDOWN, RSLEFT, RSRIGHT;
+        public static InputAction LCLICK, RCLICK;
+        
+        static InputAction()
+        {
+            A = new InputAction(
+                new Buttons[] { Buttons.A },
+                new Keys[] { Keys.A },
+                true
+            );
+            B = new InputAction(
+                new Buttons[] { Buttons.B },
+                new Keys[] { Keys.B },
+                true
+            );
+            X = new InputAction(
+                new Buttons[] { Buttons.X },
+                new Keys[] { Keys.X },
+                true
+            );
+            Y = new InputAction(
+                new Buttons[] { Buttons.Y },
+                new Keys[] { Keys.Y },
+                true
+            );
+            LB = new InputAction(
+                new Buttons[] { Buttons.LeftShoulder },
+                new Keys[] { Keys.D1 },
+                true
+            );
+            RB = new InputAction(
+                new Buttons[] { Buttons.RightShoulder },
+                new Keys[] { Keys.D2 },
+                true
+            );
+            LT = new InputAction(
+                new Buttons[] { Buttons.LeftTrigger },
+                new Keys[] { Keys.Q },
+                true
+            );
+            RT = new InputAction(
+                new Buttons[] { Buttons.RightTrigger },
+                new Keys[] { Keys.W },
+                true
+            );
+            UP = new InputAction(
+                new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
+                new Keys[] { Keys.W, Keys.Up },
+                true
+            );
+            DOWN = new InputAction(
+                new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
+                new Keys[] { Keys.S, Keys.Down },
+                true
+            );
+            LEFT = new InputAction(
+                new Buttons[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft },
+                new Keys[] { Keys.A, Keys.Left },
+                true
+            );
+            RIGHT = new InputAction(
+                new Buttons[] { Buttons.DPadRight, Buttons.LeftThumbstickRight },
+                new Keys[] { Keys.D, Keys.Right },
+                true
+            );
+            RSUP = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickUp },
+                new Keys[] { Keys.NumPad8 },
+                true
+            );
+            RSDOWN = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickDown },
+                new Keys[] { Keys.NumPad2 },
+                true
+            );
+            RSLEFT = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickLeft },
+                new Keys[] { Keys.NumPad4 },
+                true
+            );
+            RSRIGHT = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickRight },
+                new Keys[] { Keys.NumPad6 },
+                true
+            );
+            START = new InputAction(
+                new Buttons[] { Buttons.Start },
+                new Keys[] { Keys.Enter },
+                true
+            );
+            SELECT = new InputAction(
+                new Buttons[] { Buttons.Back },
+                new Keys[] { Keys.Escape },
+                true
+            );
+            RCLICK = new InputAction(
+                new Buttons[] { Buttons.RightStick },
+                new Keys[] { },
+                true
+            );
+            LCLICK = new InputAction(
+                new Buttons[] { Buttons.LeftStick },
+                new Keys[] { },
+                true
+            );
+        }
 
         /// <summary>
         /// Initializes a new InputAction.
@@ -94,7 +205,18 @@ namespace Titanium
             return buttons[0];
         }
 
-        public static Texture2D GetIcon(ContentManager content, InputAction action)
+        public bool wasPressed(InputState state)
+        {
+            PlayerIndex player;
+            return Evaluate(state, null, out player);
+        }
+
+        public static void Load(ContentManager c)
+        {
+            content = c;
+        }
+
+        public static Texture2D GetIcon(InputAction action)
         {
             Buttons btn = action.getBtn();
             switch (btn)
@@ -130,6 +252,11 @@ namespace Titanium
                 default:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Face-A");
             }
+        }
+
+        public Texture2D icon()
+        {
+            return InputAction.GetIcon(this);
         }
     }
     

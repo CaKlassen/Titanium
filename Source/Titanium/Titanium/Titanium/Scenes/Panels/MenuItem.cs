@@ -13,7 +13,6 @@ namespace Titanium.Scenes.Panels
     {
         // The spacing between elements
         public static int OFFSET = 50;
-
         string text;
 
         public SpriteFont Font
@@ -47,9 +46,10 @@ namespace Titanium.Scenes.Panels
             this.action = action;
         }
 
-        public override void load(ContentManager content)
+        public override void load(ContentManager content, Viewport v)
         {
-            icon = InputAction.GetIcon(content, action);
+            base.load(content, v);
+            icon = InputAction.GetIcon(action);
             font = content.Load<SpriteFont>("TestFont");
         }
 

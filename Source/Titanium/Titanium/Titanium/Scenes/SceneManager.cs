@@ -102,6 +102,7 @@ namespace Titanium.Scenes
             // Load content belonging to the screen manager.
             content = Game.Content;
 
+            InputAction.Load(content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("TestFont");
             curtainsLeft = content.Load<Texture2D>("Sprites/Curtain-Left");

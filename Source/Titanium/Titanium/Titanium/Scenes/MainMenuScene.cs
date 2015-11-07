@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Titanium.Scenes.Panels;
 using Titanium.Battle;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -16,7 +17,6 @@ namespace Titanium.Scenes
     /// </summary>
     class MainMenuScene : Scene
     {
-        List<Panel> panels;
         ContentManager content;
         SpriteFont font;
 
@@ -26,53 +26,38 @@ namespace Titanium.Scenes
 
         MenuPanel mainMenu;
 
+        public delegate void MenuEventHandler(object sender, EventArgs e);
+
         public MainMenuScene(): base()
         {
-            panels = new List<Panel>();
-
             // Initialize the player actions
-            arena = new InputAction(
-                new Buttons[] {Buttons.A},
-                new Keys[] {Keys.A},
-                true
-                );
+            arena = InputAction.A;
 
-            battle = new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.B },
-                true
-                );
+            battle = InputAction.X;
 
             // Create the actual Main Menu panel
-            mainMenu = new MenuPanel(Vector2.Zero, "Main Menu");
-            List<MenuItem> options = new List<MenuItem>()
+            mainMenu = new MenuPanel("Main Menu", new List<MenuItem>()
             {
                 new MenuItem("Enter the arena!", arena),
                 new MenuItem("Enter battle!", battle)
-            };
+            });
 
-
-            panels.Add(mainMenu);
         }
 
         public override void draw(GameTime gameTime)
         {
             SceneManager.SpriteBatch.Begin();
-            foreach (Panel panel in panels)
-                panel.draw(SceneManager.SpriteBatch);
+            mainMenu.draw(SceneManager.SpriteBatch);
             SceneManager.SpriteBatch.End();
         }
 
         // 
         public override void loadScene(ContentManager content)
-        { 
-
+        {
             font = content.Load<SpriteFont>("TestFont");
+            mainMenu.load(content, SceneManager.GraphicsDevice.Viewport);
 
-            foreach (Panel panel in panels)
-                panel.load(content);
-
-            mainMenu.center(SceneManager.GraphicsDevice.Viewport);
+            mainMenu.center();
         }
 
         public override void unloadScene() {}
@@ -80,14 +65,18 @@ namespace Titanium.Scenes
         public override void update(GameTime gameTime, InputState inputState)
         {
             PlayerIndex player;
-            if(arena.Evaluate(inputState, null, out player))
-            {
+
+            if (arena.Evaluate(inputState, null, out player))
                 SceneManager.changeScene(SceneState.arena);
-            }
             else if (battle.Evaluate(inputState, null, out player))
             {
-                SceneManager.setScene(SceneState.battle, new BattleScene(new Encounter()), true);
+                BattleScene battle = new BattleScene(
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat },
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat }
+                    );
+                SceneManager.setScene(SceneState.battle, battle, true);
             }
+            mainMenu.update(gameTime, inputState);
         }
     }
 }
