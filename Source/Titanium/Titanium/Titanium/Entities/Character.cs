@@ -153,8 +153,8 @@ namespace Titanium.Entities
                         {
                             case "ArenaEnemy":
                                 // TEMP: Kill the enemy
-                                ((ArenaEnemy)e).die();
-                                ArenaScene.instance.startBattle();
+                                ((ArenaEnemy) e).die();
+                                ArenaScene.instance.startBattle(((ArenaEnemy) e).getEnemyType());
 
                                 // Snap to the target tile
                                 _Position.X = _currentTile.getDrawPos().X;

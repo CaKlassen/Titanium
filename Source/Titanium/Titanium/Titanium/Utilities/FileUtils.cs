@@ -49,6 +49,78 @@ namespace Titanium.Utilities
             }
             return result;
         }
+
+        /// <summary>
+        /// This function loads battle configuration possibilities from a file.
+        /// </summary>
+        /// <returns>A dictionary of battle configurations</returns>
+        public static Dictionary<PartyUtils.Enemy, List<List<PartyUtils.Enemy>>> LoadBattleConfigurations()
+        {
+            Dictionary<PartyUtils.Enemy, List<List<PartyUtils.Enemy>>> battleConfigs = new Dictionary<PartyUtils.Enemy, List<List<PartyUtils.Enemy>>>();
+
+            string line;
+            char[] delimiters = new char[] { '~', ' ' };
+
+            System.IO.StreamReader file = new System.IO.StreamReader("Content/Stats/BattleConfigs.txt");
+
+            // Loop through the file
+            while ((line = file.ReadLine()) != null)
+            {
+                string[] parts = line.Split(delimiters);
+
+                // If this is an invalid entry
+                if (parts.Length < 5)
+                {
+                    continue;
+                }
+
+                // Determine the colliding enemy type
+                PartyUtils.Enemy collideType = stringToEnemy(parts[0]);
+
+                // Invalid collision type
+                if (collideType == PartyUtils.Enemy.Empty)
+                {
+                    continue;
+                }
+
+                if (!battleConfigs.ContainsKey(collideType))
+                {
+                    battleConfigs.Add(collideType, new List<List<PartyUtils.Enemy>>());
+                }
+
+                List<PartyUtils.Enemy> addList = new List<PartyUtils.Enemy>();
+                battleConfigs[collideType].Add(addList);
+
+                // Add the parts to a new list
+                for (int i = 1; i < parts.Length; i++)
+                {
+                    addList.Add(stringToEnemy(parts[i]));
+                }
+            }
+
+            return battleConfigs;
+        }
+
+        /// <summary>
+        /// This function converts a string to an enemy enum.
+        /// </summary>
+        /// <param name="enemy">The enemy string</param>
+        /// <returns>The enemy enum</returns>
+        private static PartyUtils.Enemy stringToEnemy(string enemy)
+        {
+            string check = enemy.ToLower();
+
+            if (check.Equals("bat"))
+            {
+                return PartyUtils.Enemy.Bat;
+            }
+            else if (check.Equals("empty"))
+            {
+                return PartyUtils.Enemy.Empty;
+            }
+
+            return PartyUtils.Enemy.Empty;
+        }
     }
 
 }

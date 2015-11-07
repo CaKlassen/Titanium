@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Arena\ArenaBuilder.cs" />
     <Compile Include="Arena\ArenaController.cs" />
+    <Compile Include="Arena\BattleBuilder.cs" />
     <Compile Include="Arena\Tile.cs" />
     <Compile Include="Battle\CombatInfo.cs" />
     <Compile Include="Battle\Encounter.cs" />

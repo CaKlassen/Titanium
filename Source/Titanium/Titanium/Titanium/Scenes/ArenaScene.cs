@@ -204,12 +204,12 @@ namespace Titanium.Scenes
             printDebugArena();
         }
 
-        public void startBattle()
+        public void startBattle(PartyUtils.Enemy enemy)
         {
-            List<PartyUtils.Enemy> enemies = new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat };
-            
+            BattleBuilder battleBuilder = new BattleBuilder(enemy);
+
             // Create and switch to the battle
-            BattleScene battle = new BattleScene(enemies, enemies);
+            BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack());
 
             SceneManager.setScene(SceneState.battle, battle, true);
         }
