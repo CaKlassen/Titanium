@@ -18,7 +18,7 @@ namespace Titanium.Scenes.Panels
     public class BattleMenuPanel: Panel
     {
         int height = 300;
-        int width = 150;
+        int width = 400;
         public int selected;
         Encounter encounter;
         SpriteFont font;
