@@ -1,0 +1,177 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Titanium.Entities;
+using Titanium.Gambits;
+using Titanium.Scenes.Panels;
+using Titanium.Utilities;
+
+namespace Titanium.Battle
+{
+    /// <summary>
+    /// This object represents a single "battle" between the player and a set of enemies
+    /// </summary>
+    public class Encounter
+    {
+
+        ContentManager content;
+
+        bool resolved;
+
+        /// <summary>
+<<<<<<< HEAD
+=======
+        /// Initialize the actions
+        /// </summary>
+        static Encounter()
+        {
+            targetActions = new List<InputAction>()
+            {
+                new InputAction(
+                    new Buttons[] { Buttons.A },
+                    new Keys[] { Keys.A },
+                    true
+                ),
+
+                new InputAction(
+                    new Buttons[] { Buttons.X },
+                    new Keys[] { Keys.X },
+                    true
+                ),
+                new InputAction(
+                    new Buttons[] { Buttons.Y },
+                    new Keys[] { Keys.Y },
+                    true
+                ),
+                new InputAction(
+                    new Buttons[] { Buttons.LeftShoulder },
+                    new Keys[] { Keys.D1 },
+                    true
+                ),
+                new InputAction(
+                    new Buttons[] { Buttons.RightShoulder },
+                    new Keys[] { Keys.D2 },
+                    true
+                )
+            };
+
+            heroNext = new InputAction(
+                    new Buttons[] { Buttons.RightShoulder },
+                    new Keys[] { Keys.D2 },
+                    true
+                );
+
+
+            heroPrev = new InputAction(
+                    new Buttons[] { Buttons.LeftShoulder },
+                    new Keys[] { Keys.D1 },
+                    true
+                );
+
+            cancel = new InputAction(
+                    new Buttons[] { Buttons.B },
+                    new Keys[] { Keys.B },
+                    true
+                );
+        }
+
+        /// <summary>
+        /// This object represents a single "battle" between the player and a set of enemies
+        /// </summary>
+        /// <param name="heroes">The list of PlayerSprites that the player controls</param>
+        /// <param name="enemies">The list of enemies the player is fighting</param>
+        public Encounter(List<PlayerSprite> heroes, List<Sprite> enemies)
+        {
+            this.heroes = new PlayerSpritePanel(heroes, SpritePanel.Side.east);
+
+            this.enemies = new SpritePanel(enemies, SpritePanel.Side.west);
+            state = BattleState.idle;
+        }
+
+        /// <summary>
+>>>>>>> dev-rene
+        /// Initializes a blank Encounter for debug / bug fixing purposes
+        /// </summary>
+        public Encounter(List<PartyUtils.Enemy> enemyList)
+        {
+<<<<<<< HEAD
+=======
+            /************************************************
+            Sprite Creation Area; to be done via file parsing
+            ************************************************/
+            heroes = new PlayerSpritePanel(PartyUtils.partyMembers, SpritePanel.Side.west);
+
+            List<Sprite> enemyList = PartyUtils.makeEnemies(PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat);
+            enemies = new SpritePanel(enemyList, SpritePanel.Side.east);
+        }
+
+
+        public void loadStats(List<Sprite> l, String target)
+        {
+            String path = "Content/Stats/";
+            List<UnitStats> tempList = new List<UnitStats>();
+            FileUtils myFileUtil = new FileUtils();
+            tempList = myFileUtil.FileToSprite(path + target);
+            for (int i = 0; i < l.Count; ++i)
+                l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
+>>>>>>> dev-rene
+        }
+
+        /// <summary>
+        /// Load the two sprite panels and save a reference to the content manager
+        /// </summary>
+        /// <param name="content"></param>
+        public void load(ContentManager content)
+        {
+            this.content = content;
+            resolved = true;
+        }
+
+        /// <summary>
+        /// Draw this encounter
+        /// </summary>
+        /// <param name="sb">The SpriteBatch to be used</param>
+        public void draw(SpriteBatch sb)
+        {
+
+        }
+
+        /// <summary>
+        /// This function will detect the current state of the battle and update the necessary components only
+        /// </summary>
+        /// <param name="gameTime">The current GameTime object</param>
+        /// <param name="inputState">The state of the inputs to be used for input handling</param>
+        public void update(GameTime gameTime, InputState inputState)
+        {
+
+        }
+
+
+
+        public bool success()
+        {
+            if (!resolved)
+            {
+                resolved = true;
+                return true;
+            }
+            return false;            
+        }
+
+        public bool failure()
+        {
+            if (!resolved)
+            {
+                resolved = true;
+                return true;
+            }
+
+            return false;
+        }
+    }
+}
