@@ -19,6 +19,7 @@ namespace Titanium.Entities.Traps
         private Boolean dead;
 
         Vector3 position;
+        private Texture2D myTexture;
 
         private static float AbsVel = 5; //absolute value of velocity regardless of direction
         private Vector3 velocity = new Vector3(AbsVel, 0, AbsVel);
@@ -60,32 +61,34 @@ namespace Titanium.Entities.Traps
             myModel = m;
         }
 
-        //public void LoadModel(ContentManager cm, float aspectRatio)
-        //{
-        //    myModel = cm.Load<Model>("Models/enemy");//change to actual model
-        //}
+        public void LoadModel(ContentManager cm, float aspectRatio)
+        {
+            myTexture = cm.Load<Texture2D>("Models/skyboxBG");//change to actual model
+        }
 
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix[] transforms = new Matrix[myModel.Bones.Count];
-                myModel.CopyAbsoluteBoneTransformsTo(transforms);
+                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
                 {
-
                     // This is where the mesh orientation is set, as well as our camera and projection.
-                    foreach (BasicEffect effect in mesh.Effects)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        //effect.EnableDefaultLighting();//lighting
-                        ArenaScene.instance.camera.SetLighting(effect);
-                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelOrientation)
-                            * Matrix.CreateTranslation(position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            part.Effect = effect;
+
+                            effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["ModelTexture"].SetValue(myTexture);
+
+                            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
+                        }
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();

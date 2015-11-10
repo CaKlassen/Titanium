@@ -41,7 +41,7 @@ namespace Titanium.Entities
         /// Draw the sprite depending on its state
         /// </summary>
         /// <param name="sb">The SpriteBatch to be used to draw</param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (checkDeath())
             {

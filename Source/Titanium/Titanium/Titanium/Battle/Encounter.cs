@@ -72,7 +72,7 @@ namespace Titanium.Battle
         /// Draw this encounter
         /// </summary>
         /// <param name="sb">The SpriteBatch to be used</param>
-        public void draw(SpriteBatch sb)
+        public void draw(SpriteBatch sb, Effect effect)
         {
             switch(state)
             {
@@ -90,9 +90,9 @@ namespace Titanium.Battle
                 case EncounterState.EnemyTurn:
                     break;
             }
-            enemies.draw(sb);
-            party.draw(sb);
-            battleMenu.draw(sb);
+            enemies.draw(sb, effect);
+            party.draw(sb, effect);
+            battleMenu.draw(sb, effect);
         }
 
         public void drawHeroIcons(SpriteBatch sb)

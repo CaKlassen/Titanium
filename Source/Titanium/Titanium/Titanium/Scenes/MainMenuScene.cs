@@ -47,7 +47,7 @@ namespace Titanium.Scenes
         public override void draw(GameTime gameTime)
         {
             SceneManager.SpriteBatch.Begin();
-            mainMenu.draw(SceneManager.SpriteBatch);
+            mainMenu.draw(SceneManager.SpriteBatch, null);
             SceneManager.SpriteBatch.End();
         }
 

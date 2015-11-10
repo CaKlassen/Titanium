@@ -139,5 +139,14 @@ namespace Titanium
             //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
         }
 
+        public Vector3 getPosition()
+        {
+            return position;
+        }
+
+        public Vector3 getLookAt()
+        {
+            return target;
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Titanium.Scenes.Panels
             base.load(content, v);
         }
 
-        public override void draw(SpriteBatch sb)
+        public override void draw(SpriteBatch sb, Effect effect)
         {
             switch(encounter.state)
             {
@@ -57,7 +57,7 @@ namespace Titanium.Scenes.Panels
                     sb.DrawString(font, "Select a hero", Position, Color.Black);
                     break;
                 case Encounter.EncounterState.ActionSelect:
-                    subPanels.ElementAt(selected).draw(sb);
+                    subPanels.ElementAt(selected).draw(sb, effect);
                     break;
                 case Encounter.EncounterState.EnemyTurn:
                     sb.DrawString(font, "Enemy turn", Position, Color.Black);

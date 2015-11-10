@@ -45,12 +45,12 @@ namespace Titanium.Scenes.Panels
             }
         }
 
-        public override void draw(SpriteBatch sb)
+        public override void draw(SpriteBatch sb, Effect effect)
         {
             foreach (PlayerSprite player in party)
-                player.Draw(sb);
+                player.Draw(sb, effect);
 
-            base.draw(sb);
+            base.draw(sb, effect);
         }
 
         public override void update(GameTime gameTime, InputState inputState)
