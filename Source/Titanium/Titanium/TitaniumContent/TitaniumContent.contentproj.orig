@@ -162,30 +162,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\axel_idle.png">
-      <Name>axel_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\etna_idle.png">
-      <Name>etna_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\catsaber_idle.png">
-      <Name>catsaber_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\prinny_idle.png">
-      <Name>prinny_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\exitDoor.fbx">
       <Name>exitDoor</Name>
       <Importer>FbxImporter</Importer>
@@ -214,6 +190,11 @@
     </Compile>
     <Compile Include="Models\Projectile.fbx">
       <Name>Projectile</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Spikes.fbx">
+      <Name>Spikes</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
@@ -258,7 +239,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="ButtonIcons\HUD-DPad-Down.png">
       <Name>HUD-DPad-Down</Name>
       <Importer>TextureImporter</Importer>
@@ -348,7 +328,42 @@
     </Compile>
     <Compile Include="ButtonIcons\HUD-Stick-Right-CW.png">
       <Name>HUD-Stick-Right-CW</Name>
-=======
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Stats\Bat.txt">
+      <Name>Bat</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Stats\Prinny.txt">
+      <Name>Prinny</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Bat-Hurt-Spritesheet.png">
+      <Name>bat_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Bat-Idle-Spritesheet.png">
+      <Name>bat_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Bat-Move-Spritesheet.png">
+      <Name>bat_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Sprites\Prince-Hurt-Spritesheet.png">
       <Name>prince_hurt</Name>
       <Importer>TextureImporter</Importer>
@@ -391,7 +406,35 @@
     </Compile>
     <Compile Include="Sprites\Wolf-Run-Spritesheet.png">
       <Name>wolf_run</Name>
->>>>>>> dev-rene
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< HEAD
+    <Compile Include="Sprites\prince-spritesheet.png">
+      <Name>prince-spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\thief-spritesheet.png">
+      <Name>thief-spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\wolf-spritesheet.png">
+      <Name>wolf-spritesheet</Name>
+=======
+    <Compile Include="Sprites\Curtain-Left.png">
+      <Name>Curtain-Left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Curtain-Right.png">
+      <Name>Curtain-Right</Name>
+>>>>>>> develop
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

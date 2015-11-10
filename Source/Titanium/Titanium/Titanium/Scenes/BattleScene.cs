@@ -13,6 +13,7 @@ using Titanium.Gambits;
 using Titanium.Scenes.Panels;
 using System.Text;
 using Titanium.Battle;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -34,10 +35,12 @@ namespace Titanium.Scenes
 
         Encounter currentEncounter;
 
+        Texture2D background;
+
         /**
          * The default scene constructor.
          */
-        public BattleScene(Encounter encounter) : base()
+        public BattleScene(List<PartyUtils.Enemy> front, List<PartyUtils.Enemy> back) : base()
         {
             pause = new InputAction(
                 new Buttons[] { Buttons.Start },
@@ -59,7 +62,7 @@ namespace Titanium.Scenes
                 }
                 );
 
-            currentEncounter = encounter;
+            currentEncounter = new Encounter(front, back);
         }
 
         public BattleScene() : base()
@@ -84,7 +87,10 @@ namespace Titanium.Scenes
                 }
                 );
 
-            currentEncounter = new Encounter();
+            currentEncounter = new Encounter(
+                new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat },
+                new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat }
+                );
         }
 
         /**
@@ -92,9 +98,13 @@ namespace Titanium.Scenes
          */
         public override void loadScene(ContentManager content)
         {
-            currentEncounter.load(content);
-            pauseMenu.load(content);
-            pauseMenu.center(SceneManager.GraphicsDevice.Viewport);
+            currentEncounter.load(content, SceneManager.GraphicsDevice.Viewport);
+            pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
+
+            foreach (PlayerSprite player in PartyUtils.getParty())
+                player.Load(content);
+
+            background = content.Load<Texture2D>("Sprites/Battle-Base");
         }
 
         
@@ -136,10 +146,12 @@ namespace Titanium.Scenes
 
             sb.Begin();
 
-            if (paused)
-                pauseMenu.draw(sb);
+            sb.Draw(background, new Vector2(0, 0), Color.White);
 
-            currentEncounter.draw(sb);
+            if (paused)
+                pauseMenu.draw(sb, null);
+
+            currentEncounter.draw(sb, null);
 
             sb.End();
         }

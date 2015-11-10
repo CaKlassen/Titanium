@@ -1,4 +1,4 @@
-﻿using System;  
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Titanium.Entities;
 using Microsoft.Xna.Framework;
 using Titanium.Gambits;
+using Titanium.Utilities;
+using Titanium.Battle;
 
 namespace Titanium.Scenes.Panels
 {
@@ -15,71 +17,71 @@ namespace Titanium.Scenes.Panels
     /// </summary>
     public class BattleMenuPanel: Panel
     {
+        int height = 300;
+        int width = 400;
+        public int selected;
+        Encounter encounter;
+        SpriteFont font;
 
-        Viewport? v;
-
-        public BattleMenuPanel(List<PlayerSprite> heroes): base()
+        public BattleMenuPanel(Encounter e)
         {
-            foreach(PlayerSprite hero in heroes)
-            {
-                addSubPanel(hero.getMenuPanel());
-            }
-            v = null;
+            selected = 0;
+            encounter = e;
+            foreach (PlayerSprite player in PartyUtils.getParty())
+                addSubPanel(player.makeMenuPanel());
         }
 
 
-
-        public override void draw(SpriteBatch sb)
+        public override void center()
         {
-            if( v == null )
-            {
-                int offset = 0;
-                v = sb.GraphicsDevice.Viewport;
-                Origin = new Vector2(0, v.GetValueOrDefault().Height - ((MenuPanel)subPanels[0]).totalHeight());
-                foreach (MenuPanel menu in subPanels)
-                {
-                    menu.Origin = Origin;
-                    menu.Offset = new Vector2(offset, 0);
-                    menu.updateMenuItemLocations();
-                    offset += (int)menu.totalWidth();
-                }
-            }
-
-            base.draw(sb);
- 
+            base.center();
+            foreach (MenuPanel menu in subPanels)
+                menu.updateMenuItemLocations();
         }
 
-
-        public void draw(SpriteBatch sb, int selected)
+        public override void load(ContentManager content, Viewport v)
         {
-            if (v == null)
-            {
-                int offset = 0;
-                v = sb.GraphicsDevice.Viewport;
-                Origin = new Vector2(0, v.GetValueOrDefault().Height - ((MenuPanel)subPanels[0]).totalHeight());
-                foreach (MenuPanel menu in subPanels)
-                {
-                    menu.Origin = Origin;
-                    menu.Offset = new Vector2(offset, 0);
-                    menu.updateMenuItemLocations();
-                    offset += (int)menu.totalWidth();
-                }
-            }
+            foreach (MenuPanel menu in subPanels)
+                menu.load(content, v);
 
-            subPanels[selected].draw(sb);
+            font = content.Load<SpriteFont>("TestFont");
 
+            base.load(content, v);
         }
 
-        /// <summary>
-        /// Get the action that the user wishes to perform
-        /// </summary>
-        /// <param name="inputState"></param>
-        /// <param name="selected"></param>
-        /// <returns></returns>
-        public InputAction getAction(InputState inputState, int selected)
+        public override void draw(SpriteBatch sb, Effect effect)
         {
-            MenuPanel panel = (MenuPanel)subPanels[selected];
-            return panel.getSelectedAction(inputState);
+            switch(encounter.state)
+            {
+                case Encounter.EncounterState.HeroSelect:
+                    sb.DrawString(font, "Select a hero", Position, Color.Black);
+                    break;
+                case Encounter.EncounterState.ActionSelect:
+                    subPanels.ElementAt(selected).draw(sb, effect);
+                    break;
+                case Encounter.EncounterState.EnemyTurn:
+                    sb.DrawString(font, "Enemy turn", Position, Color.Black);
+                    break;
+                default:
+                    break;
+            }
+            
+            
+        }
+
+        public override void update(GameTime gameTime, InputState inputState)
+        {
+            base.update(gameTime, inputState);
+        }
+
+        public override float totalHeight()
+        {
+            return height;
+        }
+
+        public override float totalWidth()
+        {
+            return width;
         }
     }
 }

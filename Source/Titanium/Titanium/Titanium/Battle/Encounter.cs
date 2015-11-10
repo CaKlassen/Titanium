@@ -18,149 +18,53 @@ namespace Titanium.Battle
     /// </summary>
     public class Encounter
     {
-        /// <summary>
-        /// The possible states of the current battle
-        /// </summary>
-        enum BattleState
+        public enum EncounterState
         {
-            idle,
-            targeting,
-            gambit,
-            enemy
+            HeroSelect,
+            ActionSelect,
+            EnemySelect,
+            Gambit,
+            Animating,
+            EnemyTurn,
         }
-        BattleState state;
 
-        // The player characters
-        PlayerSpritePanel heroes;
+        InputAction[] PartySelectActions;
+        InputAction[] ActionSelectActions;
+        InputAction[] EnemySelectActions;
 
-        SpritePanel enemies;
-
-        // The current target of the player
-        Sprite target;
-
-        // The gambit currently being played
-        BaseGambit currentGambit;
-
-        // The action to resolve after the current gambit is finished
-        Sprite.SpriteAction pendingAction;
-
-        // The multiplier strength of the attack
-        float multiplier = 1f;
-
-        // The possible actions to target an enemy
-        static List<InputAction> targetActions;
-
-        // Actions to select the next hero, previous hero and cancel target selection
-        static InputAction heroNext;
-        static InputAction heroPrev;
-        static InputAction cancel;
-
+        public EncounterState state;
         ContentManager content;
 
         bool resolved;
 
-        /// <summary>
-        /// Initialize the actions
-        /// </summary>
-        static Encounter()
-        {
-            targetActions = new List<InputAction>()
-            {
-                new InputAction(
-                    new Buttons[] { Buttons.A },
-                    new Keys[] { Keys.A },
-                    true
-                ),
+        PartyPanel party;
+        EnemyPanel enemies;
+        BattleMenuPanel battleMenu;
 
-                new InputAction(
-                    new Buttons[] { Buttons.X },
-                    new Keys[] { Keys.X },
-                    true
-                ),
-                new InputAction(
-                    new Buttons[] { Buttons.Y },
-                    new Keys[] { Keys.Y },
-                    true
-                ),
-                new InputAction(
-                    new Buttons[] { Buttons.LeftShoulder },
-                    new Keys[] { Keys.D1 },
-                    true
-                ),
-                new InputAction(
-                    new Buttons[] { Buttons.RightShoulder },
-                    new Keys[] { Keys.D2 },
-                    true
-                )
-            };
-
-            heroNext = new InputAction(
-                    new Buttons[] { Buttons.RightShoulder },
-                    new Keys[] { Keys.D2 },
-                    true
-                );
-
-
-            heroPrev = new InputAction(
-                    new Buttons[] { Buttons.LeftShoulder },
-                    new Keys[] { Keys.D1 },
-                    true
-                );
-
-            cancel = new InputAction(
-                    new Buttons[] { Buttons.B },
-                    new Keys[] { Keys.B },
-                    true
-                );
-        }
-
-        /// <summary>
-        /// This object represents a single "battle" between the player and a set of enemies
-        /// </summary>
-        /// <param name="heroes">The list of PlayerSprites that the player controls</param>
-        /// <param name="enemies">The list of enemies the player is fighting</param>
-        public Encounter(List<PlayerSprite> heroes, List<Sprite> enemies)
-        {
-            this.heroes = new PlayerSpritePanel(heroes, SpritePanel.Side.east);
-
-            this.enemies = new SpritePanel(enemies, SpritePanel.Side.west);
-            state = BattleState.idle;
-        }
+        BaseGambit currentGambit;
+        GambitResult result;
 
         /// <summary>
         /// Initializes a blank Encounter for debug / bug fixing purposes
         /// </summary>
-        public Encounter()
+        public Encounter(List<PartyUtils.Enemy> front, List<PartyUtils.Enemy> back)
         {
-            /************************************************
-            Sprite Creation Area; to be done via file parsing
-            ************************************************/
-            heroes = new PlayerSpritePanel(PartyUtils.partyMembers, SpritePanel.Side.west);
-
-            List<Sprite> enemyList = PartyUtils.makeEnemies(PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat);
-            enemies = new SpritePanel(enemyList, SpritePanel.Side.east);
-        }
-
-
-        public void loadStats(List<Sprite> l, String target)
-        {
-            String path = "Content/Stats/";
-            List<UnitStats> tempList = new List<UnitStats>();
-            FileUtils myFileUtil = new FileUtils();
-            tempList = myFileUtil.FileToSprite(path + target);
-            for (int i = 0; i < l.Count; ++i)
-                l[i].setParam(tempList[i], (int)Vector2.Zero.X, (int)Vector2.Zero.Y);
+            enemies = new EnemyPanel(this, PartyUtils.makeEnemies(front), PartyUtils.makeEnemies(back));
+            party = new PartyPanel(this);
+            battleMenu = new BattleMenuPanel(this);
         }
 
         /// <summary>
         /// Load the two sprite panels and save a reference to the content manager
         /// </summary>
         /// <param name="content"></param>
-        public void load(ContentManager content)
+        public void load(ContentManager content, Viewport v)
         {
             this.content = content;
-            heroes.load(content);
-            enemies.load(content);
+            enemies.load(content, v);
+            party.load(content, v);
+            battleMenu.load(content, v);
+            battleMenu.center();
             resolved = false;
         }
 
@@ -168,24 +72,49 @@ namespace Titanium.Battle
         /// Draw this encounter
         /// </summary>
         /// <param name="sb">The SpriteBatch to be used</param>
-        public void draw(SpriteBatch sb)
+        public void draw(SpriteBatch sb, Effect effect)
         {
-            switch (state)
+            switch(state)
             {
-                case BattleState.targeting:
-                    break;
-                case BattleState.enemy:
-                    break;
-                case BattleState.gambit:
+                case EncounterState.Gambit:
                     currentGambit.draw(sb);
                     break;
-                case BattleState.idle:
-                default:
+                case EncounterState.HeroSelect:
+                    drawHeroIcons(sb);
+                    break;
+                case EncounterState.EnemySelect:
+                    drawEnemyIcons(sb);
+                    break;
+                case EncounterState.ActionSelect:
+                case EncounterState.Animating:
+                case EncounterState.EnemyTurn:
                     break;
             }
+            enemies.draw(sb, effect);
+            party.draw(sb, effect);
+            battleMenu.draw(sb, effect);
+        }
 
-            heroes.draw(sb);
-            enemies.draw(sb);
+        public void drawHeroIcons(SpriteBatch sb)
+        {
+            Texture2D[] icons = { InputAction.Y.icon(), InputAction.X.icon(), InputAction.A.icon() };
+            for(int i = 0; i<icons.Length; ++i)
+            {
+                if (party[i].checkDeath() || party[i].currentState == Sprite.State.Resting)
+                    continue;
+                sb.Draw(icons[i], party[i].getPosition(), Color.White);
+            }
+        }
+
+        public void drawEnemyIcons(SpriteBatch sb)
+        {
+            Texture2D[] icons = { InputAction.LB.icon(), InputAction.LT.icon(), InputAction.RB.icon(), InputAction.RT.icon() };
+            for (int i = 0; i < icons.Length; ++i)
+            {
+                if (enemies[i].checkDeath() || enemies[i] == null)
+                    continue;
+                sb.Draw(icons[i], enemies[i].getPosition(), Color.White);
+            }
         }
 
         /// <summary>
@@ -195,113 +124,109 @@ namespace Titanium.Battle
         /// <param name="inputState">The state of the inputs to be used for input handling</param>
         public void update(GameTime gameTime, InputState inputState)
         {
-            PlayerIndex player;
-
-            // If all the player characters have acted then it is the enemy's turn
-            if (heroes.finished())
-                state = BattleState.enemy;
-            
-            switch (state)
+            switch(state)
             {
-                case BattleState.targeting:
-                    if (heroPrev.Evaluate(inputState, null, out player))
-                        heroes.selectPrevious();
-                    else if (heroNext.Evaluate(inputState, null, out player))
-                        heroes.selectNext();
-                    else if (cancel.Evaluate(inputState, null, out player))
-                    {
-                        state = BattleState.idle;
-                        enemies.target(false, targetActions);
-                    }
-                    else
-                    {
-                        enemies.target(true, targetActions);
-                        target = targetSelected(inputState);
-                        if (target != null)
-                        {
-                            if (currentGambit == null)
-                            {
-                                pendingAction(target, multiplier);
-                                state = BattleState.idle;
-                                heroes.selectNext();
-                            }
-                            else
-                            {
-                                currentGambit.load(content);
-                                currentGambit.start(gameTime);
-                                state = BattleState.gambit;
-                            }
-                            enemies.target(false, null);
-                        }
-                    }
+                case EncounterState.HeroSelect:
+                    if (InputAction.Y.wasPressed(inputState))
+                        select(0);
+                    else if (InputAction.X.wasPressed(inputState))
+                        select(1);
+                    else if (InputAction.A.wasPressed(inputState))
+                        select(2);
                     break;
-                case BattleState.enemy:
-                    enemies.act(heroes.Sprites());
-                    heroes.activate();
-                    state = BattleState.idle;
+                case EncounterState.ActionSelect:
+                    if (InputAction.Y.wasPressed(inputState))
+                        act(0);
+                    else if (InputAction.X.wasPressed(inputState))
+                        act(1);
+                    else if (InputAction.A.wasPressed(inputState))
+                        act(2);
+                    if (InputAction.B.wasPressed(inputState))
+                        state = EncounterState.HeroSelect;
                     break;
-                case BattleState.gambit:
+                case EncounterState.EnemySelect:
+                    if (InputAction.LB.wasPressed(inputState))
+                        attack(0, gameTime);
+                    else if (InputAction.LT.wasPressed(inputState))
+                        attack(1, gameTime);
+                    else if (InputAction.RB.wasPressed(inputState))
+                        attack(2, gameTime);
+                    else if (InputAction.RT.wasPressed(inputState))
+                        attack(3, gameTime);
+                    else if (InputAction.B.wasPressed(inputState))
+                        state = EncounterState.HeroSelect;
+                    break;
+                case EncounterState.Gambit:
                     currentGambit.update(gameTime, inputState);
-                    if (currentGambit.isComplete(out multiplier))
+                    if (currentGambit.isComplete(out result))
                     {
-                        pendingAction(target, multiplier);
-                        state = BattleState.idle;
-                        heroes.selectNext();
+                        party[battleMenu.selected].resolve(result);
+                        state = EncounterState.Animating;
                     }
                     break;
-                case BattleState.idle:
-                    if (heroPrev.Evaluate(inputState, null, out player))
-                        heroes.selectPrevious();
-                    else if (heroNext.Evaluate(inputState, null, out player))
-                        heroes.selectNext();
-                    else if (heroes.finished())
-                        state = BattleState.enemy;
-                    else
+                case EncounterState.Animating:
+                    if (party.idle())
                     {
-                        pendingAction = heroes.getAction(inputState, out currentGambit);
-                        if (pendingAction != null)
-                            state = BattleState.targeting;
+                        if (party.hasActed())
+                        {
+                            state = EncounterState.EnemyTurn;
+                            enemies.activate(gameTime);
+                        }
+                        else
+                            state = EncounterState.HeroSelect;
+                    }
+                    break;
+                case EncounterState.EnemyTurn:
+                    if (!enemies.acting())
+                    {
+                        state = EncounterState.HeroSelect;
+                        party.activate();
                     }
                     break;
                 default:
                     break;
             }
+            
 
-            heroes.update(gameTime, inputState);
             enemies.update(gameTime, inputState);
+            party.update(gameTime, inputState);
+            battleMenu.update(gameTime, inputState);
         }
 
-        // Returns the enemy associated with the user's target input
-        public Sprite targetSelected(InputState inputState)
+        public void select(int n)
         {
-            PlayerIndex player;
-            for (int i = 0; i < enemies.count(); ++i)
+            if (party[n].currentState != Sprite.State.Resting)
             {
-                if (targetActions[i].Evaluate(inputState, null, out player))
-                    return enemies.at(i);
+                battleMenu.selected = n;
+                state = EncounterState.ActionSelect;
             }
-            return null;
         }
+
 
         public bool success()
         {
-            if (enemies.dead() && !resolved)
-            {
-                resolved = true;
-                return true;
-            }
-            return false;            
+            return enemies.dead();        
         }
 
         public bool failure()
         {
-            if (heroes.dead() && !resolved)
-            {
-                resolved = true;
-                return true;
-            }
+            return party.dead();
+        }
 
-            return false;
+        public void act(int n)
+        {
+            party[battleMenu.selected].selectSkill(n);
+            state = EncounterState.EnemySelect;
+        }
+
+        public void attack(int n, GameTime gameTime)
+        {
+            if (enemies[n] != null)
+            {
+                currentGambit = party[battleMenu.selected].execute(enemies[n], gameTime);
+                state = EncounterState.Gambit;
+            }
+             
         }
     }
 }

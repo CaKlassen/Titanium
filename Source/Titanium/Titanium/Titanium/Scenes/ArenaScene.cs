@@ -32,13 +32,10 @@ namespace Titanium.Scenes
 
         // Possible user actions
         InputAction menu,
-                    battle,
-                    up,
-                    down,
-                    left,
-                    right;
+                    battle;
 
         ContentManager content;
+        public Effect HLSLeffect;
 
         public ArenaController controller;
         public Character Hero;
@@ -61,17 +58,9 @@ namespace Titanium.Scenes
             controller = new ArenaController();
 
             // Define the user actions
-            menu = new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.Back, Keys.Escape },
-                true
-                );
+            menu = InputAction.SELECT;
 
-            battle = new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.Enter, Keys.Space },
-                true
-                );
+            battle = InputAction.X;
         }
 
         /**
@@ -84,6 +73,9 @@ namespace Titanium.Scenes
             if (content == null)
                 content = new ContentManager(SceneManager.Game.Services, "Content");
 
+            // Load the shader
+            HLSLeffect = content.Load<Effect>("Effects/Shader");
+
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
             baseArena = builder.buildArenaBase();
@@ -94,7 +86,7 @@ namespace Titanium.Scenes
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
             Hero = new Character();
-            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
+            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPOSITION());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             
@@ -116,7 +108,7 @@ namespace Titanium.Scenes
 
             //update Character
             Hero.Update(gameTime, inputState);
-            camera.UpdateCamera(Hero.getPosition());
+            camera.UpdateCamera(Hero.getPOSITION());
             
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
@@ -154,28 +146,48 @@ namespace Titanium.Scenes
             SceneManager.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateGray, 1.0f, 0);
             SceneManager.GraphicsDevice.BlendState = BlendState.Opaque;
             SceneManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            BaseGame.instance.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
             RasterizerState rs = new RasterizerState();
             rs.CullMode = CullMode.None;
             SceneManager.GraphicsDevice.RasterizerState = rs;
             
-            // Draw the skybox
-            skybox.Draw(sb);
 
+            Vector3 position = camera.getPosition();
+            Vector3 LAt = camera.getLookAt() - position;
+
+            HLSLeffect.CurrentTechnique = HLSLeffect.Techniques["ShaderTech"];
+
+            HLSLeffect.Parameters["AmbientColor"].SetValue(Color.Gold.ToVector4());
+            HLSLeffect.Parameters["AmbientIntensity"].SetValue(0.9f);
+            HLSLeffect.Parameters["fogColor"].SetValue(Color.Gray.ToVector4());
+            HLSLeffect.Parameters["fogFar"].SetValue(1000.0f);
+            HLSLeffect.Parameters["fogEnabled"].SetValue(true);
+            HLSLeffect.Parameters["FlashlightAngle"].SetValue(2.0f);
+
+            HLSLeffect.Parameters["LightDirection"].SetValue(Vector3.Normalize(LAt));
+            HLSLeffect.Parameters["EyePosition"].SetValue(position);
+
+            HLSLeffect.Parameters["View"].SetValue(camera.getView());
+            HLSLeffect.Parameters["Projection"].SetValue(camera.getProjection());
+
+            // Draw the skybox
+            skybox.Draw(sb, HLSLeffect);
 
             // Draw the table
-            table.Draw(sb);
+            table.Draw(sb, HLSLeffect);
 
             // Draw the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
                 for (int j = 0; j < baseArena.GetLength(1); j++)
                 {
-                    baseArena[i, j].Draw(sb);
+                    baseArena[i, j].Draw(sb, HLSLeffect);
                 }
             }
 
             //Draw character
-            Hero.Draw(sb);
+            Hero.Draw(sb, HLSLeffect);
         }
 
         /**
@@ -207,7 +219,7 @@ namespace Titanium.Scenes
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
             Hero = new Character();
-            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPosition());
+            camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPOSITION());
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
@@ -216,15 +228,12 @@ namespace Titanium.Scenes
             printDebugArena();
         }
 
-        public void startBattle()
+        public void startBattle(PartyUtils.Enemy enemy)
         {
-            // TODO: Create the party and enemies to fight
-            List<PlayerSprite> party = new List<PlayerSprite>();
-            List<Sprite> enemies = new List<Sprite>();
-            
+            BattleBuilder battleBuilder = new BattleBuilder(enemy);
+
             // Create and switch to the battle
-            BattleScene battle = new BattleScene(
-                new Encounter());
+            BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack());
 
             SceneManager.setScene(SceneState.battle, battle, true);
         }

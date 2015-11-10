@@ -38,10 +38,14 @@ namespace Titanium.Entities
         private Vector3 _Position;
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
+        private PartyUtils.Enemy type;
+
         //MovableModel
-        public Model myModel;
-        private float modelRotation = 0;
-        
+        //public Model myModel;
+        private float modelRotation = MathHelper.ToRadians(180);
+
+        private Texture2D texture;
+
         private float scale;
 
         private int waitTurns = WAIT_TURNS;
@@ -52,7 +56,7 @@ namespace Titanium.Entities
         /// </summary>
         /// <param name="createTile">The tile to start on</param>
         /// <param name="Content">The content manager for loading</param>
-        public ArenaEnemy(Tile createTile, ContentManager Content)
+        public ArenaEnemy(Tile createTile, ContentManager Content, PartyUtils.Enemy type)
         {
             // Add this to the collidables list
             ArenaScene.instance.collidables.Add(this);
@@ -68,7 +72,11 @@ namespace Titanium.Entities
             // Set the wait turns randomly
             waitTurns = ArenaController.instance.getGenerator().Next(1, WAIT_TURNS + 1);
 
-            myModel = myModel = Content.Load<Model>("Models/enemy");
+            this.type = type;
+
+            myModel = Content.Load<Model>("Models/hero");
+
+            setTexture(Content);
         }
         
         /// <summary>
@@ -127,7 +135,7 @@ namespace Titanium.Entities
         /// Method to get the characters current position.
         /// </summary>
         /// <returns>The position of the player character as a Vector3.</returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return _Position;
         }
@@ -148,30 +156,60 @@ namespace Titanium.Entities
         /// This function renders the arena enemy to the screen.
         /// </summary>
         /// <param name="sb">The spritebatch object for rendering</param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix[] transforms = new Matrix[myModel.Bones.Count];
-                myModel.CopyAbsoluteBoneTransformsTo(transforms);
+                Matrix worldMatrix = Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
+                            * Matrix.CreateTranslation(_Position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
                 {
-
                     // This is where the mesh orientation is set, as well as our camera and projection.
-                    foreach (BasicEffect effect in mesh.Effects)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        //effect.EnableDefaultLighting();
-                        ArenaScene.instance.camera.SetLighting(effect);
-                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
-                            * Matrix.CreateTranslation(_Position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            part.Effect = effect;
+
+                            effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["ModelTexture"].SetValue(texture);
+
+                            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
+                        }
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
+                }
+            }
+        }
+
+        public PartyUtils.Enemy getEnemyType()
+        {
+            return type;
+        }
+
+        /// <summary>
+        /// This function sets the texture for the enemy.
+        /// </summary>
+        /// <param name="Content"></param>
+        private void setTexture(ContentManager Content)
+        {
+            switch(type)
+            {
+                case PartyUtils.Enemy.Bat:
+                {
+                    texture = Content.Load<Texture2D>("Models/BatMap");
+                    break;
+                }
+
+                default:
+                {
+                    texture = Content.Load<Texture2D>("Models/BatMap");
+                    break;
                 }
             }
         }

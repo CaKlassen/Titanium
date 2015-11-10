@@ -33,43 +33,27 @@ namespace Titanium.Entities
 
         //MovableModel
         private float aspectRatio, modelRotation;
-        public Model myModel;
+        //public Model myModel;
         //public Matrix ModelMatrix;
         //private SpriteBatch spriteBatch;
         //private String modelPath;
         private Vector3 modelPosition;
         private int stepsTaken;
+
+        private Texture2D texture;
         
         private float rotAngle;
         private float scale;
 
         // Possible player actions
         static InputAction up, down, left, right;
+
         static Character()
         {
-            up = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickUp, Buttons.DPadUp },
-                new Keys[] { Keys.W, Keys.Up },
-                true
-                );
-
-            down = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickDown, Buttons.DPadDown },
-                new Keys[] { Keys.S, Keys.Down },
-                true
-                );
-
-            left = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickLeft, Buttons.DPadLeft },
-                new Keys[] { Keys.A, Keys.Left },
-                true
-                );
-
-            right = new InputAction(
-                new Buttons[] { Buttons.LeftThumbstickRight, Buttons.DPadRight },
-                new Keys[] { Keys.D, Keys.Right },
-                true
-                );
+            up = InputAction.UP;
+            down = InputAction.DOWN;
+            left = InputAction.LEFT;
+            right = InputAction.RIGHT;
         }
 
         /// <summary>
@@ -83,10 +67,10 @@ namespace Titanium.Entities
             
             _forward = ForwardDir.UP;
 
-            rotAngle = 0;
+            rotAngle = MathHelper.ToRadians(180);
             scale = 0.5f;
             
-            modelRotation = 0.0f;
+            modelRotation = 180.0f;
 
             myModel = null;
             stepsTaken = 0;
@@ -96,6 +80,7 @@ namespace Titanium.Entities
         public void LoadModel(ContentManager cm, float aspectRatio)
         {
             myModel = cm.Load<Model>("Models/hero");
+            texture = cm.Load<Texture2D>("Models/PlayerMap");
             this.aspectRatio = aspectRatio;
         }
 
@@ -103,27 +88,29 @@ namespace Titanium.Entities
         /// inherited draw method from Entity class.
         /// </summary>
         /// <param name="sb"></param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix[] transforms = new Matrix[myModel.Bones.Count];
-                myModel.CopyAbsoluteBoneTransformsTo(transforms);
-                
+                Matrix worldMatrix = Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation) * Matrix.CreateTranslation(_Position);
+
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
                 {
-                    
                     // This is where the mesh orientation is set, as well as our camera and projection.
-                    foreach (BasicEffect effect in mesh.Effects)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        //effect.EnableDefaultLighting();//lighting
-                        ArenaScene.instance.camera.SetLighting(effect);
-                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale)* Matrix.CreateRotationY(modelRotation)
-                            * Matrix.CreateTranslation(_Position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            part.Effect = effect;
+
+                            effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["ModelTexture"].SetValue(texture);
+
+                            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
+                        }
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
@@ -166,42 +153,40 @@ namespace Titanium.Entities
             {
                 foreach (Entity e in ArenaScene.instance.collidables.ToList())
                 {
-                    switch(e.GetType().Name)
+                    if (PhysicsUtils.CheckCollision(this, e))
                     {
-                        case "ArenaEnemy":
-                            if (PhysicsUtils.CheckCollision(this, (ArenaEnemy)e))
-                            {
+                        switch (e.GetType().Name)
+                        {
+                            case "ArenaEnemy":
                                 // TEMP: Kill the enemy
-                                ((ArenaEnemy)e).die();
-                                ArenaScene.instance.startBattle();
+                                ((ArenaEnemy) e).die();
+                                ArenaScene.instance.startBattle(((ArenaEnemy) e).getEnemyType());
 
                                 // Snap to the target tile
                                 _Position.X = _currentTile.getDrawPos().X;
                                 _Position.Z = _currentTile.getDrawPos().Y;
-                            }
-                            break;
+                                break;
 
-                        case "ArenaExit":
-                            if (PhysicsUtils.CheckCollision(this, (ArenaExit)e))
-                            {
+                            case "ArenaExit":
                                 // Continue to the next arena
                                 ArenaController.instance.moveToNextArena();
-                            }
-                            break;
+                                break;
 
-                        case "Potion":
-                            if (PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, (Potion)e))
-                            {
+                            case "Potion":
+                                Console.Write("potion collision!\n");
                                 Potion p = (Potion)e;
                                 //heal party members a certain precentage
                                 PartyUtils.HealParty(p.getHealPercent());
                                 ArenaScene.instance.potionsUsed++;
 
-                                //remove from collidables list; please change if put in another list!
+                                //remove from tile and list
+                                p.getTile().deleteEntity(e);
                                 ArenaScene.instance.collidables.Remove(e);
-                            }
-                            break;
+                                break;
+                        }
                     }
+
+   
                 }
             }
         }
@@ -210,7 +195,7 @@ namespace Titanium.Entities
         /// Method to get the characters current position.
         /// </summary>
         /// <returns>The position of the player character as a Vector3.</returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return _Position;
         }
@@ -244,8 +229,6 @@ namespace Titanium.Entities
 
                    stepsTaken++;
                 }
-
-                rotAngle = MathHelper.ToRadians(180);
             }
 
             if (down.Evaluate(inputState, PlayerIndex.One, out player))
@@ -260,8 +243,6 @@ namespace Titanium.Entities
 
                     stepsTaken++;
                 }
-
-                rotAngle = MathHelper.ToRadians(0);
             }
 
             
@@ -278,7 +259,7 @@ namespace Titanium.Entities
                     stepsTaken++;
                 }
 
-                rotAngle = MathHelper.ToRadians(270);
+                rotAngle = MathHelper.ToRadians(0);
             }
 
             else if (right.Evaluate(inputState, PlayerIndex.One, out player))
@@ -294,7 +275,7 @@ namespace Titanium.Entities
                     stepsTaken++;
                 }
 
-                rotAngle = MathHelper.ToRadians(90);
+                rotAngle = MathHelper.ToRadians(180);
             }
 
             //update model rotation

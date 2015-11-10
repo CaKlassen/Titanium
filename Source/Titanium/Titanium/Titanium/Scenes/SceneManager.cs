@@ -29,8 +29,10 @@ namespace Titanium.Scenes
 
         SceneState currentScene;
         SceneState nextScene;
-        Texture2D curtains;
-        static int transitionSpeed = 7;
+        Texture2D curtainsLeft;
+        Texture2D curtainsRight;
+        static int transitionInSpeed = 9;
+        static int transitionOutSpeed = 12;
         float transitionPosition;
         int midPoint;
         InputState input = new InputState();
@@ -97,22 +99,16 @@ namespace Titanium.Scenes
         /// </summary>
         protected override void LoadContent()
         {
-            midPoint = GraphicsDevice.Viewport.Width/2;
-
             // Load content belonging to the screen manager.
             content = Game.Content;
 
+            InputAction.Load(content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("TestFont");
-            curtains = new Texture2D(GraphicsDevice, midPoint, GraphicsDevice.Viewport.Height);
+            curtainsLeft = content.Load<Texture2D>("Sprites/Curtain-Left");
+            curtainsRight = content.Load<Texture2D>("Sprites/Curtain-Right");
 
-            // TODO: LOAD ACTUAL CURTAINS
-            Color[] data = new Color[curtains.Width * curtains.Height];
-            for ( int i=0; i<data.Length; ++i)
-            {
-                data[i] = Color.Black;
-            }
-            curtains.SetData(data);
+            midPoint = curtainsLeft.Width;//GraphicsDevice.Viewport.Width / 2;
 
             // Tell each of the screens to load their content.
             foreach (Scene scene in scenes)
@@ -123,7 +119,7 @@ namespace Titanium.Scenes
 
             currentScene = SceneState.main;
             nextScene = SceneState.main;
-            state = State.transitionOn;
+            state = State.wait;
             transitionPosition = midPoint;
         }
 
@@ -164,13 +160,12 @@ namespace Titanium.Scenes
             input.update();
 
             
-            if (scenes[(int)currentScene] != null)
-                scenes[(int)currentScene].update(gameTime, input);
+            
 
             switch (state)
             {
                 case State.transitionOff:
-                    transitionPosition += MathUtils.smoothChange(transitionPosition, midPoint+1, transitionSpeed);
+                    transitionPosition += MathUtils.smoothChange(transitionPosition, midPoint+1, transitionInSpeed);
                     if (transitionPosition >= midPoint - 1f)
                     {
                         transitionPosition = midPoint;
@@ -187,17 +182,23 @@ namespace Titanium.Scenes
                         waitTime = WAIT_TIME;
                         state = State.transitionOn;
                         currentScene = nextScene;
+                        if (scenes[(int)currentScene] != null)
+                            scenes[(int)currentScene].update(gameTime, input);
                     }
                     break;
                 case State.transitionOn:
-                    transitionPosition += MathUtils.smoothChange(transitionPosition, -1, transitionSpeed);
+                    transitionPosition += MathUtils.smoothChange(transitionPosition, -1, transitionOutSpeed);
                     if (transitionPosition <= 1f)
                     {
                         state = State.active;
                         transitionPosition = 0;
                     }
+                    if (scenes[(int)currentScene] != null)
+                        scenes[(int)currentScene].update(gameTime, input);
                     break;
                 default:
+                    if (scenes[(int)currentScene] != null)
+                        scenes[(int)currentScene].update(gameTime, input);
                     break;
             }
 
@@ -218,8 +219,8 @@ namespace Titanium.Scenes
                 case State.wait:
                 case State.transitionOn:
                     SpriteBatch.Begin();
-                    SpriteBatch.Draw(curtains, new Vector2(transitionPosition - midPoint, 0), Color.White);
-                    SpriteBatch.Draw(curtains, new Vector2(GraphicsDevice.Viewport.Width - transitionPosition, 0), Color.White);
+                    SpriteBatch.Draw(curtainsRight, new Vector2(GraphicsDevice.Viewport.Width - transitionPosition, 0), Color.White);
+                    SpriteBatch.Draw(curtainsLeft, new Vector2(transitionPosition - midPoint, 0), Color.White);
                     SpriteBatch.End();
                     break;
                 default:

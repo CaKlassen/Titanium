@@ -16,6 +16,7 @@ namespace Titanium.Entities
     /// </summary>
     public abstract class Entity
     {
+        public Model myModel;
         /// <summary>
         /// The default entity constructor
         /// </summary>
@@ -35,6 +36,12 @@ namespace Titanium.Entities
         /// This function renders the entity to the screen.
         /// </summary>
         /// <param name="sb">The spritebatch for rendering</param>
-        public abstract void Draw(SpriteBatch sb);
+        public abstract void Draw(SpriteBatch sb, Effect effect);
+
+        /// <summary>
+        /// This function returns the entities position
+        /// </summary>
+        /// <returns>position of the Entity</returns>
+        public abstract Vector3 getPOSITION();
     }
 }

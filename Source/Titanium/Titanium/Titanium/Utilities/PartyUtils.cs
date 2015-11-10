@@ -5,12 +5,38 @@ using System.IO;
 using System.Linq;
 using Titanium.Battle;
 using Titanium.Entities;
+using Titanium.Gambits;
 
 namespace Titanium.Utilities
 {
     public static class PartyUtils
     {
+        public delegate void PlayerAction(Sprite player, Sprite target, GambitResult gambitResult);
+
+        public static void testAction(Sprite player, Sprite target, GambitResult gambitResult)
+        {
+            player.hitTarget(target, gambitResult.multiplier);
+        }
+
+        static Skill[][] SKILLS =
+        {
+            new Skill[]{
+                new Skill("Fireball", new Combo(), testAction),
+                new Skill("Frostbolt", new Combo(), testAction)
+            },
+            new Skill[]{
+                new Skill("Arcane Arrow", new Rotation(), testAction),
+                new Skill("Throwing Knife", new Rotation(), testAction)
+            },
+            new Skill[]{
+                new Skill("Bite", new Mash(), testAction),
+                new Skill("Claw", new Mash(), testAction)
+            }
+        };
+
         public enum Enemy { Bat, Empty };
+
+        static int MAX_ENEMIES = 2;
 
         public static List<PlayerSprite> partyMembers = new List<PlayerSprite>();
 
@@ -23,9 +49,10 @@ namespace Titanium.Utilities
         {
             using (var reader = File.OpenText(@"Content/Stats/PlayerFile.txt"))
             {
+                int i = 0;
                 while (reader.ReadLine() != null)
                 {
-                    partyMembers.Add(new PlayerSprite());
+                    partyMembers.Add(new PlayerSprite(SKILLS[i].ToList()));
                 }
             }
             loadStats(partyMembers.Cast<Sprite>().ToList(), "PlayerFile.txt");
@@ -93,17 +120,37 @@ namespace Titanium.Utilities
 
         public static List<Sprite> makeEnemies(Enemy a, Enemy b = Enemy.Empty, Enemy c = Enemy.Empty, Enemy d = Enemy.Empty)
         {
-            FileUtils myFileUtil = new FileUtils();
             List<Sprite> result = new List<Sprite>();
             if (a != Enemy.Empty && !a.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(a.ToString()));
+                result.Add(FileUtils.CreateNewSprite(a.ToString()));
             if (b != Enemy.Empty && !b.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(b.ToString()));
+                result.Add(FileUtils.CreateNewSprite(b.ToString()));
             if (c != Enemy.Empty && !c.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(c.ToString()));
+                result.Add(FileUtils.CreateNewSprite(c.ToString()));
             if (d != Enemy.Empty && !d.Equals(null))
-                result.Add(myFileUtil.CreateNewSprite(d.ToString()));
+                result.Add(FileUtils.CreateNewSprite(d.ToString()));
             return result;
         }
+
+        public static List<Sprite> makeEnemies(List<Enemy> enemies)
+        {
+            List<Sprite> result = new List<Sprite>();
+
+            for(int i=0; i < MAX_ENEMIES; i++)
+            {
+                if (enemies[i] == Enemy.Empty)
+                    result.Add(null);
+                else
+                    result.Add(FileUtils.CreateNewSprite(enemies[i].ToString()));
+            }
+            return result;
+        }
+
+        public static Sprite getRandomPartyMember()
+        {
+            return partyMembers.ElementAt(new Random().Next(partyMembers.Count));
+        }
+
+        
     }
 }

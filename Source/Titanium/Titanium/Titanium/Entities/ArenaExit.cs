@@ -23,9 +23,10 @@ namespace Titanium.Entities
         private Vector3 _Position;
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
+        private Texture2D myTexture;
         //MovableModel
         private float modelRotation;
-        public Model myModel;
+        //public Model myModel;
         private float scale;
 
         /// <summary>
@@ -56,7 +57,8 @@ namespace Titanium.Entities
             scale = 0.3f;
             
             // Load the model
-            myModel = myModel = Content.Load<Model>("Models/exitDoor");
+            myModel = Content.Load<Model>("Models/exitDoor");
+            myTexture = Content.Load<Texture2D>("Models/exitDoorUVMap");
         }
 
         /// <summary>
@@ -73,27 +75,29 @@ namespace Titanium.Entities
         /// This function renders the arena exit to the screen.
         /// </summary>
         /// <param name="sb">The spritebatch object for rendering</param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix[] transforms = new Matrix[myModel.Bones.Count];
-                myModel.CopyAbsoluteBoneTransformsTo(transforms);
+                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateRotationY(modelRotation) * Matrix.CreateTranslation(_Position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
                 {
-
                     // This is where the mesh orientation is set, as well as our camera and projection.
-                    foreach (BasicEffect effect in mesh.Effects)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        //effect.EnableDefaultLighting();
-                        ArenaScene.instance.camera.SetLighting(effect);
-                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
-                            * Matrix.CreateTranslation(_Position);
-                        effect.View = ArenaScene.instance.camera.getView();
-                        effect.Projection = ArenaScene.instance.camera.getProjection();
+
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            part.Effect = effect;
+
+                            effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["ModelTexture"].SetValue(myTexture);
+
+                            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
+                        }
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
@@ -105,7 +109,7 @@ namespace Titanium.Entities
         /// Method to get the characters current position.
         /// </summary>
         /// <returns>The position of the player character as a Vector3.</returns>
-        public Vector3 getPosition()
+        public override Vector3 getPOSITION()
         {
             return _Position;
         }

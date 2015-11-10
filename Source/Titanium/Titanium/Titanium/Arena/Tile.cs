@@ -98,33 +98,30 @@ namespace Titanium.Arena
         /// This function renders the tile to the screen
         /// </summary>
         /// <param name="sb">The sprite batch object used for rendering</param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
 
             if (model != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix[] transforms = new Matrix[model.Bones.Count];
-                model.CopyAbsoluteBoneTransformsTo(transforms);
+                Matrix worldMatrix = Matrix.CreateRotationY(-1.5708f) * Matrix.CreateScale(tileScale) * Matrix.CreateTranslation(modelPosition);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in model.Meshes)
                 {
-
                     // This is where the mesh orientation is set, as well as our camera and projection.
-                    foreach (BasicEffect effect in mesh.Effects)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        //effect.EnableDefaultLighting();
-                        ArenaScene.instance.camera.SetLighting(effect);
-                        // Set the tile's UV Map
-                        effect.TextureEnabled = true;
-                        effect.Texture = texture;
 
-                        effect.World = transforms[mesh.ParentBone.Index]  * Matrix.CreateRotationY(-1.5708f) * Matrix.CreateScale(0.5f) * Matrix.CreateTranslation(modelPosition);
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            part.Effect = effect;
 
-                        effect.View = ArenaScene.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
-                        effect.Projection = ArenaScene.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
-                                                                                 //aspectRatio, 1.0f, 10000.0f);//1366/768
+                            effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["ModelTexture"].SetValue(texture);
+
+                            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
+                        }
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
@@ -133,7 +130,7 @@ namespace Titanium.Arena
 
             foreach (Entity entity in entityList)
             {
-                entity.Draw(sb);
+                entity.Draw(sb, effect);
             }
         }
 
@@ -293,6 +290,16 @@ namespace Titanium.Arena
             }
 
             return hasExit;
+        }
+
+        /// <summary>
+        /// returns modelPosition;
+        /// does the same as method getModelPositon()
+        /// </summary>
+        /// <returns>model's position</returns>
+        public override Vector3 getPOSITION()
+        {
+            return modelPosition;
         }
     }
 }

@@ -22,9 +22,10 @@ namespace Titanium.Entities
         private Vector3 _Position;
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
+        private Texture2D myTexture;
         //MovableModel
         private float modelRotation;
-        public Model myModel;
+        //public Model myModel;
         private Vector3 modelPosition;
         private float scale;
 
@@ -45,7 +46,8 @@ namespace Titanium.Entities
             modelRotation = 0.0f;
             modelPosition = new Vector3(_currentTile.getModelPos().X, -40, _currentTile.getModelPos().Z);//models position appears on the start tile.
             
-            myModel = myModel = Content.Load<Model>("Models/table");
+            myModel = Content.Load<Model>("Models/table");
+            myTexture = Content.Load<Texture2D>("Models/UVMap-Table");
         }
 
         /// <summary>
@@ -62,33 +64,39 @@ namespace Titanium.Entities
         /// This function renders the arena table to the screen.
         /// </summary>
         /// <param name="sb">The spritebatch object for rendering</param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix[] transforms = new Matrix[myModel.Bones.Count];
-                myModel.CopyAbsoluteBoneTransformsTo(transforms);
+                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_Position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
                 {
-
                     // This is where the mesh orientation is set, as well as our camera and projection.
-                    foreach (BasicEffect effect in mesh.Effects)
+                    foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        //effect.EnableDefaultLighting();
-                        ArenaScene.instance.camera.setBoardLighting(effect);
-                        effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation)
-                            * Matrix.CreateTranslation(modelPosition);
-                        effect.View = ArenaScene.instance.camera.getView();//Matrix.CreateLookAt(cameraPosition, Target, Vector3.Up);//Vector3.Zero
-                        effect.Projection = ArenaScene.instance.camera.getProjection();//Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
-                                                                                       //aspectRatio, 1.0f, 10000.0f);//1366/768
+
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            part.Effect = effect;
+
+                            effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["ModelTexture"].SetValue(myTexture);
+
+                            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
+                        }
                     }
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
                 }
             }
+        }
+
+        public override Vector3 getPOSITION()
+        {
+            return _Position;
         }
     }
 }
