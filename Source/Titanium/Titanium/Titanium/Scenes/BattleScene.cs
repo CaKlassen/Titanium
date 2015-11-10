@@ -149,9 +149,9 @@ namespace Titanium.Scenes
             sb.Draw(background, new Vector2(0, 0), Color.White);
 
             if (paused)
-                pauseMenu.draw(sb);
+                pauseMenu.draw(sb, null);
 
-            currentEncounter.draw(sb);
+            currentEncounter.draw(sb, null);
 
             sb.End();
         }

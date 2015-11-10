@@ -35,6 +35,7 @@ namespace Titanium.Scenes
                     battle;
 
         ContentManager content;
+        public Effect HLSLeffect;
 
         public ArenaController controller;
         public Character Hero;
@@ -71,6 +72,9 @@ namespace Titanium.Scenes
 
             if (content == null)
                 content = new ContentManager(SceneManager.Game.Services, "Content");
+
+            // Load the shader
+            HLSLeffect = content.Load<Effect>("Effects/Shader");
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
@@ -142,28 +146,48 @@ namespace Titanium.Scenes
             SceneManager.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateGray, 1.0f, 0);
             SceneManager.GraphicsDevice.BlendState = BlendState.Opaque;
             SceneManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            BaseGame.instance.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
             RasterizerState rs = new RasterizerState();
             rs.CullMode = CullMode.None;
             SceneManager.GraphicsDevice.RasterizerState = rs;
             
-            // Draw the skybox
-            skybox.Draw(sb);
 
+            Vector3 position = camera.getPosition();
+            Vector3 LAt = camera.getLookAt() - position;
+
+            HLSLeffect.CurrentTechnique = HLSLeffect.Techniques["ShaderTech"];
+
+            HLSLeffect.Parameters["AmbientColor"].SetValue(Color.Gold.ToVector4());
+            HLSLeffect.Parameters["AmbientIntensity"].SetValue(0.9f);
+            HLSLeffect.Parameters["fogColor"].SetValue(Color.Gray.ToVector4());
+            HLSLeffect.Parameters["fogFar"].SetValue(1000.0f);
+            HLSLeffect.Parameters["fogEnabled"].SetValue(true);
+            HLSLeffect.Parameters["FlashlightAngle"].SetValue(2.0f);
+
+            HLSLeffect.Parameters["LightDirection"].SetValue(Vector3.Normalize(LAt));
+            HLSLeffect.Parameters["EyePosition"].SetValue(position);
+
+            HLSLeffect.Parameters["View"].SetValue(camera.getView());
+            HLSLeffect.Parameters["Projection"].SetValue(camera.getProjection());
+
+            // Draw the skybox
+            skybox.Draw(sb, HLSLeffect);
 
             // Draw the table
-            table.Draw(sb);
+            table.Draw(sb, HLSLeffect);
 
             // Draw the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
                 for (int j = 0; j < baseArena.GetLength(1); j++)
                 {
-                    baseArena[i, j].Draw(sb);
+                    baseArena[i, j].Draw(sb, HLSLeffect);
                 }
             }
 
             //Draw character
-            Hero.Draw(sb);
+            Hero.Draw(sb, HLSLeffect);
         }
 
         /**

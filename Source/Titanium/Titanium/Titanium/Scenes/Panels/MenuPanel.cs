@@ -87,10 +87,10 @@ namespace Titanium.Scenes.Panels
             return w;
         }
         
-        public override void draw(SpriteBatch sb)
+        public override void draw(SpriteBatch sb, Effect effect)
         {
             sb.DrawString(font, title, Position, textColor);
-            base.draw(sb);
+            base.draw(sb, effect);
         }
 
         public override void update(GameTime gameTime, InputState inputState)

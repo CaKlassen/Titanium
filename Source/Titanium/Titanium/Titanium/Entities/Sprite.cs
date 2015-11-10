@@ -69,7 +69,7 @@ namespace Titanium.Entities
             this.rawStats.normalize();
         }
 
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (checkDeath())
             {

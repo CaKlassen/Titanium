@@ -36,7 +36,7 @@ namespace Titanium.Entities
         /// This function renders the entity to the screen.
         /// </summary>
         /// <param name="sb">The spritebatch for rendering</param>
-        public abstract void Draw(SpriteBatch sb);
+        public abstract void Draw(SpriteBatch sb, Effect effect);
 
         /// <summary>
         /// This function returns the entities position

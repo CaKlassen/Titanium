@@ -65,11 +65,11 @@ namespace Titanium.Scenes.Panels
             base.update(gametime, inputState);
         }
 
-        public override void draw(SpriteBatch sb)
+        public override void draw(SpriteBatch sb, Effect effect)
         {
             sb.Draw(icon, Position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
             sb.DrawString(font, text, Position + new Vector2(50,0), textColor);
-            base.draw(sb);
+            base.draw(sb, effect);
         }
 
         /// <summary>

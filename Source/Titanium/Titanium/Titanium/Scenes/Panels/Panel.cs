@@ -96,10 +96,10 @@ namespace Titanium.Scenes.Panels
         /// Draw this panel and its sub panels
         /// </summary>
         /// <param name="gameTime">The current game time</param>
-        public virtual void draw(SpriteBatch sb)
+        public virtual void draw(SpriteBatch sb, Effect effect)
         {
             foreach (Panel panel in subPanels)
-                panel.draw(sb);
+                panel.draw(sb, effect);
         }
 
         /// <summary>

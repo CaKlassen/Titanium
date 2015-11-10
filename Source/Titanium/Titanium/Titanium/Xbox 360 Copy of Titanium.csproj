@@ -68,7 +68,6 @@
     <Compile Include="Entities\EnemySprite.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Items\Potion.cs" />
-    <Compile Include="Entities\MovableModel.cs" />
     <Compile Include="Entities\PlayerSprite.cs" />
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Entities\Traps\Projectile.cs" />
