@@ -111,7 +111,9 @@ namespace Titanium.Battle
             Texture2D[] icons = { InputAction.LB.icon(), InputAction.LT.icon(), InputAction.RB.icon(), InputAction.RT.icon() };
             for (int i = 0; i < icons.Length; ++i)
             {
-                if (enemies[i].checkDeath() || enemies[i] == null)
+                if (enemies[i] == null)
+                    continue;
+                if (enemies[i].checkDeath())
                     continue;
                 sb.Draw(icons[i], enemies[i].getPosition(), Color.White);
             }
@@ -223,8 +225,11 @@ namespace Titanium.Battle
         {
             if (enemies[n] != null)
             {
-                currentGambit = party[battleMenu.selected].execute(enemies[n], gameTime);
-                state = EncounterState.Gambit;
+                if (!enemies[n].checkDeath())
+                {
+                    currentGambit = party[battleMenu.selected].execute(enemies[n], gameTime);
+                    state = EncounterState.Gambit;
+                }
             }
              
         }

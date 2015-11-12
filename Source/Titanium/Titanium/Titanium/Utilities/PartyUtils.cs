@@ -138,7 +138,9 @@ namespace Titanium.Utilities
 
             for(int i=0; i < MAX_ENEMIES; i++)
             {
-                if (enemies[i] != Enemy.Empty)
+                if (enemies[i] == Enemy.Empty)
+                    result.Add(null);
+                else
                     result.Add(FileUtils.CreateNewSprite(enemies[i].ToString()));
             }
             return result;

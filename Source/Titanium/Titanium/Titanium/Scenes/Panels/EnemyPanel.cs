@@ -61,29 +61,55 @@ namespace Titanium.Scenes.Panels
 
             foreach (Sprite sprite in front)
             {
-                sprite.Load(content);
-                sprite.move(Origin + new Vector2(0, offsetY));
+                if (sprite != null)
+                {
+                    sprite.Load(content);
+                    sprite.move(Origin + new Vector2(0, offsetY));
+                }
                 if (offsetX == 0)
-                    offsetX += sprite.getWidth() + paddingX;
-                offsetY += sprite.getHeight() + paddingY;
+                {
+                    if (sprite!=null)
+                    {
+                        offsetX += sprite.getWidth() + paddingX;
+                        offsetY += sprite.getHeight() + paddingY;
+                    }
+                    else
+                    {
+                        offsetX += 150 + paddingX;
+                        offsetY += 200 + paddingY;
+                    }
+                }
             }
 
             offsetY = 0;
             foreach (Sprite sprite in back)
             {
-                sprite.Load(content);
-                sprite.move(Origin + new Vector2(offsetX, offsetY));
-                offsetY += sprite.getHeight() + paddingY;
+                if (sprite != null)
+                {
+                    sprite.Load(content);
+                    sprite.move(Origin + new Vector2(offsetX, offsetY));
+                    offsetY += sprite.getHeight() + paddingY;
+                }
+                else
+                {
+                    offsetY += 200 + paddingY;
+                }
             }
         }
 
         public override void draw(SpriteBatch sb, Effect effect)
         {
             foreach (Sprite sprite in front)
-                sprite.Draw(sb, effect);
+            {
+                if (sprite != null)
+                    sprite.Draw(sb, effect);
+            }
 
             foreach (Sprite sprite in back)
-                sprite.Draw(sb, effect);
+            {
+                if (sprite != null)
+                    sprite.Draw(sb, effect);
+            }
 
             base.draw(sb, effect);
         }
@@ -99,10 +125,16 @@ namespace Titanium.Scenes.Panels
             }
 
             foreach (Sprite sprite in front)
-                sprite.Update(gameTime, inputState);
+            {
+                if (sprite != null)
+                    sprite.Update(gameTime, inputState);
+            }
 
             foreach (Sprite sprite in back)
-                sprite.Update(gameTime, inputState);
+            {
+                if (sprite != null)
+                    sprite.Update(gameTime, inputState);
+            }
 
             base.update(gameTime, inputState);
         }
@@ -157,9 +189,12 @@ namespace Titanium.Scenes.Panels
         {
             for (int i = 0; i < SIZE; ++i)
             {
-                if (this[i].currentState != Sprite.State.Dead)
+                if (this[i] != null)
                 {
-                    return false;
+                    if (this[i].currentState != Sprite.State.Dead)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
