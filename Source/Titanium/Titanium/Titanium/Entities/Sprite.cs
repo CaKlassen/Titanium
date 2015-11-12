@@ -27,7 +27,7 @@ namespace Titanium.Entities
 
         public enum Direction { Up, Down, Left, Right, None }
         public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
-        public enum State { Idle, Running, FinishedRunning, Attacking, Hurt, FinishedHurting, Resting, Dead }
+        public enum State { Idle, Running, FinishedRunning, Attacking, Returning, FinishedReturning, Hurt, Resting, Dead }
         public State currentState;
         public Sprite enemySprite;
         public float attackMultiplier;
@@ -129,12 +129,63 @@ namespace Titanium.Entities
                     int damageDone = 0;
                     damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * attackMultiplier);
                     enemySprite.takeDamage(damageDone);
-                    changeState(State.Resting);
-                    destRect = originalRect;
+                    animationDirectionLR = Direction.None;
+                    animationDirectionUD = Direction.None;
+                    changeState(State.Returning);
+                }
+                if (currentState == State.Returning)
+                {
+                    updateReturn();
+                }
+                if (currentState == State.FinishedReturning)
+                {
+                    animationDirectionLR = Direction.None;
+                    animationDirectionUD = Direction.None;
+                    changeState(State.Idle);
                 }
             }
         }
 
+        public void updateReturn()
+        {
+            bool changed = false;
+
+            if (this.destRect.X < this.originalRect.X && animationDirectionLR != Direction.Left)
+            {
+                animationDirectionLR = Direction.Right;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X += 10, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                changed = true;
+            }
+            else if (this.destRect.X > this.originalRect.X && animationDirectionLR != Direction.Right)
+            {
+                animationDirectionLR = Direction.Left;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X -= 10, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                changed = true;
+            }
+
+            if (this.destRect.Y < this.originalRect.Y && animationDirectionUD != Direction.Up)
+            {
+                animationDirectionUD = Direction.Down;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X, tempRect.Y += 10, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                changed = true;
+            }
+            else if (this.destRect.Y > this.originalRect.Y && animationDirectionUD != Direction.Down)
+            {
+                animationDirectionUD = Direction.Up;
+                Rectangle tempRect = destRect;
+                destRect = new Rectangle(tempRect.X, tempRect.Y -= 10, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                changed = true;
+            }
+            if (!changed)
+            {
+                changeState(State.FinishedReturning);
+            }
+        }
+
+        //The animation of the character moving across the screen to attack
         public void updateRun()
         {
             bool changed = false;
@@ -231,6 +282,7 @@ namespace Titanium.Entities
                     this.currentSpriteFile = hurtFile;
                     this.frameCount = 1;
                     break;
+                case State.Returning:
                 case State.Idle:
                 case State.Resting:
                 default:
