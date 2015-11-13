@@ -175,6 +175,7 @@ namespace Titanium.Entities
                         {
                             part.Effect = effect;
 
+                            effect.Parameters["AmbientIntensity"].SetValue(0.3f);
                             effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
                             effect.Parameters["ModelTexture"].SetValue(texture);
 
@@ -184,6 +185,7 @@ namespace Titanium.Entities
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
                 }
+                effect.Parameters["AmbientIntensity"].SetValue(ArenaScene.ARENA_AMBIENCE);
             }
         }
 

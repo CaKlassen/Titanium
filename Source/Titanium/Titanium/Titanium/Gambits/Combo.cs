@@ -60,31 +60,25 @@ namespace Titanium.Gambits
             icons = new List<Texture2D>();
             current = 0;
             comboString = makeComboString(DateTime.Now.Millisecond);
+            timeLeft = timeLimit;
             base.start(gameTime);
         }
 
-        public override void draw(SpriteBatch sb)
+        public override void draw(Vector2 pos, SpriteBatch sb)
         {
             int width = 0;
             int height = 0;
             Texture2D icon;
-            
-            if( v == null )
-            {
-                v = sb.GraphicsDevice.Viewport;
-                position = new Vector2((v.GetValueOrDefault().Width / 2) - (totalWidth() / 2), (v.GetValueOrDefault().Height/2) - (totalHeight()/2));
-            }
-
 
             for (int i=0; i<icons.Count; i++)
             {
                 icon = icons[i];
-                sb.Draw(icon, position + new Vector2(width, height), i < current ? Color.Black : Color.White);
+                sb.Draw(icon, pos + new Vector2(width, height), i < current ? Color.Black : Color.White);
                 width += icon.Width;
             }
             height += icons[0].Height;
             string msg = "Time Left: " + TimeSpan.FromMilliseconds(timeLeft);
-            sb.DrawString(font, msg, position + new Vector2(0, height), Color.Red);
+            sb.DrawString(font, msg, pos + new Vector2(0, height), Color.Red);
         }
 
         public override void load(ContentManager content)
@@ -100,8 +94,12 @@ namespace Titanium.Gambits
 
         public override void update(GameTime gameTime, InputState state)
         {
-            
+
+            base.update(gameTime, state);
             timeLeft = timeLimit - timeElapsed;
+
+            if (timeElapsed < 5)
+                return;
 
             if (timeLeft <= 0)
             {
@@ -122,11 +120,9 @@ namespace Titanium.Gambits
             }
             else if (miss(state))
             {
-                multiplier = 0.7f;
-                finished = true;
+                current = 0;
                 sfxFailure.Play();
             }
-            base.update(gameTime, state);
         }
 
         /// <summary>

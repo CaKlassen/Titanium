@@ -17,7 +17,7 @@ namespace Titanium.Scenes.Panels
         Encounter encounter;
 
         static int topOffset = 300;
-        static int leftOffset = 250;
+        static int leftOffset = 300;
 
         static int offsetX = -100;
         static int offsetY = 100;
@@ -75,10 +75,10 @@ namespace Titanium.Scenes.Panels
 
         public bool hasActed()
         {
+            bool result = true;
             foreach (PlayerSprite sprite in party)
-                if (sprite.currentState != Sprite.State.Resting)
-                    return false;
-            return true;
+                result &= sprite.currentState == Sprite.State.Resting;
+            return result;
         }
 
         public void activate()

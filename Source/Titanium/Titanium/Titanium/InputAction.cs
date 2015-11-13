@@ -83,22 +83,22 @@ namespace Titanium
             );
             UP = new InputAction(
                 new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
-                new Keys[] { Keys.W, Keys.Up },
+                new Keys[] { Keys.Up },
                 true
             );
             DOWN = new InputAction(
                 new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
-                new Keys[] { Keys.S, Keys.Down },
+                new Keys[] { Keys.Down },
                 true
             );
             LEFT = new InputAction(
                 new Buttons[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft },
-                new Keys[] { Keys.A, Keys.Left },
+                new Keys[] { Keys.Left },
                 true
             );
             RIGHT = new InputAction(
                 new Buttons[] { Buttons.DPadRight, Buttons.LeftThumbstickRight },
-                new Keys[] { Keys.D, Keys.Right },
+                new Keys[] { Keys.Right },
                 true
             );
             RSUP = new InputAction(
@@ -133,7 +133,7 @@ namespace Titanium
             );
             RCLICK = new InputAction(
                 new Buttons[] { Buttons.RightStick },
-                new Keys[] { },
+                new Keys[] { Keys.NumPad0 },
                 true
             );
             LCLICK = new InputAction(

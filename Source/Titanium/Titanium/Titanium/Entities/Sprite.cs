@@ -141,7 +141,7 @@ namespace Titanium.Entities
                 {
                     animationDirectionLR = Direction.None;
                     animationDirectionUD = Direction.None;
-                    changeState(State.Idle);
+                    changeState(State.Resting);
                 }
             }
         }

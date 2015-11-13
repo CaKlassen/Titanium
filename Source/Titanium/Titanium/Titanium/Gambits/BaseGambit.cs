@@ -29,8 +29,6 @@ namespace Titanium.Gambits
         protected int timeElapsed;
         protected bool finished;
         GambitResult result;
-        protected Viewport? v = null;
-        protected Vector2 position = Vector2.Zero;
         protected SpriteFont font;
         protected float multiplier = 1f;
 
@@ -74,7 +72,7 @@ namespace Titanium.Gambits
             timeElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
         }
 
-        public abstract void draw(SpriteBatch sb);
+        public abstract void draw(Vector2 pos, SpriteBatch sb);
         
         /// <summary>
         /// Returns the total width in pixels of this gambit

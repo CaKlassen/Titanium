@@ -52,7 +52,7 @@ namespace Titanium.Utilities
                 int i = 0;
                 while (reader.ReadLine() != null)
                 {
-                    partyMembers.Add(new PlayerSprite(SKILLS[i].ToList()));
+                    partyMembers.Add(new PlayerSprite(SKILLS[i++].ToList()));
                 }
             }
             loadStats(partyMembers.Cast<Sprite>().ToList(), "PlayerFile.txt");
