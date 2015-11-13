@@ -45,6 +45,9 @@ namespace Titanium.Scenes
         private BasicEffect effect;
         public int potionsUsed;
 
+        public float FlashLightAngle;
+        public static float ARENA_AMBIENCE = 0.080f;
+
         public List<Entity> collidables;
 
         /**
@@ -85,6 +88,7 @@ namespace Titanium.Scenes
             if (effect == null)
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
+            FlashLightAngle = 10f;
             Hero = new Character();
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPOSITION());
             //load model
@@ -95,6 +99,7 @@ namespace Titanium.Scenes
 
             potionsUsed = 0;
 
+            
             // Debug arena
             printDebugArena();
         }
@@ -109,6 +114,7 @@ namespace Titanium.Scenes
             //update Character
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPOSITION());
+
             
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
@@ -152,21 +158,21 @@ namespace Titanium.Scenes
             rs.CullMode = CullMode.None;
             SceneManager.GraphicsDevice.RasterizerState = rs;
             
-
+            Vector3 LightPos = new Vector3(Hero.getPOSITION().X, Hero.getPOSITION().Y + 400, Hero.getPOSITION().Z);//test light pos
             Vector3 position = camera.getPosition();
-            Vector3 LAt = camera.getLookAt() - position;
-
+            //Vector3 LAt = camera.getLookAt() - position;
+            Vector3 LAt = Hero.getPOSITION() - LightPos;
             HLSLeffect.CurrentTechnique = HLSLeffect.Techniques["ShaderTech"];
 
             HLSLeffect.Parameters["AmbientColor"].SetValue(Color.Gold.ToVector4());
-            HLSLeffect.Parameters["AmbientIntensity"].SetValue(0.9f);
+            HLSLeffect.Parameters["AmbientIntensity"].SetValue(ARENA_AMBIENCE);
             HLSLeffect.Parameters["fogColor"].SetValue(Color.Gray.ToVector4());
             HLSLeffect.Parameters["fogFar"].SetValue(1000.0f);
             HLSLeffect.Parameters["fogEnabled"].SetValue(true);
-            HLSLeffect.Parameters["FlashlightAngle"].SetValue(2.0f);
+            HLSLeffect.Parameters["FlashlightAngle"].SetValue(MathHelper.ToRadians(FlashLightAngle));
 
             HLSLeffect.Parameters["LightDirection"].SetValue(Vector3.Normalize(LAt));
-            HLSLeffect.Parameters["EyePosition"].SetValue(position);
+            HLSLeffect.Parameters["EyePosition"].SetValue(LightPos);//position
 
             HLSLeffect.Parameters["View"].SetValue(camera.getView());
             HLSLeffect.Parameters["Projection"].SetValue(camera.getProjection());

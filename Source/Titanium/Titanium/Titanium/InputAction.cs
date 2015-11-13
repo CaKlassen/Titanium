@@ -133,7 +133,7 @@ namespace Titanium
             );
             RCLICK = new InputAction(
                 new Buttons[] { Buttons.RightStick },
-                new Keys[] { },
+                new Keys[] { Keys.NumPad0 },
                 true
             );
             LCLICK = new InputAction(

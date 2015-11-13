@@ -44,6 +44,7 @@ namespace Titanium
         private float _clientW;//the client window's Width
         private float _clientH;//the client window's Height
         private float _aspectRatio;//aspectRatio
+        private Vector3 cameraPos;
 
         private BasicEffect _effect;//public; accessible for rendering purposes
 
@@ -67,6 +68,7 @@ namespace Titanium
             target = camTarget;//new Vector3();//looking at (0,0,0), the Origin/middle
 
             Vector3 camPos = position + camTarget;
+            cameraPos = camPos;
 
             View = Matrix.CreateLookAt(camTarget, target, Vector3.Up);
             Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), _aspectRatio, 1f, 10000f);
@@ -97,6 +99,7 @@ namespace Titanium
         public void UpdateCamera(Vector3 CharacterPos)
         {
             Vector3 camPos = position + CharacterPos;
+            cameraPos = camPos;
             View = Matrix.CreateLookAt(camPos, CharacterPos, Vector3.Up);
             _effect.View = View;
         }
@@ -141,7 +144,7 @@ namespace Titanium
 
         public Vector3 getPosition()
         {
-            return position;
+            return cameraPos;
         }
 
         public Vector3 getLookAt()
