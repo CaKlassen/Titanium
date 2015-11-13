@@ -148,6 +148,20 @@ namespace Titanium.Utilities
 
         public static Sprite getRandomPartyMember()
         {
+            bool passed = false;
+            Random seed = new Random();
+            int index = seed.Next(partyMembers.Count);
+            do
+            {
+                PlayerSprite tempSprite = partyMembers.ElementAt(index);
+                if (!tempSprite.checkDeath())
+                {
+                    passed = true;
+                } else
+                {
+                    index = seed.Next(partyMembers.Count);
+                }
+            } while (passed != true);
             return partyMembers.ElementAt(new Random().Next(partyMembers.Count));
         }
 

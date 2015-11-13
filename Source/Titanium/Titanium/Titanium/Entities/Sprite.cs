@@ -297,7 +297,7 @@ namespace Titanium.Entities
         {
             this.enemySprite = s;
             this.attackMultiplier = multiplier;
-            targetRect = s.originalRect;
+            targetRect = s.destRect;
             changeState(State.Running);
         }
 
