@@ -226,12 +226,23 @@ namespace Titanium.Battle
 
         public bool success()
         {
+            if(enemies.dead())
+            {
+                party.reset();
+                return true;
+            }
             return enemies.dead();        
         }
 
         public bool failure()
         {
-            return party.dead();
+            if(party.dead())
+            {
+                party.reset();
+                return true;
+            }
+
+            return false;
         }
 
         
