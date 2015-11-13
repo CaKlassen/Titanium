@@ -132,16 +132,19 @@ namespace Titanium.Scenes.Panels
         {
             for (int i = 0; i < SIZE; ++i)
             {
-                switch (this[i].currentState)
+                if (this[i] != null)
                 {
-                    case Sprite.State.Idle:
-                        return true;
-                    case Sprite.State.Dead:
-                        break;
-                    case Sprite.State.Resting:
-                        break;
-                    default:
-                        return false;
+                    switch (this[i].currentState)
+                    {
+                        case Sprite.State.Idle:
+                            return true;
+                        case Sprite.State.Dead:
+                            break;
+                        case Sprite.State.Resting:
+                            break;
+                        default:
+                            return false;
+                    }
                 }
             }
             active = false;
@@ -153,10 +156,13 @@ namespace Titanium.Scenes.Panels
             currentDelay = 0;
             for(int i = 0; i<SIZE; ++i)
             {
-                if(this[i].currentState == Sprite.State.Idle)
+                if (this[i] != null)
                 {
-                    PartyUtils.testAction(this[i], PartyUtils.getRandomPartyMember(), new Gambits.GambitResult(1f, int.MaxValue));
-                    return;
+                    if (this[i].currentState == Sprite.State.Idle)
+                    {
+                        PartyUtils.testAction(this[i], PartyUtils.getRandomPartyMember(), new Gambits.GambitResult(1f, int.MaxValue));
+                        return;
+                    }
                 }
             }
             active = false;
