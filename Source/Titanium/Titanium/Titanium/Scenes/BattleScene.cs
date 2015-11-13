@@ -36,6 +36,7 @@ namespace Titanium.Scenes
         Encounter currentEncounter;
 
         Texture2D background;
+        Rectangle screen;
 
         /**
          * The default scene constructor.
@@ -61,6 +62,7 @@ namespace Titanium.Scenes
                     new MenuItem("Back to battle", pause)
                 }
                 );
+
 
             currentEncounter = new Encounter(front, back);
         }
@@ -98,9 +100,10 @@ namespace Titanium.Scenes
          */
         public override void loadScene(ContentManager content)
         {
+            screen = new Rectangle(0, 0, SceneManager.GraphicsDevice.Viewport.Width, SceneManager.GraphicsDevice.Viewport.Height);
             currentEncounter.load(content, SceneManager.GraphicsDevice.Viewport);
             pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
-
+            background = content.Load<Texture2D>("Sprites/Battle-Base");
             foreach (PlayerSprite player in PartyUtils.getParty())
                 player.Load(content);
 
@@ -115,26 +118,29 @@ namespace Titanium.Scenes
         public override void update(GameTime gameTime, InputState inputState)
         {
             PlayerIndex player;
-            if(paused)
+
+            if (InputAction.SELECT.wasPressed(inputState))
+                paused = !paused;
+
+            if (paused)
             {
-                if (pause.Evaluate(inputState, null, out player))
-                    paused = false;
                 if (arena.Evaluate(inputState, null, out player))
                     SceneManager.changeScene(SceneState.arena);
             }
-            else if (pause.Evaluate(inputState, null, out player))
-                paused = true;
-
-            currentEncounter.update(gameTime, inputState);
-
-            if (currentEncounter.success())
+            else
             {
-                SceneManager.changeScene(SceneState.arena);
+                currentEncounter.update(gameTime, inputState);
+
+                if (currentEncounter.success())
+                {
+                    SceneManager.changeScene(SceneState.arena);
+                }
+                else if (currentEncounter.failure())
+                {
+                    SceneManager.changeScene(SceneState.main);
+                }
             }
-            else if(currentEncounter.failure())
-            {
-                SceneManager.changeScene(SceneState.main);
-            }
+            
         }
 
         /**
@@ -146,7 +152,7 @@ namespace Titanium.Scenes
 
             sb.Begin();
 
-            sb.Draw(background, new Vector2(0, 0), Color.White);
+            sb.Draw(background, screen, Color.White);
 
             if (paused)
                 pauseMenu.draw(sb, null);

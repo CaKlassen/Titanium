@@ -17,11 +17,13 @@ namespace Titanium.Scenes.Panels
     /// </summary>
     public class BattleMenuPanel: Panel
     {
-        int height = 300;
-        int width = 400;
+        static int topOffset = 50;
+        static int leftOffset = 350;
+
         public int selected;
         Encounter encounter;
         SpriteFont font;
+        Texture2D background;
 
         public BattleMenuPanel(Encounter e)
         {
@@ -37,6 +39,7 @@ namespace Titanium.Scenes.Panels
             base.center();
             foreach (MenuPanel menu in subPanels)
                 menu.updateMenuItemLocations();
+
         }
 
         public override void load(ContentManager content, Viewport v)
@@ -45,19 +48,37 @@ namespace Titanium.Scenes.Panels
                 menu.load(content, v);
 
             font = content.Load<SpriteFont>("TestFont");
+            background = content.Load<Texture2D>("Sprites/Battle-HUD");
+
+            Offset = new Vector2(leftOffset, topOffset);
+            updateMenuLocations();
+            
 
             base.load(content, v);
         }
 
-        public override void draw(SpriteBatch sb, Effect effect)
+        public void updateMenuLocations()
         {
-            switch(encounter.state)
+            foreach (MenuPanel menu in subPanels)
+            {
+                menu.Origin = this.Position;
+                menu.updateMenuItemLocations();
+            }
+        }
+
+        public override void draw(SpriteBatch sb, Effect effect)
+        
+
+        {
+			sb.Draw(background, Origin, Color.White);
+            
+            switch (encounter.state)
             {
                 case Encounter.EncounterState.HeroSelect:
                     sb.DrawString(font, "Select a hero", Position, Color.Black);
                     break;
                 case Encounter.EncounterState.ActionSelect:
-                    subPanels.ElementAt(selected).draw(sb, effect);
+                    subPanels[selected].draw(sb, effect);
                     break;
                 case Encounter.EncounterState.EnemyTurn:
                     sb.DrawString(font, "Enemy turn", Position, Color.Black);
@@ -65,7 +86,7 @@ namespace Titanium.Scenes.Panels
                 default:
                     break;
             }
-            
+
             
         }
 
@@ -76,12 +97,12 @@ namespace Titanium.Scenes.Panels
 
         public override float totalHeight()
         {
-            return height;
+            return background.Height;
         }
 
         public override float totalWidth()
-        {
-            return width;
+        {            
+            return background.Width;
         }
     }
 }

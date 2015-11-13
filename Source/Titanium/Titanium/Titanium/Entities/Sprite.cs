@@ -18,11 +18,15 @@ namespace Titanium.Entities
         protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount;
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
-
+        
         public delegate void SpriteAction(Sprite target);
 
         //For testing purpose only
-        protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile;
+        protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile, shadow;
+
+        static int offsetX = 30;
+        static int offsetY = -20;
+
         String filePath = "";
 
         public enum Direction { Up, Down, Left, Right, None }
@@ -56,6 +60,8 @@ namespace Titanium.Entities
             destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
             originalRect = destRect;
             combatInfo.init(content, destRect);
+
+            shadow = content.Load<Texture2D>("Sprites/Battle-Shadow");
         }
 
         public void setParam(UnitStats u, int x, int y)
@@ -75,17 +81,9 @@ namespace Titanium.Entities
             {
                 changeState(State.Dead);
             }
-            else if (currentState == State.Resting)
-            {
-                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Gray);
-                combatInfo.draw(sb);
-            }
-            else
-            {
-                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.Gray);
-                combatInfo.draw(sb);
-            }
-
+            sb.Draw(shadow, new Vector2(destRect.Left + offsetX, destRect.Bottom + offsetY), Color.White);
+            sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
+            combatInfo.draw(sb);
         }
 
 
