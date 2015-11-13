@@ -16,8 +16,12 @@ namespace Titanium.Scenes.Panels
         List<PlayerSprite> party;
         Encounter encounter;
 
-        static float topOffset = 0.2f;
-        static float leftOffset = 0f;
+        static int topOffset = 300;
+        static int leftOffset = 250;
+
+        static int offsetX = -100;
+        static int offsetY = 100;
+
 
         public PlayerSprite this[int key]
         {
@@ -34,14 +38,14 @@ namespace Titanium.Scenes.Panels
         public override void load(ContentManager content, Viewport v)
         {
             base.load(content, v);
-            this.Origin = new Vector2(v.Width * leftOffset, v.Height * topOffset);
+            this.Origin = new Vector2(leftOffset, topOffset);
             Vector2 offset = new Vector2();
 
             for (int i= 0; i < party.Count; ++i)
             {
                 party[i].Load(content);
                 party[i].move(Origin + offset);
-                offset += new Vector2(0, party[i].getHeight());
+                offset += new Vector2(offsetX, offsetY);
             }
         }
 

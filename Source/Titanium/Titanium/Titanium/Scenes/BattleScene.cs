@@ -35,6 +35,9 @@ namespace Titanium.Scenes
 
         Encounter currentEncounter;
 
+        Texture2D background;
+        Rectangle screen;
+
         /**
          * The default scene constructor.
          */
@@ -59,6 +62,7 @@ namespace Titanium.Scenes
                     new MenuItem("Back to battle", pause)
                 }
                 );
+
 
             currentEncounter = new Encounter(front, back);
         }
@@ -96,9 +100,10 @@ namespace Titanium.Scenes
          */
         public override void loadScene(ContentManager content)
         {
+            screen = new Rectangle(0, 0, SceneManager.GraphicsDevice.Viewport.Width, SceneManager.GraphicsDevice.Viewport.Height);
             currentEncounter.load(content, SceneManager.GraphicsDevice.Viewport);
             pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
-
+            background = content.Load<Texture2D>("Sprites/Battle-Base");
             foreach (PlayerSprite player in PartyUtils.getParty())
                 player.Load(content);
         }
@@ -144,6 +149,8 @@ namespace Titanium.Scenes
 
             if (paused)
                 pauseMenu.draw(sb);
+
+            sb.Draw(background, screen, Color.White);
 
             currentEncounter.draw(sb);
 
