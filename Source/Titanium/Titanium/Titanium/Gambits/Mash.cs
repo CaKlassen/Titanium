@@ -60,17 +60,11 @@ namespace Titanium.Gambits
             base.update(gameTime, state);
         }
 
-        public override void draw(SpriteBatch sb)
+        public override void draw(Vector2 pos, SpriteBatch sb)
         {
-            if (v == null)
-            {
-                v = sb.GraphicsDevice.Viewport;
-                position = new Vector2((v.GetValueOrDefault().Width / 2) - (totalWidth() / 2), (v.GetValueOrDefault().Height / 2) - (totalHeight() / 2));
-            }
-
             string msg = "Times Pressed: " + count + "\nTime Left: " + TimeSpan.FromMilliseconds(timeLeft);
 
-            sb.DrawString(font, msg, position, Color.Red);
+            sb.DrawString(font, msg, pos, Color.Red);
         }
 
         public override int totalHeight()

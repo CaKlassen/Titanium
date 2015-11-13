@@ -55,16 +55,11 @@ namespace Titanium.Gambits
             this.clockwise = clockwise;
         }
 
-        public override void draw(SpriteBatch sb)
+        public override void draw(Vector2 pos, SpriteBatch sb)
         {
-            if (v == null)
-            {
-                v = sb.GraphicsDevice.Viewport;
-                position = new Vector2((v.GetValueOrDefault().Width / 2) - (totalWidth() / 2), (v.GetValueOrDefault().Height / 2) - (totalHeight() / 2));
-            }
-            sb.Draw(icon, position, Color.White);
+            sb.Draw(icon, pos, Color.White);
             string msg = "Time left: " + TimeSpan.FromMilliseconds(timeleft) + "\nCount: " + count;
-            sb.DrawString(font, msg, position + new Vector2(0, icon.Height), Color.Red);
+            sb.DrawString(font, msg, pos + new Vector2(0, icon.Height), Color.Red);
         }
 
         public override void start(GameTime gameTime)
@@ -84,8 +79,8 @@ namespace Titanium.Gambits
         {
             font = content.Load<SpriteFont>("TestFont");
 
-            icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-InputAction.RSRIGHT-CW");
-            icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-InputAction.RSRIGHT-CCW");
+            icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
+            icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
         }
 
         public override int totalHeight()
@@ -104,7 +99,7 @@ namespace Titanium.Gambits
 
             if (circle == null)
             {
-                if (InputAction.RSLEFT.Evaluate(state, null, out player))
+                if (InputAction.RSLEFT.wasPressed(state))
                     makeCircle(Direction.left);
                 if (InputAction.RSRIGHT.Evaluate(state, null, out player))
                     makeCircle(Direction.right);
