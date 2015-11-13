@@ -23,8 +23,8 @@ bool fogEnabled;
 
 //Attenuation Variables
 float Kc = 1; //Constant Attenuation
-float Kl = 0.2; //Linear Attenuation
-float Kq = 0.1; //quadratic Attenuation
+float Kl = 0; //Linear Attenuation
+float Kq = 0; //quadratic Attenuation
 float FlashlightAngle;
 
 //Texture shading

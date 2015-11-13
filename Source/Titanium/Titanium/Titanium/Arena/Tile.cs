@@ -31,6 +31,8 @@ namespace Titanium.Arena
         public static int TILE_WIDTH = 128;
         public static int TILE_HEIGHT = 128;
         public static float tileScale = 0.5f;
+        public static float UNDISCOVERED_AMBIENCE = 0.045f;
+        public static float DISCOVERED_AMBIENCE = 0.6f;
 
         private ArenaTiles tile;
         private Texture2D texture;
@@ -38,6 +40,8 @@ namespace Titanium.Arena
         //MovableModel
         public Matrix ModelMatrix;
         private Vector3 modelPosition;
+
+        public float TileAmbience;
 
 
         private Vector2 pos;
@@ -70,6 +74,30 @@ namespace Titanium.Arena
                         
             modelPosition = new Vector3(drawPos.X, -10, drawPos.Y);
 
+            //set tile ambience as arena ambience as default
+            TileAmbience = UNDISCOVERED_AMBIENCE;
+        }
+
+        /// <summary>
+        /// lights up the tile if it's been walked on
+        /// </summary>
+        public void setWalkedOnAmbience()
+        {
+            TileAmbience = DISCOVERED_AMBIENCE;
+        }
+
+        /// <summary>
+        /// returns true if the ambience is set
+        /// to discovered (a tile that was already walked on),
+        /// and false if it has not been discovered.
+        /// </summary>
+        /// <returns>true or flase depending on if the tile was discovered</returns>
+        public bool walkedOn()
+        {
+            if (TileAmbience != DISCOVERED_AMBIENCE)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
@@ -117,6 +145,7 @@ namespace Titanium.Arena
                         {
                             part.Effect = effect;
 
+                            effect.Parameters["AmbientIntensity"].SetValue(TileAmbience);
                             effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
                             effect.Parameters["ModelTexture"].SetValue(texture);
 
@@ -126,6 +155,7 @@ namespace Titanium.Arena
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
                 }
+                effect.Parameters["AmbientIntensity"].SetValue(ArenaScene.ARENA_AMBIENCE);
             }
 
             foreach (Entity entity in entityList)

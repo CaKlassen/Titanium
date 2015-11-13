@@ -16,7 +16,7 @@ namespace Titanium.Entities.Items
         //public Model myModel;
         private Vector3 Position;
         private Texture2D myTexture;
-        private float scale = 1f;
+        private float scale = 0.3f;
         private float modelOrientation = 0f;
         private float HealPercent;
         private Tile  PotionTile;
