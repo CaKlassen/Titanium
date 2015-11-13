@@ -25,6 +25,9 @@ namespace Titanium.Scenes.Panels
         SpriteFont font;
         Texture2D background;
 
+        BaseGambit currentGambit;
+        GambitResult result;
+
         public BattleMenuPanel(Encounter e)
         {
             selected = 0;
@@ -52,7 +55,6 @@ namespace Titanium.Scenes.Panels
 
             Offset = new Vector2(leftOffset, topOffset);
             updateMenuLocations();
-            
 
             base.load(content, v);
         }
@@ -83,6 +85,9 @@ namespace Titanium.Scenes.Panels
                 case Encounter.EncounterState.EnemyTurn:
                     sb.DrawString(font, "Enemy turn", Position, Color.Black);
                     break;
+                case Encounter.EncounterState.Gambit:
+                    currentGambit.draw(Position, sb);
+                    break;
                 default:
                     break;
             }
@@ -90,9 +95,23 @@ namespace Titanium.Scenes.Panels
             
         }
 
+        public void start(BaseGambit gambit, GameTime gameTime)
+        {
+            currentGambit = gambit;
+            currentGambit.start(gameTime);
+        }
+
+        public bool gambitComplete(out GambitResult result)
+        {
+            if (currentGambit.isComplete(out result))
+                return true;
+            return false;
+        }
+
         public override void update(GameTime gameTime, InputState inputState)
         {
-            base.update(gameTime, inputState);
+            if (encounter.state == Encounter.EncounterState.Gambit)
+                currentGambit.update(gameTime, inputState);
         }
 
         public override float totalHeight()

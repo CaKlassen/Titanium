@@ -15,7 +15,7 @@ namespace Titanium.Gambits
             base.start(gameTime);
             finished = true;
         }
-        public override void draw(SpriteBatch sb)
+        public override void draw(Vector2 pos, SpriteBatch sb)
         {
         }
 

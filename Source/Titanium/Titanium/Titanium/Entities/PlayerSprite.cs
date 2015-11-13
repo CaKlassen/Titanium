@@ -17,7 +17,7 @@ namespace Titanium.Entities
 
     public class PlayerSprite: Sprite
     {
-        List<Skill> skills;
+        public List<Skill> skills;
 
         Skill selectedSkill;
 
@@ -56,17 +56,6 @@ namespace Titanium.Entities
             base.Update(gameTime, inputState);
         }
 
-
-        public BaseGambit execute(Sprite target, GameTime gameTime)
-        {
-            return selectedSkill.execute(target, gameTime);
-        }
-
-        public void resolve(GambitResult result)
-        {
-            selectedSkill.resolve(this, result);
-        }
-
         public string name() { return rawStats.name; }
 
         public MenuPanel makeMenuPanel()
@@ -79,9 +68,5 @@ namespace Titanium.Entities
             return result;
         }
 
-        public void selectSkill(int n)
-        {
-            selectedSkill = skills[n];
-        }
     }
 }
