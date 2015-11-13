@@ -43,9 +43,9 @@ namespace Titanium.Battle
         static InputAction[] EnemySelectActions =
         {
             InputAction.LB,
-            InputAction.RB,
             InputAction.LT,
-            InputAction.LT
+            InputAction.RB,
+            InputAction.RT
         };
 
         public EncounterState state;
