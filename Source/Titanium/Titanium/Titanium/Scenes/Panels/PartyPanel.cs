@@ -99,5 +99,11 @@ namespace Titanium.Scenes.Panels
             return true;
         }
 
+        public void reset()
+        {
+            foreach (PlayerSprite hero in party)
+                if (hero.currentState != Sprite.State.Dead)
+                    hero.changeState(Sprite.State.Idle);
+        }
     }
 }
