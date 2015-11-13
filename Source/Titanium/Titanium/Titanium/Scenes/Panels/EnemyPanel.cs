@@ -17,11 +17,14 @@ namespace Titanium.Scenes.Panels
         List<Sprite> back;
         Encounter encounter;
 
-        static float topOffset = 0.2f;
-        static float leftOffset = 0.70f;
+        static int topOffset = 350;
+        static int leftOffset = 650;
 
-        static int paddingX = 30;
-        static int paddingY = 10;
+        static int offsetX = 120;
+        static int offsetY = 120;
+
+        static int offsetBack = 250;
+
         static int DELAY = 2000;
         static int SIZE = 4;
 
@@ -55,46 +58,32 @@ namespace Titanium.Scenes.Panels
         public override void load(ContentManager content, Viewport v)
         {
             base.load(content, v);
-            this.Origin = new Vector2(v.Width * leftOffset, v.Height * topOffset);
-            float offsetX = 0;
-            float offsetY = 0;
+            this.Origin = new Vector2(leftOffset, topOffset);
+
+            Vector2 offset = Vector2.Zero;
 
             foreach (Sprite sprite in front)
             {
                 if (sprite != null)
                 {
-                    sprite.Load(content);
-                    sprite.move(Origin + new Vector2(0, offsetY));
+					sprite.Load(content);
+                    sprite.move(Origin + offset);
+	                
                 }
-                if (offsetX == 0)
-                {
-                    if (sprite!=null)
-                    {
-                        offsetX += sprite.getWidth() + paddingX;
-                        offsetY += sprite.getHeight() + paddingY;
-                    }
-                    else
-                    {
-                        offsetX += 150 + paddingX;
-                        offsetY += 200 + paddingY;
-                    }
-                }
+				offset += new Vector2(offsetX, offsetY);
+                
             }
 
-            offsetY = 0;
+            offset = new Vector2(offsetBack, 0);
             foreach (Sprite sprite in back)
             {
                 if (sprite != null)
                 {
-                    sprite.Load(content);
-                    sprite.move(Origin + new Vector2(offsetX, offsetY));
-                    offsetY += sprite.getHeight() + paddingY;
+					sprite.Load(content);
+                    sprite.move(Origin + offset);
+	                
                 }
-                else
-                {
-                    offsetY += 200 + paddingY;
-                }
-            }
+				offset += new Vector2(offsetX, offsetY);            }
         }
 
         public override void draw(SpriteBatch sb, Effect effect)
@@ -110,7 +99,6 @@ namespace Titanium.Scenes.Panels
                 if (sprite != null)
                     sprite.Draw(sb, effect);
             }
-
             base.draw(sb, effect);
         }
 

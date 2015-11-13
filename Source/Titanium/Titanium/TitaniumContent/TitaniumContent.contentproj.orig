@@ -198,6 +198,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
+    <Compile Include="Effects\Shader.fx">
+      <Name>Shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="Stats\PlayerFile.txt">
       <Name>PlayerFile</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -411,7 +416,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
+    <Compile Include="Sprites\Curtain-Left.png">
+      <Name>Curtain-Left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Curtain-Right.png">
+      <Name>Curtain-Right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Sprites\prince-spritesheet.png">
       <Name>prince-spritesheet</Name>
       <Importer>TextureImporter</Importer>
@@ -424,17 +442,62 @@
     </Compile>
     <Compile Include="Sprites\wolf-spritesheet.png">
       <Name>wolf-spritesheet</Name>
-=======
-    <Compile Include="Sprites\Curtain-Left.png">
-      <Name>Curtain-Left</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Curtain-Right.png">
-      <Name>Curtain-Right</Name>
->>>>>>> develop
+    <Compile Include="Sprites\Battle-Base.png">
+      <Name>Battle-Base</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+<<<<<<< HEAD
+  </ItemGroup>
+  <ItemGroup>
+=======
+>>>>>>> dev-nav
+    <Compile Include="Sprites\Battle-HUD.png">
+      <Name>Battle-HUD</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+<<<<<<< HEAD
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Stats\BattleConfigs.txt">
+      <Name>BattleConfigs</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\PlayerMap.png">
+      <Name>PlayerMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\BatMap.png">
+      <Name>BatMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\UVMap-Table.png">
+      <Name>UVMap-Table</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\exitDoorUVMap.png">
+      <Name>exitDoorUVMap</Name>
+=======
+    <Compile Include="Sprites\Battle-Shadow.png">
+      <Name>Battle-Shadow</Name>
+>>>>>>> dev-nav
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

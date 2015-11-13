@@ -64,7 +64,6 @@ namespace Titanium.Battle
             enemies.load(content, v);
             party.load(content, v);
             battleMenu.load(content, v);
-            battleMenu.center();
             resolved = false;
         }
 
