@@ -77,13 +77,15 @@ namespace Titanium.Entities
 
         public override void Draw(SpriteBatch sb, Effect effect)
         {
-            if (checkDeath())
+            if (!checkDeath())
+            {
+                sb.Draw(shadow, new Vector2(destRect.Left + offsetX, destRect.Bottom + offsetY), Color.White);
+                sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
+                combatInfo.draw(sb);
+            } else
             {
                 changeState(State.Dead);
             }
-            sb.Draw(shadow, new Vector2(destRect.Left + offsetX, destRect.Bottom + offsetY), Color.White);
-            sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
-            combatInfo.draw(sb);
         }
 
 
@@ -337,7 +339,7 @@ namespace Titanium.Entities
             posY = (int)v.Y;
             destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
             originalRect = destRect;
-            combatInfo.move(destRect);
+            combatInfo.move(originalRect);
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Titanium.Battle
         SpriteFont myFont;
         UnitStats unitStats;
 
+        public object GraphicDevice { get; private set; }
+
         public CombatInfo()
         {
             unitStats = new UnitStats();
@@ -30,7 +32,7 @@ namespace Titanium.Battle
             barFrame = content.Load<Texture2D>("Sprites/HealthBar");
             myFont = content.Load<SpriteFont>("combat_font");
             Rectangle tempRect = r;
-            frameRect = new Rectangle(tempRect.X + tempRect.Width, tempRect.Y, barFrame.Width / 2, 20);
+            frameRect = new Rectangle(tempRect.X, tempRect.Y-barFrame.Height/2, barFrame.Width/2, 20);
             destRect = frameRect;
         }
         
@@ -65,9 +67,12 @@ namespace Titanium.Battle
 
         }
 
-        public void smallUpdate()
+        public void smallUpdate(Rectangle r)
         {
-            destRect = new Rectangle(frameRect.X, frameRect.Y, (int)(unitStats.currentHP / unitStats.baseHP), 20);
+            Rectangle tempRect = r;
+            frameRect = new Rectangle(tempRect.X, tempRect.Y-barFrame.Height/2, barFrame.Width/2, 20);
+            destRect = frameRect;
+            update(unitStats);
         }
 
         public void draw(SpriteBatch sb)
@@ -75,22 +80,29 @@ namespace Titanium.Battle
 
             sb.Draw(barFrame, frameRect, new Rectangle(0, 0, barFrame.Width, barFrame.Height / 2), Color.White);
             sb.Draw(barFrame, destRect, new Rectangle(0, barFrame.Height / 2, barFrame.Width,  barFrame.Height / 2), hpColor);
-            sb.DrawString(myFont, name, new Vector2(frameRect.X, frameRect.Y - 20), Color.Black);
+            if (frameRect.X <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 3)
+            {
+                sb.DrawString(myFont, name, new Vector2(frameRect.X, frameRect.Y - 20), Color.SteelBlue);
+            }
+            else
+            {
+                sb.DrawString(myFont, name, new Vector2(frameRect.X, frameRect.Y - 20), Color.Tomato);
+            }
 
-            Vector2 spacing = myFont.MeasureString(health);
-
-            sb.DrawString(myFont, health, new Vector2(frameRect.X-spacing.X+frameRect.X, frameRect.Y), Color.Black);
+            if (frameRect.X <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 3)
+            {
+                Vector2 spacing = myFont.MeasureString(health);
+                sb.DrawString(myFont, health, new Vector2(frameRect.X+frameRect.Width-spacing.X, frameRect.Y+2), Color.Black);
+            }
+            else
+            {
+                //enemy hp maybe
+            }
         }
 
         public void move(Rectangle tempRect)
         {
-            if(tempRect.X < GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/2)
-            {
-                frameRect = new Rectangle(tempRect.X - barFrame.Width/2, tempRect.Y + 50, barFrame.Width / 2, 20);
-            } else
-            {
-                frameRect = new Rectangle(tempRect.X + tempRect.Width, tempRect.Y + 50, barFrame.Width / 2, 20);
-            }
+            frameRect = new Rectangle(tempRect.X, tempRect.Y, barFrame.Width / 2, 20);
             destRect = frameRect;
         }
 
