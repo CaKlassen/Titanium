@@ -177,7 +177,6 @@ namespace Titanium.Entities
                                 break;
 
                             case "Potion":
-                                Console.Write("potion collision!\n");
                                 Potion p = (Potion)e;
                                 //heal party members a certain precentage
                                 PartyUtils.HealParty(p.getHealPercent());
@@ -185,6 +184,14 @@ namespace Titanium.Entities
 
                                 //remove from tile and list
                                 p.getTile().deleteEntity(e);
+                                ArenaScene.instance.collidables.Remove(e);
+                                break;
+
+                            case "MysteryBox":
+                                MysteryBox mb = (MysteryBox)e;
+                                mb.RevealMystery();
+                                //remove from tile and list
+                                mb.getTile().deleteEntity(e);
                                 ArenaScene.instance.collidables.Remove(e);
                                 break;
                         }

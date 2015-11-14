@@ -61,13 +61,13 @@ namespace Titanium.Entities.Items
                         foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                         {
                             part.Effect = effect;
-
                             effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
                             effect.Parameters["ModelTexture"].SetValue(myTexture);
 
                             Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
                         }
                     }
+
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
                 }
