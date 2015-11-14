@@ -327,8 +327,72 @@ namespace Titanium
                 while (tiles[y, x].getNumConnections() == 0 || tiles[y, x] == endTile || tiles[y, x] == startTile);
 
                 // Create an enemy
-                tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content, PartyUtils.Enemy.Bat));
+                tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content, getRandomEnemy()));
             }
+        }
+
+        private PartyUtils.Enemy getRandomEnemy()
+        {
+            PartyUtils.Enemy enemy;
+            int percent = r.Next(100);
+
+            switch (difficulty)
+            {
+                case ArenaDifficulty.EASY:
+                {
+                    if (percent > 90)
+                    {
+                        enemy = PartyUtils.Enemy.Redbat;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.Bat;
+                    }
+
+                    break;
+                }
+
+                case ArenaDifficulty.MEDIUM:
+                {
+                    if (percent > 75)
+                    {
+                        enemy = PartyUtils.Enemy.Slime;
+                    }
+                    else if (percent > 50)
+                    {
+                        enemy = PartyUtils.Enemy.Redbat;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.Bat;
+                    }
+
+                    break;
+                }
+
+                case ArenaDifficulty.HARD:
+                {
+                    if (percent > 90)
+                    {
+                        enemy = PartyUtils.Enemy.Redbat;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.Bat;
+                    }
+
+                    break;
+                }
+
+                default:
+                {
+                    enemy = PartyUtils.Enemy.Bat;
+
+                    break;
+                }
+            }
+
+            return enemy;
         }
 
         /// <summary>

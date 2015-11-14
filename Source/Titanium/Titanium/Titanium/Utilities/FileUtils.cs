@@ -114,6 +114,14 @@ namespace Titanium.Utilities
             {
                 return PartyUtils.Enemy.Bat;
             }
+            else if (check.Equals("rbat"))
+            {
+                return PartyUtils.Enemy.Redbat;
+            }
+            else if (check.Equals("slime"))
+            {
+                return PartyUtils.Enemy.Slime;
+            }
             else if (check.Equals("empty"))
             {
                 return PartyUtils.Enemy.Empty;
