@@ -102,8 +102,15 @@ namespace Titanium.Scenes.Panels
         public void reset()
         {
             foreach (PlayerSprite hero in party)
+            {
                 if (hero.currentState != Sprite.State.Dead)
+                {
                     hero.changeState(Sprite.State.Idle);
+                    hero.animationDirectionLR = Sprite.Direction.None;
+                    hero.animationDirectionUD = Sprite.Direction.None;
+                    hero.destRect = hero.originalRect;
+                }
+            }
         }
     }
 }
