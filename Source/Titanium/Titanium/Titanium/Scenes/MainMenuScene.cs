@@ -71,8 +71,8 @@ namespace Titanium.Scenes
             else if (battle.Evaluate(inputState, null, out player))
             {
                 BattleScene battle = new BattleScene(
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat },
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Bat, PartyUtils.Enemy.Bat }
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat }
                     );
                 SceneManager.setScene(SceneState.battle, battle, true);
             }
