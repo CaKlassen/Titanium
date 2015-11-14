@@ -34,7 +34,7 @@ namespace Titanium.Utilities
         {
             Sprite result = new Sprite(new List<Sprite.SpriteAction>());
             string line;
-            System.IO.StreamReader file = new System.IO.StreamReader("Content/Stats/"+path+".txt");
+            System.IO.StreamReader file = new System.IO.StreamReader("Content/Stats/NPCStats.txt");
             while ((line = file.ReadLine()) != null)
             {
                 char[] delimiters = new char[] { ',' };

@@ -243,12 +243,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Stats\Stage_1_1.txt">
-      <Name>Stage_1_1</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ButtonIcons\HUD-DPad-Down.png">
       <Name>HUD-DPad-Down</Name>
       <Importer>TextureImporter</Importer>
@@ -341,18 +335,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Stats\Bat.txt">
-      <Name>Bat</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Stats\Prinny.txt">
-      <Name>Prinny</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sprites\Bat-Hurt-Spritesheet.png">
@@ -515,6 +497,44 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Redbat-Hurt-Spritesheet.png">
+      <Name>redbat_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Redbat-Idle-Spritesheet.png">
+      <Name>redbat_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Redbat-Move-Spritesheet.png">
+      <Name>redbat_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Slime-Hurt.png">
+      <Name>slime_hurt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Slime-Idle-Spritesheet.png">
+      <Name>slime_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Slime-Move-Spritesheet.png">
+      <Name>slime_run</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Stats\NPCStats.txt">
+      <Name>NPCStats</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
