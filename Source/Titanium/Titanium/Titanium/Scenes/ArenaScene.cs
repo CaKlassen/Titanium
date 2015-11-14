@@ -47,6 +47,7 @@ namespace Titanium.Scenes
 
         public float FlashLightAngle;
         public static float ARENA_AMBIENCE = 0.080f;
+        private static Color ambientColour = new Color(0.318f, 0.365f, 0.404f, 1);
 
         public List<Entity> collidables;
 
@@ -164,7 +165,7 @@ namespace Titanium.Scenes
             Vector3 LAt = Hero.getPOSITION() - LightPos;
             HLSLeffect.CurrentTechnique = HLSLeffect.Techniques["ShaderTech"];
 
-            HLSLeffect.Parameters["AmbientColor"].SetValue(Color.Gold.ToVector4());
+            HLSLeffect.Parameters["AmbientColor"].SetValue(ambientColour.ToVector4());
             HLSLeffect.Parameters["AmbientIntensity"].SetValue(ARENA_AMBIENCE);
             HLSLeffect.Parameters["fogColor"].SetValue(Color.Gray.ToVector4());
             HLSLeffect.Parameters["fogFar"].SetValue(1000.0f);
