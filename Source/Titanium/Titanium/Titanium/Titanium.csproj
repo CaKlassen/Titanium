@@ -110,6 +110,7 @@
     <Compile Include="Utilities\MathUtils.cs" />
     <Compile Include="Utilities\PartyUtils.cs" />
     <Compile Include="Utilities\PhysicsUtils.cs" />
+    <Compile Include="Utilities\SaveUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
