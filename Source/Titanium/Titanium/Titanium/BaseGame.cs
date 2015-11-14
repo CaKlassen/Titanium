@@ -26,17 +26,8 @@ namespace Titanium
 
         SpriteBatch spriteBatch;
 
-        /**3D world camera*/
-        //Camera camera;
-
-        /**BasicEffect object*/
-        BasicEffect effect;
-
         /** An instance to the game object. */
         public static BaseGame instance;
-
-        /** List of Models to be iterated through. */
-        List<Entity> modelList;
 
         // Scene manager instance
         SceneManager sceneManager;
@@ -58,8 +49,6 @@ namespace Titanium
             // Set default window properties
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
-
-            modelList = new List<Entity>();
         }
 
 
@@ -71,33 +60,15 @@ namespace Titanium
         /// </summary>
         protected override void Initialize()
         {
-            //Create Basic Effect
-            effect = new BasicEffect(graphics.GraphicsDevice);
-
-            //Creates camera for 3D world
-            //camera = new Camera(effect, (float)this.Window.ClientBounds.Width, (float)this.Window.ClientBounds.Height);
+            // Initialize the save utilities
+            SaveUtils.getInstance();
 
             Components.Add(sceneManager);
 
+
+
             base.Initialize();
         }
-
-        /*
-        protected void LoadModelsFromPath()
-        {
-            Model tempModel;
-            float tempRatio;
-            foreach (MovableModel m in modelList)//General idea is that we can change to specific models which also inherit from Entity for diff load methods
-            {
-                spriteBatch = new SpriteBatch(GraphicsDevice);
-                
-                tempModel = Content.Load<Model>(m.getPath());
-                tempRatio = (float)graphics.GraphicsDevice.Viewport.Width / (float)graphics.GraphicsDevice.Viewport.Height;
-
-                m.setModel(tempModel);
-                m.setAspectRatio(tempRatio);
-            }
-        }*/
 
         protected override void UnloadContent(){}
 
