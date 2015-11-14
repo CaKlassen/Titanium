@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Titanium.Scenes;
 using Titanium.Entities;
 using Titanium.Utilities;
+using Microsoft.Xna.Framework.Storage;
 
 namespace Titanium
 {
@@ -61,6 +62,7 @@ namespace Titanium
         protected override void Initialize()
         {
             // Initialize the save utilities
+            //Components.Add(new GamerServicesComponent(this));
             SaveUtils.getInstance();
 
             Components.Add(sceneManager);
@@ -85,6 +87,21 @@ namespace Titanium
 
             base.Update(gameTime);
         }
+
+        //private StorageDevice Sdevice;
+        //private IAsyncResult result;
+        //private PlayerIndex playerIndex = PlayerIndex.One;
+
+        //public StorageDevice getStorage()
+        //{
+        //    if (!Guide.IsVisible)
+        //    {
+        //        Sdevice = null;//reset device                
+        //        result = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);//storage device selected
+        //        Sdevice = StorageDevice.EndShowSelector(result);//set storage device
+        //    }
+        //    return Sdevice;
+        //}
 
         /// <summary>
         /// This is called when the game should draw itself.

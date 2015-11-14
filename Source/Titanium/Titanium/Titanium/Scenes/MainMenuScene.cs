@@ -67,7 +67,10 @@ namespace Titanium.Scenes
             PlayerIndex player;
 
             if (arena.Evaluate(inputState, null, out player))
+            {
                 SceneManager.changeScene(SceneState.arena);
+                SaveUtils.getInstance().RegisterStorage();
+            }
             else if (battle.Evaluate(inputState, null, out player))
             {
                 BattleScene battle = new BattleScene(
