@@ -4,3 +4,18 @@ Bat~Bat Empty Bat Bat
 Bat~Bat Bat Empty Empty
 Bat~Bat Bat Bat Empty
 Bat~Bat Bat Bat Bat
+Bat~Rbat Bat Bat Bat
+Bat~Bat Bat Rbat Bat
+
+Rbat~Rbat Rbat Rbat Rbat
+Rbat~Rbat Rbat Rbat Lbat
+Rbat~Rbat Rbat Lbat Lbat
+Rbat~Rbat Empty Rbat Rbat
+Rbat~Empty Rbat Rbat Rbat
+Rbat~Rbat Empty Rbat Empty
+Rbat~Rbat Empty Empty Empty
+
+Slime~Slime Empty Empty Empty
+Slime~Slime Empty Slime Empty
+Slime~Slime Empty Slime Slime
+Slime~Slime Slime Slime Slime
