@@ -41,7 +41,7 @@ namespace Titanium.Entities
 
             //_Position = Vector3.Zero;
             _forward = ForwardDir.UP;
-            scale = 1f;
+            scale = 2f;
 
             modelRotation = 0.0f;
             modelPosition = new Vector3(_currentTile.getModelPos().X, -40, _currentTile.getModelPos().Z);//models position appears on the start tile.
@@ -69,7 +69,7 @@ namespace Titanium.Entities
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(_Position);
+                Matrix worldMatrix = Matrix.CreateRotationY(-1.5708f) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(_Position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
