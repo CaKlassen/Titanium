@@ -158,7 +158,7 @@ namespace Titanium.Scenes
             rs.CullMode = CullMode.None;
             SceneManager.GraphicsDevice.RasterizerState = rs;
             
-            Vector3 LightPos = new Vector3(Hero.getPOSITION().X, Hero.getPOSITION().Y + 400, Hero.getPOSITION().Z);//test light pos
+            Vector3 LightPos = new Vector3(Hero.getPOSITION().X, Hero.getPOSITION().Y + 400, Hero.getPOSITION().Z + 100);
             Vector3 position = camera.getPosition();
             //Vector3 LAt = camera.getLookAt() - position;
             Vector3 LAt = Hero.getPOSITION() - LightPos;
