@@ -25,6 +25,7 @@ namespace Titanium.Utilities
         private static string SAVE_FILE = "savegame.sav";
         private static string HIGHSCORE_FILE = "highscores.sav";
         private static string CONTAINER_NAME = "Staged!";
+        private string completePath;
 
         enum SavingState
         {
@@ -57,6 +58,21 @@ namespace Titanium.Utilities
 #if XBOX360
             BaseGame.instance.Components.Add(new GamerServicesComponent(BaseGame.instance));
 #endif
+#if WINDOWS
+            //create the path to C:\ProgramData
+            var systemPath = System.Environment.
+                 GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            //append to make a folder for our game; C:\ProgramData\Staged!
+            var path = Path.Combine(systemPath, "Staged!");
+
+            //check if it exists; if it doesn't, create it
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            //append again to have a path with filename for saving
+            completePath = Path.Combine(path, SAVE_FILE);
+#endif
         }
 
         /// <summary>
@@ -71,6 +87,9 @@ namespace Titanium.Utilities
                 return true;
         }
 
+        /// <summary>
+        /// Regitsters the storage device for Xbox360
+        /// </summary>
         public void RegisterStorage()
         {
             //Get StorageDevice
@@ -93,7 +112,15 @@ namespace Titanium.Utilities
 
         public void saveWindows(SaveData data)
         {
-            
+            //if the path isn't null
+            if(completePath != null)
+            {
+                using (var stream = new FileStream(completePath, FileMode.Create))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+                    serializer.Serialize(stream, data);
+                }
+            }
         }
 
         /// <summary>
@@ -184,7 +211,13 @@ namespace Titanium.Utilities
         public SaveData loadWindows()
         {
             //temporary; here so it builds
-            SaveData data = new SaveData();
+            SaveData data;
+
+            using(var stream = new FileStream(completePath, FileMode.Open))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+                data = (SaveData)serializer.Deserialize(stream);
+            }
             return data;
         }
 
@@ -212,11 +245,19 @@ namespace Titanium.Utilities
             return loadData;
         }
 
+        /// <summary>
+        /// checks if a save file already exists on the PC
+        /// </summary>
+        /// <returns></returns>
         private bool CheckFileExistsWindows()
         {
-            return false;
+            return (File.Exists(completePath));
         }
 
+        /// <summary>
+        /// checks if a save file already exists on the xbox
+        /// </summary>
+        /// <returns>true if it exists; false otherwise.</returns>
         private bool CheckFileExistsXbox()
         {
             IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
