@@ -78,7 +78,12 @@ namespace Titanium.Scenes
         public SceneManager(Game game): base(game)
         {
             registerScene(new MainMenuScene(), SceneState.main);
+<<<<<<< HEAD
+=======
+            //registerScene(new ArenaScene(), SceneState.arena);
+            registerScene(new BattleScene(), SceneState.battle);
 
+>>>>>>> develop
         }
 
 
@@ -129,8 +134,7 @@ namespace Titanium.Scenes
             // Tell each of the screens to unload their content.
             foreach (Scene scene in scenes)
             {
-                if(scene != null)
-                    scene.unloadScene();
+                scene.unloadScene();
             }
         }
 
