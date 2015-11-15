@@ -24,6 +24,7 @@ namespace Titanium.Utilities
         private static SaveUtils instance;
         private static string SAVE_FILE = "savegame.sav";
         private static string HIGHSCORE_FILE = "highscores.sav";
+        private static string CONTAINER_NAME = "Staged!";
 
         enum SavingState
         {
@@ -92,43 +93,126 @@ namespace Titanium.Utilities
         {
             if (storageDevice != null && storageDevice.IsConnected)
             {
-                IAsyncResult result = storageDevice.BeginOpenContainer("Titanium", null, null);
+                IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
                 result.AsyncWaitHandle.WaitOne();
-                storageContainer = storageDevice.EndOpenContainer(result);
+                StorageContainer container = storageDevice.EndOpenContainer(result);
 
-                if(storageContainer.FileExists(SAVE_FILE))//if that file already exists
+                if(container.FileExists(SAVE_FILE))//if that file already exists
                 {
-                    storageContainer.DeleteFile(SAVE_FILE);//delete existing file
+                    container.DeleteFile(SAVE_FILE);//delete existing file
                 }
 
-                Stream stream = storageContainer.CreateFile(SAVE_FILE);//create file
+                Stream stream = container.CreateFile(SAVE_FILE);//create file
 
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
                 serializer.Serialize(stream, data);
 
                 stream.Close();//close the file
-                storageContainer.Dispose();//disposing container commits changes to device
+                container.Dispose();//disposing container commits changes to device
+            }
+        }
+
+        /// <summary>
+        /// Saves the highscores.
+        /// </summary>
+        /// <param name="HighScore">list of </param>
+        public void SaveXboxHighScore(int[] HighScore)
+        {
+            HighscoreData highscores = new HighscoreData();
+            highscores.highscores = HighScore;
+
+
+            if (storageDevice != null && storageDevice.IsConnected)
+            {
+                IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
+                result.AsyncWaitHandle.WaitOne();
+                StorageContainer container = storageDevice.EndOpenContainer(result);
+
+                if (container.FileExists(HIGHSCORE_FILE))//if that file already exists
+                {
+                    container.DeleteFile(HIGHSCORE_FILE);//delete existing file
+                }
+
+                Stream stream = container.CreateFile(HIGHSCORE_FILE);//create file
+
+                XmlSerializer serializer = new XmlSerializer(typeof(HighscoreData));
+                serializer.Serialize(stream, highscores);
+
+                stream.Close();//close the file
+                container.Dispose();//disposing container commits changes to device
             }
         }
 
 
-        public void loadGame()
+        public SaveData loadGame()
         {
+            SaveData data;
 #if WINDOWS
-            loadWindows();
+            data = loadWindows();
 #else
-            loadXbox();
+            data = loadXbox();
 #endif
+            return data;
         }
 
-        public void loadWindows()
+        /// <summary>
+        /// checks if the Save Data file exists.
+        /// </summary>
+        /// <returns>true if the file exists; false otherwise.</returns>
+        public bool CheckFileExists()
         {
-
+            bool exists = false;
+#if WINDOWS
+            exists = CheckFileExistsWindows();
+#else
+            exists = CheckFileExistsXbox();
+#endif
+            return exists;
         }
 
-        public void loadXbox()
+        public SaveData loadWindows()
         {
+            //temporary; here so it builds
+            SaveData data = new SaveData();
+            return data;
+        }
 
+        /// <summary>
+        /// loads the save file.
+        /// </summary>
+        /// <returns>SaveData struct containing the save data from file.</returns>
+        public SaveData loadXbox()
+        {
+            SaveData loadData;
+
+            IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
+            result.AsyncWaitHandle.WaitOne();
+            StorageContainer container = storageDevice.EndOpenContainer(result);
+
+            result.AsyncWaitHandle.Close();
+
+            Stream stream = container.OpenFile(SAVE_FILE, FileMode.Open);//open file
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+            loadData = (SaveData)serializer.Deserialize(stream);
+
+            stream.Close();
+            container.Dispose();
+
+            return loadData;
+        }
+
+        private bool CheckFileExistsWindows()
+        {
+            return false;
+        }
+
+        private bool CheckFileExistsXbox()
+        {
+            IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
+            result.AsyncWaitHandle.WaitOne();
+            StorageContainer container = storageDevice.EndOpenContainer(result);
+
+            return container.FileExists(SAVE_FILE);
         }
 
         public static SaveUtils getInstance()
