@@ -85,6 +85,10 @@ namespace Titanium.Scenes
         {
             PlayerIndex player;
 
+#if XBOX360
+            SaveUtils.getInstance().RegisterStorage();
+#endif
+
             if (newGame.Evaluate(inputState, null, out player))
             {
                 menuNewGame();
@@ -112,17 +116,14 @@ namespace Titanium.Scenes
 
         public void menuNewGame()
         {
+
             ArenaScene arena = new ArenaScene();
             SceneManager.setScene(SceneState.arena, arena, true);
-            
-#if XBOX360
-                SaveUtils.getInstance().RegisterStorage();
-#endif
         }
 
         public void menuLoadGame()
         {
-
+            SaveData data = SaveUtils.getInstance().loadGame();
         }
 
         public void menuBattle()
