@@ -18,6 +18,10 @@ namespace Titanium.Entities
         protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount;
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
+        public CombatInfo getCombatInfo()
+        {
+            return combatInfo;
+        }
         
         public delegate void SpriteAction(Sprite target);
 
@@ -228,6 +232,7 @@ namespace Titanium.Entities
 
         public int getHealth() { return rawStats.currentHP; }
         public int getMana() { return rawStats.currentMP; }
+        public UnitStats getStats() { return rawStats; }
        
 
 
