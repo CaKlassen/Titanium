@@ -20,7 +20,8 @@ namespace Titanium.Scenes
         ContentManager content;
 
         // Possible player actions
-        InputAction arena;
+        InputAction newGame;
+        InputAction loadGame;
         InputAction battle;
 
         private static int MOVE_SPEED = 15;
@@ -29,6 +30,7 @@ namespace Titanium.Scenes
         private Texture2D menuTitle;
 
         private Vector2 titlePos;
+        private Vector2 menuPos;
 
         MenuPanel mainMenu;
 
@@ -37,15 +39,15 @@ namespace Titanium.Scenes
         public MainMenuScene(): base()
         {
             // Initialize the player actions
-            arena = InputAction.A;
-
-            battle = InputAction.X;
+            newGame = InputAction.A;
+            loadGame = InputAction.X;
+            battle = InputAction.B;
 
             // Create the actual Main Menu panel
             mainMenu = new MenuPanel("Main Menu", new List<MenuItem>()
             {
-                new MenuItem("New Game", arena),
-                new MenuItem("Load Game", arena),
+                new MenuItem("New Game", newGame),
+                new MenuItem("Load Game", loadGame),
                 new MenuItem("(TEMP) Battle", battle)
             });
 
@@ -70,6 +72,7 @@ namespace Titanium.Scenes
             menuTitle = content.Load<Texture2D>("Sprites/Menu-Title");
 
             titlePos = new Vector2(-menuTitle.Width, 0);
+            menuPos = new Vector2(300, 0);
 
             mainMenu.load(content, SceneManager.GraphicsDevice.Viewport);
 
@@ -82,25 +85,53 @@ namespace Titanium.Scenes
         {
             PlayerIndex player;
 
-            if (arena.Evaluate(inputState, null, out player))
+            if (newGame.Evaluate(inputState, null, out player))
             {
-                SceneManager.changeScene(SceneState.arena);
-#if XBOX360
-                SaveUtils.getInstance().RegisterStorage();
-#endif
+                menuNewGame();
+            }
+            else if (loadGame.Evaluate(inputState, null, out player))
+            {
+                menuLoadGame();
             }
             else if (battle.Evaluate(inputState, null, out player))
             {
-                BattleScene battle = new BattleScene(
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat }
-                    );
-                SceneManager.setScene(SceneState.battle, battle, true);
+
+                menuBattle();
             }
             mainMenu.update(gameTime, inputState);
 
             // Move the title image
             titlePos.X += MathUtils.smoothChange(titlePos.X, 0, MOVE_SPEED);
+            
+            // Move the menu
+            menuPos.X += MathUtils.smoothChange(menuPos.X, -380, MOVE_SPEED);
+
+            mainMenu.Origin = new Vector2(BaseGame.SCREEN_WIDTH + menuPos.X, 340);
+            mainMenu.updateMenuItemLocations();
+        }
+
+        public void menuNewGame()
+        {
+            ArenaScene arena = new ArenaScene();
+            SceneManager.setScene(SceneState.arena, arena, true);
+            
+#if XBOX360
+                SaveUtils.getInstance().RegisterStorage();
+#endif
+        }
+
+        public void menuLoadGame()
+        {
+
+        }
+
+        public void menuBattle()
+        {
+            BattleScene battle = new BattleScene(
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat }
+                    );
+            SceneManager.setScene(SceneState.battle, battle, true);
         }
     }
 }

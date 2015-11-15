@@ -208,9 +208,6 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <None Include="Fonts\Main.ttf">
-      <Name>Main</Name>
-    </None>
     <Compile Include="Fonts\MainFont.spritefont">
       <Name>MainFont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -223,9 +220,6 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
-    <None Include="Fonts\Title.ttf">
-      <Name>Title</Name>
-    </None>
     <None Include="Stats\PlayerFile.txt">
       <Name>PlayerFile</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
