@@ -16,7 +16,7 @@ namespace Titanium.Entities.Items
         //public Model myModel;
         private Vector3 Position;
         private Texture2D myTexture;
-        private float scale = 0.3f;
+        private float scale = 0.5f;
         private float modelOrientation = 0f;
         private float HealPercent;
         private Tile  PotionTile;
@@ -40,8 +40,8 @@ namespace Titanium.Entities.Items
 
         public void LoadModel(ContentManager cm)
         {
-            myModel = cm.Load<Model>("Models/hero");
-            myTexture = cm.Load<Texture2D>("Models/PlayerMap");
+            myModel = cm.Load<Model>("Models/Potion");
+            myTexture = cm.Load<Texture2D>("Models/Potion-UVMap");
         }
 
         public override void Draw(SpriteBatch sb, Effect effect)

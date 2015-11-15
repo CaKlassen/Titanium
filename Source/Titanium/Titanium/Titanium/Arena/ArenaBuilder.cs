@@ -480,6 +480,7 @@ namespace Titanium
 
             // Create the potion
             Vector3 pos = tile.getModelPos();
+            pos.Y += 11;
 
             potion = new Potion(pos, 1, tile);
             potion.LoadModel(Content);
