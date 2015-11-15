@@ -256,8 +256,10 @@ namespace Titanium
 
         public Texture2D icon()
         {
-            return InputAction.GetIcon(this);
+            return GetIcon(this);
         }
+
+
     }
     
 }

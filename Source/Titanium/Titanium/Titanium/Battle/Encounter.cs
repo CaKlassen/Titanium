@@ -142,7 +142,7 @@ namespace Titanium.Battle
                     for(int i = 0; i< HeroSelectActions.Count(); ++i)
                         if (HeroSelectActions[i].wasPressed(inputState))
                         {
-                            selectHero(party[i]);
+                            selectHero(i);
                             break;
                         }
                     break;
@@ -150,6 +150,7 @@ namespace Titanium.Battle
                     for (int i = 0; i < ActionSelectActions.Count(); ++i)
                         if (ActionSelectActions[i].wasPressed(inputState))
                         {
+                            Console.WriteLine(i);
                             selectSkill(selectedHero.skills[i]);
                             break;
                         }
@@ -198,11 +199,12 @@ namespace Titanium.Battle
             battleMenu.update(gameTime, inputState);
         }
 
-        public void selectHero(PlayerSprite hero)
+        public void selectHero(int hero)
         {             
-            if (hero.currentState != Sprite.State.Resting && hero.currentState != Sprite.State.Dead)
+            if (party[hero].currentState != Sprite.State.Resting && party[hero].currentState != Sprite.State.Dead)
             {
-                selectedHero = hero;
+                selectedHero = party[hero];
+                battleMenu.selected = hero;
                 state = EncounterState.ActionSelect;
             }
         }
