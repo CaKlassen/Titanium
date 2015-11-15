@@ -151,7 +151,7 @@ namespace Titanium.Utilities
             bool passed = false;
             Random seed = new Random();
             int index = seed.Next(partyMembers.Count);
-            do
+            while (!passed)
             {
                 PlayerSprite tempSprite = partyMembers.ElementAt(index);
                 if (!tempSprite.checkDeath())
@@ -161,8 +161,8 @@ namespace Titanium.Utilities
                 {
                     index = seed.Next(partyMembers.Count);
                 }
-            } while (passed != true);
-            return partyMembers.ElementAt(new Random().Next(partyMembers.Count));
+            }
+            return partyMembers.ElementAt(index);
         }
 
         
