@@ -77,6 +77,12 @@ namespace Titanium.Scenes
             mainMenu.load(content, SceneManager.GraphicsDevice.Viewport);
 
             mainMenu.center();
+
+#if XBOX360
+            if (!SaveUtils.getInstance().storageRegistered())
+                SaveUtils.getInstance().RegisterStorage();
+#endif
+
         }
 
         public override void unloadScene() {}
@@ -85,9 +91,6 @@ namespace Titanium.Scenes
         {
             PlayerIndex player;
 
-#if XBOX360
-            SaveUtils.getInstance().RegisterStorage();
-#endif
 
             if (newGame.Evaluate(inputState, null, out player))
             {

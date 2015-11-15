@@ -59,6 +59,17 @@ namespace Titanium.Utilities
 #endif
         }
 
+        /// <summary>
+        /// checks to see if storage device is registered.
+        /// </summary>
+        /// <returns>true if registered; false otherwise</returns>
+        public bool storageRegistered()
+        {
+            if (storageDevice == null)
+                return false;
+            else
+                return true;
+        }
 
         public void RegisterStorage()
         {
