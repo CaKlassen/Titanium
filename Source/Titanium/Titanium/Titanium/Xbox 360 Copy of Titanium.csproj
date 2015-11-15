@@ -78,6 +78,7 @@
     <Compile Include="Gambits\Combo.cs" />
     <Compile Include="Gambits\Mash.cs" />
     <Compile Include="Gambits\Quick.cs" />
+    <Compile Include="Gambits\Rhythm.cs" />
     <Compile Include="Gambits\Rotation.cs" />
     <Compile Include="InputAction.cs" />
     <Compile Include="InputState.cs" />

@@ -21,7 +21,7 @@ namespace Titanium.Utilities
         static Skill[][] SKILLS =
         {
             new Skill[]{
-                new Skill("Fireball", new Combo(), testAction),
+                new Skill("Fireball", new Rhythm(), testAction),
                 new Skill("Frostbolt", new Combo(), testAction)
             },
             new Skill[]{

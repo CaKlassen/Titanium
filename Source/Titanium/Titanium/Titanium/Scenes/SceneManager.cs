@@ -78,9 +78,6 @@ namespace Titanium.Scenes
         public SceneManager(Game game): base(game)
         {
             registerScene(new MainMenuScene(), SceneState.main);
-            registerScene(new ArenaScene(), SceneState.arena);
-            registerScene(new BattleScene(), SceneState.battle);
-
         }
 
 
