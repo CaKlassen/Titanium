@@ -62,7 +62,6 @@ namespace Titanium
         protected override void Initialize()
         {
             // Initialize the save utilities
-            //Components.Add(new GamerServicesComponent(this));
             SaveUtils.getInstance();
 
             Components.Add(sceneManager);
