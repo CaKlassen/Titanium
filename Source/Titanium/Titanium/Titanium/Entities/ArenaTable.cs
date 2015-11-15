@@ -37,7 +37,7 @@ namespace Titanium.Entities
         public ArenaTable(Tile createTile, ContentManager Content)
         {
             _currentTile = createTile;
-            _Position = new Vector3(_currentTile.getModelPos().X, -60, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
+            _Position = new Vector3(_currentTile.getModelPos().X, -20, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
 
             //_Position = Vector3.Zero;
             _forward = ForwardDir.UP;

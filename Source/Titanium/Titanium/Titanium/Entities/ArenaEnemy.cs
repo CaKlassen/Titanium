@@ -208,6 +208,18 @@ namespace Titanium.Entities
                     break;
                 }
 
+                case PartyUtils.Enemy.Redbat:
+                {
+                    texture = Content.Load<Texture2D>("Models/RedbatMap");
+                    break;
+                }
+
+                case PartyUtils.Enemy.Slime:
+                {
+                    texture = Content.Load<Texture2D>("Models/SlimeMap");
+                    break;
+                }
+
                 default:
                 {
                     texture = Content.Load<Texture2D>("Models/BatMap");

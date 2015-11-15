@@ -61,7 +61,7 @@ namespace Titanium.Entities
         public MenuPanel makeMenuPanel()
         {
             List<MenuItem> items = new List<MenuItem>();
-            List<InputAction> actions = new List<InputAction>() { InputAction.Y, InputAction.A, InputAction.X };
+            List<InputAction> actions = new List<InputAction>() { InputAction.Y, InputAction.X, InputAction.A };
             for(int i=0; i<skills.Count; ++i)
                 items.Add(skills[i].makeMenuItem(actions[i]));
             MenuPanel result = new MenuPanel(rawStats.name, items);
