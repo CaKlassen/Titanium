@@ -30,6 +30,9 @@ namespace Titanium.Scenes
 
         private Tile StartTile;
 
+        SaveData GameSave;
+        public int score;
+
         // Possible user actions
         InputAction menu,
                     battle;
@@ -100,7 +103,14 @@ namespace Titanium.Scenes
 
             potionsUsed = 0;
 
-            
+            //populate the GameSave object
+            GameSave.levelSeed = 0;
+            GameSave.level = 1;
+            GameSave.partyHealth = PartyUtils.getPartyHealth();
+            GameSave.score = 0;
+            //SAVE
+            SaveUtils.getInstance().saveGame(GameSave);
+
             // Debug arena
             printDebugArena();
         }
@@ -230,6 +240,14 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
+
+            //populate the GameSave object
+            GameSave.levelSeed = 0;
+            GameSave.level = 1;
+            GameSave.partyHealth = PartyUtils.getPartyHealth();
+            GameSave.score = score;//calculated in Character class on collision w/ exit
+            //SAVE
+            SaveUtils.getInstance().saveGame(GameSave);
 
             // Debug arena
             printDebugArena();
