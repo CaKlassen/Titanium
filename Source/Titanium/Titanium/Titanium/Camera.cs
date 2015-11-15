@@ -111,14 +111,20 @@ namespace Titanium
         /// <param name="up">The direction to rotate</param>
         public void rotateCamera(bool up)
         {
-            if (up)
+            Vector3 rotateCheck = position;
+            rotateCheck.Normalize();
+
+            Console.WriteLine(rotateCheck);
+            
+            if (!up && rotateCheck.Y >= 0.11f)
             {
                 position = Vector3.Transform(position, Matrix.CreateRotationX(MathHelper.ToRadians(1)));
             }
-            else
+            else if (up && rotateCheck.Y <= 0.98f)
             {
                 position = Vector3.Transform(position, Matrix.CreateRotationX(MathHelper.ToRadians(-1)));
             }
+
         }
 
         /// <summary>
