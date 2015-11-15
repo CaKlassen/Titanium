@@ -17,7 +17,7 @@ namespace Titanium.Scenes.Panels
         string title;
         SpriteFont font;
 
-        Color textColor = Color.DarkBlue;
+        Color textColor = Color.White;
 
         // Some padding so things aren't all squished
         private int SPACING = 5;
@@ -54,7 +54,7 @@ namespace Titanium.Scenes.Panels
         public override void load(ContentManager content, Viewport v)
         {
             base.load(content, v);
-            font = content.Load<SpriteFont>("TestFont");    
+            font = content.Load<SpriteFont>("Fonts/TitleFont");    
             updateMenuItemLocations();
         }
 

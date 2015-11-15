@@ -29,7 +29,7 @@ namespace Titanium.Scenes.Panels
 
         Texture2D icon;
 
-        Color textColor = Color.Black;
+        Color textColor = Color.White;
 
         /// <summary>
         /// Gets or sets the text of this menu entry.
@@ -50,7 +50,7 @@ namespace Titanium.Scenes.Panels
         {
             base.load(content, v);
             icon = InputAction.GetIcon(action);
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/MainFont");
         }
 
         public override void update(GameTime gametime, InputState inputState)

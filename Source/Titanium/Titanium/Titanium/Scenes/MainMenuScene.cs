@@ -18,11 +18,17 @@ namespace Titanium.Scenes
     class MainMenuScene : Scene
     {
         ContentManager content;
-        SpriteFont font;
 
         // Possible player actions
         InputAction arena;
         InputAction battle;
+
+        private static int MOVE_SPEED = 15;
+
+        private Texture2D menuBackground;
+        private Texture2D menuTitle;
+
+        private Vector2 titlePos;
 
         MenuPanel mainMenu;
 
@@ -38,8 +44,9 @@ namespace Titanium.Scenes
             // Create the actual Main Menu panel
             mainMenu = new MenuPanel("Main Menu", new List<MenuItem>()
             {
-                new MenuItem("Enter the arena!", arena),
-                new MenuItem("Enter battle!", battle)
+                new MenuItem("New Game", arena),
+                new MenuItem("Load Game", arena),
+                new MenuItem("(TEMP) Battle", battle)
             });
 
         }
@@ -47,6 +54,10 @@ namespace Titanium.Scenes
         public override void draw(GameTime gameTime)
         {
             SceneManager.SpriteBatch.Begin();
+
+            SceneManager.SpriteBatch.Draw(menuBackground, new Vector2(0, 0), Color.White);
+            SceneManager.SpriteBatch.Draw(menuTitle, titlePos, Color.White);
+
             mainMenu.draw(SceneManager.SpriteBatch, null);
             SceneManager.SpriteBatch.End();
         }
@@ -54,7 +65,12 @@ namespace Titanium.Scenes
         // 
         public override void loadScene(ContentManager content)
         {
-            font = content.Load<SpriteFont>("TestFont");
+            // Load the art
+            menuBackground = content.Load<Texture2D>("Sprites/Menu-Background");
+            menuTitle = content.Load<Texture2D>("Sprites/Menu-Title");
+
+            titlePos = new Vector2(-menuTitle.Width, 0);
+
             mainMenu.load(content, SceneManager.GraphicsDevice.Viewport);
 
             mainMenu.center();
@@ -77,6 +93,9 @@ namespace Titanium.Scenes
                 SceneManager.setScene(SceneState.battle, battle, true);
             }
             mainMenu.update(gameTime, inputState);
+
+            // Move the title image
+            titlePos.X += MathUtils.smoothChange(titlePos.X, 0, MOVE_SPEED);
         }
     }
 }
