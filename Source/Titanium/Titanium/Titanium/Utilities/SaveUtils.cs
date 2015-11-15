@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -91,7 +92,22 @@ namespace Titanium.Utilities
         {
             if (storageDevice != null && storageDevice.IsConnected)
             {
-                //save
+                IAsyncResult result = storageDevice.BeginOpenContainer("Titanium", null, null);
+                result.AsyncWaitHandle.WaitOne();
+                storageContainer = storageDevice.EndOpenContainer(result);
+
+                if(storageContainer.FileExists(SAVE_FILE))//if that file already exists
+                {
+                    storageContainer.DeleteFile(SAVE_FILE);//delete existing file
+                }
+
+                Stream stream = storageContainer.CreateFile(SAVE_FILE);//create file
+
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+                serializer.Serialize(stream, data);
+
+                stream.Close();//close the file
+                storageContainer.Dispose();//disposing container commits changes to device
             }
         }
 

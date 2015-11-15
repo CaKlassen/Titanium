@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace Titanium.Utilities
 {
-    public class HighScoreUtils
+    public static class HighScoreUtils
     {
         /// <summary>
         /// calculates high score based on how much party health
@@ -17,7 +17,7 @@ namespace Titanium.Utilities
         /// <param name="HealthMultiplier">Score mutltiplier applied to Health at End of Arena.</param>
         /// <param name="PotionMultiplier">Score mutltiplier applied to Potions used.</param>
         /// <returns>The "high score" for the arena</returns>
-        public int CalculateHighScore(int HealthMultiplier, int PotionMultiplier)
+        public static int CalculateHighScore(int HealthMultiplier, int PotionMultiplier)
         {
             int score = 0;
 
