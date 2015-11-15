@@ -61,6 +61,12 @@ namespace Titanium.Utilities
 
         public static List<PlayerSprite> getParty() { return partyMembers; }
 
+        public static void Reset()
+        {
+            partyMembers = new List<PlayerSprite>();
+            loadPartyMembers();
+        }
+
         public static int[] getPartyHealth()
         {
             int[] result = new int[partyMembers.Count];
