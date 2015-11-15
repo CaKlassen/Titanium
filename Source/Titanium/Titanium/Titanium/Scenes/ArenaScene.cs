@@ -114,6 +114,15 @@ namespace Titanium.Scenes
 
             potionsUsed = 0;
 
+            //load CombatInfo at top left
+            Vector2 start = new Vector2(10, 20);
+            foreach (PlayerSprite ps in PartyUtils.getParty())
+            {
+                ps.getCombatInfo().initArena(content, start);
+                start.Y += 60;
+            }
+
+
             //populate the GameSave object
             GameSave.levelSeed = 0;
             GameSave.level = 1;
@@ -189,6 +198,12 @@ namespace Titanium.Scenes
                 camera.rotateCamera(false);
             }
 
+            //update combatinfo
+            foreach (PlayerSprite ps in PartyUtils.getParty())
+            {
+                ps.getCombatInfo().updateArena(ps.getStats());
+            }
+
             controller.update();
         }
 
@@ -243,6 +258,15 @@ namespace Titanium.Scenes
 
             //Draw character
             Hero.Draw(sb, HLSLeffect);
+
+            //Draw the combatInfo
+            sb.Begin();
+            foreach (PlayerSprite ps in PartyUtils.getParty())
+            {
+                ps.getCombatInfo().drawArena(sb);
+            }
+            sb.End();
+
         }
 
         /**
