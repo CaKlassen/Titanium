@@ -35,6 +35,7 @@ namespace Titanium
         public static float X_DISTANCE = 0f;
         public static float Y_DISTANCE = 400f;
         public static float Z_DISTANCE = 700f;
+        public static float ROTATE_SPEED = 10;
 
 
         private Vector3 position;//camera postion (x,y,z)
@@ -102,6 +103,22 @@ namespace Titanium
             cameraPos = camPos;
             View = Matrix.CreateLookAt(camPos, CharacterPos, Vector3.Up);
             _effect.View = View;
+        }
+
+        /// <summary>
+        /// This function rotates the camera up or down.
+        /// </summary>
+        /// <param name="up">The direction to rotate</param>
+        public void rotateCamera(bool up)
+        {
+            if (up)
+            {
+                position = Vector3.Transform(position, Matrix.CreateRotationX(MathHelper.ToRadians(1)));
+            }
+            else
+            {
+                position = Vector3.Transform(position, Matrix.CreateRotationX(MathHelper.ToRadians(-1)));
+            }
         }
 
         /// <summary>

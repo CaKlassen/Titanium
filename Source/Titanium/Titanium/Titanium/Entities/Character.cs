@@ -45,8 +45,6 @@ namespace Titanium.Entities
         private float rotAngle;
         private float scale;
 
-        private float SpotZoomAngle;
-
         // Possible player actions
         static InputAction up, down, left, right, zoom;
 
@@ -77,8 +75,6 @@ namespace Titanium.Entities
 
             myModel = null;
             stepsTaken = 0;
-
-            SpotZoomAngle = ArenaScene.instance.FlashLightAngle;
         }
 
         public void LoadModel(ContentManager cm, float aspectRatio)
@@ -233,17 +229,7 @@ namespace Titanium.Entities
 
 
             PlayerIndex player;
-            if(zoom.Evaluate(inputState,PlayerIndex.One, out player))
-            {
-                if (SpotZoomAngle == 10f)
-                    SpotZoomAngle = 35f;
-                else
-                    SpotZoomAngle = 10f;
-            }
-
-            ArenaScene.instance.FlashLightAngle += MathUtils.smoothChange(ArenaScene.instance.FlashLightAngle, SpotZoomAngle, 10);
-
-
+            
             if (up.Evaluate(inputState, PlayerIndex.One, out player))
             {
                 if (_currentTile.getConnection(TileConnections.TOP) != null)

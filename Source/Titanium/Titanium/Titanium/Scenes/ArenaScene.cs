@@ -35,7 +35,9 @@ namespace Titanium.Scenes
 
         // Possible user actions
         InputAction menu,
-                    battle;
+                    battle,
+                    rotateUp,
+                    rotateDown;
 
         ContentManager content;
         public Effect HLSLeffect;
@@ -48,7 +50,13 @@ namespace Titanium.Scenes
         private BasicEffect effect;
         public int potionsUsed;
 
-        public float FlashLightAngle;
+        private float FlashLightAngle;
+        private bool flashOn = false;
+        private int FLASH_RATE = 10;
+        private int flashTimer = 60;
+        private float MIN_FLASH = 0f;
+        private float MAX_FLASH = 35f;
+
         public static float ARENA_AMBIENCE = 0.080f;
         private static Color ambientColour = new Color(0.318f, 0.365f, 0.404f, 1);
 
@@ -68,6 +76,9 @@ namespace Titanium.Scenes
             menu = InputAction.SELECT;
 
             battle = InputAction.X;
+
+            rotateDown = InputAction.RSDOWN;
+            rotateUp = InputAction.RSUP;
         }
 
         /**
@@ -92,7 +103,7 @@ namespace Titanium.Scenes
             if (effect == null)
                 effect = new BasicEffect(SceneManager.Game.GraphicsDevice);//null
 
-            FlashLightAngle = 10f;
+            FlashLightAngle = MIN_FLASH;
             Hero = new Character();
             camera = new Camera(effect, SceneManager.Game.Window.ClientBounds.Width, SceneManager.Game.Window.ClientBounds.Height, SceneManager.GraphicsDevice.Viewport.AspectRatio, Hero.getPOSITION());
             //load model
@@ -126,7 +137,30 @@ namespace Titanium.Scenes
             Hero.Update(gameTime, inputState);
             camera.UpdateCamera(Hero.getPOSITION());
 
-            
+            // Update the spotlight
+            if (flashTimer > 0)
+            {
+                flashTimer--;
+            }
+            else
+            {
+                if (!flashOn)
+                {
+                    flashOn = true;
+                }
+            }
+
+            if (!flashOn)
+            {
+                FlashLightAngle += MathUtils.smoothChange(FlashLightAngle, MIN_FLASH, FLASH_RATE);
+            }
+            else
+            {
+
+                FlashLightAngle += MathUtils.smoothChange(FlashLightAngle, MAX_FLASH, FLASH_RATE);
+            }
+
+
             // Update the tiles
             for (int i = 0; i < baseArena.GetLength(0); i++)
             {
@@ -145,13 +179,17 @@ namespace Titanium.Scenes
                 SceneManager.changeScene(SceneState.battle);
             }
 
-            controller.update();
-
-            // TEMP: New arena
-            if (Keyboard.GetState().IsKeyDown(Keys.N))
+            // Rotation of camera
+            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightThumbstickUp))
             {
-                ArenaController.instance.moveToNextArena();
+                camera.rotateCamera(true);
             }
+            else if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightThumbstickDown))
+            {
+                camera.rotateCamera(false);
+            }
+
+            controller.update();
         }
 
         /**
