@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Titanium.Utilities
 {
@@ -44,15 +45,29 @@ namespace Titanium.Utilities
         private IAsyncResult asyncResult;
         private PlayerIndex playerIndex = PlayerIndex.One;
         private StorageContainer storageContainer;
+        Object stateObject;
         
-
+        /// <summary>
+        /// constructor
+        /// </summary>
         public SaveUtils()
         {
-#if XBOX
+#if XBOX360
             BaseGame.instance.Components.Add(new GamerServicesComponent(BaseGame.instance));
 #endif
         }
 
+
+        public void RegisterStorage()
+        {
+            //Get StorageDevice
+            if (!Guide.IsVisible)
+            {
+                storageDevice = null;//reset device                
+                asyncResult = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);//storage device selected
+                storageDevice = StorageDevice.EndShowSelector(asyncResult);//set storage device
+            }
+        }
 
         public void saveGame(SaveData data)
         {
@@ -68,10 +83,16 @@ namespace Titanium.Utilities
             
         }
 
-
+        /// <summary>
+        /// Saves data to the Xbox360
+        /// </summary>
+        /// <param name="data"></param>
         public void saveXbox(SaveData data)
         {
-
+            if (storageDevice != null && storageDevice.IsConnected)
+            {
+                //save
+            }
         }
 
 

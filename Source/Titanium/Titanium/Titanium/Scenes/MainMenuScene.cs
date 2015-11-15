@@ -67,7 +67,12 @@ namespace Titanium.Scenes
             PlayerIndex player;
 
             if (arena.Evaluate(inputState, null, out player))
+            {
                 SceneManager.changeScene(SceneState.arena);
+#if XBOX360
+                SaveUtils.getInstance().RegisterStorage();
+#endif
+            }
             else if (battle.Evaluate(inputState, null, out player))
             {
                 BattleScene battle = new BattleScene(
