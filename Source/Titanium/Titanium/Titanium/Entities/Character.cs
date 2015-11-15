@@ -168,8 +168,7 @@ namespace Titanium.Entities
                                 break;
 
                             case "ArenaExit":
-                                // Continue to the next arena
-                                ArenaScene.instance.score = HighScoreUtils.CalculateHighScore(10, 10);
+                                // Continue to the next 
                                 ArenaController.instance.moveToNextArena();
                                 break;
 

@@ -15,6 +15,7 @@ namespace Titanium.Entities.Traps
         //attributes
         public Model ProjModel;
         private Texture2D myTexture;
+        private Texture2D projTexture;
         //public Model myModel;
         private float scale = 0.5f;
         private float modelOrientation = 0.0f;
@@ -22,7 +23,7 @@ namespace Titanium.Entities.Traps
         private Vector3 position;
         private int projdmg;
 
-        private static int FIRE_HEIGHT = 5;
+        private static int FIRE_HEIGHT = 45;
         const float TIMER = 1.5f;
         float timer = TIMER;
 
@@ -68,8 +69,9 @@ namespace Titanium.Entities.Traps
         public void LoadModel(ContentManager cm)
         {
             myModel = cm.Load<Model>("Models/Dispenser");//change to actual dispenser model
-            myTexture = cm.Load<Texture2D>("Models/skyboxBG");//change to actual dispenser model
+            myTexture = cm.Load<Texture2D>("Models/Dispenser-UVMap");//change to actual dispenser model
             ProjModel = cm.Load<Model>("Models/Projectile");//change to actual projectile model
+            projTexture = cm.Load<Texture2D>("Models/Projectile-UVMap");
         }
 
         public override void Update(GameTime gameTime, InputState inputState)
@@ -114,7 +116,8 @@ namespace Titanium.Entities.Traps
         /// </summary>
         private void FireProjectile()
         {
-            Projectile p = new Projectile(new Vector3(position.X, position.Y + FIRE_HEIGHT, position.Z), Orientation, ProjectileDamage, ProjModel);
+            Projectile p = new Projectile(new Vector3(position.X, position.Y + FIRE_HEIGHT, position.Z), 
+                Orientation, ProjectileDamage, ProjModel, projTexture, modelOrientation);
             Projectiles.Add(p);
         }
 

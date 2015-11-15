@@ -24,6 +24,7 @@ namespace Titanium.Entities
         private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
         private Texture2D myTexture;
+        private Texture2D myTextureOpen;
         //MovableModel
         private float modelRotation;
         //public Model myModel;
@@ -40,7 +41,7 @@ namespace Titanium.Entities
             ArenaScene.instance.collidables.Add(this);
 
             _currentTile = createTile;
-            _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
+            _Position = new Vector3(_currentTile.getModelPos().X, -2, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
 
             //_Position = Vector3.Zero;
             _forward = ForwardDir.UP;
@@ -57,8 +58,9 @@ namespace Titanium.Entities
             scale = 0.3f;
             
             // Load the model
-            myModel = Content.Load<Model>("Models/exitDoor");
-            myTexture = Content.Load<Texture2D>("Models/exitDoorUVMap");
+            myModel = Content.Load<Model>("Models/Exit");
+            myTexture = Content.Load<Texture2D>("Models/Exit-UVMap");
+            myTextureOpen = Content.Load<Texture2D>("Models/Exit-UVMap-Open");
         }
 
         /// <summary>
@@ -94,7 +96,15 @@ namespace Titanium.Entities
                             part.Effect = effect;
 
                             effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
-                            effect.Parameters["ModelTexture"].SetValue(myTexture);
+
+                            if (ArenaController.instance.getNumEnemies() == 0)
+                            {
+                                effect.Parameters["ModelTexture"].SetValue(myTextureOpen);
+                            }
+                            else
+                            {
+                                effect.Parameters["ModelTexture"].SetValue(myTexture);
+                            }
 
                             Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
                         }

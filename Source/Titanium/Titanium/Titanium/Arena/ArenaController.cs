@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Titanium.Scenes;
+using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
@@ -41,10 +42,7 @@ namespace Titanium.Entities
             }
         }
 
-        /// <summary>
-        /// This function moves the arena scene to the next arena.
-        /// </summary>
-        public void moveToNextArena()
+        public int getNumEnemies()
         {
             List<Entity> collidables = ArenaScene.instance.collidables;
             int numEnemies = 0;
@@ -57,7 +55,17 @@ namespace Titanium.Entities
                 }
             }
 
-            if (numEnemies == 0)
+            return numEnemies;
+        }
+
+        /// <summary>
+        /// This function moves the arena scene to the next arena.
+        /// </summary>
+        public void moveToNextArena()
+        {
+            
+
+            if (getNumEnemies() == 0)
             {
                 // Increment the difficulty
                 if (curDifficulty != ArenaDifficulty.HARD)
@@ -65,6 +73,7 @@ namespace Titanium.Entities
                     curDifficulty++;
                 }
 
+                ArenaScene.instance.score = HighScoreUtils.CalculateHighScore(10, 10);
                 ArenaScene.instance.loadNewArena(curDifficulty);
             }
         }
