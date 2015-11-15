@@ -27,15 +27,15 @@ namespace Titanium.Gambits
 
         PlayerIndex player;
 
-
-        public Mash() : base()
+        public override void start(GameTime gameTime)
         {
+            base.start(gameTime);
+            count = 0;
             timeLeft = timeLimit;
         }
 
-        public Mash(int timeLimit) 
+        public Mash() 
         {
-            this.timeLimit = timeLimit;
         }
 
         public override void load(ContentManager content)

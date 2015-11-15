@@ -76,6 +76,7 @@
     <Compile Include="Entities\Traps\Spikes.cs" />
     <Compile Include="Gambits\BaseGambit.cs" />
     <Compile Include="Gambits\Combo.cs" />
+    <Compile Include="Gambits\Finesse.cs" />
     <Compile Include="Gambits\Mash.cs" />
     <Compile Include="Gambits\Quick.cs" />
     <Compile Include="Gambits\Rhythm.cs" />

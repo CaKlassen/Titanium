@@ -150,7 +150,6 @@ namespace Titanium.Battle
                     for (int i = 0; i < ActionSelectActions.Count(); ++i)
                         if (ActionSelectActions[i].wasPressed(inputState))
                         {
-                            Console.WriteLine(i);
                             selectSkill(selectedHero.skills[i]);
                             break;
                         }

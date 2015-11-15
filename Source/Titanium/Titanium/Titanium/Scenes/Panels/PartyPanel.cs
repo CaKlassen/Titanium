@@ -68,7 +68,7 @@ namespace Titanium.Scenes.Panels
         public bool idle()
         {
             foreach (PlayerSprite sprite in party)
-                if (sprite.currentState != Sprite.State.Idle && sprite.currentState != Sprite.State.Resting)
+                if (sprite.currentState != Sprite.State.Idle && sprite.currentState != Sprite.State.Resting && sprite.currentState != Sprite.State.Dead)
                     return false;
             return true;
         }

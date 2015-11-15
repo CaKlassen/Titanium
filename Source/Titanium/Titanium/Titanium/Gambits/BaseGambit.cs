@@ -47,6 +47,7 @@ namespace Titanium.Gambits
         public virtual void start(GameTime gameTime)
         {
             startTime = (int)gameTime.TotalGameTime.TotalMilliseconds;
+            timeElapsed = 0;
             result = new GambitResult(multiplier, int.MaxValue);
             finished = false;
         }
@@ -59,10 +60,13 @@ namespace Titanium.Gambits
         public virtual bool isComplete(out GambitResult result)
         {
             if (finished)
+            {
                 result = new GambitResult(multiplier, timeElapsed);
-
+                finished = false;
+                return true;
+            }
             result = this.result;
-            return finished;
+            return false;
         }
 
         public abstract void load(ContentManager content);
