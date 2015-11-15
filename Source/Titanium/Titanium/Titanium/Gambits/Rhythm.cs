@@ -100,16 +100,12 @@ namespace Titanium.Gambits
             }
             if (leftLine.Left > 1000)
             {
+                multiplier = getMultiplier();
                 finished = true;
             }
             
         }
 
-        public override bool isComplete(out GambitResult result)
-        {
-            result = new GambitResult(getMultiplier(), timeElapsed);
-            return finished;
-        }
         public float getMultiplier()
         {
             float multiplier = 0.7f;
@@ -133,6 +129,9 @@ namespace Titanium.Gambits
             base.start(gameTime);
             rng = new Random(gameTime.TotalGameTime.Milliseconds);
             rhythmString = makeRhythmString();
+            leftLine = new Rectangle();
+            rightLine = new Rectangle();
+            position = Vector2.Zero;
         }
 
         List<RhythmInput> makeRhythmString()

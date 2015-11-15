@@ -57,11 +57,11 @@ namespace Titanium.Gambits
 
         public override void start(GameTime gameTime)
         {
+            base.start(gameTime);
             icons = new List<Texture2D>();
             current = 0;
             comboString = makeComboString(DateTime.Now.Millisecond);
             timeLeft = timeLimit;
-            base.start(gameTime);
         }
 
         public override void draw(Vector2 pos, SpriteBatch sb)

@@ -22,7 +22,7 @@ namespace Titanium.Utilities
         {
             new Skill[]{
                 new Skill("Fireball", new Rhythm(), testAction),
-                new Skill("Frostbolt", new Combo(), testAction)
+                new Skill("Frostbolt", new Finesse(), testAction)
             },
             new Skill[]{
                 new Skill("Arcane Arrow", new Rotation(), testAction),
