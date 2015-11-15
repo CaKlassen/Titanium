@@ -21,16 +21,16 @@ namespace Titanium.Utilities
         static Skill[][] SKILLS =
         {
             new Skill[]{
-                new Skill("Fireball", new Rhythm(), testAction),
-                new Skill("Frostbolt", new Finesse(), testAction)
+                new Skill("Fireball", new Combo(), testAction),
+                new Skill("Frostbolt", new Combo(), testAction)
             },
             new Skill[]{
-                new Skill("Arcane Arrow", new Rotation(), testAction),
+                new Skill("Arcane Arrow", new Finesse(), testAction),
                 new Skill("Throwing Knife", new Rotation(), testAction)
             },
             new Skill[]{
                 new Skill("Bite", new Mash(), testAction),
-                new Skill("Claw", new Mash(), testAction)
+                new Skill("Claw", new Rhythm(), testAction)
             }
         };
 
@@ -60,6 +60,12 @@ namespace Titanium.Utilities
         }
 
         public static List<PlayerSprite> getParty() { return partyMembers; }
+
+        public static void Reset()
+        {
+            partyMembers = new List<PlayerSprite>();
+            loadPartyMembers();
+        }
 
         public static int[] getPartyHealth()
         {

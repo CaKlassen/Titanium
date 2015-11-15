@@ -38,66 +38,66 @@ namespace Titanium.Gambits
         static InputAction[] rightIndex = {
             new InputAction(
                 new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { },
+                new Keys[] { Keys.D2 },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.RightTrigger },
-                new Keys[] { },
+                new Keys[] { Keys.W},
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { },
+                new Keys[] { Keys.D2},
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.RightTrigger },
-                new Keys[] { },
+                new Keys[] { Keys.W},
                 false
                 ),
         };
         static InputAction[] leftThumb = {
             new InputAction(
                 new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
-                new Keys[] { },
+                new Keys[] { Keys.Up },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
-                new Keys[] { },
+                new Keys[] { Keys.Down },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft },
-                new Keys[] { },
+                new Keys[] { Keys.Left },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.DPadRight, Buttons.LeftThumbstickRight },
-                new Keys[] { },
+                new Keys[] { Keys.Right },
                 false
                 ),
         };
         InputAction[] rightThumb = {
             new InputAction(
                 new Buttons[] { Buttons.A },
-                new Keys[] { },
+                new Keys[] { Keys.A },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.B },
-                new Keys[] { },
+                new Keys[] { Keys.B},
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.X },
-                new Keys[] { },
+                new Keys[] { Keys.X},
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.Y },
-                new Keys[] { },
+                new Keys[] { Keys.Y},
                 false
                 ),
         };
