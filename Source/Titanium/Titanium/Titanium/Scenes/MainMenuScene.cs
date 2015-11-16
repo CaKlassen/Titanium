@@ -118,6 +118,7 @@ namespace Titanium.Scenes
         {
 
             ArenaScene arena = new ArenaScene();
+            PartyUtils.Reset();
             SceneManager.setScene(SceneState.arena, arena, true);
         }
 
