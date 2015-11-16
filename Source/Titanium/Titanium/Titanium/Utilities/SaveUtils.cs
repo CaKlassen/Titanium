@@ -5,14 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Serialization;
+using Titanium.Entities;
 
 namespace Titanium.Utilities
 {
     public struct SaveData
     {
-        public long levelSeed;
+        public byte[] generator;
         public int level;
         public int score;
         public int[] partyHealth;
@@ -275,6 +277,25 @@ namespace Titanium.Utilities
             }
 
             return instance;
+        }
+
+        public static byte[] randomToByteArray(Random r)
+        {
+            var binaryFormatter = new BinaryFormatter();
+            using (var temp = new MemoryStream())
+            {
+                binaryFormatter.Serialize(temp, r);
+                return temp.ToArray();
+            }
+        }
+
+        public static Random byteArrayToRandom(byte[] b)
+        {
+            var binaryFormatter = new BinaryFormatter();
+            using (var temp = new MemoryStream(b))
+            {
+                return (Random)binaryFormatter.Deserialize(temp);
+            }
         }
     }
 }

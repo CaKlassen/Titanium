@@ -234,6 +234,10 @@ namespace Titanium.Entities
         public int getMana() { return rawStats.currentMP; }
         public UnitStats getStats() { return rawStats; }
        
+        public void setHealth(int hp)
+        {
+            rawStats.currentHP = hp;
+        }
 
 
         /// <summary>

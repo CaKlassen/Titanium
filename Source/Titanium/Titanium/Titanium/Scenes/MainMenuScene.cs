@@ -124,6 +124,8 @@ namespace Titanium.Scenes
         public void menuLoadGame()
         {
             SaveData data = SaveUtils.getInstance().loadGame();
+            ArenaScene arena = new ArenaScene(data);
+            SceneManager.setScene(SceneState.arena, arena, true);
         }
 
         public void menuBattle()
