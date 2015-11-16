@@ -77,7 +77,7 @@ namespace Titanium.Scenes.Panels
         {
             bool result = true;
             foreach (PlayerSprite sprite in party)
-                result &= sprite.currentState == Sprite.State.Resting;
+                result &= (sprite.currentState == Sprite.State.Resting || sprite.currentState == Sprite.State.Dead);
             return result;
         }
 

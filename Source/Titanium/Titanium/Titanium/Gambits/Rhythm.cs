@@ -26,22 +26,22 @@ namespace Titanium.Gambits
         {
             new InputAction(
                 new Buttons[] {Buttons.DPadUp, Buttons.Y },
-                new Keys[] { },
+                new Keys[] { Keys.Up },
                 true
                 ),
             new InputAction(
                 new Buttons[] {Buttons.DPadLeft, Buttons.X },
-                new Keys[] { },
+                new Keys[] { Keys.Left },
                 true
                 ),
             new InputAction(
                 new Buttons[] {Buttons.DPadDown, Buttons.A },
-                new Keys[] { },
+                new Keys[] { Keys.Down },
                 true
                 ),
             new InputAction(
                 new Buttons[] {Buttons.DPadRight, Buttons.B },
-                new Keys[] { },
+                new Keys[] { Keys.Right },
                 true
                 )
         };
