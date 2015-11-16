@@ -84,7 +84,7 @@ namespace Titanium.Gambits
         public override void load(ContentManager content)
         {
 
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/NumbersFontBig");
 
             sfxComplete = content.Load<SoundEffect>("sfx/complete");
             sfxFailure = content.Load<SoundEffect>("sfx/failure");

@@ -77,7 +77,7 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/NumbersFont");
 
             icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
             icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");

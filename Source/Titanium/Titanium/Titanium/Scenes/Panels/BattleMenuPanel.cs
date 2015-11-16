@@ -50,7 +50,7 @@ namespace Titanium.Scenes.Panels
             foreach (MenuPanel menu in subPanels)
                 menu.load(content, v);
 
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/TitleFont");
             background = content.Load<Texture2D>("Sprites/Battle-HUD");
 
             Offset = new Vector2(leftOffset, topOffset);
