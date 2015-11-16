@@ -17,7 +17,7 @@ namespace Titanium.Battle
         public int baseAttack;
         public int baseHP;
         public int baseMP;
-        public int baseSpeed;
+        public int difficulty;
         public int currentHP;
         public int currentMP;
 
@@ -40,7 +40,7 @@ namespace Titanium.Battle
             baseAttack = Convert.ToInt32(s[7]);
             baseHP = Convert.ToInt32(s[8]);
             baseMP = Convert.ToInt32(s[9]);
-            baseSpeed = Convert.ToInt32(s[10]);
+            difficulty = Convert.ToInt32(s[10]);
             normalize();
             initialized = true;
         }
