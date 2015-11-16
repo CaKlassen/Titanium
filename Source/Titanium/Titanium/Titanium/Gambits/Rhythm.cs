@@ -16,8 +16,8 @@ namespace Titanium.Gambits
         public static int height = 200;
         public static int iconWidth = 50;
         public static int bufferWidth = 65;
-        public static int inputOffset = 50;
-        public static int speed = 2;
+        public static int inputOffset = 70;
+        public static float speed = 3f;
         public static string[] iconDirs = { "arrow-up", "arrow-left", "arrow-down", "arrow-right" };
 
         enum Direction { up, left, down, right }
@@ -58,7 +58,6 @@ namespace Titanium.Gambits
         {
             rhythmString = new List<RhythmInput>();
             name = "Rhythm";
-            message = "Use Dpad or Face buttons";
         }
 
         public override void start(GameTime gameTime)
@@ -198,7 +197,7 @@ namespace Titanium.Gambits
 
         class RhythmInput
         {
-            
+            static int wiggle = 3;
 
             public enum Result { perfect, fair, miss, pending };
             public Result result;
@@ -243,6 +242,8 @@ namespace Titanium.Gambits
 
             public void checkResult(int left, int right)
             {
+                left -= wiggle;
+                right += wiggle;
                 if (position.Left > left && position.Right < right)
                     result = Result.perfect;
                 else if (position.Left < left && position.Right > left)
