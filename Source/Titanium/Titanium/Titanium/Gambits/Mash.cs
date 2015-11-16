@@ -40,7 +40,7 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/NumbersFontBig");
         }
 
         public override void update(GameTime gameTime, InputState state)

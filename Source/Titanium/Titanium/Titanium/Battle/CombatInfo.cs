@@ -18,6 +18,7 @@ namespace Titanium.Battle
         int curHP, maxHP;
         float hpLength;
         SpriteFont myFont;
+        SpriteFont hpFont;
         UnitStats unitStats;
 
         public object GraphicDevice { get; private set; }
@@ -30,7 +31,8 @@ namespace Titanium.Battle
         public void init(ContentManager content, Rectangle r)
         {
             barFrame = content.Load<Texture2D>("Sprites/HealthBar");
-            myFont = content.Load<SpriteFont>("combat_font");
+            myFont = content.Load<SpriteFont>("Fonts/MainFontSmall");
+            hpFont = content.Load<SpriteFont>("Fonts/NumbersFont");
             Rectangle tempRect = r;
             frameRect = new Rectangle(tempRect.X, tempRect.Y-barFrame.Height/2, barFrame.Width, barFrame.Height);
             destRect = frameRect;
@@ -39,7 +41,8 @@ namespace Titanium.Battle
         public void initArena(ContentManager content, Vector2 v)
         {
             barFrame2 = content.Load<Texture2D>("Sprites/HealthBar2");
-            myFont = content.Load<SpriteFont>("combat_font");
+            myFont = content.Load<SpriteFont>("Fonts/MainFontSmall");
+            hpFont = content.Load<SpriteFont>("Fonts/NumbersFontBig");
             frameRectArena = new Rectangle((int)v.X, (int)v.Y, barFrame2.Width, barFrame2.Height/2);
             destRectArena = frameRectArena;
         }
@@ -63,7 +66,7 @@ namespace Titanium.Battle
             {
                 hpColor = Color.LimeGreen;
             }
-            else if (hpPercent > 0.25 && hpPercent < 0.75)
+            else if (hpPercent > 0.25 && hpPercent <= 0.75)
             {
                 hpColor = Color.Yellow;
             }
@@ -91,7 +94,7 @@ namespace Titanium.Battle
             {
                 hpColor = Color.LimeGreen;
             }
-            else if (hpPercent > 0.25 && hpPercent < 0.75)
+            else if (hpPercent > 0.25 && hpPercent <= 0.75)
             {
                 hpColor = Color.Yellow;
             }
@@ -125,8 +128,8 @@ namespace Titanium.Battle
 
             if (frameRect.X <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 3)
             {
-                Vector2 spacing = myFont.MeasureString(health);
-                sb.DrawString(myFont, health, new Vector2(frameRect.X+frameRect.Width-spacing.X, frameRect.Y+2), Color.Black);
+                Vector2 spacing = hpFont.MeasureString(health);
+                sb.DrawString(hpFont, health, new Vector2(frameRect.X+frameRect.Width-spacing.X, frameRect.Y+2), Color.Black);
             }
             else
             {
