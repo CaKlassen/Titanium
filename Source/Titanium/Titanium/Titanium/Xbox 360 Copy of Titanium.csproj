@@ -111,6 +111,7 @@
     <None Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </None>
+    <None Include="Titanium_1_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FileHelpers">

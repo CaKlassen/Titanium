@@ -14,6 +14,7 @@ using Titanium.Utilities;
 using Titanium.Battle;
 using Titanium.Entities.Traps;
 using Microsoft.Xna.Framework.Storage;
+using System.IO;
 
 namespace Titanium.Scenes
 {
@@ -31,7 +32,7 @@ namespace Titanium.Scenes
         private Tile StartTile;
 
         SaveData GameSave;
-        public int score;
+        private bool loaded;
 
         // Possible user actions
         InputAction menu,
@@ -68,9 +69,33 @@ namespace Titanium.Scenes
         public ArenaScene() : base()
         {
             instance = this;
+            loaded = false;
 
             // Create the arena controller
             controller = new ArenaController();
+
+            // Define the user actions
+            menu = InputAction.SELECT;
+
+            battle = InputAction.X;
+
+            rotateDown = InputAction.RSDOWN;
+            rotateUp = InputAction.RSUP;
+        }
+
+        public ArenaScene(SaveData data) : base()
+        {
+            instance = this;
+            loaded = true;
+
+            // Create the arena controller
+            controller = new ArenaController(data);
+
+            // Set the player hp
+            List<PlayerSprite> party = PartyUtils.getParty();
+            party[0].setHealth(data.partyHealth[0]);
+            party[1].setHealth(data.partyHealth[1]);
+            party[2].setHealth(data.partyHealth[2]);
 
             // Define the user actions
             menu = InputAction.SELECT;
@@ -93,6 +118,19 @@ namespace Titanium.Scenes
 
             // Load the shader
             HLSLeffect = content.Load<Effect>("Effects/Shader");
+
+            if (!loaded)
+            {
+                GameSave.seed = Environment.TickCount;
+
+                GameSave.level = controller.getLevel();
+                GameSave.partyHealth = PartyUtils.getPartyHealth();
+                GameSave.score = controller.getScore();
+                //SAVE
+                SaveUtils.getInstance().saveGame(GameSave);
+
+                controller.setGenerator(new Random(GameSave.seed));
+            }
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
@@ -122,14 +160,6 @@ namespace Titanium.Scenes
                 start.Y += 60;
             }
 
-
-            //populate the GameSave object
-            GameSave.levelSeed = 0;
-            GameSave.level = 1;
-            GameSave.partyHealth = PartyUtils.getPartyHealth();
-            GameSave.score = 0;
-            //SAVE
-            SaveUtils.getInstance().saveGame(GameSave);
 
             // Debug arena
             printDebugArena();
@@ -288,6 +318,16 @@ namespace Titanium.Scenes
             if (content == null)
                 content = new ContentManager(SceneManager.Game.Services, "Content");
 
+            //populate the GameSave object
+            GameSave.seed = Environment.TickCount;
+            GameSave.level = controller.getLevel();
+            GameSave.partyHealth = PartyUtils.getPartyHealth();
+            GameSave.score = controller.getScore();
+            //SAVE
+            SaveUtils.getInstance().saveGame(GameSave);
+
+            controller.setGenerator(new Random(GameSave.seed));
+
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
             baseArena = builder.buildArenaBase();
@@ -302,14 +342,6 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
-
-            //populate the GameSave object
-            GameSave.levelSeed = 0;
-            GameSave.level = 1;
-            GameSave.partyHealth = PartyUtils.getPartyHealth();
-            GameSave.score = score;//calculated in Character class on collision w/ exit
-            //SAVE
-            SaveUtils.getInstance().saveGame(GameSave);
 
             // Debug arena
             printDebugArena();

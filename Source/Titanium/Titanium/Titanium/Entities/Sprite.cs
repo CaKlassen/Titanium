@@ -234,6 +234,10 @@ namespace Titanium.Entities
         public int getMana() { return rawStats.currentMP; }
         public UnitStats getStats() { return rawStats; }
        
+        public void setHealth(int hp)
+        {
+            rawStats.currentHP = hp;
+        }
 
 
         /// <summary>
@@ -242,7 +246,8 @@ namespace Titanium.Entities
         /// <param name="healPercent">percentage of health to heal</param>
         public void heal(float healPercent)
         {
-            int healAmount = (int)healPercent / this.rawStats.baseHP;
+            healPercent /= 100;
+            int healAmount = (int)(healPercent * this.rawStats.baseHP);
 
             //if the heal amount puts the players HP higher than full health
             if (this.rawStats.currentHP + healAmount > this.rawStats.baseHP)

@@ -13,9 +13,10 @@ namespace Titanium.Entities
     public class ArenaController
     {
         public static ArenaController instance;
-
-        private ArenaDifficulty curDifficulty;
+        
         private bool playerMoved;
+        private int level;
+        private int score;
         private Random generator;
 
         /// <summary>
@@ -25,9 +26,18 @@ namespace Titanium.Entities
         {
             instance = this;
             playerMoved = false;
-            curDifficulty = ArenaDifficulty.EASY;
+            score = 0;
+            level = 1;
+        }
 
-            generator = new Random();
+        public ArenaController(SaveData data)
+        {
+            instance = this;
+            playerMoved = false;
+            score = data.score;
+            level = data.level;
+
+            generator = new Random(data.seed);
         }
 
         /// <summary>
@@ -67,17 +77,34 @@ namespace Titanium.Entities
 
             if (getNumEnemies() == 0)
             {
-                // Increment the difficulty
-                if (curDifficulty != ArenaDifficulty.HARD)
-                {
-                    curDifficulty++;
-                }
+                // Increment the level
+                level++;
 
-                ArenaScene.instance.score = HighScoreUtils.CalculateHighScore(10, 10);
-                ArenaScene.instance.loadNewArena(curDifficulty);
+                score += HighScoreUtils.CalculateHighScore(10, 10);
+                ArenaScene.instance.loadNewArena(getLevelDifficulty(level));
             }
         }
         
+        private ArenaDifficulty getLevelDifficulty(int level)
+        {
+            switch(level)
+            {
+                case 1:
+                    return ArenaDifficulty.EASY;
+
+                case 2:
+                    return ArenaDifficulty.MEDIUM;
+
+                case 3:
+                    return ArenaDifficulty.MEDIUM;
+
+                case 4:
+                    return ArenaDifficulty.MEDIUM;
+
+                default:
+                    return ArenaDifficulty.EASY;
+            }
+        }
 
         /// <summary>
         /// This function marks that the player has moved this frame.
@@ -85,6 +112,16 @@ namespace Titanium.Entities
         public void setMoved()
         {
             playerMoved = true;
+        }
+
+        public int getLevel()
+        {
+            return level;
+        }
+
+        public int getScore()
+        {
+            return score;
         }
 
         /// <summary>
@@ -103,6 +140,11 @@ namespace Titanium.Entities
         public Random getGenerator()
         {
             return generator;
+        }
+
+        public void setGenerator(Random r)
+        {
+            generator = r;
         }
     }
 }

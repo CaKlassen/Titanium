@@ -64,7 +64,7 @@ namespace Titanium
         private int height;
         private ContentManager Content;
         private ArenaDifficulty difficulty;
-        private Random r = new Random();
+        private Random r;
         
 
         /// <summary>
@@ -78,6 +78,7 @@ namespace Titanium
         public ArenaBuilder(int width, int height, ContentManager Content, float aspectRatio, ArenaDifficulty difficulty)
         {
             instance = this;
+            r = ArenaController.instance.getGenerator();
 
             this.width = width;
             this.height = height;
