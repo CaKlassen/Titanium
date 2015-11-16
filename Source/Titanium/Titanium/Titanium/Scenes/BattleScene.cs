@@ -138,6 +138,7 @@ namespace Titanium.Scenes
                 else if (currentEncounter.failure())
                 {
                     SceneManager.changeScene(SceneState.main);
+                    PartyUtils.Reset();
                 }
             }
             

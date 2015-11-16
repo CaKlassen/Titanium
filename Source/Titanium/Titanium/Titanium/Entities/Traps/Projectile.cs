@@ -14,7 +14,7 @@ namespace Titanium.Entities.Traps
     {
         //attributes
         //public Model myModel;
-        private float scale = 0.5f;
+        private float scale = 0.1f;
         private float modelOrientation = 0.0f;
         private Boolean dead;
 
@@ -52,18 +52,20 @@ namespace Titanium.Entities.Traps
         /// <param name="position">Initial spawn position.</param>
         /// <param name="direction">Direction of projectile given by a Vector3.</param>
         /// <param name="damage">amount of damage this projectile inflicts.</param>
-        public Projectile(Vector3 position, Vector3 direction, int damage, Model m)
+        public Projectile(Vector3 position, Vector3 direction, int damage, Model m, Texture2D tex, float orientation)
         {
             this.position = position;
             velocity *= direction;
             this.damage = damage;
             dead = false;
             myModel = m;
+            myTexture = tex;
+            modelOrientation = orientation;
         }
 
         public void LoadModel(ContentManager cm, float aspectRatio)
         {
-            myTexture = cm.Load<Texture2D>("Models/skyboxBG");//change to actual model
+            
         }
 
         public override void Draw(SpriteBatch sb, Effect effect)
@@ -71,7 +73,7 @@ namespace Titanium.Entities.Traps
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(position);
+                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateRotationY(MathHelper.ToRadians(modelOrientation)) * Matrix.CreateTranslation(position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)

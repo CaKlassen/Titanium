@@ -15,14 +15,14 @@ namespace Titanium.Entities.Traps
         //public Model myModel;
         private Vector3 Position;
         private Texture2D myTexture;
-        private float scale = 0.5f;
+        private float scale = 0.1f;
         private float modelOrientation = 0f;
         private bool collisions;
 
         const float TIMER = 1.5f;
         float timer = TIMER;
         private static float SPIKES_LOWERED = -30;
-        private static float SPIKES_RAISED = 0;
+        private static float SPIKES_RAISED = -5;
         /// <summary>
         /// contstructor.
         /// </summary>
@@ -37,7 +37,7 @@ namespace Titanium.Entities.Traps
         public void LoadModel(ContentManager cm)
         {
             myModel = cm.Load<Model>("Models/Spikes");
-            myTexture = cm.Load<Texture2D>("Models/skyboxBG");
+            myTexture = cm.Load<Texture2D>("Models/Spikes-UVMap");
         }
 
         public override void Draw(SpriteBatch sb, Effect effect)
@@ -45,7 +45,7 @@ namespace Titanium.Entities.Traps
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
-                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateTranslation(Position);
+                Matrix worldMatrix = Matrix.CreateScale(scale) * Matrix.CreateRotationY(MathHelper.ToRadians(90f)) * Matrix.CreateTranslation(Position);
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
