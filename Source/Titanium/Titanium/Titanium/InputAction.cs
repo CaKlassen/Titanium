@@ -200,9 +200,13 @@ namespace Titanium
             return false;
         }
 
-        public Buttons getBtn()
+        
+        public Buttons getBtn(int i)
         {
-            return buttons[0];
+            if (i < buttons.Length)
+                return buttons[i];
+            else
+                return 0;
         }
 
         public bool wasPressed(InputState state)
@@ -216,9 +220,9 @@ namespace Titanium
             content = c;
         }
 
-        public static Texture2D GetIcon(InputAction action)
+        public static Texture2D GetIcon(InputAction action, int i)
         {
-            Buttons btn = action.getBtn();
+            Buttons btn = action.getBtn(i);
             switch (btn)
             {
                 case Buttons.A:
@@ -256,9 +260,13 @@ namespace Titanium
 
         public Texture2D icon()
         {
-            return GetIcon(this);
+            return GetIcon(this, 0);
         }
 
+        public Texture2D icon(int i)
+        {
+            return GetIcon(this, i);
+        }
 
     }
     

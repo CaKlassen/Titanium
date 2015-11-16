@@ -10,6 +10,11 @@ namespace Titanium.Gambits
 {
     class Quick : BaseGambit
     {
+        public Quick()
+        {
+            name = "Quick";
+        }
+
         public override void start(GameTime gameTime)
         {
             base.start(gameTime);

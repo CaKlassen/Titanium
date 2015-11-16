@@ -31,7 +31,9 @@ namespace Titanium.Gambits
         GambitResult result;
         protected SpriteFont font;
         protected float multiplier = 1f;
-
+        protected string name;
+        protected string message = "Help text goes here";
+        protected Vector2 helpOffset = new Vector2(0, 120);
         public BaseGambit(GameTime gameTime)
         {
             startTime = (int)gameTime.TotalGameTime.TotalMilliseconds;
@@ -76,7 +78,7 @@ namespace Titanium.Gambits
             timeElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds - startTime);
         }
 
-        public abstract void draw(Vector2 pos, SpriteBatch sb);
+        public virtual void draw(Vector2 pos, SpriteBatch sb) { sb.DrawString(font, message, pos + helpOffset, Color.Blue); }
         
         /// <summary>
         /// Returns the total width in pixels of this gambit
@@ -90,5 +92,14 @@ namespace Titanium.Gambits
         /// <returns>The total height</returns>
         public abstract int totalHeight();
 
+        public override string ToString()
+        {
+            return name;
+        }
+
+        protected string timeString(int timeLeft)
+        {
+            return TimeSpan.FromMilliseconds(timeLeft).Seconds.ToString() + " : " + TimeSpan.FromMilliseconds(timeLeft).Milliseconds.ToString();
+        }
     }
 }

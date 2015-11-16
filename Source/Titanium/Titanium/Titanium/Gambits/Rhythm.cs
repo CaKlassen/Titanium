@@ -16,8 +16,8 @@ namespace Titanium.Gambits
         public static int height = 200;
         public static int iconWidth = 50;
         public static int bufferWidth = 65;
-        public static int inputOffset = 50;
-        public static int speed = 2;
+        public static int inputOffset = 70;
+        public static float speed = 3f;
         public static string[] iconDirs = { "arrow-up", "arrow-left", "arrow-down", "arrow-right" };
 
         enum Direction { up, left, down, right }
@@ -57,7 +57,19 @@ namespace Titanium.Gambits
         public Rhythm()
         {
             rhythmString = new List<RhythmInput>();
+            name = "Rhythm";
         }
+
+        public override void start(GameTime gameTime)
+        {
+            base.start(gameTime);
+            rng = new Random(gameTime.TotalGameTime.Milliseconds);
+            rhythmString = makeRhythmString();
+            leftLine = new Rectangle();
+            rightLine = new Rectangle();
+            position = Vector2.Zero;
+        }
+
 
         public override void draw(Vector2 pos, SpriteBatch sb)            
         {
@@ -79,6 +91,21 @@ namespace Titanium.Gambits
 
             foreach (RhythmInput input in rhythmString)
                 input.draw(pos+new Vector2(inputOffset,0), sb);
+
+            drawHelpIcons(pos, sb);
+        }
+
+        public void drawHelpIcons(Vector2 pos, SpriteBatch sb)
+        {
+            Rectangle first, second;
+            for(int i=0; i<actions.Length; ++i)
+            {
+                first = new Rectangle((int)pos.X-10, (int)pos.Y + (i * 50), 30, 30);
+                second = new Rectangle(first.X + 20, first.Y + 20, 30, 30);
+                sb.Draw(actions[i].icon(0), first, Color.White);
+                sb.Draw(actions[i].icon(1), second, Color.White);
+            }
+                
         }
 
         public override void update(GameTime gameTime, InputState state)
@@ -124,15 +151,6 @@ namespace Titanium.Gambits
             return multiplier;
         }
 
-        public override void start(GameTime gameTime)
-        {
-            base.start(gameTime);
-            rng = new Random(gameTime.TotalGameTime.Milliseconds);
-            rhythmString = makeRhythmString();
-            leftLine = new Rectangle();
-            rightLine = new Rectangle();
-            position = Vector2.Zero;
-        }
 
         List<RhythmInput> makeRhythmString()
         {
@@ -163,6 +181,8 @@ namespace Titanium.Gambits
             icons = new List<Texture2D>();
             foreach(string dir in iconDirs)
                 icons.Add(content.Load<Texture2D>("ButtonIcons/" + dir));
+
+            font = content.Load<SpriteFont>("Fonts/NumbersFont");
         }
 
         public override int totalHeight()
@@ -177,7 +197,7 @@ namespace Titanium.Gambits
 
         class RhythmInput
         {
-            
+            static int wiggle = 3;
 
             public enum Result { perfect, fair, miss, pending };
             public Result result;
@@ -222,6 +242,8 @@ namespace Titanium.Gambits
 
             public void checkResult(int left, int right)
             {
+                left -= wiggle;
+                right += wiggle;
                 if (position.Left > left && position.Right < right)
                     result = Result.perfect;
                 else if (position.Left < left && position.Right > left)

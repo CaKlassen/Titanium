@@ -20,6 +20,9 @@ namespace Titanium.Scenes.Panels
         static int topOffset = 50;
         static int leftOffset = 350;
 
+        static string heroSelect = "Select a Hero";
+        static string enemyTurn = "Enemy's turn to act";
+
         public int selected;
         Encounter encounter;
         SpriteFont font;
@@ -77,13 +80,13 @@ namespace Titanium.Scenes.Panels
             switch (encounter.state)
             {
                 case Encounter.EncounterState.HeroSelect:
-                    sb.DrawString(font, "Select a hero", Position, Color.Black);
+                    sb.DrawString(font, heroSelect, getCenter(heroSelect), Color.Black);
                     break;
                 case Encounter.EncounterState.ActionSelect:
                     subPanels[selected].draw(sb, effect);
                     break;
                 case Encounter.EncounterState.EnemyTurn:
-                    sb.DrawString(font, "Enemy turn", Position, Color.Black);
+                    sb.DrawString(font, enemyTurn, getCenter(heroSelect), Color.Black);
                     break;
                 case Encounter.EncounterState.Gambit:
                     currentGambit.draw(Position, sb);
@@ -122,6 +125,13 @@ namespace Titanium.Scenes.Panels
         public override float totalWidth()
         {            
             return background.Width;
+        }
+
+        public Vector2 getCenter(string str)
+        {
+            Vector2 size = font.MeasureString(str);
+            return new Vector2((background.Width / 2) - (size.X / 2), Position.Y);
+
         }
     }
 }
