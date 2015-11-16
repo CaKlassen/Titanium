@@ -54,6 +54,11 @@ namespace Titanium.Entities
             combatInfo = new CombatInfo();
         }
 
+        public void refresh()
+        {
+            rawStats.normalize();
+        }
+
 
         public virtual void Load(ContentManager content)
         {
