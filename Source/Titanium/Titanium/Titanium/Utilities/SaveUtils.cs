@@ -7,12 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Titanium.Entities;
 
 namespace Titanium.Utilities
 {
     public struct SaveData
     {
-        public long levelSeed;
+        public int seed;
         public int level;
         public int score;
         public int[] partyHealth;
@@ -276,5 +277,7 @@ namespace Titanium.Utilities
 
             return instance;
         }
+
+        
     }
 }
