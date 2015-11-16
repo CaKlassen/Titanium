@@ -118,10 +118,25 @@ namespace Titanium.Entities.Traps
             }
         }
 
+        /// <summary>
+        /// used to Collision detection;
+        /// don't use otherwise.
+        /// </summary>
+        /// <returns>position for collision detection.</returns>
         public override Vector3 getPOSITION()
+        {
+            Vector3 tempPos = position;
+            tempPos.Y = ArenaScene.instance.Hero.getPOSITION().Y;
+            return tempPos;
+        }
+
+        /// <summary>
+        /// this returns the actual position of the projectile.
+        /// </summary>
+        /// <returns>return the actual position of the projectie</returns>
+        public Vector3 getRealPosition()
         {
             return position;
         }
-
     }
 }
