@@ -28,8 +28,6 @@ namespace Titanium.Entities
             playerMoved = false;
             score = 0;
             level = 1;
-
-            generator = new Random();
         }
 
         public ArenaController(SaveData data)
@@ -39,7 +37,7 @@ namespace Titanium.Entities
             score = data.score;
             level = data.level;
 
-            generator = SaveUtils.byteArrayToRandom(data.generator);
+            generator = new Random(data.seed);
         }
 
         /// <summary>
@@ -142,6 +140,11 @@ namespace Titanium.Entities
         public Random getGenerator()
         {
             return generator;
+        }
+
+        public void setGenerator(Random r)
+        {
+            generator = r;
         }
     }
 }

@@ -14,7 +14,6 @@ using Titanium.Utilities;
 using Titanium.Battle;
 using Titanium.Entities.Traps;
 using Microsoft.Xna.Framework.Storage;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 namespace Titanium.Scenes
@@ -33,6 +32,7 @@ namespace Titanium.Scenes
         private Tile StartTile;
 
         SaveData GameSave;
+        private bool loaded;
 
         // Possible user actions
         InputAction menu,
@@ -69,6 +69,7 @@ namespace Titanium.Scenes
         public ArenaScene() : base()
         {
             instance = this;
+            loaded = false;
 
             // Create the arena controller
             controller = new ArenaController();
@@ -85,6 +86,7 @@ namespace Titanium.Scenes
         public ArenaScene(SaveData data) : base()
         {
             instance = this;
+            loaded = true;
 
             // Create the arena controller
             controller = new ArenaController(data);
@@ -117,12 +119,18 @@ namespace Titanium.Scenes
             // Load the shader
             HLSLeffect = content.Load<Effect>("Effects/Shader");
 
-            GameSave.generator = SaveUtils.randomToByteArray(ArenaController.instance.getGenerator());
-            GameSave.level = controller.getLevel();
-            GameSave.partyHealth = PartyUtils.getPartyHealth();
-            GameSave.score = controller.getScore();
-            //SAVE
-            SaveUtils.getInstance().saveGame(GameSave);
+            if (!loaded)
+            {
+                GameSave.seed = Environment.TickCount;
+
+                GameSave.level = controller.getLevel();
+                GameSave.partyHealth = PartyUtils.getPartyHealth();
+                GameSave.score = controller.getScore();
+                //SAVE
+                SaveUtils.getInstance().saveGame(GameSave);
+
+                controller.setGenerator(new Random(GameSave.seed));
+            }
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
@@ -311,12 +319,14 @@ namespace Titanium.Scenes
                 content = new ContentManager(SceneManager.Game.Services, "Content");
 
             //populate the GameSave object
-            GameSave.generator = SaveUtils.randomToByteArray(ArenaController.instance.getGenerator());
+            GameSave.seed = Environment.TickCount;
             GameSave.level = controller.getLevel();
             GameSave.partyHealth = PartyUtils.getPartyHealth();
             GameSave.score = controller.getScore();
             //SAVE
             SaveUtils.getInstance().saveGame(GameSave);
+
+            controller.setGenerator(new Random(GameSave.seed));
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
