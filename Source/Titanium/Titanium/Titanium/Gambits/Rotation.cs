@@ -35,6 +35,8 @@ namespace Titanium.Gambits
         public Rotation() : base()
         {
             icons = new Texture2D[2];
+            name = "Rotation";
+            message = "Rotate the stick in the direction shown!";
         }
 
         public Rotation(int timeLimit) : base()
@@ -59,7 +61,8 @@ namespace Titanium.Gambits
         {
             sb.Draw(icon, pos, Color.White);
             string msg = "Time left: " + TimeSpan.FromMilliseconds(timeleft) + "\nCount: " + count;
-            sb.DrawString(font, msg, pos + new Vector2(0, icon.Height), Color.Red);
+            sb.DrawString(font, msg, pos + new Vector2(0, icon.Height), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override void start(GameTime gameTime)

@@ -13,7 +13,8 @@ namespace Titanium.Battle
 {
     public class Skill
     {
-        
+
+        int width = 20;
 
         public string name;
         public BaseGambit gambit;
@@ -43,8 +44,9 @@ namespace Titanium.Battle
 
         public MenuItem makeMenuItem(InputAction action)
         {
-            return new MenuItem(name, action);
+            return new MenuItem(name, gambit, action);
         }
+
 
         public void resolve(PlayerSprite player, Sprite target, EnemyPanel enemies, GambitResult result)
         {

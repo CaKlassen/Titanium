@@ -113,7 +113,7 @@ namespace Titanium.Battle
             {
                 if (party[i].checkDeath() || party[i].currentState == Sprite.State.Resting)
                     continue;
-                sb.Draw(HeroSelectActions[i].icon(), party[i].getPosition(), Color.White);
+                sb.Draw(HeroSelectActions[i].icon(), party[i].getPosition() + new Vector2(0, 20), Color.White);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Titanium.Battle
                     continue;
                 if (enemies[i].checkDeath())
                     continue;
-                sb.Draw(EnemySelectActions[i].icon(), enemies[i].getPosition(), Color.White);
+                sb.Draw(EnemySelectActions[i].icon(), enemies[i].getPosition() + new Vector2(0, 20), Color.White);
             }
         }
 
@@ -153,6 +153,8 @@ namespace Titanium.Battle
                             selectSkill(selectedHero.skills[i]);
                             break;
                         }
+                    if (InputAction.B.wasPressed(inputState))
+                        state = EncounterState.HeroSelect;
                     break;
                 case EncounterState.EnemySelect:
                     for (int i = 0; i < EnemySelectActions.Count(); ++i)
@@ -161,6 +163,8 @@ namespace Titanium.Battle
                             selectEnemy(enemies[i], gameTime);
                             break;
                         }
+                    if (InputAction.B.wasPressed(inputState))
+                        state = EncounterState.HeroSelect;
                     break;
                 case EncounterState.Gambit:
                     if (battleMenu.gambitComplete(out result))

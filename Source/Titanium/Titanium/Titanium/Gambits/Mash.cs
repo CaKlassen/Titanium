@@ -19,23 +19,32 @@ namespace Titanium.Gambits
         private int count = 0;
 
         // The button the user will have to mash
-        private static InputAction action = InputAction.A;
+        private static InputAction[] actions = { InputAction.A, InputAction.B, InputAction.X, InputAction.Y };
+
+        
 
         // The time limit in ms
         private int timeLimit = 5000;
         private int timeLeft;
 
         PlayerIndex player;
+        InputAction action;
+        Random rng;
+
 
         public override void start(GameTime gameTime)
         {
             base.start(gameTime);
+            rng = new Random(gameTime.TotalGameTime.Seconds);
+            action = actions[rng.Next(actions.Length)];
             count = 0;
             timeLeft = timeLimit;
         }
 
         public Mash() 
         {
+            name = "Mash";
+            message = "Hit the button as fast as possible!";
         }
 
         public override void load(ContentManager content)
@@ -62,9 +71,10 @@ namespace Titanium.Gambits
 
         public override void draw(Vector2 pos, SpriteBatch sb)
         {
-            string msg = "Times Pressed: " + count + "\nTime Left: " + TimeSpan.FromMilliseconds(timeLeft);
+            sb.Draw(action.icon(), pos, Color.White);
 
-            sb.DrawString(font, msg, pos, Color.Red);
+            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(action.icon().Width + 10, 0), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override int totalHeight()

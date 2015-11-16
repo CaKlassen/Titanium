@@ -16,6 +16,8 @@ namespace Titanium.Gambits
     /// </summary>
     public class Combo : BaseGambit
     {
+        
+
         // Sound Effects
         SoundEffect sfxSuccess;
         SoundEffect sfxFailure;
@@ -55,6 +57,12 @@ namespace Titanium.Gambits
         // The icon associated with each combo action
         List<Texture2D> icons;
 
+        public Combo()
+        {
+            name = "Combo";
+            message = "Press the buttons in order!";
+        }
+
         public override void start(GameTime gameTime)
         {
             base.start(gameTime);
@@ -77,8 +85,8 @@ namespace Titanium.Gambits
                 width += icon.Width;
             }
             height += icons[0].Height;
-            string msg = "Time Left: " + TimeSpan.FromMilliseconds(timeLeft);
-            sb.DrawString(font, msg, pos + new Vector2(0, height), Color.Red);
+            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(0, height), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override void load(ContentManager content)
@@ -158,7 +166,7 @@ namespace Titanium.Gambits
                 combo.Add(buttons.ElementAt(r.Next(inputCount)));
 
             foreach (InputAction action in combo)
-                icons.Add(InputAction.GetIcon(action));
+                icons.Add(action.icon());
 
             return combo;
         }
@@ -179,6 +187,7 @@ namespace Titanium.Gambits
             return h + font.LineSpacing;
         }
 
+        
 
     }
 }

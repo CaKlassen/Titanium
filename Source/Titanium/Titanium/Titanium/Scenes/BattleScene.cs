@@ -108,6 +108,7 @@ namespace Titanium.Scenes
                 player.Load(content);
 
             background = content.Load<Texture2D>("Sprites/Battle-Base");
+            pauseMenu.center();
         }
 
         
@@ -155,10 +156,9 @@ namespace Titanium.Scenes
 
             sb.Draw(background, screen, Color.White);
 
+            currentEncounter.draw(sb, null);
             if (paused)
                 pauseMenu.draw(sb, null);
-
-            currentEncounter.draw(sb, null);
 
             sb.End();
         }

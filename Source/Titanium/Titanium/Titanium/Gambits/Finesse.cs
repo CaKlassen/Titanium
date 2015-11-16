@@ -109,8 +109,14 @@ namespace Titanium.Gambits
         int current = 0;
         int timeLeft;
         int timeLimit = 7000;
-        SpriteFont font;
         Random rng;
+
+        public Finesse()
+        {
+            name = "Finesse";
+            message = "Press the buttons together!";
+            helpOffset += new Vector2(200, 0);
+        }
 
         public override void start(GameTime gameTime)
         {
@@ -173,7 +179,8 @@ namespace Titanium.Gambits
         public override void draw(Vector2 pos, SpriteBatch sb)
         {
             drawCurrentAction(pos, sb);
-            sb.DrawString(font, "Time Left: " + TimeSpan.FromMilliseconds(timeLeft), pos + new Vector2(100, 0), Color.Red);
+            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(200, 50), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override void update(GameTime gameTime, InputState state)
