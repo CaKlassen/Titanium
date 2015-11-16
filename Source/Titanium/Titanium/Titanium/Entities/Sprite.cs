@@ -131,7 +131,7 @@ namespace Titanium.Entities
                 if (currentState == State.Attacking)
                 {
                     int damageDone = 0;
-                    damageDone += this.rawStats.baseAttack + (int)Math.Round(this.rawStats.strength * attackMultiplier);
+                    damageDone += (int)Math.Round(this.rawStats.baseAttack * attackMultiplier);
                     enemySprite.takeDamage(damageDone);
                     animationDirectionLR = Direction.None;
                     animationDirectionUD = Direction.None;
