@@ -424,8 +424,9 @@ namespace Titanium.Utilities
             IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
             result.AsyncWaitHandle.WaitOne();
             StorageContainer container = storageDevice.EndOpenContainer(result);
-
-            return container.FileExists(filename);
+            bool exists = container.FileExists(filename);
+            container.Dispose();
+            return exists;
         }
 
 
