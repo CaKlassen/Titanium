@@ -36,7 +36,7 @@ namespace Titanium.Scenes
 
         private SaveUtils save;
         MenuPanel mainMenu;
-
+       
         public delegate void MenuEventHandler(object sender, EventArgs e);
 
         public MainMenuScene(): base()
@@ -58,12 +58,6 @@ namespace Titanium.Scenes
 
             // Create a high scores file if it doesn't exist
             save = SaveUtils.getInstance();
-            
-            if (!save.CheckHighScoreExists())
-            {
-                List<int> templateScore = HighScoreUtils.createInitialHighScores();
-                save.saveHighScores(templateScore);
-            }
         }
 
         public override void draw(GameTime gameTime)
@@ -90,10 +84,15 @@ namespace Titanium.Scenes
             mainMenu.center();
 
 #if XBOX360
-            if (!SaveUtils.getInstance().storageRegistered())
-                SaveUtils.getInstance().RegisterStorage();
+            if (save.storageRegistered())
+                save.RegisterStorage();
 #endif
-
+            if (!save.CheckHighScoreExists())
+            {
+                List<int> templateScore = HighScoreUtils.createInitialHighScores();
+                save.saveHighScores(templateScore);
+            }
+            
         }
 
         public override void unloadScene() {}
@@ -106,9 +105,12 @@ namespace Titanium.Scenes
             {
                 menuNewGame();
             }
-            else if (save.CheckFileExists() && loadGame.Evaluate(inputState, null, out player))
+            else if (loadGame.Evaluate(inputState, null, out player))
             {
-                menuLoadGame();
+                if (save.CheckFileExists())
+                {
+                    menuLoadGame();
+                }
             }
             else if (battle.Evaluate(inputState, null, out player))
             {
