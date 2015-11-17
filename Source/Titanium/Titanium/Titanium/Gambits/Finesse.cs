@@ -189,12 +189,12 @@ namespace Titanium.Gambits
             timeLeft = timeLimit - timeElapsed;
             if (timeLeft <= 0)
             {
-                multiplier = 0.7f + (current/10);
+                multiplier = 0 + current * 0.2f;
                 finished = true;
             }
             if(current >= actionString.Count)
             {
-                multiplier = 1.2f;
+                multiplier = 1f;
                 finished = true;
             }
             else if(actionPressed(actionString[current], state))

@@ -138,12 +138,8 @@ namespace Titanium.Scenes.Panels
                     {
                         case Sprite.State.Idle:
                             return true;
-                        case Sprite.State.Dead:
-                            break;
-                        case Sprite.State.Resting:
-                            break;
                         default:
-                            return false;
+                            break;
                     }
                 }
             }
@@ -161,6 +157,7 @@ namespace Titanium.Scenes.Panels
                     if (this[i].currentState == Sprite.State.Idle)
                     {
                         PartyUtils.testAction(this[i], PartyUtils.getRandomPartyMember(), new Gambits.GambitResult(1f, int.MaxValue));
+                        this[i].currentState = Sprite.State.Resting;
                         return;
                     }
                 }

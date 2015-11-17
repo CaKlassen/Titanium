@@ -30,6 +30,8 @@ namespace Titanium.Gambits
 
         int count;
 
+        float multStep = 1 / 25f;
+
         InputAction[] circle;
 
         public Rotation() : base()
@@ -125,7 +127,7 @@ namespace Titanium.Gambits
             if (timeleft < 0)
             {
                 finished = true;
-                multiplier = 0.7f + ((count - 5) / 10);
+                multiplier = 0f + (count * multStep);
             }
             base.update(gameTime, state);
         }

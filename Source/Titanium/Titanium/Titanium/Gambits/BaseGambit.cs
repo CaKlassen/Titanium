@@ -30,7 +30,7 @@ namespace Titanium.Gambits
         protected bool finished;
         GambitResult result;
         protected SpriteFont font;
-        protected float multiplier = 1f;
+        protected float multiplier = 0f;
         protected string name;
         protected string message = "Help text goes here";
         protected Vector2 helpOffset = new Vector2(0, 120);
