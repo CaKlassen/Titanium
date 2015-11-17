@@ -133,7 +133,8 @@ namespace Titanium.Scenes
             }
 
             // Generate the arena
-            ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, ArenaDifficulty.EASY);
+            ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, 
+                ArenaController.instance.getLevelDifficulty(ArenaController.instance.getLevel()));
             baseArena = builder.buildArenaBase();
             StartTile = builder.getStartTile();
 

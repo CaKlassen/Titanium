@@ -85,7 +85,7 @@ namespace Titanium.Entities
             }
         }
         
-        private ArenaDifficulty getLevelDifficulty(int level)
+        public ArenaDifficulty getLevelDifficulty(int level)
         {
             switch(level)
             {
