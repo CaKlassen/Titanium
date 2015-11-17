@@ -99,7 +99,7 @@ namespace Titanium.Gambits
 
         protected string timeString(int timeLeft)
         {
-            return TimeSpan.FromMilliseconds(timeLeft).Seconds.ToString() + " : " + TimeSpan.FromMilliseconds(timeLeft).Milliseconds.ToString();
+            return "  " + TimeSpan.FromMilliseconds(timeLeft).Seconds.ToString() + "." + TimeSpan.FromMilliseconds(timeLeft).Milliseconds.ToString();
         }
     }
 }
