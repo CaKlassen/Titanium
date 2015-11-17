@@ -24,6 +24,7 @@ namespace Titanium.Scenes
         InputAction newGame;
         InputAction loadGame;
         InputAction battle;
+        InputAction scores;
 
         private static int MOVE_SPEED = 15;
 
@@ -43,13 +44,15 @@ namespace Titanium.Scenes
             newGame = InputAction.A;
             loadGame = InputAction.X;
             battle = InputAction.B;
-            battle = InputAction.B;
+            scores = InputAction.Y;
+
             // Create the actual Main Menu panel
             mainMenu = new MenuPanel("Main Menu", new List<MenuItem>()
             {
                 new MenuItem("New Game", newGame),
                 new MenuItem("Load Game", loadGame),
-                new MenuItem("(TEMP) Battle", battle)
+                new MenuItem("(TEMP) Battle", battle),
+                new MenuItem("High Scores", scores)
             });
         }
 
@@ -99,9 +102,13 @@ namespace Titanium.Scenes
             }
             else if (battle.Evaluate(inputState, null, out player))
             {
-
                 menuBattle();
             }
+            else if (scores.Evaluate(inputState, null, out player))
+            {
+                menuHighScores();
+            }
+
             mainMenu.update(gameTime, inputState);
 
             // Move the title image
@@ -136,6 +143,16 @@ namespace Titanium.Scenes
                     new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat }
                     );
             SceneManager.setScene(SceneState.battle, battle, true);
+        }
+
+        public void menuHighScores()
+        {
+            // TODO: Proper high score loading
+            List<int> highScores = new List<int>();
+            highScores = HighScoreUtils.createInitialHighScores();
+
+            HighScoresScene score = new HighScoresScene(highScores);
+            SceneManager.setScene(SceneState.highScores, score, true);
         }
     }
 }
