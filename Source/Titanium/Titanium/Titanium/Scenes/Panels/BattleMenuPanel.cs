@@ -21,7 +21,7 @@ namespace Titanium.Scenes.Panels
         static int leftOffset = 350;
 
         static string heroSelect = "Select a Hero";
-        static string enemyTurn = "Enemy's turn to act";
+        static string enemyTurn = "Enemy's turn";
 
         public int selected;
         Encounter encounter;

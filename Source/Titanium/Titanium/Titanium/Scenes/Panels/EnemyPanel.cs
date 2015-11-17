@@ -157,7 +157,6 @@ namespace Titanium.Scenes.Panels
                     if (this[i].currentState == Sprite.State.Idle)
                     {
                         PartyUtils.testAction(this[i], PartyUtils.getRandomPartyMember(), new Gambits.GambitResult(1f, int.MaxValue));
-                        this[i].currentState = Sprite.State.Resting;
                         return;
                     }
                 }
