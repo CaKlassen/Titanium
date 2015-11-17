@@ -138,6 +138,15 @@ namespace Titanium.Scenes
                 }
                 else if (currentEncounter.failure())
                 {
+                    // Save the player's achieved score
+                    SaveUtils save = SaveUtils.getInstance();
+                    HighscoreData data = save.loadHighScores();
+                    HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
+                    save.saveHighScores(data.highscores);
+
+                    // Delete the player's save file
+                    save.DeleteSaveFile();
+
                     SceneManager.changeScene(SceneState.main);
                     PartyUtils.Reset();
                 }

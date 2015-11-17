@@ -34,6 +34,7 @@ namespace Titanium.Scenes
         private Vector2 titlePos;
         private Vector2 menuPos;
 
+        private SaveUtils save;
         MenuPanel mainMenu;
 
         public delegate void MenuEventHandler(object sender, EventArgs e);
@@ -54,6 +55,15 @@ namespace Titanium.Scenes
                 new MenuItem("(TEMP) Battle", battle),
                 new MenuItem("High Scores", scores)
             });
+
+            // Create a high scores file if it doesn't exist
+            save = SaveUtils.getInstance();
+            
+            if (!save.CheckHighScoreExists())
+            {
+                List<int> templateScore = HighScoreUtils.createInitialHighScores();
+                save.saveHighScores(templateScore);
+            }
         }
 
         public override void draw(GameTime gameTime)
@@ -96,7 +106,7 @@ namespace Titanium.Scenes
             {
                 menuNewGame();
             }
-            else if (loadGame.Evaluate(inputState, null, out player))
+            else if (save.CheckFileExists() && loadGame.Evaluate(inputState, null, out player))
             {
                 menuLoadGame();
             }
@@ -147,11 +157,9 @@ namespace Titanium.Scenes
 
         public void menuHighScores()
         {
-            // TODO: Proper high score loading
-            List<int> highScores = new List<int>();
-            highScores = HighScoreUtils.createInitialHighScores();
+            HighscoreData data = save.loadHighScores();
 
-            HighScoresScene score = new HighScoresScene(highScores);
+            HighScoresScene score = new HighScoresScene(data.highscores);
             SceneManager.setScene(SceneState.highScores, score, true);
         }
     }
