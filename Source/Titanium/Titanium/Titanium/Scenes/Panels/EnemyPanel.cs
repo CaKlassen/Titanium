@@ -170,6 +170,7 @@ namespace Titanium.Scenes.Panels
                 switch(this[i].currentState)
                 {
                     case Sprite.State.Resting:
+                    case Sprite.State.Dead:
                         continue;
                     default:
                         return true;
