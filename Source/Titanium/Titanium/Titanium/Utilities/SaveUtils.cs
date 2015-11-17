@@ -177,7 +177,7 @@ namespace Titanium.Utilities
         /// Saves the highscores.
         /// </summary>
         /// <param name="HighScore">list of highscores</param>
-        public void SaveXboxHighScores(List<int> HighScore)
+        private void SaveXboxHighScores(List<int> HighScore)
         {
             HighscoreData highscores = new HighscoreData();
             highscores.highscores = HighScore;
@@ -208,7 +208,7 @@ namespace Titanium.Utilities
         /// Saves the highscores.
         /// </summary>
         /// <param name="HighScore">list of highscores</param>
-        public void SaveWindowsHighScores(List<int> HighScore)
+        private void SaveWindowsHighScores(List<int> HighScore)
         {
             HighscoreData highscores = new HighscoreData();
             highscores.highscores = HighScore;
@@ -273,7 +273,7 @@ namespace Titanium.Utilities
         /// loads the save file from PC.
         /// </summary>
         /// <returns>SaveData struct containing the save data from file.</returns>
-        public SaveData loadWindows()
+        private SaveData loadWindows()
         {
             SaveData data;
 
@@ -289,7 +289,7 @@ namespace Titanium.Utilities
         /// loads the save file from xbox storage.
         /// </summary>
         /// <returns>SaveData struct containing the save data from file.</returns>
-        public SaveData loadXbox()
+        private SaveData loadXbox()
         {
             SaveData loadData;
 
@@ -328,7 +328,7 @@ namespace Titanium.Utilities
         /// load the HighScore file from storage.
         /// </summary>
         /// <returns>the highscore data structure</returns>
-        public HighscoreData loadHighScoresXbox()
+        private HighscoreData loadHighScoresXbox()
         {
             HighscoreData loadData;
 
@@ -352,7 +352,7 @@ namespace Titanium.Utilities
         /// load the HighScore file from PC.
         /// </summary>
         /// <returns>the highscore data structure</returns>
-        public HighscoreData loadHighScoresWindows()
+        private HighscoreData loadHighScoresWindows()
         {
             HighscoreData data;
 
@@ -362,6 +362,48 @@ namespace Titanium.Utilities
                 data = (HighscoreData)serializer.Deserialize(stream);
             }
             return data;
+        }
+
+
+        /// <summary>
+        /// Deletes the Save File
+        /// </summary>
+        public void DeleteSaveFile()
+        {
+#if WINDOWS
+            DeleteSaveWindows();       
+#else
+            DeleteSaveXbox();
+#endif
+        }
+
+        /// <summary>
+        /// Deletes the Save File on PC.
+        /// </summary>
+        private void DeleteSaveWindows()
+        {
+            if(CheckFileExistsWindows(completePath))
+            {
+                File.Delete(completePath);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the Save File on Xbox.
+        /// </summary>
+        private void DeleteSaveXbox()
+        {
+            if (storageDevice != null && storageDevice.IsConnected)
+            {
+                IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
+                result.AsyncWaitHandle.WaitOne();
+                StorageContainer container = storageDevice.EndOpenContainer(result);
+
+                if (container.FileExists(SAVE_FILE))//if that file exists
+                {
+                    container.DeleteFile(SAVE_FILE);//delete existing file
+                }
+            }
         }
 
         /// <summary>
