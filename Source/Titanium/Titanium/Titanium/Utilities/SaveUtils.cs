@@ -19,6 +19,10 @@ namespace Titanium.Utilities
         public int[] partyHealth;
     }
 
+    public struct HighscoreData
+    {
+        public List<int> highscores;
+    }
 
     public class SaveUtils
     {
@@ -37,11 +41,6 @@ namespace Titanium.Utilities
             ReadyToOpenStorageContainer,    // once we have a storage device start here
             OpeningStorageContainer,
             ReadyToSave
-        }
-        
-        public struct HighscoreData
-        {
-            public int[] highscores;
         }
 
         private StorageDevice storageDevice;
@@ -111,7 +110,7 @@ namespace Titanium.Utilities
 #endif
         }
 
-        public void saveWindows(SaveData data)
+        private void saveWindows(SaveData data)
         {
             //if the path isn't null
             if(completePath != null)
@@ -128,7 +127,7 @@ namespace Titanium.Utilities
         /// Saves data to the Xbox360
         /// </summary>
         /// <param name="data"></param>
-        public void saveXbox(SaveData data)
+        private void saveXbox(SaveData data)
         {
             if (storageDevice != null && storageDevice.IsConnected)
             {
@@ -155,7 +154,7 @@ namespace Titanium.Utilities
         /// Saves the highscores.
         /// </summary>
         /// <param name="HighScore">list of </param>
-        public void SaveXboxHighScore(int[] HighScore)
+        public void SaveXboxHighScore(List<int> HighScore)
         {
             HighscoreData highscores = new HighscoreData();
             highscores.highscores = HighScore;
