@@ -161,16 +161,30 @@ namespace Titanium.Scenes.Panels
                     }
                 }
             }
-            active = false;
         }
 
         public bool acting()
         {
-            return active;
+            for (int i = 0; i < SIZE; ++i)
+            {
+                switch(this[i].currentState)
+                {
+                    case Sprite.State.Resting:
+                        continue;
+                    default:
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void activate(GameTime gameTime)
         {
+            for (int i = 0; i < SIZE; ++i)
+            {
+                if (this[i].currentState != Sprite.State.Dead)
+                    this[i].currentState = Sprite.State.Idle;
+            }
             active = true;
             start = gameTime;
         }
