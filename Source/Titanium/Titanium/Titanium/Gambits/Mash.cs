@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Titanium.Gambits
 {
+    
     /// <summary>
     /// Represents the gambit that has the player repeatedly press a button in a certain time frame;
     /// </summary>
@@ -21,7 +22,7 @@ namespace Titanium.Gambits
         // The button the user will have to mash
         private static InputAction[] actions = { InputAction.A, InputAction.B, InputAction.X, InputAction.Y };
 
-        
+        string msg = "MASH ";
 
         // The time limit in ms
         private int timeLimit = 5000;
@@ -31,6 +32,7 @@ namespace Titanium.Gambits
         InputAction action;
         Random rng;
 
+        float multStep = 1 / 45f;
 
         public override void start(GameTime gameTime)
         {
@@ -60,7 +62,7 @@ namespace Titanium.Gambits
             if (timeLeft <= 0)
             {
                 finished = true;
-                multiplier = 0.7f + ((count - 15) / 10);
+                multiplier = 0 + (multStep * count);
             }
             else if (action.Evaluate(state, null, out player))
             {
@@ -71,9 +73,10 @@ namespace Titanium.Gambits
 
         public override void draw(Vector2 pos, SpriteBatch sb)
         {
+            sb.DrawString(font, count.ToString(), pos + new Vector2(80, 15), Color.Black);
             sb.Draw(action.icon(), pos, Color.White);
-
-            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(action.icon().Width + 10, 0), Color.Black);
+            
+            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(0, 60), Color.Black);
             base.draw(pos, sb);
         }
 

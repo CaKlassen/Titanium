@@ -43,7 +43,7 @@ namespace Titanium.Gambits
         int length = 8;
 
         // The time limit in ms
-        int timeLimit = 10000;
+        int timeLimit = 7000;
 
         // The current input the user must perform
         int current;
@@ -56,6 +56,8 @@ namespace Titanium.Gambits
 
         // The icon associated with each combo action
         List<Texture2D> icons;
+
+        float multStep;
 
         public Combo()
         {
@@ -70,6 +72,7 @@ namespace Titanium.Gambits
             current = 0;
             comboString = makeComboString(DateTime.Now.Millisecond);
             timeLeft = timeLimit;
+            multStep = 1 / 8f;
         }
 
         public override void draw(Vector2 pos, SpriteBatch sb)
@@ -111,9 +114,8 @@ namespace Titanium.Gambits
 
             if (timeLeft <= 0)
             {
-                multiplier = 0.7f;
+                multiplier = 0 + (current * multStep);
                 finished = true;
-                sfxFailure.Play();
             }
             if (comboString[current].wasPressed(state))
             {
@@ -121,7 +123,7 @@ namespace Titanium.Gambits
                 sfxSuccess.Play(0.2f, 0f, 0f);
                 if(current >= comboString.Count)
                 {
-                    multiplier = 1.2f;
+                    multiplier = 1f;
                     finished = true;
                     sfxComplete.Play(0.4f, 0f, 0f);
                 }

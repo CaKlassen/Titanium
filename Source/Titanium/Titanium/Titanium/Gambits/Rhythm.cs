@@ -54,6 +54,8 @@ namespace Titanium.Gambits
         Random rng;
         List<Texture2D> icons;
 
+        float multStep = 1 / 8f;
+
         public Rhythm()
         {
             rhythmString = new List<RhythmInput>();
@@ -135,16 +137,16 @@ namespace Titanium.Gambits
 
         public float getMultiplier()
         {
-            float multiplier = 0.7f;
+            float multiplier = 0f;
             foreach(RhythmInput input in rhythmString)
             {
                 switch(input.result)
                 {
                     case RhythmInput.Result.fair:
-                        multiplier += 0.05f;
+                        multiplier += multStep/2;
                         break;
                     case RhythmInput.Result.perfect:
-                        multiplier += 0.1f;
+                        multiplier += multStep;
                         break;
                 }
             }

@@ -259,6 +259,9 @@ namespace Titanium.Entities
                 this.rawStats.currentHP = this.rawStats.baseHP;//set the health to full health
             else
                 this.rawStats.currentHP += healAmount;//otherwise heal by the healAmount
+
+            if (currentState == State.Dead)
+                currentState = State.Idle;
         }
 
         public int getBaseHP()
