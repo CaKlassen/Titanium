@@ -27,6 +27,7 @@ namespace Titanium.Scenes
         public static int WAIT_TIME = 15;
 
         Scene[] scenes = new Scene[NUM_SCENESTATES];
+        bool musicPlaying = false;
 
         SceneState currentScene;
         SceneState nextScene;
@@ -101,6 +102,8 @@ namespace Titanium.Scenes
             // Load content belonging to the screen manager.
             content = Game.Content;
 
+            SoundUtils.Load(content);
+
             InputAction.Load(content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("TestFont");
@@ -159,7 +162,8 @@ namespace Titanium.Scenes
             // Read the keyboard and gamepad.
             input.update();
 
-            
+            if (SoundUtils.IsFading)
+                SoundUtils.Update();
             
 
             switch (state)
@@ -194,11 +198,22 @@ namespace Titanium.Scenes
                         transitionPosition = 0;
                     }
                     if (scenes[(int)currentScene] != null)
+                    {
                         scenes[(int)currentScene].update(gameTime, input);
+                        if (!musicPlaying)
+                        {
+                            SoundUtils.FadeIn(scenes[(int)nextScene].bgm);
+                            musicPlaying = true;
+                        }
+                    }
+
                     break;
                 default:
                     if (scenes[(int)currentScene] != null)
+                    {
                         scenes[(int)currentScene].update(gameTime, input);
+                        
+                    }
                     break;
             }
 
@@ -251,6 +266,8 @@ namespace Titanium.Scenes
         public void changeScene(SceneState scene)
         {
             this.state = State.transitionOff;
+            SoundUtils.FadeOut();
+            musicPlaying = false;
             nextScene = scene;
         }
     }

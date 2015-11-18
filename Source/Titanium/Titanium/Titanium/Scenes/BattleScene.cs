@@ -24,6 +24,7 @@ namespace Titanium.Scenes
      */
     class BattleScene : Scene
     {
+
         MenuPanel pauseMenu;
 
         bool paused;
@@ -63,6 +64,7 @@ namespace Titanium.Scenes
                 }
                 );
 
+            bgm = SoundUtils.Music.BattleTheme;
 
             currentEncounter = new Encounter(front, back);
         }
@@ -93,6 +95,8 @@ namespace Titanium.Scenes
                 new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat },
                 new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat }
                 );
+            bgm = SoundUtils.Music.BattleTheme;
+
         }
 
         /**
@@ -109,6 +113,8 @@ namespace Titanium.Scenes
 
             background = content.Load<Texture2D>("Sprites/Battle-Base");
             pauseMenu.center();
+
+            
         }
 
         
@@ -120,7 +126,7 @@ namespace Titanium.Scenes
         {
             PlayerIndex player;
 
-            if (InputAction.SELECT.wasPressed(inputState))
+            if (InputAction.START.wasPressed(inputState))
                 paused = !paused;
 
             if (paused)
