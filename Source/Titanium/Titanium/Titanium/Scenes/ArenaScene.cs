@@ -209,7 +209,11 @@ namespace Titanium.Scenes
 
             // Handle pause input
             if (pause.wasPressed(inputState))
+            {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 paused = !paused;
+            }
+                
 
             if (!paused)
             {
@@ -271,7 +275,10 @@ namespace Titanium.Scenes
             else
             {
                 if (menu.wasPressed(inputState))
+                {
+                    SoundUtils.Play(SoundUtils.Sound.Input);
                     SceneManager.changeScene(SceneState.main);
+                }
             }
         }
 

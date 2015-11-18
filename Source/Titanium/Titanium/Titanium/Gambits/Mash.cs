@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Titanium.Scenes;
 using Microsoft.Xna.Framework.Content;
+using Titanium.Utilities;
 
 namespace Titanium.Gambits
 {
@@ -61,11 +62,13 @@ namespace Titanium.Gambits
 
             if (timeLeft <= 0)
             {
+                SoundUtils.Play(SoundUtils.Sound.Complete);
                 finished = true;
                 multiplier = 0 + (multStep * count);
             }
             else if (action.Evaluate(state, null, out player))
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 ++count;
             }
             base.update(gameTime, state);

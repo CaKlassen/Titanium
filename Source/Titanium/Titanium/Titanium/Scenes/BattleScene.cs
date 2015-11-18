@@ -127,12 +127,20 @@ namespace Titanium.Scenes
             PlayerIndex player;
 
             if (InputAction.START.wasPressed(inputState))
+            {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 paused = !paused;
+            }
+                
 
             if (paused)
             {
                 if (arena.Evaluate(inputState, null, out player))
+                {
+                    SoundUtils.Play(SoundUtils.Sound.Input);
                     SceneManager.changeScene(SceneState.arena);
+                }
+                    
             }
             else
             {
