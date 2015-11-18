@@ -15,6 +15,7 @@ using Titanium.Battle;
 using Titanium.Entities.Traps;
 using Microsoft.Xna.Framework.Storage;
 using System.IO;
+using Titanium.Scenes.Panels;
 
 namespace Titanium.Scenes
 {
@@ -39,7 +40,8 @@ namespace Titanium.Scenes
         InputAction menu,
                     battle,
                     rotateUp,
-                    rotateDown;
+                    rotateDown,
+                    pause;
 
         ContentManager content;
         public Effect HLSLeffect;
@@ -62,7 +64,8 @@ namespace Titanium.Scenes
         public static float ARENA_AMBIENCE = 0.080f;
         private static Color ambientColour = new Color(0.318f, 0.365f, 0.404f, 1);
 
-        
+        bool paused = false;
+        MenuPanel pauseMenu;
 
         public List<Entity> collidables;
 
@@ -78,24 +81,25 @@ namespace Titanium.Scenes
             controller = new ArenaController();
 
             // Define the user actions
-            menu = InputAction.SELECT;
-
-            battle = InputAction.X;
+            menu = InputAction.Y;
+            pause = InputAction.START;
 
             rotateDown = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickDown },
                 new Keys[] { Keys.NumPad2 },
                 false
                 );
-
             rotateUp = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickUp },
                 new Keys[] { Keys.NumPad8 },
                 false
                 );
 
-
             bgm = SoundUtils.Music.ArenaTheme;
+            pauseMenu = new MenuPanel("Pause Menu", new List<MenuItem>() {
+                new MenuItem("Back to Arena", pause),
+                new MenuItem("Main Menu", menu)
+            });
         }
 
         public ArenaScene(SaveData data) : base()
@@ -113,9 +117,8 @@ namespace Titanium.Scenes
             party[2].setHealth(data.partyHealth[2]);
 
             // Define the user actions
-            menu = InputAction.SELECT;
-
-            battle = InputAction.X;
+            menu = InputAction.Y;
+            pause = InputAction.START;
 
             rotateDown = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickDown },
@@ -129,7 +132,10 @@ namespace Titanium.Scenes
                 );
 
             bgm = SoundUtils.Music.ArenaTheme;
-
+            pauseMenu = new MenuPanel("Pause Menu", new List<MenuItem>() {
+                new MenuItem("Back to Arena", pause),
+                new MenuItem("Main Menu", menu)
+            });
         }
 
         /**
@@ -187,6 +193,8 @@ namespace Titanium.Scenes
                 start.Y += 60;
             }
 
+            pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
+            pauseMenu.center();
 
             // Debug arena
             printDebugArena();
@@ -199,69 +207,72 @@ namespace Titanium.Scenes
         {
             PlayerIndex player;
 
-            //update Character
-            Hero.Update(gameTime, inputState);
-            camera.UpdateCamera(Hero.getPOSITION());
+            // Handle pause input
+            if (pause.wasPressed(inputState))
+                paused = !paused;
 
-            // Update the spotlight
-            if (flashTimer > 0)
+            if (!paused)
             {
-                flashTimer--;
-            }
-            else
-            {
+                //update Character
+                Hero.Update(gameTime, inputState);
+                camera.UpdateCamera(Hero.getPOSITION());
+
+                // Update the spotlight
+                if (flashTimer > 0)
+                {
+                    flashTimer--;
+                }
+                else
+                {
+                    if (!flashOn)
+                    {
+                        flashOn = true;
+                    }
+                }
+
                 if (!flashOn)
                 {
-                    flashOn = true;
+                    FlashLightAngle += MathUtils.smoothChange(FlashLightAngle, MIN_FLASH, FLASH_RATE);
                 }
-            }
+                else
+                {
 
-            if (!flashOn)
-            {
-                FlashLightAngle += MathUtils.smoothChange(FlashLightAngle, MIN_FLASH, FLASH_RATE);
+                    FlashLightAngle += MathUtils.smoothChange(FlashLightAngle, MAX_FLASH, FLASH_RATE);
+                }
+
+
+                // Update the tiles
+                for (int i = 0; i < baseArena.GetLength(0); i++)
+                {
+                    for (int j = 0; j < baseArena.GetLength(1); j++)
+                    {
+                        baseArena[i, j].Update(gameTime, inputState);
+                    }
+                }
+
+                // Rotation of camera
+                if (rotateUp.wasPressed(inputState))
+                {
+                    camera.rotateCamera(true);
+                }
+                else if (rotateDown.wasPressed(inputState))
+                {
+                    camera.rotateCamera(false);
+                }
+
+                //update combatinfo
+                foreach (PlayerSprite ps in PartyUtils.getParty())
+                {
+                    ps.getCombatInfo().update(ps.getStats());
+                }
+
+                controller.update();
             }
             else
             {
-
-                FlashLightAngle += MathUtils.smoothChange(FlashLightAngle, MAX_FLASH, FLASH_RATE);
+                if (menu.wasPressed(inputState))
+                    SceneManager.changeScene(SceneState.main);
             }
-
-
-            // Update the tiles
-            for (int i = 0; i < baseArena.GetLength(0); i++)
-            {
-                for (int j = 0; j < baseArena.GetLength(1); j++)
-                {
-                    baseArena[i, j].Update(gameTime, inputState);
-                }
-            }
-
-            if (menu.Evaluate(inputState, null, out player))
-            {
-                SceneManager.changeScene(SceneState.main);
-            }
-            else if (battle.Evaluate(inputState, null, out player))
-            {
-                SceneManager.changeScene(SceneState.battle);
-            }
-
-            // Rotation of camera
-            if (rotateUp.wasPressed(inputState))
-            {
-                camera.rotateCamera(true);
-            }
-            else if (rotateDown.wasPressed(inputState))
-            {
-                camera.rotateCamera(false);
-            }
-
-            //update combatinfo
-            foreach (PlayerSprite ps in PartyUtils.getParty())
-            {
-                ps.getCombatInfo().update(ps.getStats());
-            }
-
-            controller.update();
         }
 
         /**
@@ -324,6 +335,13 @@ namespace Titanium.Scenes
             }
             sb.End();
 
+            if(paused)
+            {
+                sb.Begin();
+                pauseMenu.draw(sb, null);
+                sb.End();
+            }
+;
         }
 
         /**
