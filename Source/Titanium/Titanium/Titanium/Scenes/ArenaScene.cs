@@ -133,8 +133,8 @@ namespace Titanium.Scenes
             }
 
             // Generate the arena
-            ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, 
-                ArenaController.instance.getLevelDifficulty(ArenaController.instance.getLevel()));
+            ArenaBuilder builder = new ArenaBuilder(controller.getLevelSize(controller.getLevel()), controller.getLevelSize(controller.getLevel()), 
+                content, SceneManager.GraphicsDevice.Viewport.AspectRatio, controller.getLevelDifficulty(controller.getLevel()));
             baseArena = builder.buildArenaBase();
             StartTile = builder.getStartTile();
 
@@ -330,7 +330,8 @@ namespace Titanium.Scenes
             controller.setGenerator(new Random(GameSave.seed));
 
             // Generate the arena
-            ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
+            ArenaBuilder builder = new ArenaBuilder(controller.getLevelSize(controller.getLevel()), controller.getLevelSize(controller.getLevel()),
+                content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
             baseArena = builder.buildArenaBase();
             StartTile = builder.getStartTile();
 
