@@ -80,7 +80,7 @@ namespace Titanium.Entities
                 // Increment the level
                 level++;
 
-                score += HighScoreUtils.CalculateHighScore(10, 10);
+                score += HighScoreUtils.CalculateHighScore(1000, 250);
                 ArenaScene.instance.loadNewArena(getLevelDifficulty(level));
             }
         }

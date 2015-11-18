@@ -12,7 +12,7 @@ namespace Titanium.Utilities
     {
         public static int NUM_STORED_SCORES = 10;
 
-        private static int[] TEMPLATE_SCORES = { 1000, 900, 800, 700, 500, 400, 300, 200, 100, 50 };
+        private static int[] TEMPLATE_SCORES = { 10000, 9000, 8000, 7000, 5000, 4000, 3000, 2000, 1000, 500 };
 
         /// <summary>
         /// calculates high score based on how much party health
@@ -34,7 +34,8 @@ namespace Titanium.Utilities
                 partyTotalHPsum += PartyUtils.partyMembers[i].getBaseHP();
             }
 
-            score = ((partyCurHPsum / partyTotalHPsum) * HealthMultiplier) + (ArenaScene.instance.potionsUsed * PotionMultiplier);
+            score = ((partyCurHPsum / partyTotalHPsum) * HealthMultiplier) + 
+                ((ArenaScene.instance.potionsUsed == 0 ? 1 : 0) * PotionMultiplier);
 
             //save Arena level score
 
