@@ -199,11 +199,11 @@ namespace Titanium.Entities.Items
             switch(outcomes[result])
             {
                 case MysteryOptions.HEAL:
-                    PartyUtils.HealParty(25);
+                    PartyUtils.HealParty(95);//done by percent
                     break;
 
                 case MysteryOptions.DAMAGE:
-                    PartyUtils.inflictPartyDamage(3);
+                    PartyUtils.inflictNonLethalPartyDamage(75f);
                     break;
 
                 case MysteryOptions.NONE:

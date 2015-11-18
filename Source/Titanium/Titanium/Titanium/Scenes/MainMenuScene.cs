@@ -18,7 +18,7 @@ namespace Titanium.Scenes
     /// </summary>
     class MainMenuScene : Scene
     {
-        ContentManager content;
+        ContentManager content;        
 
         // Possible player actions
         InputAction newGame;
@@ -92,7 +92,7 @@ namespace Titanium.Scenes
                 List<int> templateScore = HighScoreUtils.createInitialHighScores();
                 save.saveHighScores(templateScore);
             }
-            
+
         }
 
         public override void unloadScene() {}

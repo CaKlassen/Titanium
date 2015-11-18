@@ -104,6 +104,7 @@
     <Compile Include="Utilities\PartyUtils.cs" />
     <Compile Include="Utilities\PhysicsUtils.cs" />
     <Compile Include="Utilities\SaveUtils.cs" />
+    <Compile Include="Utilities\SoundUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -112,7 +113,6 @@
     <None Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </None>
-    <None Include="Titanium_1_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FileHelpers">

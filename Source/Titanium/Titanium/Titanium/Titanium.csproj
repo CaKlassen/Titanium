@@ -143,6 +143,7 @@
     <Compile Include="Utilities\PartyUtils.cs" />
     <Compile Include="Utilities\PhysicsUtils.cs" />
     <Compile Include="Utilities\SaveUtils.cs" />
+    <Compile Include="Utilities\SoundUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -157,7 +158,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Titanium_1_TemporaryKey.pfx" />
     <None Include="Titanium_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
