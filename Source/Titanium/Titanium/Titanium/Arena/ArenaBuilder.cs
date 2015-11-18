@@ -294,23 +294,23 @@ namespace Titanium
             int numEnemies = 0;
 
             // Determine the number of enemies based on the difficulty
-            switch(difficulty)
+            switch(width)
             {
-                case ArenaDifficulty.EASY:
+                case 6:
                 {
-                    numEnemies = r.Next(2, 5);
+                    numEnemies = r.Next(2, 4);
                     break;
                 }
 
-                case ArenaDifficulty.MEDIUM:
+                case 8:
                 {
-                    numEnemies = r.Next(3, 6);
+                    numEnemies = r.Next(3, 5);
                     break;
                 }
 
-                case ArenaDifficulty.HARD:
+                case 10:
                 {
-                    numEnemies = r.Next(4, 7);
+                    numEnemies = r.Next(4, 6);
                     break;
                 }
             }
@@ -336,6 +336,9 @@ namespace Titanium
         {
             PartyUtils.Enemy enemy;
             int percent = r.Next(100);
+
+            // Calculate the likelihood of a harder enemy spawning
+            int hardThreshold = ArenaController.instance.getDifficultEnemyThreshold(ArenaController.instance.getLevel());
 
             switch (difficulty)
             {

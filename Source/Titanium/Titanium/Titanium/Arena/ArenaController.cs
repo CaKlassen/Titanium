@@ -93,16 +93,103 @@ namespace Titanium.Entities
                     return ArenaDifficulty.EASY;
 
                 case 2:
-                    return ArenaDifficulty.MEDIUM;
+                    return ArenaDifficulty.EASY;
 
                 case 3:
-                    return ArenaDifficulty.MEDIUM;
+                    return ArenaDifficulty.EASY;
 
                 case 4:
                     return ArenaDifficulty.MEDIUM;
 
+                case 5:
+                    return ArenaDifficulty.MEDIUM;
+
+                case 6:
+                    return ArenaDifficulty.MEDIUM;
+
+                case 7:
+                    return ArenaDifficulty.HARD;
+
+                case 8:
+                    return ArenaDifficulty.HARD;
+
+                case 9:
+                    return ArenaDifficulty.HARD;
+
                 default:
                     return ArenaDifficulty.EASY;
+            }
+        }
+
+        public int getLevelSize(int level)
+        {
+            switch(level)
+            {
+                case 1:
+                    return 6;
+
+                case 2:
+                    return 6;
+
+                case 3:
+                    return 6;
+
+                case 4:
+                    return 8;
+
+                case 5:
+                    return 8;
+
+                case 6:
+                    return 8;
+
+                case 7:
+                    return 10;
+
+                case 8:
+                    return 10;
+
+                case 9:
+                    return 10;
+
+                default:
+                    return 6;
+            }
+        }
+
+        public int getDifficultEnemyThreshold(int level)
+        {
+            switch (level)
+            {
+                case 1:
+                return 90;
+
+                case 2:
+                return 80;
+
+                case 3:
+                return 70;
+
+                case 4:
+                return 90;
+
+                case 5:
+                return 80;
+
+                case 6:
+                return 70;
+
+                case 7:
+                return 90;
+
+                case 8:
+                return 80;
+
+                case 9:
+                return 70;
+
+                default:
+                return 90;
             }
         }
 
