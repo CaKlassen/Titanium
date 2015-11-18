@@ -183,8 +183,11 @@ namespace Titanium.Scenes.Panels
         {
             for (int i = 0; i < SIZE; ++i)
             {
-                if (this[i].currentState != Sprite.State.Dead)
-                    this[i].currentState = Sprite.State.Idle;
+                if (this[i]!= null)
+                {
+                    if (this[i].currentState != Sprite.State.Dead)
+                        this[i].currentState = Sprite.State.Idle;
+                }
             }
             active = true;
             start = gameTime;

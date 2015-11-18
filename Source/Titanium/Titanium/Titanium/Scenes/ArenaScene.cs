@@ -154,10 +154,10 @@ namespace Titanium.Scenes
             potionsUsed = 0;
 
             //load CombatInfo at top left
-            Vector2 start = new Vector2(10, 20);
+            Vector2 start = new Vector2(10, 45);
             foreach (PlayerSprite ps in PartyUtils.getParty())
             {
-                ps.getCombatInfo().initArena(content, start);
+                ps.getCombatInfo().init(content, start);
                 start.Y += 60;
             }
 
@@ -232,7 +232,7 @@ namespace Titanium.Scenes
             //update combatinfo
             foreach (PlayerSprite ps in PartyUtils.getParty())
             {
-                ps.getCombatInfo().updateArena(ps.getStats());
+                ps.getCombatInfo().update(ps.getStats());
             }
 
             controller.update();
