@@ -263,7 +263,7 @@ namespace Titanium.Scenes
                 //update combatinfo
                 foreach (PlayerSprite ps in PartyUtils.getParty())
                 {
-                    ps.getCombatInfo().update(ps.getStats());
+                    ps.getCombatInfo().updateArena(ps.getStats());
                 }
 
                 controller.update();
