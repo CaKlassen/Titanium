@@ -32,6 +32,7 @@ namespace Titanium.Scenes
         private Tile StartTile;
 
         SaveData GameSave;
+
         private bool loaded;
 
         // Possible user actions
@@ -61,6 +62,8 @@ namespace Titanium.Scenes
         public static float ARENA_AMBIENCE = 0.080f;
         private static Color ambientColour = new Color(0.318f, 0.365f, 0.404f, 1);
 
+        
+
         public List<Entity> collidables;
 
         /**
@@ -79,8 +82,20 @@ namespace Titanium.Scenes
 
             battle = InputAction.X;
 
-            rotateDown = InputAction.RSDOWN;
-            rotateUp = InputAction.RSUP;
+            rotateDown = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickDown },
+                new Keys[] { Keys.NumPad2 },
+                false
+                );
+
+            rotateUp = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickUp },
+                new Keys[] { Keys.NumPad8 },
+                false
+                );
+
+
+            bgm = SoundUtils.Music.ArenaTheme;
         }
 
         public ArenaScene(SaveData data) : base()
@@ -102,8 +117,19 @@ namespace Titanium.Scenes
 
             battle = InputAction.X;
 
-            rotateDown = InputAction.RSDOWN;
-            rotateUp = InputAction.RSUP;
+            rotateDown = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickDown },
+                new Keys[] { Keys.NumPad2 },
+                false
+                );
+            rotateUp = new InputAction(
+                new Buttons[] { Buttons.RightThumbstickUp },
+                new Keys[] { Keys.NumPad8 },
+                false
+                );
+
+            bgm = SoundUtils.Music.ArenaTheme;
+
         }
 
         /**
@@ -220,11 +246,11 @@ namespace Titanium.Scenes
             }
 
             // Rotation of camera
-            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightThumbstickUp))
+            if (rotateUp.wasPressed(inputState))
             {
                 camera.rotateCamera(true);
             }
-            else if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightThumbstickDown))
+            else if (rotateDown.wasPressed(inputState))
             {
                 camera.rotateCamera(false);
             }

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Titanium.Scenes.Panels;
+using Titanium.Utilities;
 
 namespace Titanium.Scenes
 {
@@ -17,6 +18,8 @@ namespace Titanium.Scenes
     /// </summary>
     abstract class Scene
     {
+        public SoundUtils.Music bgm = SoundUtils.Music.TitleTheme;
+
         /// <summary>
         /// Gets or sets this scene's SceneManager.
         /// </summary>
