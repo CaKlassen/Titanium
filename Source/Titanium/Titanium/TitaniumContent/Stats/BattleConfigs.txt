@@ -1,19 +1,39 @@
-Bat~Bat Empty Empty Empty
-Bat~Bat Empty Bat Empty
-Bat~Bat Empty Bat Bat
 Bat~Bat Bat Empty Empty
-Bat~Bat Bat Bat Empty
-Bat~Bat Bat Bat Bat
-Bat~Rbat Bat Bat Bat
-Bat~Bat Bat Rbat Bat
+Bat~Bat Empty Bat Empty
+Bat~Bat Empty Empty Bat
+Bat~Empty Bat Bat Empty
+Bat~Empty Bat Empty Bat
+Bat~Empty Empty Bat Bat
 
-Rbat~Rbat Rbat Rbat Rbat
-Rbat~Rbat Rbat Rbat Lbat
-Rbat~Rbat Rbat Lbat Lbat
-Rbat~Rbat Empty Rbat Rbat
-Rbat~Empty Rbat Rbat Rbat
-Rbat~Rbat Empty Rbat Empty
+Bat~Bat Bat Bat Empty
+Bat~Bat Empty Bat Bat
+Bat~Empty Bat Bat Bat
+Bat~Bat Bat Empty Bat
+
+Bat~Bat Bat Bat Bat
+Bat~Bat Bat Bat Bat
+
+Bat~Rbat Bat Bat Bat
+Bat~Rbat Empty Bat Bat
+
+##
+
 Rbat~Rbat Empty Empty Empty
+Rbat~Empty Rbat Empty Empty
+Rbat~Empty Empty Rbat Empty
+
+Rbat~Rbat Rbat Empty Empty
+Rbat~Rbat Empty Rbat Rbat
+Rbat~Rbat Empty Empty Rbat
+Rbat~Empty Rbat Rbat Empty
+Rbat~Empty Rbat Empty Rbat
+Rbat~Empty Empty Rbat Rbat
+
+Rbat~Rbat Rbat Rbat Empty
+Rbat~Rbat Rbat Empty Rbat
+Rbat~Ebat Empty Rbat Rbat
+
+##
 
 Slime~Slime Empty Empty Empty
 Slime~Slime Empty Slime Empty
