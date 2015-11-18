@@ -358,18 +358,7 @@ namespace Titanium
 
                 case ArenaDifficulty.MEDIUM:
                 {
-                    if (percent > 75)
-                    {
-                        enemy = PartyUtils.Enemy.Slime;
-                    }
-                    else if (percent > 50)
-                    {
-                        enemy = PartyUtils.Enemy.Redbat;
-                    }
-                    else
-                    {
-                        enemy = PartyUtils.Enemy.Bat;
-                    }
+                    enemy = PartyUtils.Enemy.Slime;
 
                     break;
                 }
@@ -404,7 +393,29 @@ namespace Titanium
         /// </summary>
         private void generateObstacles()
         {
-            int numObstacles = r.Next(1, 3);
+            int numObstacles = 0;
+
+            switch (width)
+            {
+                case 6:
+                {
+                    numObstacles = r.Next(1, 3);
+                    break;
+                }
+
+                case 8:
+                {
+                    numObstacles = r.Next(2, 4);
+                    break;
+                }
+
+                case 10:
+                {
+                    numObstacles = r.Next(3, 5);
+                    break;
+                }
+            }
+
             Tile tile = null;
 
             for (int i = 0; i < numObstacles; i++)
@@ -485,8 +496,9 @@ namespace Titanium
             // Create the potion
             Vector3 pos = tile.getModelPos();
             pos.Y += 11;
+            pos.Z += 20;
 
-            potion = new Potion(pos, 1, tile);
+            potion = new Potion(pos, 50, tile);
             potion.LoadModel(Content);
 
             tile.addEntity(potion);

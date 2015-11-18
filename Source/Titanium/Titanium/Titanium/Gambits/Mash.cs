@@ -32,7 +32,7 @@ namespace Titanium.Gambits
         InputAction action;
         Random rng;
 
-        float multStep = 1 / 45f;
+        float multStep = 1 / 25f;
 
         public override void start(GameTime gameTime)
         {
