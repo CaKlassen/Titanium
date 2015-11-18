@@ -17,6 +17,7 @@ namespace Titanium.Utilities
             BattleTheme
         }
         static string musicBaseDir = "Sound/bgm/";
+        // the order here should match the enum
         static string[] musicDirs = { "title", "arena", "battle"};
         static List<Song> music = new List<Song>();
         static Song currentSong;
@@ -27,12 +28,16 @@ namespace Titanium.Utilities
         public enum Sound
         {
             Close,
-            Open
+            Open,
+            Step
         }
         static string soundBaseDir = "Sound/sfx/";
+        // the order here should match the enum
         static string[] soundDirs = { "close", "open" };
+        static string[] stepSoundDirs = { "step1", "step2", "step3", "step4"};
+        static List<SoundEffect> stepSounds = new List<SoundEffect>();
         static List<SoundEffect> sounds = new List<SoundEffect>();
-        
+        static Random rng = new Random();
 
 
         public static void Load(ContentManager content)
@@ -42,6 +47,9 @@ namespace Titanium.Utilities
 
             foreach (string dir in soundDirs)
                 sounds.Add(content.Load<SoundEffect>(soundBaseDir + dir));
+
+            foreach (string dir in stepSoundDirs)
+                stepSounds.Add(content.Load<SoundEffect>(soundBaseDir + dir));
 
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0;
@@ -89,7 +97,13 @@ namespace Titanium.Utilities
 
         public static void Play(Sound sound)
         {
-            SoundEffectInstance instance = sounds[(int)sound].CreateInstance();
+            SoundEffectInstance instance;
+            if (sound != Sound.Step)
+                instance = sounds[(int)sound].CreateInstance();
+            else
+                instance = stepSounds[rng.Next(stepSounds.Count)].CreateInstance();
+                
+            
             instance.Volume = 0.5f;
             instance.Play();
         }
