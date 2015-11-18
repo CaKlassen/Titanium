@@ -185,6 +185,7 @@ namespace Titanium.Scenes
                     {
                         waitTime = WAIT_TIME;
                         state = State.transitionOn;
+                        SoundUtils.Play(SoundUtils.Sound.Open);
                         currentScene = nextScene;
                         if (scenes[(int)currentScene] != null)
                             scenes[(int)currentScene].update(gameTime, input);
@@ -267,6 +268,7 @@ namespace Titanium.Scenes
         {
             this.state = State.transitionOff;
             SoundUtils.FadeOut();
+            SoundUtils.Play(SoundUtils.Sound.Close);
             musicPlaying = false;
             nextScene = scene;
         }

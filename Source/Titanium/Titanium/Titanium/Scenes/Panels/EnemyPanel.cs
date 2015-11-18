@@ -167,14 +167,15 @@ namespace Titanium.Scenes.Panels
         {
             for (int i = 0; i < SIZE; ++i)
             {
-                switch(this[i].currentState)
-                {
-                    case Sprite.State.Resting:
-                    case Sprite.State.Dead:
-                        continue;
-                    default:
-                        return true;
-                }
+                if(this[i] != null)
+                    switch(this[i].currentState)
+                    {
+                        case Sprite.State.Resting:
+                        case Sprite.State.Dead:
+                            continue;
+                        default:
+                            return true;
+                    }
             }
             return false;
         }

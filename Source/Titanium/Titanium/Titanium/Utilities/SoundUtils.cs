@@ -26,13 +26,11 @@ namespace Titanium.Utilities
 
         public enum Sound
         {
-            Success,
-            Failure,
-            InputSelection,
-            Hit
+            Close,
+            Open
         }
         static string soundBaseDir = "Sound/sfx/";
-        static string[] soundDirs = { };
+        static string[] soundDirs = { "close", "open" };
         static List<SoundEffect> sounds = new List<SoundEffect>();
         
 
@@ -41,6 +39,9 @@ namespace Titanium.Utilities
         {
             foreach(string dir in musicDirs)
                 music.Add(content.Load<Song>(musicBaseDir + dir));
+
+            foreach (string dir in soundDirs)
+                sounds.Add(content.Load<SoundEffect>(soundBaseDir + dir));
 
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0;
@@ -84,6 +85,13 @@ namespace Titanium.Utilities
                 else
                     MediaPlayer.Volume += 0.005f;
             }
+        }
+
+        public static void Play(Sound sound)
+        {
+            SoundEffectInstance instance = sounds[(int)sound].CreateInstance();
+            instance.Volume = 0.5f;
+            instance.Play();
         }
     }
 }

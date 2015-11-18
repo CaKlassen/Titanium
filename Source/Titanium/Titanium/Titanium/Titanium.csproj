@@ -158,7 +158,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Titanium_1_TemporaryKey.pfx" />
     <None Include="Titanium_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
