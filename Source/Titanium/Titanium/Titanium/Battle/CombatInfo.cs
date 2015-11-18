@@ -76,12 +76,33 @@ namespace Titanium.Battle
             }
         }
 
-        public void smallUpdate(Rectangle r)
+        public void updateArena(UnitStats u)
         {
-            Rectangle tempRect = r;
-            frameRect = new Rectangle(tempRect.X, tempRect.Y-barFrame.Height/2, barFrame.Width, barFrame.Height/2);
-            destRect = frameRect;
-            update(unitStats);
+            //hp calc
+            if (this.name.CompareTo("") == 0)
+                this.name = u.name;
+
+            unitStats = u;
+
+            float hpPercent = (float)u.currentHP / u.baseHP;
+            float newLength = frameRectArena.Width * hpPercent;
+
+            destRectArena = new Rectangle(destRectArena.X, destRectArena.Y, (int)newLength, destRectArena.Height);
+
+            health = u.currentHP + "/" + u.baseHP;
+
+            if (hpPercent > 0.75)
+            {
+                hpColor = Color.LimeGreen;
+            }
+            else if (hpPercent > 0.25 && hpPercent <= 0.75)
+            {
+                hpColor = Color.Yellow;
+            }
+            else
+            {
+                hpColor = Color.Red;
+            }
         }
 
         public void draw(SpriteBatch sb)
