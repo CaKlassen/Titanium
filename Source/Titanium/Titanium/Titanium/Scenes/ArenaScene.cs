@@ -159,8 +159,8 @@ namespace Titanium.Scenes
             }
 
             // Generate the arena
-            ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, 
-                ArenaController.instance.getLevelDifficulty(ArenaController.instance.getLevel()));
+            ArenaBuilder builder = new ArenaBuilder(controller.getLevelSize(controller.getLevel()), controller.getLevelSize(controller.getLevel()), 
+                content, SceneManager.GraphicsDevice.Viewport.AspectRatio, controller.getLevelDifficulty(controller.getLevel()));
             baseArena = builder.buildArenaBase();
             StartTile = builder.getStartTile();
 
@@ -180,10 +180,10 @@ namespace Titanium.Scenes
             potionsUsed = 0;
 
             //load CombatInfo at top left
-            Vector2 start = new Vector2(10, 20);
+            Vector2 start = new Vector2(10, 45);
             foreach (PlayerSprite ps in PartyUtils.getParty())
             {
-                ps.getCombatInfo().initArena(content, start);
+                ps.getCombatInfo().init(content, start);
                 start.Y += 60;
             }
 
@@ -258,7 +258,7 @@ namespace Titanium.Scenes
             //update combatinfo
             foreach (PlayerSprite ps in PartyUtils.getParty())
             {
-                ps.getCombatInfo().updateArena(ps.getStats());
+                ps.getCombatInfo().update(ps.getStats());
             }
 
             controller.update();
@@ -356,7 +356,8 @@ namespace Titanium.Scenes
             controller.setGenerator(new Random(GameSave.seed));
 
             // Generate the arena
-            ArenaBuilder builder = new ArenaBuilder(6, 6, content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
+            ArenaBuilder builder = new ArenaBuilder(controller.getLevelSize(controller.getLevel()), controller.getLevelSize(controller.getLevel()),
+                content, SceneManager.GraphicsDevice.Viewport.AspectRatio, difficulty);
             baseArena = builder.buildArenaBase();
             StartTile = builder.getStartTile();
 
