@@ -126,7 +126,7 @@ namespace Titanium.Scenes
         {
             PlayerIndex player;
 
-            if (InputAction.SELECT.wasPressed(inputState))
+            if (InputAction.START.wasPressed(inputState))
                 paused = !paused;
 
             if (paused)
