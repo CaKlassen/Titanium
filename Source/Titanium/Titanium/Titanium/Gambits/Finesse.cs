@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Titanium.Utilities;
 
 namespace Titanium.Gambits
 {
@@ -189,16 +190,19 @@ namespace Titanium.Gambits
             timeLeft = timeLimit - timeElapsed;
             if (timeLeft <= 0)
             {
+                SoundUtils.Play(SoundUtils.Sound.Failure);
                 multiplier = 0 + current * 0.2f;
                 finished = true;
             }
             if(current >= actionString.Count)
             {
+                SoundUtils.Play(SoundUtils.Sound.Complete);
                 multiplier = 1f;
                 finished = true;
             }
             else if(actionPressed(actionString[current], state))
             {
+                SoundUtils.Play(SoundUtils.Sound.Success);
                 current++;
             }
 

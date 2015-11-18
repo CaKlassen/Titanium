@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Titanium.Utilities;
 
 namespace Titanium.Gambits
 {
@@ -120,6 +121,7 @@ namespace Titanium.Gambits
             }
             else
             {
+                SoundUtils.Play(SoundUtils.Sound.Success);
                 ++count;
                 current = 0;
             }
@@ -127,6 +129,7 @@ namespace Titanium.Gambits
             if (timeleft < 0)
             {
                 finished = true;
+                SoundUtils.Play(SoundUtils.Sound.Complete);
                 multiplier = 0f + (count * multStep);
             }
             base.update(gameTime, state);

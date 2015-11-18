@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Titanium.Utilities;
 
 namespace Titanium.Gambits
 {
@@ -238,12 +239,15 @@ namespace Titanium.Gambits
                 {
                     case Result.perfect:
                         Console.WriteLine("PERFECT");
+                        SoundUtils.Play(SoundUtils.Sound.Success);
                         break;
                     case Result.fair:
                         Console.WriteLine("FAIR");
+                        SoundUtils.Play(SoundUtils.Sound.Input);
                         break;
                     case Result.miss:
                         Console.WriteLine("MISS");
+                        SoundUtils.Play(SoundUtils.Sound.Failure);
                         break;
                     default:
                         color = Color.White;
