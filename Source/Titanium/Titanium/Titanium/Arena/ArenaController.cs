@@ -132,10 +132,10 @@ namespace Titanium.Entities
                     return 6;
 
                 case 3:
-                    return 6;
+                    return 8;
 
                 case 4:
-                    return 8;
+                    return 6;
 
                 case 5:
                     return 8;
@@ -144,7 +144,7 @@ namespace Titanium.Entities
                     return 8;
 
                 case 7:
-                    return 10;
+                    return 8;
 
                 case 8:
                     return 10;

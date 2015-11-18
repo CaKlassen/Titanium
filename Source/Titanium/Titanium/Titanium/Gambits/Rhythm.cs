@@ -53,7 +53,7 @@ namespace Titanium.Gambits
         List<RhythmInput> rhythmString;
         Random rng;
         List<Texture2D> icons;
-
+        int startDelay = 2000;
         float multStep = 1 / 8f;
 
         public Rhythm()
@@ -70,6 +70,8 @@ namespace Titanium.Gambits
             leftLine = new Rectangle();
             rightLine = new Rectangle();
             position = Vector2.Zero;
+            startDelay = 2000;
+            setLines();
         }
 
 
@@ -112,26 +114,33 @@ namespace Titanium.Gambits
 
         public override void update(GameTime gameTime, InputState state)
         {
-            base.update(gameTime, state);
-            position += new Vector2(speed, 0);
-            setLines();
+            
 
-            foreach(RhythmInput input in rhythmString)
+            if (startDelay > 0)
+                startDelay-= gameTime.ElapsedGameTime.Milliseconds;
+            else
             {
-                if (input.inRange(leftLine.Right, rightLine.Left))
-                { 
-                    if (input.action.wasPressed(state))
+                base.update(gameTime, state);
+                position += new Vector2(speed, 0);
+                setLines();
+                foreach (RhythmInput input in rhythmString)
+                {
+                    if (input.inRange(leftLine.Right, rightLine.Left))
                     {
-                        input.checkResult(leftLine.Right, rightLine.Left);
+                        if (input.action.wasPressed(state))
+                        {
+                            input.checkResult(leftLine.Right, rightLine.Left);
+                        }
+
                     }
-                        
+                }
+                if (leftLine.Left > 1000)
+                {
+                    multiplier = getMultiplier();
+                    finished = true;
                 }
             }
-            if (leftLine.Left > 1000)
-            {
-                multiplier = getMultiplier();
-                finished = true;
-            }
+            
             
         }
 
@@ -143,7 +152,7 @@ namespace Titanium.Gambits
                 switch(input.result)
                 {
                     case RhythmInput.Result.fair:
-                        multiplier += multStep/2;
+                        multiplier += multStep/1.5f;
                         break;
                     case RhythmInput.Result.perfect:
                         multiplier += multStep;

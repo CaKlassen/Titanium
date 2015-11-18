@@ -30,7 +30,7 @@ namespace Titanium.Gambits
 
         int count;
 
-        float multStep = 1 / 25f;
+        float multStep = 1 / 15f;
 
         InputAction[] circle;
 

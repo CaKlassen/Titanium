@@ -239,6 +239,8 @@ namespace Titanium.Entities
 
                     ArenaController.instance.setMoved();
 
+                    SoundUtils.Play(SoundUtils.Sound.Step);
+
                    stepsTaken++;
                 }
             }
@@ -252,6 +254,8 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
+
+                    SoundUtils.Play(SoundUtils.Sound.Step);
 
                     stepsTaken++;
                 }
@@ -267,7 +271,7 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
-
+                    SoundUtils.Play(SoundUtils.Sound.Step);
                     stepsTaken++;
                 }
 
@@ -283,6 +287,8 @@ namespace Titanium.Entities
                     _currentTile = temp;
 
                     ArenaController.instance.setMoved();
+
+                    SoundUtils.Play(SoundUtils.Sound.Step);
 
                     stepsTaken++;
                 }
