@@ -18,11 +18,6 @@ namespace Titanium.Gambits
     {
         
 
-        // Sound Effects
-        SoundEffect sfxSuccess;
-        SoundEffect sfxFailure;
-        SoundEffect sfxComplete;
-
         // The possible buttons in the combo
         static InputAction[] buttons = {
             InputAction.A,
@@ -97,10 +92,6 @@ namespace Titanium.Gambits
 
             font = content.Load<SpriteFont>("Fonts/NumbersFontBig");
 
-            sfxComplete = content.Load<SoundEffect>("sfx/complete");
-            sfxFailure = content.Load<SoundEffect>("sfx/failure");
-            sfxSuccess = content.Load<SoundEffect>("sfx/success");
-
         }
 
         public override void update(GameTime gameTime, InputState state)
@@ -120,18 +111,15 @@ namespace Titanium.Gambits
             if (comboString[current].wasPressed(state))
             {
                 current++;
-                sfxSuccess.Play(0.2f, 0f, 0f);
                 if(current >= comboString.Count)
                 {
                     multiplier = 1f;
                     finished = true;
-                    sfxComplete.Play(0.4f, 0f, 0f);
                 }
             }
             else if (miss(state))
             {
                 current = 0;
-                sfxFailure.Play();
             }
         }
 
