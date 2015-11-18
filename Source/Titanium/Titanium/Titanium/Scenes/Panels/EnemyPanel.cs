@@ -138,12 +138,8 @@ namespace Titanium.Scenes.Panels
                     {
                         case Sprite.State.Idle:
                             return true;
-                        case Sprite.State.Dead:
-                            break;
-                        case Sprite.State.Resting:
-                            break;
                         default:
-                            return false;
+                            break;
                     }
                 }
             }
@@ -165,16 +161,31 @@ namespace Titanium.Scenes.Panels
                     }
                 }
             }
-            active = false;
         }
 
         public bool acting()
         {
-            return active;
+            for (int i = 0; i < SIZE; ++i)
+            {
+                switch(this[i].currentState)
+                {
+                    case Sprite.State.Resting:
+                    case Sprite.State.Dead:
+                        continue;
+                    default:
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void activate(GameTime gameTime)
         {
+            for (int i = 0; i < SIZE; ++i)
+            {
+                if (this[i].currentState != Sprite.State.Dead)
+                    this[i].currentState = Sprite.State.Idle;
+            }
             active = true;
             start = gameTime;
         }

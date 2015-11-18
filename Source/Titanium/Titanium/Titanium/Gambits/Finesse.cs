@@ -109,8 +109,14 @@ namespace Titanium.Gambits
         int current = 0;
         int timeLeft;
         int timeLimit = 7000;
-        SpriteFont font;
         Random rng;
+
+        public Finesse()
+        {
+            name = "Finesse";
+            message = "Press the buttons together!";
+            helpOffset += new Vector2(200, 0);
+        }
 
         public override void start(GameTime gameTime)
         {
@@ -167,13 +173,14 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/NumbersFontBig");
         }
 
         public override void draw(Vector2 pos, SpriteBatch sb)
         {
             drawCurrentAction(pos, sb);
-            sb.DrawString(font, "Time Left: " + TimeSpan.FromMilliseconds(timeLeft), pos + new Vector2(100, 0), Color.Red);
+            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(200, 50), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override void update(GameTime gameTime, InputState state)
@@ -182,12 +189,12 @@ namespace Titanium.Gambits
             timeLeft = timeLimit - timeElapsed;
             if (timeLeft <= 0)
             {
-                multiplier = 0.7f + (current/10);
+                multiplier = 0 + current * 0.2f;
                 finished = true;
             }
             if(current >= actionString.Count)
             {
-                multiplier = 1.2f;
+                multiplier = 1f;
                 finished = true;
             }
             else if(actionPressed(actionString[current], state))

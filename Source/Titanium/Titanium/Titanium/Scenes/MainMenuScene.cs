@@ -24,6 +24,7 @@ namespace Titanium.Scenes
         InputAction newGame;
         InputAction loadGame;
         InputAction battle;
+        InputAction scores;
 
         private static int MOVE_SPEED = 15;
 
@@ -33,8 +34,9 @@ namespace Titanium.Scenes
         private Vector2 titlePos;
         private Vector2 menuPos;
 
+        private SaveUtils save;
         MenuPanel mainMenu;
-
+       
         public delegate void MenuEventHandler(object sender, EventArgs e);
 
         public MainMenuScene(): base()
@@ -43,14 +45,19 @@ namespace Titanium.Scenes
             newGame = InputAction.A;
             loadGame = InputAction.X;
             battle = InputAction.B;
-            battle = InputAction.B;
+            scores = InputAction.Y;
+
             // Create the actual Main Menu panel
             mainMenu = new MenuPanel("Main Menu", new List<MenuItem>()
             {
                 new MenuItem("New Game", newGame),
                 new MenuItem("Load Game", loadGame),
-                new MenuItem("(TEMP) Battle", battle)
+                new MenuItem("(TEMP) Battle", battle),
+                new MenuItem("High Scores", scores)
             });
+
+            // Create a high scores file if it doesn't exist
+            save = SaveUtils.getInstance();
         }
 
         public override void draw(GameTime gameTime)
@@ -77,10 +84,15 @@ namespace Titanium.Scenes
             mainMenu.center();
 
 #if XBOX360
-            if (!SaveUtils.getInstance().storageRegistered())
-                SaveUtils.getInstance().RegisterStorage();
+            if (save.storageRegistered())
+                save.RegisterStorage();
 #endif
-
+            if (!save.CheckHighScoreExists())
+            {
+                List<int> templateScore = HighScoreUtils.createInitialHighScores();
+                save.saveHighScores(templateScore);
+            }
+            
         }
 
         public override void unloadScene() {}
@@ -95,13 +107,20 @@ namespace Titanium.Scenes
             }
             else if (loadGame.Evaluate(inputState, null, out player))
             {
-                menuLoadGame();
+                if (save.CheckFileExists())
+                {
+                    menuLoadGame();
+                }
             }
             else if (battle.Evaluate(inputState, null, out player))
             {
-
                 menuBattle();
             }
+            else if (scores.Evaluate(inputState, null, out player))
+            {
+                menuHighScores();
+            }
+
             mainMenu.update(gameTime, inputState);
 
             // Move the title image
@@ -136,6 +155,14 @@ namespace Titanium.Scenes
                     new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat }
                     );
             SceneManager.setScene(SceneState.battle, battle, true);
+        }
+
+        public void menuHighScores()
+        {
+            HighscoreData data = save.loadHighScores();
+
+            HighScoresScene score = new HighScoresScene(data.highscores);
+            SceneManager.setScene(SceneState.highScores, score, true);
         }
     }
 }

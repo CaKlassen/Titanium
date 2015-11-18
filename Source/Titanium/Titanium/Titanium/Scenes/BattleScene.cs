@@ -108,6 +108,7 @@ namespace Titanium.Scenes
                 player.Load(content);
 
             background = content.Load<Texture2D>("Sprites/Battle-Base");
+            pauseMenu.center();
         }
 
         
@@ -137,6 +138,15 @@ namespace Titanium.Scenes
                 }
                 else if (currentEncounter.failure())
                 {
+                    // Save the player's achieved score
+                    SaveUtils save = SaveUtils.getInstance();
+                    HighscoreData data = save.loadHighScores();
+                    HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
+                    save.saveHighScores(data.highscores);
+
+                    // Delete the player's save file
+                    save.DeleteSaveFile();
+
                     SceneManager.changeScene(SceneState.main);
                     PartyUtils.Reset();
                 }
@@ -155,10 +165,9 @@ namespace Titanium.Scenes
 
             sb.Draw(background, screen, Color.White);
 
+            currentEncounter.draw(sb, null);
             if (paused)
                 pauseMenu.draw(sb, null);
-
-            currentEncounter.draw(sb, null);
 
             sb.End();
         }

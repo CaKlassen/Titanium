@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Titanium.Gambits;
 
 namespace Titanium.Scenes.Panels
 {
@@ -31,6 +32,8 @@ namespace Titanium.Scenes.Panels
 
         Color textColor = Color.White;
 
+        BaseGambit gambit;
+
         /// <summary>
         /// Gets or sets the text of this menu entry.
         /// </summary>
@@ -46,10 +49,17 @@ namespace Titanium.Scenes.Panels
             this.action = action;
         }
 
+        public MenuItem(string text, BaseGambit gambit, InputAction action) : base()
+        {
+            this.text = text;
+            this.action = action;
+            this.gambit = gambit;
+        }
+
         public override void load(ContentManager content, Viewport v)
         {
             base.load(content, v);
-            icon = InputAction.GetIcon(action);
+            icon = action.icon();
             font = content.Load<SpriteFont>("Fonts/MainFont");
         }
 
@@ -68,7 +78,14 @@ namespace Titanium.Scenes.Panels
         public override void draw(SpriteBatch sb, Effect effect)
         {
             sb.Draw(icon, Position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-            sb.DrawString(font, text, Position + new Vector2(50,0), textColor);
+            if (gambit != null)
+            {
+                sb.DrawString(font, text, Position + new Vector2(50, 0), Color.Black);
+                sb.DrawString(font, gambit.ToString(), Position + new Vector2(300, 0), Color.LightGray);
+            }
+            else
+                sb.DrawString(font, text, Position + new Vector2(50, 0), textColor);
+
             base.draw(sb, effect);
         }
 

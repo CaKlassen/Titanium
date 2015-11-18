@@ -30,11 +30,15 @@ namespace Titanium.Gambits
 
         int count;
 
+        float multStep = 1 / 25f;
+
         InputAction[] circle;
 
         public Rotation() : base()
         {
             icons = new Texture2D[2];
+            name = "Rotation";
+            message = "Rotate the stick in the direction shown!";
         }
 
         public Rotation(int timeLimit) : base()
@@ -59,7 +63,8 @@ namespace Titanium.Gambits
         {
             sb.Draw(icon, pos, Color.White);
             string msg = "Time left: " + TimeSpan.FromMilliseconds(timeleft) + "\nCount: " + count;
-            sb.DrawString(font, msg, pos + new Vector2(0, icon.Height), Color.Red);
+            sb.DrawString(font, msg, pos + new Vector2(0, icon.Height), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override void start(GameTime gameTime)
@@ -77,7 +82,7 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/NumbersFont");
 
             icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
             icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
@@ -122,7 +127,7 @@ namespace Titanium.Gambits
             if (timeleft < 0)
             {
                 finished = true;
-                multiplier = 0.7f + ((count - 5) / 10);
+                multiplier = 0f + (count * multStep);
             }
             base.update(gameTime, state);
         }

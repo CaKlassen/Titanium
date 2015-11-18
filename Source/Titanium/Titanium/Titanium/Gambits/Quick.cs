@@ -10,9 +10,15 @@ namespace Titanium.Gambits
 {
     class Quick : BaseGambit
     {
+        public Quick()
+        {
+            name = "Quick";
+        }
+
         public override void start(GameTime gameTime)
         {
             base.start(gameTime);
+            multiplier = 0.2f;
             finished = true;
         }
         public override void draw(Vector2 pos, SpriteBatch sb)

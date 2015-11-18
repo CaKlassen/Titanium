@@ -16,6 +16,8 @@ namespace Titanium.Gambits
     /// </summary>
     public class Combo : BaseGambit
     {
+        
+
         // Sound Effects
         SoundEffect sfxSuccess;
         SoundEffect sfxFailure;
@@ -41,7 +43,7 @@ namespace Titanium.Gambits
         int length = 8;
 
         // The time limit in ms
-        int timeLimit = 10000;
+        int timeLimit = 7000;
 
         // The current input the user must perform
         int current;
@@ -55,6 +57,14 @@ namespace Titanium.Gambits
         // The icon associated with each combo action
         List<Texture2D> icons;
 
+        float multStep;
+
+        public Combo()
+        {
+            name = "Combo";
+            message = "Press the buttons in order!";
+        }
+
         public override void start(GameTime gameTime)
         {
             base.start(gameTime);
@@ -62,6 +72,7 @@ namespace Titanium.Gambits
             current = 0;
             comboString = makeComboString(DateTime.Now.Millisecond);
             timeLeft = timeLimit;
+            multStep = 1 / 8f;
         }
 
         public override void draw(Vector2 pos, SpriteBatch sb)
@@ -77,14 +88,14 @@ namespace Titanium.Gambits
                 width += icon.Width;
             }
             height += icons[0].Height;
-            string msg = "Time Left: " + TimeSpan.FromMilliseconds(timeLeft);
-            sb.DrawString(font, msg, pos + new Vector2(0, height), Color.Red);
+            sb.DrawString(font, "Time Remaining: " + timeString(timeLeft), pos + new Vector2(0, height), Color.Black);
+            base.draw(pos, sb);
         }
 
         public override void load(ContentManager content)
         {
 
-            font = content.Load<SpriteFont>("TestFont");
+            font = content.Load<SpriteFont>("Fonts/NumbersFontBig");
 
             sfxComplete = content.Load<SoundEffect>("sfx/complete");
             sfxFailure = content.Load<SoundEffect>("sfx/failure");
@@ -103,9 +114,8 @@ namespace Titanium.Gambits
 
             if (timeLeft <= 0)
             {
-                multiplier = 0.7f;
+                multiplier = 0 + (current * multStep);
                 finished = true;
-                sfxFailure.Play();
             }
             if (comboString[current].wasPressed(state))
             {
@@ -113,7 +123,7 @@ namespace Titanium.Gambits
                 sfxSuccess.Play(0.2f, 0f, 0f);
                 if(current >= comboString.Count)
                 {
-                    multiplier = 1.2f;
+                    multiplier = 1f;
                     finished = true;
                     sfxComplete.Play(0.4f, 0f, 0f);
                 }
@@ -158,7 +168,7 @@ namespace Titanium.Gambits
                 combo.Add(buttons.ElementAt(r.Next(inputCount)));
 
             foreach (InputAction action in combo)
-                icons.Add(InputAction.GetIcon(action));
+                icons.Add(action.icon());
 
             return combo;
         }
@@ -179,6 +189,7 @@ namespace Titanium.Gambits
             return h + font.LineSpacing;
         }
 
+        
 
     }
 }
