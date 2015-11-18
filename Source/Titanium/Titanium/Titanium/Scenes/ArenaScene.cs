@@ -399,7 +399,7 @@ namespace Titanium.Scenes
 
             // Create and switch to the battle
             BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack());
-
+            SoundUtils.Play(SoundUtils.Sound.BattleStart);
             SceneManager.setScene(SceneState.battle, battle, true);
         }
 

@@ -29,11 +29,12 @@ namespace Titanium.Utilities
         {
             Close,
             Open,
+            BattleStart,
             Step
         }
         static string soundBaseDir = "Sound/sfx/";
         // the order here should match the enum
-        static string[] soundDirs = { "close", "open" };
+        static string[] soundDirs = { "close", "open", "battleStart" };
         static string[] stepSoundDirs = { "step1", "step2", "step3", "step4"};
         static List<SoundEffect> stepSounds = new List<SoundEffect>();
         static List<SoundEffect> sounds = new List<SoundEffect>();
