@@ -99,6 +99,30 @@ namespace Titanium.Utilities
         }
 
         /// <summary>
+        /// Inflicts damage that will not kill the character based on a damage percent.
+        /// If the damage is equal to or greater than what the character currently has
+        /// the damage taken will leave the character with 1HP left.
+        /// </summary>
+        /// <param name="damagePercent">the percent of damage to be inflicted</param>
+        /// <returns></returns>
+        public static int[] inflictNonLethalPartyDamage(float damagePercent)
+        {
+            damagePercent /= 100;
+            int[] result = new int[partyMembers.Count];
+            for (int i = 0; i < partyMembers.Count; ++i)
+            {
+                int damage = (int)(damagePercent * partyMembers[i].getBaseHP());
+
+                if(damage >= partyMembers[i].getHealth())
+                    damage = partyMembers[i].getHealth() - 1;
+                
+                partyMembers[i].takeDamage(damage);
+                result[i] = partyMembers[i].getHealth();
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Heals the party members by a percentage
         /// </summary>
         /// <param name="percentage">percent to heal the party by</param>

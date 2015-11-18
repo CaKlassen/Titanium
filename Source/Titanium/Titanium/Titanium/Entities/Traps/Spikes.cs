@@ -98,7 +98,7 @@ namespace Titanium.Entities.Traps
                     timer -= elapsedTime;
                     if (timer <= 0)//standing on the spikes will inflict damage every TIMER amount of seconds
                     {
-                        PartyUtils.inflictPartyDamage(1);
+                        PartyUtils.inflictPartyDamage(15);
                         //Console.Write("spikes! Health -1!\n");
                         timer = TIMER;
                     }

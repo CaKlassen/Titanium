@@ -109,7 +109,7 @@ namespace Titanium.Entities.Traps
             if(PhysicsUtils.CheckCollision(ArenaScene.instance.Hero, this))
             {
                 //take away life and set death flag
-                PartyUtils.inflictPartyDamage(1);
+                PartyUtils.inflictPartyDamage(15);
                 dead = true;
             }else if (lifeSpan <= 0)
             {
