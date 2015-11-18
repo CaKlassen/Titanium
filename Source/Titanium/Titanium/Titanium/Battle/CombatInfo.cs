@@ -100,7 +100,7 @@ namespace Titanium.Battle
             if (frameRect.X <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 3)
             {
                 Vector2 spacing = hpFont.MeasureString(health);
-                sb.DrawString(hpFont, health, new Vector2(frameRect.X+frameRect.Width-spacing.X-6, frameRect.Y+2), Color.Black);
+                sb.DrawString(hpFont, health, new Vector2(frameRect.X+frameRect.Width-spacing.X-6, frameRect.Y+2), Color.White);
             }
             else
             {
@@ -115,7 +115,7 @@ namespace Titanium.Battle
             Vector2 spacing = numbersFontSmall.MeasureString(name);
             sb.DrawString(numbersFontSmall, name, new Vector2(frameRectArena.X, frameRectArena.Y-spacing.Y), Color.White);
             spacing = hpFont.MeasureString(health);
-            sb.DrawString(hpFont, health, new Vector2(frameRectArena.X + frameRectArena.Width - spacing.X - 6, frameRectArena.Y + 2), Color.Black);
+            sb.DrawString(hpFont, health, new Vector2(frameRectArena.X + frameRectArena.Width - spacing.X - 6, frameRectArena.Y + 2), Color.White);
         }
 
         public void move(Rectangle tempRect)
