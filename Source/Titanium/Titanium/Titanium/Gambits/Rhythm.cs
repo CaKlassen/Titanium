@@ -143,7 +143,7 @@ namespace Titanium.Gambits
                 switch(input.result)
                 {
                     case RhythmInput.Result.fair:
-                        multiplier += multStep/2;
+                        multiplier += multStep/1.5f;
                         break;
                     case RhythmInput.Result.perfect:
                         multiplier += multStep;

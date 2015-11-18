@@ -108,7 +108,7 @@ namespace Titanium.Gambits
         List<InputAction[]> actionString;
         int current = 0;
         int timeLeft;
-        int timeLimit = 7000;
+        int timeLimit = 8000;
         Random rng;
 
         public Finesse()
