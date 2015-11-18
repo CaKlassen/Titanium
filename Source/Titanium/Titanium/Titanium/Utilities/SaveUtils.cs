@@ -403,6 +403,7 @@ namespace Titanium.Utilities
                 {
                     container.DeleteFile(SAVE_FILE);//delete existing file
                 }
+                container.Dispose();
             }
         }
 
