@@ -209,7 +209,11 @@ namespace Titanium.Scenes
 
             // Handle pause input
             if (pause.wasPressed(inputState))
+            {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 paused = !paused;
+            }
+                
 
             if (!paused)
             {
@@ -271,7 +275,10 @@ namespace Titanium.Scenes
             else
             {
                 if (menu.wasPressed(inputState))
+                {
+                    SoundUtils.Play(SoundUtils.Sound.Input);
                     SceneManager.changeScene(SceneState.main);
+                }
             }
         }
 
@@ -399,7 +406,7 @@ namespace Titanium.Scenes
 
             // Create and switch to the battle
             BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack());
-
+            SoundUtils.Play(SoundUtils.Sound.BattleStart);
             SceneManager.setScene(SceneState.battle, battle, true);
         }
 

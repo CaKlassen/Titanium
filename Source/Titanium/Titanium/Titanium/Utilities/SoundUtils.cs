@@ -29,11 +29,18 @@ namespace Titanium.Utilities
         {
             Close,
             Open,
+            BattleStart,
+            Input,
+            Complete,
+            Failure,
+            Potion,
+            Success,
+            Hit,
             Step
         }
         static string soundBaseDir = "Sound/sfx/";
         // the order here should match the enum
-        static string[] soundDirs = { "close", "open" };
+        static string[] soundDirs = { "close", "open", "battleStart", "input", "complete", "failure", "potion", "success", "hit" };
         static string[] stepSoundDirs = { "step1", "step2", "step3", "step4"};
         static List<SoundEffect> stepSounds = new List<SoundEffect>();
         static List<SoundEffect> sounds = new List<SoundEffect>();
@@ -103,8 +110,17 @@ namespace Titanium.Utilities
             else
                 instance = stepSounds[rng.Next(stepSounds.Count)].CreateInstance();
                 
-            
-            instance.Volume = 0.5f;
+            switch(sound)
+            {
+                case Sound.Success:
+                case Sound.Failure:
+                case Sound.Complete:
+                    instance.Volume = 1f;
+                    break;
+                default:
+                    instance.Volume = 0.5f;
+                    break;
+            }
             instance.Play();
         }
     }

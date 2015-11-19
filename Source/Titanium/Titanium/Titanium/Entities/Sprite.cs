@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Titanium.Battle;
+using Titanium.Utilities;
 
 namespace Titanium.Entities
 {
@@ -273,6 +274,7 @@ namespace Titanium.Entities
         **/
         public void takeDamage(int damage)
         {
+            SoundUtils.Play(SoundUtils.Sound.Hit);
             changeState(State.Hurt);
             int newHealth = this.rawStats.currentHP;
             newHealth -= damage;

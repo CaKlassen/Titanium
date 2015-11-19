@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using Titanium.Utilities;
 
 namespace Titanium.Gambits
 {
@@ -105,20 +106,24 @@ namespace Titanium.Gambits
 
             if (timeLeft <= 0)
             {
+                SoundUtils.Play(SoundUtils.Sound.Failure);
                 multiplier = 0 + (current * multStep);
                 finished = true;
             }
             if (comboString[current].wasPressed(state))
             {
+                SoundUtils.Play(SoundUtils.Sound.Success);
                 current++;
                 if(current >= comboString.Count)
                 {
+                    SoundUtils.Play(SoundUtils.Sound.Complete);
                     multiplier = 1f;
                     finished = true;
                 }
             }
             else if (miss(state))
             {
+                SoundUtils.Play(SoundUtils.Sound.Failure);
                 current = 0;
             }
         }

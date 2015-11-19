@@ -206,6 +206,7 @@ namespace Titanium.Battle
         {             
             if (party[hero].currentState != Sprite.State.Resting && party[hero].currentState != Sprite.State.Dead)
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 selectedHero = party[hero];
                 battleMenu.selected = hero;
                 state = EncounterState.ActionSelect;
@@ -214,6 +215,7 @@ namespace Titanium.Battle
 
         public void selectSkill(Skill skill)
         {
+            SoundUtils.Play(SoundUtils.Sound.Input);
             selectedSkill = skill;
             state = EncounterState.EnemySelect;
         }
@@ -222,6 +224,7 @@ namespace Titanium.Battle
         {
             if (target != null && target.currentState != Sprite.State.Dead)
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 targetedEnemy = target;
                 battleMenu.start(selectedSkill.gambit, gameTime);
                 state = EncounterState.Gambit;

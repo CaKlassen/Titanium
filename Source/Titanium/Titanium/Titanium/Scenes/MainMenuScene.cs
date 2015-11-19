@@ -103,10 +103,12 @@ namespace Titanium.Scenes
 
             if (newGame.Evaluate(inputState, null, out player))
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 menuNewGame();
             }
             else if (loadGame.Evaluate(inputState, null, out player))
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 if (save.CheckFileExists())
                 {
                     menuLoadGame();
@@ -114,10 +116,12 @@ namespace Titanium.Scenes
             }
             else if (battle.Evaluate(inputState, null, out player))
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 menuBattle();
             }
             else if (scores.Evaluate(inputState, null, out player))
             {
+                SoundUtils.Play(SoundUtils.Sound.Input);
                 menuHighScores();
             }
 

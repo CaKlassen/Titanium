@@ -181,6 +181,9 @@ namespace Titanium.Entities
                                 //remove from tile and list
                                 p.getTile().deleteEntity(e);
                                 ArenaScene.instance.collidables.Remove(e);
+
+                                // play a sound
+                                SoundUtils.Play(SoundUtils.Sound.Potion);
                                 break;
 
                             case "MysteryBox":
