@@ -144,7 +144,7 @@ namespace Titanium.Utilities
                 IAsyncResult result = storageDevice.BeginOpenContainer(CONTAINER_NAME, null, null);
                 result.AsyncWaitHandle.WaitOne();
                 StorageContainer container = storageDevice.EndOpenContainer(result);
-
+                
                 if(container.FileExists(SAVE_FILE))//if that file already exists
                 {
                     container.DeleteFile(SAVE_FILE);//delete existing file
