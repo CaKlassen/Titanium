@@ -84,7 +84,7 @@ namespace Titanium.Scenes
             mainMenu.center();
 
 #if XBOX360
-            if (save.storageRegistered())
+            if (!save.storageRegistered())
                 save.RegisterStorage();
 #endif
             if (!save.CheckHighScoreExists())
