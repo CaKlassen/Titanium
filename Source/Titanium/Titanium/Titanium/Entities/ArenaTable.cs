@@ -24,7 +24,6 @@ namespace Titanium.Entities
 
         private Texture2D myTexture;
         //MovableModel
-        private float modelRotation;
         //public Model myModel;
         private Vector3 modelPosition;
         private float scale;
@@ -42,8 +41,7 @@ namespace Titanium.Entities
             //_Position = Vector3.Zero;
             _forward = ForwardDir.UP;
             scale = 2f;
-
-            modelRotation = 0.0f;
+            
             modelPosition = new Vector3(_currentTile.getModelPos().X, -40, _currentTile.getModelPos().Z);//models position appears on the start tile.
             
             myModel = Content.Load<Model>("Models/table");

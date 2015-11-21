@@ -52,82 +52,82 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\UVMap0.png">
+    <Compile Include="Models\Caves\UVMap0.png">
       <Name>UVMap0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap1.png">
+    <Compile Include="Models\Caves\UVMap1.png">
       <Name>UVMap1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap10.png">
+    <Compile Include="Models\Caves\UVMap10.png">
       <Name>UVMap10</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap11.png">
+    <Compile Include="Models\Caves\UVMap11.png">
       <Name>UVMap11</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap12.png">
+    <Compile Include="Models\Caves\UVMap12.png">
       <Name>UVMap12</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap13.png">
+    <Compile Include="Models\Caves\UVMap13.png">
       <Name>UVMap13</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap14.png">
+    <Compile Include="Models\Caves\UVMap14.png">
       <Name>UVMap14</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap15.png">
+    <Compile Include="Models\Caves\UVMap15.png">
       <Name>UVMap15</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap2.png">
+    <Compile Include="Models\Caves\UVMap2.png">
       <Name>UVMap2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap3.png">
+    <Compile Include="Models\Caves\UVMap3.png">
       <Name>UVMap3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap4.png">
+    <Compile Include="Models\Caves\UVMap4.png">
       <Name>UVMap4</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap5.png">
+    <Compile Include="Models\Caves\UVMap5.png">
       <Name>UVMap5</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap6.png">
+    <Compile Include="Models\Caves\UVMap6.png">
       <Name>UVMap6</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap7.png">
+    <Compile Include="Models\Caves\UVMap7.png">
       <Name>UVMap7</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap8.png">
+    <Compile Include="Models\Caves\UVMap8.png">
       <Name>UVMap8</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\UVMap9.png">
+    <Compile Include="Models\Caves\UVMap9.png">
       <Name>UVMap9</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -738,6 +738,152 @@
       <Name>hit</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Sewers\UVMap0.png">
+      <Name>UVMap0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap1.png">
+      <Name>UVMap1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap10.png">
+      <Name>UVMap10</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap11.png">
+      <Name>UVMap11</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap12.png">
+      <Name>UVMap12</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap13.png">
+      <Name>UVMap13</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap14.png">
+      <Name>UVMap14</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap15.png">
+      <Name>UVMap15</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap2.png">
+      <Name>UVMap2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap3.png">
+      <Name>UVMap3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap4.png">
+      <Name>UVMap4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap5.png">
+      <Name>UVMap5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap6.png">
+      <Name>UVMap6</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap7.png">
+      <Name>UVMap7</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap8.png">
+      <Name>UVMap8</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Sewers\UVMap9.png">
+      <Name>UVMap9</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\CinderSpider-Hurt-Spritesheet.png">
+      <Name>CinderSpider-Hurt-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\CinderSpider-Idle-Spritesheet.png">
+      <Name>CinderSpider-Idle-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\CinderSpider-Move-Spritesheet.png">
+      <Name>CinderSpider-Move-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\PoisonSlime-Hurt-Spritesheet.png">
+      <Name>PoisonSlime-Hurt-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\PoisonSlime-Idle-Spritesheet.png">
+      <Name>PoisonSlime-Idle-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\PoisonSlime-Move-Spritesheet.png">
+      <Name>PoisonSlime-Move-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Spider-Hurt-Spritesheet.png">
+      <Name>Spider-Hurt-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Spider-Idle-Spritesheet.png">
+      <Name>Spider-Idle-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Spider-Move-Spritesheet.png">
+      <Name>Spider-Move-Spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\CinderSpiderMap.png">
+      <Name>CinderSpiderMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\PoisonSlimeMap.png">
+      <Name>PoisonSlimeMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\SpiderMap.png">
+      <Name>SpiderMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

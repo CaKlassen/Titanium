@@ -169,12 +169,12 @@ namespace Titanium.Arena
         /// </summary>
         /// <param name="tile">The tile type</param>
         /// <param name="Content">The content manager for loading the art</param>
-        public void setArenaTile(ArenaTiles tile, ContentManager Content)
+        public void setArenaTile(ArenaTiles tile, string type, ContentManager Content)
         {
             this.tile = tile;
 
             // Load the UV Map and model
-            texture = Content.Load<Texture2D>("Models/UVMap" + (int) tile);
+            texture = Content.Load<Texture2D>("Models/" + type + "/UVMap" + (int) tile);
             model = Content.Load<Model>("Models/tileBase");
         }
 

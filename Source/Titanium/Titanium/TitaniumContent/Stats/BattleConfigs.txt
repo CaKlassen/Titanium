@@ -39,3 +39,24 @@ Slime~Slime Empty Empty Empty
 Slime~Slime Empty Slime Empty
 Slime~Slime Empty Slime Slime
 Slime~Slime Slime Slime Slime
+
+##
+
+PSlime~PSlime Empty Empty Empty
+PSlime~PSlime Empty PSlime Empty
+PSlime~PSlime PSlime PSlime PSlime
+PSlime~PSlime PSlime PSlime PSlime
+
+##
+
+Spider~Spider Empty Empty Empty
+Spider~Spider Empty Spider Empty
+Spider~Spider Empty Spider Spider
+Spider~Spider Spider Spider Spider
+
+##
+
+CSpider~CSpider Empty Empty Empty
+CSpider~CSpider Empty CSpider Empty
+CSpider~CSpider Empty CSpider CSpider
+CSpider~CSpider CSpider CSpider CSpider

@@ -122,6 +122,18 @@ namespace Titanium.Utilities
             {
                 return PartyUtils.Enemy.Slime;
             }
+            else if (check.Equals("pslime"))
+            {
+                return PartyUtils.Enemy.PoisonSlime;
+            }
+            else if (check.Equals("spider"))
+            {
+                return PartyUtils.Enemy.Spider;
+            }
+            else if (check.Equals("cspider"))
+            {
+                return PartyUtils.Enemy.CinderSpider;
+            }
             else if (check.Equals("empty"))
             {
                 return PartyUtils.Enemy.Empty;
