@@ -25,7 +25,7 @@ namespace Titanium.Entities.Items
         private Vector3 ModelPos;
         private float modelRotation;
         private Tile MBtile;
-        private static float BOX_LIGHT_AMBIENCE = 0.5f;
+        private static float BOX_LIGHT_AMBIENCE = 0.75f;
         private static float BOX_DARK_AMBIENCE = 0.085f;
         private float BoxAmbience;
         private bool dark;
@@ -37,7 +37,7 @@ namespace Titanium.Entities.Items
 
         public MysteryBox(Vector3 position, Tile MysteryBoxTile)
         {
-            scale = 0.5f;
+            scale = 0.2f;
             ModelPos = position;
             modelRotation = 0f;
             MBtile = MysteryBoxTile;
@@ -50,8 +50,8 @@ namespace Titanium.Entities.Items
         /// <param name="cm">the content manager</param>
         public void LoadModel(ContentManager cm)
         {
-            myModel = cm.Load<Model>("Models/hero");
-            texture = cm.Load<Texture2D>("Models/PlayerMap");
+            myModel = cm.Load<Model>("Models/Box");
+            texture = cm.Load<Texture2D>("Models/BoxUV");
         }
 
         /// <summary>

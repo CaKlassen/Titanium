@@ -117,6 +117,13 @@ namespace Titanium
             // Generate the potion in the arena
             generatePotion();
 
+            int level = ArenaController.instance.getLevel();
+
+            if (level == 5 || level == 9)
+            {
+                generateMysteryBox();
+            }
+
             return tiles;
         }
 
@@ -360,11 +367,11 @@ namespace Titanium
                 {
                     if (percent > hardThreshold)
                     {
-                        enemy = PartyUtils.Enemy.Slime;
+                        enemy = PartyUtils.Enemy.PoisonSlime;
                     }
                     else
                     {
-                        enemy = PartyUtils.Enemy.PoisonSlime;
+                        enemy = PartyUtils.Enemy.Slime;
                     }
 
                     break;
@@ -374,11 +381,11 @@ namespace Titanium
                 {
                     if (percent > hardThreshold)
                     {
-                        enemy = PartyUtils.Enemy.Spider;
+                        enemy = PartyUtils.Enemy.CinderSpider;
                     }
                     else
                     {
-                        enemy = PartyUtils.Enemy.CinderSpider;
+                        enemy = PartyUtils.Enemy.Spider;
                     }
 
                     break;
@@ -509,6 +516,30 @@ namespace Titanium
             potion.LoadModel(Content);
 
             tile.addEntity(potion);
+        }
+
+        /// <summary>
+        /// This function generates the mystery box for the arena
+        /// </summary>
+        private void generateMysteryBox()
+        {
+            Tile tile;
+            MysteryBox box;
+
+            do
+            {
+                tile = tiles[r.Next(height), r.Next(width)];
+            }
+            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() != 1);
+
+            // Create the potion
+            Vector3 pos = tile.getModelPos();
+            pos.Y += 40;
+
+            box = new MysteryBox(pos, tile);
+            box.LoadModel(Content);
+
+            tile.addEntity(box);
         }
 
         /// <summary>
