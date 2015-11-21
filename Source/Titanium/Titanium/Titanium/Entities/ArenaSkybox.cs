@@ -20,10 +20,6 @@ namespace Titanium.Entities
     {
         private Tile _currentTile;//the current tile we are standing on
         private Vector3 _Position;
-        private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
-
-        //MovableModel
-        private float modelRotation;
         //public Model myModel;
         public Texture2D texture;
         private Vector3 modelPosition;
@@ -40,10 +36,8 @@ namespace Titanium.Entities
             _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
 
             //_Position = Vector3.Zero;
-            _forward = ForwardDir.UP;
             scale = 80f;
-
-            modelRotation = 0.0f;
+            
             modelPosition = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z);//models position appears on the start tile.
             
             myModel = Content.Load<Model>("Models/skybox");
