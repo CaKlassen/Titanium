@@ -34,7 +34,7 @@ namespace Titanium.Utilities
             }
         };
 
-        public enum Enemy { Bat, Redbat, Slime, Empty };
+        public enum Enemy { Bat, Redbat, Slime, PoisonSlime, Spider, CinderSpider, Empty };
 
         static int MAX_ENEMIES = 2;
 

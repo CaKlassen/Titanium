@@ -81,11 +81,11 @@ namespace Titanium.Entities
                 level++;
 
                 score += HighScoreUtils.CalculateHighScore(1000, 250);
-                ArenaScene.instance.loadNewArena(getLevelDifficulty(level));
+                ArenaScene.instance.loadNewArena(getLevelDifficulty());
             }
         }
         
-        public ArenaDifficulty getLevelDifficulty(int level)
+        public ArenaDifficulty getLevelDifficulty()
         {
             switch(level)
             {
@@ -121,7 +121,40 @@ namespace Titanium.Entities
             }
         }
 
-        public int getLevelSize(int level)
+        public string getLevelType()
+        {
+            string type = "";
+
+            switch (ArenaController.instance.getLevel())
+            {
+                case 1:
+                case 2:
+                case 3:
+                {
+                    type = "Caves";
+                    break;
+                }
+                case 4:
+                case 5:
+                case 6:
+                {
+                    type = "Sewers";
+                    break;
+                }
+                case 7:
+                case 8:
+                case 9:
+                {
+                    type = "Basement";
+                    break;
+                }
+            }
+
+            return type;
+        }
+
+
+        public int getLevelSize()
         {
             switch(level)
             {
@@ -157,7 +190,7 @@ namespace Titanium.Entities
             }
         }
 
-        public int getDifficultEnemyThreshold(int level)
+        public int getDifficultEnemyThreshold()
         {
             switch (level)
             {

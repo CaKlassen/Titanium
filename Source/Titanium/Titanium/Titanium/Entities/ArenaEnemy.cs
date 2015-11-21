@@ -36,7 +36,6 @@ namespace Titanium.Entities
 
         private Tile _currentTile;//the current tile we are standing on
         private Vector3 _Position;
-        private ForwardDir _forward;//1 = up; 2 = right; 3 = down; 4 = left 
 
         private PartyUtils.Enemy type;
 
@@ -49,7 +48,6 @@ namespace Titanium.Entities
         private float scale;
 
         private int waitTurns = WAIT_TURNS;
-        private bool dead = false;
         
         /// <summary>
         /// This is the default constructor for the arena enemy.
@@ -63,9 +61,7 @@ namespace Titanium.Entities
 
             _currentTile = createTile;
             _Position = new Vector3(_currentTile.getModelPos().X, 0, _currentTile.getModelPos().Z); //should start in the middle of the start tile (X, Y, Z);
-
-            //_Position = Vector3.Zero;
-            _forward = ForwardDir.UP;
+            
             
             scale = 0.5f;
 
@@ -146,7 +142,6 @@ namespace Titanium.Entities
         /// </summary>
         public void die()
         {
-            dead = true;
             _currentTile.deleteEntity(this);
             ArenaScene.instance.collidables.Remove(this);
         }
@@ -217,6 +212,24 @@ namespace Titanium.Entities
                 case PartyUtils.Enemy.Slime:
                 {
                     texture = Content.Load<Texture2D>("Models/SlimeMap");
+                    break;
+                }
+
+                case PartyUtils.Enemy.PoisonSlime:
+                {
+                    texture = Content.Load<Texture2D>("Models/PoisonSlimeMap");
+                    break;
+                }
+
+                case PartyUtils.Enemy.Spider:
+                {
+                    texture = Content.Load<Texture2D>("Models/SpiderMap");
+                    break;
+                }
+
+                case PartyUtils.Enemy.CinderSpider:
+                {
+                    texture = Content.Load<Texture2D>("Models/CinderSpiderMap");
                     break;
                 }
 

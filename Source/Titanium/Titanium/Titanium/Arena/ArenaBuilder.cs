@@ -338,13 +338,13 @@ namespace Titanium
             int percent = r.Next(100);
 
             // Calculate the likelihood of a harder enemy spawning
-            int hardThreshold = ArenaController.instance.getDifficultEnemyThreshold(ArenaController.instance.getLevel());
+            int hardThreshold = ArenaController.instance.getDifficultEnemyThreshold();
 
             switch (difficulty)
             {
                 case ArenaDifficulty.EASY:
                 {
-                    if (percent > 90)
+                    if (percent > hardThreshold)
                     {
                         enemy = PartyUtils.Enemy.Redbat;
                     }
@@ -358,20 +358,27 @@ namespace Titanium
 
                 case ArenaDifficulty.MEDIUM:
                 {
-                    enemy = PartyUtils.Enemy.Slime;
+                    if (percent > hardThreshold)
+                    {
+                        enemy = PartyUtils.Enemy.Slime;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.PoisonSlime;
+                    }
 
                     break;
                 }
 
                 case ArenaDifficulty.HARD:
                 {
-                    if (percent > 90)
+                    if (percent > hardThreshold)
                     {
-                        enemy = PartyUtils.Enemy.Redbat;
+                        enemy = PartyUtils.Enemy.Spider;
                     }
                     else
                     {
-                        enemy = PartyUtils.Enemy.Bat;
+                        enemy = PartyUtils.Enemy.CinderSpider;
                     }
 
                     break;
@@ -518,6 +525,8 @@ namespace Titanium
                 connections[i] = tile.getConnection((TileConnections) i);
             }
 
+            string type = ArenaController.instance.getLevelType();
+
             if (connections[0] != null)
             {
                 // LEFT CONNECTION //
@@ -529,12 +538,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Cross
-                            tile.setArenaTile(ArenaTiles.CROSS, Content);
+                            tile.setArenaTile(ArenaTiles.CROSS, type, Content);
                         }
                         else
                         {
                             // Tri-Up
-                            tile.setArenaTile(ArenaTiles.TRI_UP, Content);
+                            tile.setArenaTile(ArenaTiles.TRI_UP, type, Content);
                         }
                     }
                     else
@@ -542,12 +551,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Tri-left
-                            tile.setArenaTile(ArenaTiles.TRI_LEFT, Content);
+                            tile.setArenaTile(ArenaTiles.TRI_LEFT, type, Content);
                         }
                         else
                         {
                             // Corner Bottom Right
-                            tile.setArenaTile(ArenaTiles.CORNER_BR, Content);
+                            tile.setArenaTile(ArenaTiles.CORNER_BR, type, Content);
                         }
                     }
                 }
@@ -558,12 +567,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Tri-Bottom
-                            tile.setArenaTile(ArenaTiles.TRI_DOWN, Content);
+                            tile.setArenaTile(ArenaTiles.TRI_DOWN, type, Content);
                         }
                         else
                         {
                             // Straight Horizontal
-                            tile.setArenaTile(ArenaTiles.STR_HOR, Content);
+                            tile.setArenaTile(ArenaTiles.STR_HOR, type, Content);
                         }
                     }
                     else
@@ -571,12 +580,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Corner Top Right
-                            tile.setArenaTile(ArenaTiles.CORNER_TR, Content);
+                            tile.setArenaTile(ArenaTiles.CORNER_TR, type, Content);
                         }
                         else
                         {
                             // Dead End Right
-                            tile.setArenaTile(ArenaTiles.DE_RIGHT, Content);
+                            tile.setArenaTile(ArenaTiles.DE_RIGHT, type, Content);
                         }
                     }
                 }
@@ -592,12 +601,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Tri-Right
-                            tile.setArenaTile(ArenaTiles.TRI_RIGHT, Content);
+                            tile.setArenaTile(ArenaTiles.TRI_RIGHT, type, Content);
                         }
                         else
                         {
                             // Corner Bottom Left
-                            tile.setArenaTile(ArenaTiles.CORNER_BL, Content);
+                            tile.setArenaTile(ArenaTiles.CORNER_BL, type, Content);
                         }
                     }
                     else
@@ -605,12 +614,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Straight Vertical
-                            tile.setArenaTile(ArenaTiles.STR_VERT, Content);
+                            tile.setArenaTile(ArenaTiles.STR_VERT, type, Content);
                         }
                         else
                         {
                             // Dead End Bottom
-                            tile.setArenaTile(ArenaTiles.DE_BOTTOM, Content);
+                            tile.setArenaTile(ArenaTiles.DE_BOTTOM, type, Content);
                         }
                     }
                 }
@@ -621,12 +630,12 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Corner Top Left
-                            tile.setArenaTile(ArenaTiles.CORNER_TL, Content);
+                            tile.setArenaTile(ArenaTiles.CORNER_TL, type, Content);
                         }
                         else
                         {
                             // Dead End Left
-                            tile.setArenaTile(ArenaTiles.DE_LEFT, Content);
+                            tile.setArenaTile(ArenaTiles.DE_LEFT, type, Content);
                         }
                     }
                     else
@@ -634,7 +643,7 @@ namespace Titanium
                         if (connections[3] != null)
                         {
                             // Dead End Top
-                            tile.setArenaTile(ArenaTiles.DE_TOP, Content);
+                            tile.setArenaTile(ArenaTiles.DE_TOP, type, Content);
                         }
                     }
                 }
@@ -646,6 +655,9 @@ namespace Titanium
         /// </summary>
         private void fillEmptyTiles()
         {
+            string type = ArenaController.instance.getLevelType();
+            
+
             for (int i = 0; i < tiles.GetLength(0); i++)
             {
                 for (int j = 0; j < tiles.GetLength(1); j++)
@@ -653,7 +665,7 @@ namespace Titanium
                     if (tiles[i, j] == null)
                     {
                         tiles[i, j] = new Tile(null, j, i);
-                        tiles[i, j].setArenaTile(ArenaTiles.EMPTY, Content);
+                        tiles[i, j].setArenaTile(ArenaTiles.EMPTY, type, Content);
                     }
                 }
             }
