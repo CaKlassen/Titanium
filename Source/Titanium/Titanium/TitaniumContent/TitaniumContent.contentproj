@@ -824,32 +824,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sprites\CinderSpider-Hurt-Spritesheet.png">
-      <Name>CinderSpider-Hurt-Spritesheet</Name>
+      <Name>cinderspider_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\CinderSpider-Idle-Spritesheet.png">
-      <Name>CinderSpider-Idle-Spritesheet</Name>
+      <Name>cinderspider_idle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\CinderSpider-Move-Spritesheet.png">
-      <Name>CinderSpider-Move-Spritesheet</Name>
+      <Name>cinderspider_run</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\PoisonSlime-Hurt-Spritesheet.png">
-      <Name>PoisonSlime-Hurt-Spritesheet</Name>
+      <Name>poisonslime_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\PoisonSlime-Idle-Spritesheet.png">
-      <Name>PoisonSlime-Idle-Spritesheet</Name>
+      <Name>poisonslime_idle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\PoisonSlime-Move-Spritesheet.png">
-      <Name>PoisonSlime-Move-Spritesheet</Name>
+      <Name>poisonslime_run</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
