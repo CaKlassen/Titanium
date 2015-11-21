@@ -70,8 +70,8 @@ namespace Titanium.Entities
 
             rotAngle = MathHelper.ToRadians(180);
             scale = 0.5f;
-            
-            modelRotation = 180.0f;
+
+            modelRotation = rotAngle;
 
             myModel = null;
             stepsTaken = 0;
@@ -248,7 +248,7 @@ namespace Titanium.Entities
                 }
             }
 
-            if (down.Evaluate(inputState, PlayerIndex.One, out player))
+            else if (down.Evaluate(inputState, PlayerIndex.One, out player))
             {
                 if (_currentTile.getConnection(TileConnections.BOTTOM) != null)
                 {
