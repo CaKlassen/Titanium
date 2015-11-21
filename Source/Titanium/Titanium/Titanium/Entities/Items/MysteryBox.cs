@@ -37,11 +37,16 @@ namespace Titanium.Entities.Items
 
         public MysteryBox(Vector3 position, Tile MysteryBoxTile)
         {
+            // Add this to the collidables list
+            ArenaScene.instance.collidables.Add(this);
+
             scale = 0.2f;
             ModelPos = position;
             modelRotation = 0f;
             MBtile = MysteryBoxTile;
             BoxAmbience = BOX_DARK_AMBIENCE;
+
+            setupOutcomes();
         }
 
         /// <summary>
@@ -97,6 +102,19 @@ namespace Titanium.Entities.Items
         /// <returns>the models position</returns>
         public override Vector3 getPOSITION()
         {
+            Vector3 tempPos = ModelPos;
+            tempPos.Y = 0;
+            return tempPos;
+        }
+
+        /// <summary>
+        /// returns actual position;
+        /// getPOSITION will return position with Y = 0.
+        /// Use this for real position
+        /// </summary>
+        /// <returns>the correct model position</returns>
+        public Vector3 getActualPosition()
+        {
             return ModelPos;
         }
 
@@ -150,17 +168,17 @@ namespace Titanium.Entities.Items
 
             List<MysteryOptions> temp = new List<MysteryOptions>();
 
-            for (int i = 0; 0 < heals; i++)
+            for (int i = 0; i < heals; i++)
             {
                 temp.Add(MysteryOptions.HEAL);
             }
 
-            for (int i = 0; 0 < damage; i++)
+            for (int i = 0; i < damage; i++)
             {
                 temp.Add(MysteryOptions.DAMAGE);
             }
 
-            for (int i = 0; 0 < none; i++)
+            for (int i = 0; i < none; i++)
             {
                 temp.Add(MysteryOptions.NONE);
             }
@@ -200,13 +218,16 @@ namespace Titanium.Entities.Items
             {
                 case MysteryOptions.HEAL:
                     PartyUtils.HealParty(95);//done by percent
+                    SoundUtils.Play(SoundUtils.Sound.Potion);
                     break;
 
                 case MysteryOptions.DAMAGE:
                     PartyUtils.inflictNonLethalPartyDamage(75f);
+                    SoundUtils.Play(SoundUtils.Sound.Hit);
                     break;
 
                 case MysteryOptions.NONE:
+                    SoundUtils.Play(SoundUtils.Sound.Step);
                     break;
             }
         }
