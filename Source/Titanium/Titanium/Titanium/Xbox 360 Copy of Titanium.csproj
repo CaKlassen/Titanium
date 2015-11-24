@@ -65,12 +65,14 @@
     <Compile Include="Entities\ArenaEnemy.cs" />
     <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\ArenaExit.cs" />
+    <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\EnemySprite.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Items\MysteryBox.cs" />
     <Compile Include="Entities\Items\Potion.cs" />
     <Compile Include="Entities\PlayerSprite.cs" />
     <Compile Include="Entities\Sprite.cs" />
+    <Compile Include="Entities\Textbox.cs" />
     <Compile Include="Entities\Traps\Projectile.cs" />
     <Compile Include="Entities\Traps\ProjectileDispenser.cs" />
     <Compile Include="Entities\Traps\Spikes.cs" />

@@ -54,6 +54,8 @@ namespace Titanium.Scenes
         private BasicEffect effect;
         public int potionsUsed;
 
+        private Conversation currentConversation = null;
+
         private float FlashLightAngle;
         private bool flashOn = false;
         private int FLASH_RATE = 10;
@@ -196,8 +198,14 @@ namespace Titanium.Scenes
             pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
             pauseMenu.center();
 
-            // Debug arena
-            printDebugArena();
+            // TEMP: Load a fake conversation
+            currentConversation = new Conversation();
+            currentConversation.addTextbox(new Textbox("This is a super awesome test!", TextChar.LEO));
+            currentConversation.addTextbox(new Textbox("This is another super awesome test!", TextChar.KLEPTO));
+            currentConversation.addTextbox(new Textbox("This is a ...... test.", TextChar.CLEM));
+            currentConversation.addTextbox(new Textbox("This is a BAD GUY test!", TextChar.VILLAIN));
+
+            currentConversation.load(content);
         }
 
         /**
@@ -215,10 +223,25 @@ namespace Titanium.Scenes
             }
                 
 
+            if (currentConversation != null)
+            {
+                currentConversation.Update(gameTime, inputState);
+
+                // Check if we are done talking
+                if (currentConversation.getDone())
+                {
+                    currentConversation = null;
+                }
+            }
+
             if (!paused)
             {
-                //update Character
-                Hero.Update(gameTime, inputState);
+                if (currentConversation == null)
+                {
+                    //update Character
+                    Hero.Update(gameTime, inputState);
+                }
+
                 camera.UpdateCamera(Hero.getPOSITION());
 
                 // Update the spotlight
@@ -347,6 +370,12 @@ namespace Titanium.Scenes
                 sb.Begin();
                 pauseMenu.draw(sb, null);
                 sb.End();
+            }
+
+            // Render the conversation
+            if (currentConversation != null)
+            {
+                currentConversation.Draw(sb, null);
             }
 ;
         }
