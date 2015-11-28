@@ -55,6 +55,7 @@ namespace Titanium.Scenes
         public int potionsUsed;
 
         private Conversation currentConversation = null;
+        private bool firstBattle = true;
 
         private float FlashLightAngle;
         private bool flashOn = false;
@@ -432,8 +433,17 @@ namespace Titanium.Scenes
         {
             BattleBuilder battleBuilder = new BattleBuilder(enemy);
 
+            // Check if this battle gets a conversation
+            Conversation c = null;
+
+            if (firstBattle && controller.getLevel() == 1)
+            {
+                c = DialogueUtils.makeConversation(ConversationType.BATTLE_FIRST);
+                firstBattle = false;
+            }
+
             // Create and switch to the battle
-            BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack());
+            BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack(), c);
             SoundUtils.Play(SoundUtils.Sound.BattleStart);
             SceneManager.setScene(SceneState.battle, battle, true);
         }

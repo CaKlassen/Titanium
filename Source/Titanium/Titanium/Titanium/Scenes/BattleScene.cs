@@ -39,10 +39,14 @@ namespace Titanium.Scenes
         Texture2D background;
         Rectangle screen;
 
+        private Conversation currentConversation = null;
+        private bool initialize = true;
+
+
         /**
          * The default scene constructor.
          */
-        public BattleScene(List<PartyUtils.Enemy> front, List<PartyUtils.Enemy> back) : base()
+        public BattleScene(List<PartyUtils.Enemy> front, List<PartyUtils.Enemy> back, Conversation conversation) : base()
         {
             pause = new InputAction(
                 new Buttons[] { Buttons.Start },
@@ -67,6 +71,8 @@ namespace Titanium.Scenes
             bgm = SoundUtils.Music.BattleTheme;
 
             currentEncounter = new Encounter(front, back);
+
+            currentConversation = conversation;
         }
 
         public BattleScene() : base()
@@ -96,7 +102,6 @@ namespace Titanium.Scenes
                 new List<Utilities.PartyUtils.Enemy>() { Utilities.PartyUtils.Enemy.Bat, Utilities.PartyUtils.Enemy.Bat }
                 );
             bgm = SoundUtils.Music.BattleTheme;
-
         }
 
         /**
@@ -114,6 +119,10 @@ namespace Titanium.Scenes
             background = content.Load<Texture2D>("Sprites/Battle-Base");
             pauseMenu.center();
 
+            if (currentConversation != null)
+            {
+                currentConversation.load(content);
+            }
             
         }
 
@@ -131,7 +140,17 @@ namespace Titanium.Scenes
                 SoundUtils.Play(SoundUtils.Sound.Input);
                 paused = !paused;
             }
-                
+
+            if (currentConversation != null)
+            {
+                currentConversation.Update(gameTime, inputState);
+
+                // Check if we are done talking
+                if (currentConversation.getDone())
+                {
+                    currentConversation = null;
+                }
+            }
 
             if (paused)
             {
@@ -140,29 +159,33 @@ namespace Titanium.Scenes
                     SoundUtils.Play(SoundUtils.Sound.Input);
                     SceneManager.changeScene(SceneState.arena);
                 }
-                    
             }
             else
             {
-                currentEncounter.update(gameTime, inputState);
-
-                if (currentEncounter.success())
+                if (currentConversation == null || initialize)
                 {
-                    SceneManager.changeScene(SceneState.arena);
-                }
-                else if (currentEncounter.failure())
-                {
-                    // Save the player's achieved score
-                    SaveUtils save = SaveUtils.getInstance();
-                    HighscoreData data = save.loadHighScores();
-                    HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
-                    save.saveHighScores(data.highscores);
+                    initialize = false;
 
-                    // Delete the player's save file
-                    save.DeleteSaveFile();
+                    currentEncounter.update(gameTime, inputState);
 
-                    SceneManager.changeScene(SceneState.main);
-                    PartyUtils.Reset();
+                    if (currentEncounter.success())
+                    {
+                        SceneManager.changeScene(SceneState.arena);
+                    }
+                    else if (currentEncounter.failure())
+                    {
+                        // Save the player's achieved score
+                        SaveUtils save = SaveUtils.getInstance();
+                        HighscoreData data = save.loadHighScores();
+                        HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
+                        save.saveHighScores(data.highscores);
+
+                        // Delete the player's save file
+                        save.DeleteSaveFile();
+
+                        SceneManager.changeScene(SceneState.main);
+                        PartyUtils.Reset();
+                    }
                 }
             }
             
@@ -184,6 +207,12 @@ namespace Titanium.Scenes
                 pauseMenu.draw(sb, null);
 
             sb.End();
+
+            // Draw the conversation
+            if (currentConversation != null)
+            {
+                currentConversation.Draw(sb, null);
+            }
         }
 
         /**
