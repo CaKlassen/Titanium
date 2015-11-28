@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Titanium.Battle;
 using Titanium.Entities;
+using Titanium.Gambits;
 using Titanium.Utilities;
 
 namespace Titanium.Scenes.Panels
@@ -25,14 +26,18 @@ namespace Titanium.Scenes.Panels
 
         static int offsetBack = 250;
 
-        static int DELAY = 2000;
+        static int DELAY = 1500;
         static int SIZE = 4;
 
         public bool active = false;
+        bool gambitActive = false;
 
         int currentDelay = 0;
 
         GameTime start;
+
+        GambitResult result;
+        Counter counterGambit;
 
         public Sprite this[int key]
         {
@@ -52,6 +57,7 @@ namespace Titanium.Scenes.Panels
         {
             this.front = front;
             this.back = back;
+            counterGambit = new Counter();
             encounter = e;
         }
 
@@ -83,7 +89,10 @@ namespace Titanium.Scenes.Panels
                     sprite.move(Origin + offset);
 	                
                 }
-				offset += new Vector2(offsetX, offsetY);            }
+				offset += new Vector2(offsetX, offsetY);
+            }
+
+            counterGambit.load(content);
         }
 
         public override void draw(SpriteBatch sb, Effect effect)
@@ -107,9 +116,28 @@ namespace Titanium.Scenes.Panels
             if(active)
             {
                 if (canAct())
-                    currentDelay+=gameTime.ElapsedGameTime.Milliseconds;
-                if(currentDelay > DELAY)
-                    act();
+                {
+                    if(gambitActive)
+                    {
+                        if (encounter.battleMenu.gambitComplete(out result))
+                        {
+                            gambitActive = false;
+                            act(result);
+                        }
+                            
+                    }
+                    else
+                    {
+                        if (currentDelay > DELAY)
+                        {
+                            encounter.battleMenu.start(counterGambit, gameTime);
+                            gambitActive = true;
+                        }
+                        else
+                            currentDelay += gameTime.ElapsedGameTime.Milliseconds;
+                        
+                    }
+                }
             }
 
             foreach (Sprite sprite in front)
@@ -147,7 +175,7 @@ namespace Titanium.Scenes.Panels
             return false;
         }
 
-        public void act()
+        public void act(GambitResult result)
         {
             currentDelay = 0;
             for(int i = 0; i<SIZE; ++i)
@@ -156,7 +184,7 @@ namespace Titanium.Scenes.Panels
                 {
                     if (this[i].currentState == Sprite.State.Idle)
                     {
-                        PartyUtils.testAction(this[i], PartyUtils.getRandomPartyMember(), new Gambits.GambitResult(1f, int.MaxValue));
+                        PartyUtils.testAction(this[i], PartyUtils.getRandomPartyMember(), result);
                         return;
                     }
                 }
@@ -207,6 +235,11 @@ namespace Titanium.Scenes.Panels
                 }
             }
             return true;
+        }
+
+        public bool inGambit()
+        {
+            return gambitActive;
         }
     }
 }

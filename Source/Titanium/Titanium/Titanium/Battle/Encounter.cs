@@ -53,7 +53,7 @@ namespace Titanium.Battle
 
         PartyPanel party;
         EnemyPanel enemies;
-        BattleMenuPanel battleMenu;
+        public BattleMenuPanel battleMenu;
 
         PlayerSprite selectedHero;
         Skill selectedSkill;
@@ -253,7 +253,10 @@ namespace Titanium.Battle
             return false;
         }
 
-        
+        public bool enemyGambit()
+        {
+            return enemies.inGambit();
+        }
 
         
     }
