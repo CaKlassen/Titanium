@@ -139,6 +139,7 @@
     <Compile Include="Scenes\Panels\PartyPanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
+    <Compile Include="Utilities\DialogueUtils.cs" />
     <Compile Include="Utilities\FileUtils.cs" />
     <Compile Include="Utilities\HighScoreUtils.cs" />
     <Compile Include="Utilities\MathUtils.cs" />

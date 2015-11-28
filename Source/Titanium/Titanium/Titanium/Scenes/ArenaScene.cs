@@ -198,13 +198,8 @@ namespace Titanium.Scenes
             pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
             pauseMenu.center();
 
-            // TEMP: Load a fake conversation
-            currentConversation = new Conversation();
-            currentConversation.addTextbox(new Textbox("This is a super awesome test!", TextChar.LEO));
-            currentConversation.addTextbox(new Textbox("This is another super awesome test!", TextChar.KLEPTO));
-            currentConversation.addTextbox(new Textbox("This is a ...... test.", TextChar.CLEM));
-            currentConversation.addTextbox(new Textbox("This is a BAD GUY test!", TextChar.VILLAIN));
-
+            // Load the level start conversation
+            currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
             currentConversation.load(content);
         }
 
@@ -424,6 +419,10 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
+
+            // Load the level start conversation
+            currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
+            currentConversation.load(content);
 
             // Debug arena
             printDebugArena();
