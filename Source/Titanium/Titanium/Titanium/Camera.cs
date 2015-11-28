@@ -113,8 +113,6 @@ namespace Titanium
         {
             Vector3 rotateCheck = position;
             rotateCheck.Normalize();
-
-            Console.WriteLine(rotateCheck);
             
             if (!up && rotateCheck.Y >= 0.11f)
             {

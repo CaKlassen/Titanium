@@ -55,6 +55,7 @@ namespace Titanium.Scenes
         public int potionsUsed;
 
         private Conversation currentConversation = null;
+        private bool firstBattle = true;
 
         private float FlashLightAngle;
         private bool flashOn = false;
@@ -198,13 +199,8 @@ namespace Titanium.Scenes
             pauseMenu.load(content, SceneManager.GraphicsDevice.Viewport);
             pauseMenu.center();
 
-            // TEMP: Load a fake conversation
-            currentConversation = new Conversation();
-            currentConversation.addTextbox(new Textbox("This is a super awesome test!", TextChar.LEO));
-            currentConversation.addTextbox(new Textbox("This is another super awesome test!", TextChar.KLEPTO));
-            currentConversation.addTextbox(new Textbox("This is a ...... test.", TextChar.CLEM));
-            currentConversation.addTextbox(new Textbox("This is a BAD GUY test!", TextChar.VILLAIN));
-
+            // Load the level start conversation
+            currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
             currentConversation.load(content);
         }
 
@@ -425,6 +421,10 @@ namespace Titanium.Scenes
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
 
+            // Load the level start conversation
+            currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
+            currentConversation.load(content);
+
             // Debug arena
             printDebugArena();
         }
@@ -433,8 +433,17 @@ namespace Titanium.Scenes
         {
             BattleBuilder battleBuilder = new BattleBuilder(enemy);
 
+            // Check if this battle gets a conversation
+            Conversation c = null;
+
+            if (firstBattle && controller.getLevel() == 1)
+            {
+                c = DialogueUtils.makeConversation(ConversationType.BATTLE_FIRST);
+                firstBattle = false;
+            }
+
             // Create and switch to the battle
-            BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack());
+            BattleScene battle = new BattleScene(battleBuilder.getFront(), battleBuilder.getBack(), c);
             SoundUtils.Play(SoundUtils.Sound.BattleStart);
             SceneManager.setScene(SceneState.battle, battle, true);
         }

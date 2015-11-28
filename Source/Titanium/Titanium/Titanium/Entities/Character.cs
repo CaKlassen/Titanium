@@ -188,10 +188,11 @@ namespace Titanium.Entities
 
                             case "MysteryBox":
                                 MysteryBox mb = (MysteryBox)e;
-                                mb.RevealMystery();
-                                //remove from tile and list
-                                mb.getTile().deleteEntity(e);
-                                ArenaScene.instance.collidables.Remove(e);
+                                if (!mb.getCollected())
+                                {
+                                    mb.RevealMystery();
+                                    mb.setCollected();
+                                }
                                 break;
                         }
                     }
