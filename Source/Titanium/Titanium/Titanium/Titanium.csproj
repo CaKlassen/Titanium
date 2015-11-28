@@ -117,6 +117,7 @@
     <Compile Include="Entities\Traps\Spikes.cs" />
     <Compile Include="Gambits\BaseGambit.cs" />
     <Compile Include="Gambits\Combo.cs" />
+    <Compile Include="Gambits\Counter.cs" />
     <Compile Include="Gambits\Finesse.cs" />
     <Compile Include="Gambits\Mash.cs" />
     <Compile Include="Gambits\Quick.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Scenes\Panels\PartyPanel.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
+    <Compile Include="Utilities\DialogueUtils.cs" />
     <Compile Include="Utilities\FileUtils.cs" />
     <Compile Include="Utilities\HighScoreUtils.cs" />
     <Compile Include="Utilities\MathUtils.cs" />

@@ -156,7 +156,8 @@ namespace Titanium.Scenes
         {
             BattleScene battle = new BattleScene(
                     new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat }
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
+                    null
                     );
             SceneManager.setScene(SceneState.battle, battle, true);
         }

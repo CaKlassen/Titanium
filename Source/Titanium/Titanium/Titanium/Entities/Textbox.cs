@@ -129,7 +129,7 @@ namespace Titanium.Entities
                     partText = text;
                 }
             }
-            else
+            else if (done)
             {
                 if (waitTime > 0)
                 {
