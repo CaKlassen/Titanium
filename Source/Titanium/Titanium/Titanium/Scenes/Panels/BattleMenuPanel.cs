@@ -86,7 +86,9 @@ namespace Titanium.Scenes.Panels
                     subPanels[selected].draw(sb, effect);
                     break;
                 case Encounter.EncounterState.EnemyTurn:
-                    sb.DrawString(font, enemyTurn, getCenter(heroSelect), Color.Black);
+                    sb.DrawString(font, enemyTurn, getCenter(enemyTurn), Color.Black);
+                    if (encounter.enemyGambit())
+                        currentGambit.draw(Position, sb);
                     break;
                 case Encounter.EncounterState.Gambit:
                     currentGambit.draw(Position, sb);
@@ -113,7 +115,7 @@ namespace Titanium.Scenes.Panels
 
         public override void update(GameTime gameTime, InputState inputState)
         {
-            if (encounter.state == Encounter.EncounterState.Gambit)
+            if (encounter.state == Encounter.EncounterState.Gambit || encounter.enemyGambit())
                 currentGambit.update(gameTime, inputState);
         }
 
