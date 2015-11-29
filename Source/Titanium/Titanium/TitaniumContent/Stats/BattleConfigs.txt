@@ -13,7 +13,7 @@ Bat~Bat Bat Empty Bat
 Bat~Bat Bat Bat Bat
 Bat~Bat Bat Bat Bat
 
-Bat~Rbat Bat Bat Bat
+Bat~Rbat Bat Empty Bat
 Bat~Rbat Empty Bat Bat
 
 ##
@@ -31,32 +31,80 @@ Rbat~Empty Empty Rbat Rbat
 
 Rbat~Rbat Rbat Rbat Empty
 Rbat~Rbat Rbat Empty Rbat
-Rbat~Ebat Empty Rbat Rbat
+Rbat~Rbat Empty Rbat Rbat
 
 ##
 
-Slime~Slime Empty Empty Empty
+Slime~Slime Slime Empty Empty
 Slime~Slime Empty Slime Empty
+Slime~Slime Empty Empty Slime
+Slime~Empty Slime Slime Empty
+Slime~Empty Slime Empty Slime
+Slime~Empty Empty Slime Slime
+
+Slime~Slime Slime Slime Empty
 Slime~Slime Empty Slime Slime
+Slime~Empty Slime Slime Slime
+Slime~Slime Slime Empty Slime
+
 Slime~Slime Slime Slime Slime
+Slime~Slime Slime Slime Slime
+
+Slime~PSlime Slime Empty Slime
+Slime~PSlime Empty Slime Slime
 
 ##
 
 PSlime~PSlime Empty Empty Empty
-PSlime~PSlime Empty PSlime Empty
-PSlime~PSlime PSlime PSlime PSlime
-PSlime~PSlime PSlime PSlime PSlime
+PSlime~Empty PSlime Empty Empty
+PSlime~Empty Empty PSlime Empty
+
+PSlime~PSlime PSlime Empty Empty
+PSlime~PSlime Empty PSlime PSlime
+PSlime~PSlime Empty Empty PSlime
+PSlime~Empty PSlime PSlime Empty
+PSlime~Empty PSlime Empty PSlime
+PSlime~Empty Empty PSlime PSlime
+
+PSlime~PSlime PSlime PSlime Empty
+PSlime~PSlime PSlime Empty PSlime
+PSlime~PSlime Empty PSlime PSlime
 
 ##
 
-Spider~Spider Empty Empty Empty
+Spider~Spider Spider Empty Empty
 Spider~Spider Empty Spider Empty
+Spider~Spider Empty Empty Spider
+Spider~Empty Spider Spider Empty
+Spider~Empty Spider Empty Spider
+Spider~Empty Empty Spider Spider
+
+Spider~Spider Spider Spider Empty
 Spider~Spider Empty Spider Spider
+Spider~Empty Spider Spider Spider
+Spider~Spider Spider Empty Spider
+
+Spider~Spider Spider Spider Spider
 Spider~Spider Spider Spider Spider
 
+Spider~CSpider Spider Spider Spider
+Spider~CSpider Empty Spider Spider
+
 ##
 
-CSpider~CSpider Empty Empty Empty
-CSpider~CSpider Empty CSpider Empty
+CSpider~CSpider CSpider Empty Empty
 CSpider~CSpider Empty CSpider CSpider
+CSpider~CSpider Empty Empty CSpider
+CSpider~Empty CSpider CSpider Empty
+CSpider~Empty CSpider Empty CSpider
+CSpider~Empty Empty CSpider CSpider
+
+CSpider~CSpider CSpider CSpider Empty
+CSpider~CSpider CSpider Empty CSpider
+CSpider~CSpider Empty CSpider CSpider
+
 CSpider~CSpider CSpider CSpider CSpider
+
+##
+
+Boss~Boss Empty Empty Empty
