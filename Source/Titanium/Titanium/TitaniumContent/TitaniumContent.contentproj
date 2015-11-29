@@ -859,17 +859,17 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\Spider-Hurt-Spritesheet.png">
-      <Name>Spider-Hurt-Spritesheet</Name>
+      <Name>spider_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\Spider-Idle-Spritesheet.png">
-      <Name>Spider-Idle-Spritesheet</Name>
+      <Name>spider_idle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Sprites\Spider-Move-Spritesheet.png">
-      <Name>Spider-Move-Spritesheet</Name>
+      <Name>spider_run</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
