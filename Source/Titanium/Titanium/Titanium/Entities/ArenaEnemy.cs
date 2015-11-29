@@ -233,6 +233,12 @@ namespace Titanium.Entities
                     break;
                 }
 
+                case PartyUtils.Enemy.Boss:
+                {
+                    texture = Content.Load<Texture2D>("Models/BossMap");
+                    break;
+                }
+
                 default:
                 {
                     texture = Content.Load<Texture2D>("Models/BatMap");

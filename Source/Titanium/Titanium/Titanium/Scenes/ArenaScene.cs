@@ -43,6 +43,8 @@ namespace Titanium.Scenes
                     rotateDown,
                     pause;
 
+        InputAction skip = InputAction.LB;
+
         ContentManager content;
         public Effect HLSLeffect;
 
@@ -299,6 +301,13 @@ namespace Titanium.Scenes
                     SceneManager.changeScene(SceneState.main);
                 }
             }
+
+            // DEBUG
+            if (skip.Evaluate(inputState, null, out player))
+            {
+                collidables.Clear();
+                controller.moveToNextArena();
+            }
         }
 
         /**
@@ -438,8 +447,15 @@ namespace Titanium.Scenes
 
             if (firstBattle && controller.getLevel() == 1)
             {
+                // First fight
                 c = DialogueUtils.makeConversation(ConversationType.BATTLE_FIRST);
                 firstBattle = false;
+            }
+
+            if (battleBuilder.getFront()[1] == PartyUtils.Enemy.Boss)
+            {
+                // If this is the boss fight
+                c = DialogueUtils.makeConversation(ConversationType.BATTLE_BOSS);
             }
 
             // Create and switch to the battle
