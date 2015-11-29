@@ -110,6 +110,8 @@ namespace Titanium.Gambits
         int current = 0;
         int timeLeft;
         int timeLimit = 8000;
+        int length = 3;
+        float multStep;
         Random rng;
 
         public Finesse()
@@ -119,11 +121,32 @@ namespace Titanium.Gambits
             helpOffset += new Vector2(200, 0);
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    length = 3;
+                    timeLimit = 8000;
+                    break;
+                case Difficulty.Medium:
+                    length = 4;
+                    timeLimit = 9000;
+                    break;
+                case Difficulty.Hard:
+                    length = 5;
+                    timeLimit = 10000;
+                    break;
+                default:
+                    length = 4;
+                    timeLimit = 9000;
+                    break;
+
+            }
+            multStep = 1f / length;
             rng = new Random(gameTime.TotalGameTime.Milliseconds);
-            base.start(gameTime);
-            actionString = makeActionString(4);
+            actionString = makeActionString(length);
             current = 0;
             timeLeft = timeLimit;
         }
@@ -191,7 +214,7 @@ namespace Titanium.Gambits
             if (timeLeft <= 0)
             {
                 SoundUtils.Play(SoundUtils.Sound.Failure);
-                multiplier = 0 + current * 0.2f;
+                multiplier = current * multStep;
                 finished = true;
             }
             if(current >= actionString.Count)

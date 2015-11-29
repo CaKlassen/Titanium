@@ -16,8 +16,6 @@ namespace Titanium.Gambits
         static int trackWidth = 400;
         static int trackHeight = 15;
         static int lineHeight = 80;
-        static int perfectWidth = 24;
-        static int fairWidth = 72;
         static int trackOffsetX = 90;
         static int trackOffsetY = 80;
         static string[] helpText = { "Hit", "at the right time!" };
@@ -36,6 +34,9 @@ namespace Titanium.Gambits
 
 
         float speed = 4f;
+        int perfectWidth;        
+        int fairWidth;
+
 
         Vector2 position;
 
@@ -48,9 +49,26 @@ namespace Titanium.Gambits
             helpOffset = new Vector2(530, 180);
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
-            base.start(gameTime);
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    perfectWidth = 32;
+                    break;
+                case Difficulty.Medium:
+                    perfectWidth = 24;
+                    break;
+                case Difficulty.Hard:
+                    perfectWidth = 16;
+                    break;
+                default:
+                    perfectWidth = 24;
+                    break;
+
+            }
+            fairWidth = perfectWidth * 3;
             line = new Rectangle();
             track = new Rectangle();
             perfect = new Rectangle();
@@ -129,16 +147,16 @@ namespace Titanium.Gambits
             if (line.Intersects(perfect))
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                return 0.1f;
+                return 0.5f;
             }
                 
             if (line.Intersects(fair))
             {
                 SoundUtils.Play(SoundUtils.Sound.Success);
-                return 0.2f;
+                return 0.7f;
             }
             SoundUtils.Play(SoundUtils.Sound.Failure);
-            return 0.3f;
+            return 1f;
         }
 
 

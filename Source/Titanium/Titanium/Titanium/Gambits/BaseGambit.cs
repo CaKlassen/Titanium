@@ -20,6 +20,14 @@ namespace Titanium.Gambits
         public float multiplier;
         public int completionTime;
     }
+
+    public enum Difficulty
+    {
+        Easy = 1,
+        Medium = 2,
+        Hard = 3
+    }
+
     /// <summary>
     /// Base class representing the actions the player must take to improve a certain attack or spell
     /// </summary>
@@ -46,7 +54,7 @@ namespace Titanium.Gambits
         /// Start this gambit from the given time. Must be called before the gambit can be used
         /// </summary>
         /// <param name="gameTime">The current GameTime object</param>
-        public virtual void start(GameTime gameTime)
+        public virtual void start(GameTime gameTime, int difficulty)
         {
             startTime = (int)gameTime.TotalGameTime.TotalMilliseconds;
             timeElapsed = 0;

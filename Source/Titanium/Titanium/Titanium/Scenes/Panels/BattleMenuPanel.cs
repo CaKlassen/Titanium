@@ -100,10 +100,10 @@ namespace Titanium.Scenes.Panels
             
         }
 
-        public void start(BaseGambit gambit, GameTime gameTime)
+        public void start(BaseGambit gambit, int difficulty, GameTime gameTime)
         {
             currentGambit = gambit;
-            currentGambit.start(gameTime);
+            currentGambit.start(gameTime, difficulty);
         }
 
         public bool gambitComplete(out GambitResult result)
