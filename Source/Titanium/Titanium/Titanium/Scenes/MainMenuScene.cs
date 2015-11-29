@@ -155,8 +155,8 @@ namespace Titanium.Scenes
         public void menuBattle()
         {
             BattleScene battle = new BattleScene(
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
-                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Redbat, PartyUtils.Enemy.Redbat },
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Spider, PartyUtils.Enemy.Spider },
+                    new List<PartyUtils.Enemy>() { PartyUtils.Enemy.Spider, PartyUtils.Enemy.Spider },
                     null
                     );
             SceneManager.setScene(SceneState.battle, battle, true);
