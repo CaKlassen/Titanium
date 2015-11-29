@@ -4,3 +4,4 @@ Sludger,Slime,2,20,60,25,25,30,160,0,3
 Poison Sludger,PoisonSlime,2,20,60,25,25,30,160,0,3
 Spider,Spider,2,20,60,25,25,30,160,0,3
 Cinder Spider,CinderSpider,2,20,60,25,25,30,160,0,3
+NameSpace,Boss,2,20,60,25,25,30,160,0,3
