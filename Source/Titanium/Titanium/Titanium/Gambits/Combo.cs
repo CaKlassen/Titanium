@@ -92,7 +92,7 @@ namespace Titanium.Gambits
 
         public override void draw(Vector2 pos, SpriteBatch sb)
         {
-            int width = 0;
+            int width = -20;
             int height = 0;
             Texture2D icon;
 
