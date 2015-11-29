@@ -13,7 +13,7 @@ namespace Titanium.Gambits
     class Rotation : BaseGambit
     {
         // The time limit in ms
-        int timeLimit = 5000;
+        int timeLimit = 6000;
 
         // The current input the user must perform
         int current;
@@ -30,8 +30,9 @@ namespace Titanium.Gambits
         PlayerIndex player;
 
         int count;
+        int maxRotations = 15;
 
-        float multStep = 1 / 15f;
+        float multStep;
 
         InputAction[] circle;
 
@@ -68,17 +69,37 @@ namespace Titanium.Gambits
             base.draw(pos, sb);
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    maxRotations = 10;
+                    timeLimit = 5000;
+                    break;
+                case Difficulty.Medium:
+                    maxRotations = 15;
+                    timeLimit = 5750;
+                    break;
+                case Difficulty.Hard:
+                    maxRotations = 20;
+                    timeLimit = 6500;
+                    break;
+                default:
+                    maxRotations = 15;
+                    timeLimit = 5750;
+                    break;
+
+            }
             current = 0;
             count = 0;
-
+            multStep = 1f / maxRotations;
             if(clockwise == null)
                 clockwise = new Random(gameTime.TotalGameTime.Milliseconds).Next(2) == 0;
 
             icon = icons[clockwise.GetValueOrDefault() ? 0 : 1];
             timeleft = timeLimit;
-            base.start(gameTime);
         }
 
         public override void load(ContentManager content)

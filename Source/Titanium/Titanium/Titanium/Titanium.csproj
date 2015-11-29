@@ -123,6 +123,7 @@
     <Compile Include="Gambits\Quick.cs" />
     <Compile Include="Gambits\Rhythm.cs" />
     <Compile Include="Gambits\Rotation.cs" />
+    <Compile Include="Gambits\Roulette.cs" />
     <Compile Include="InputAction.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

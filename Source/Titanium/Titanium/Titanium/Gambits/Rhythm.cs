@@ -19,6 +19,7 @@ namespace Titanium.Gambits
         public static int bufferWidth = 65;
         public static int inputOffset = 70;
         public static float speed = 3f;
+        static int directions = 4;
         public static string[] iconDirs = { "arrow-up", "arrow-left", "arrow-down", "arrow-right" };
 
         enum Direction { up, left, down, right }
@@ -55,7 +56,10 @@ namespace Titanium.Gambits
         Random rng;
         List<Texture2D> icons;
         int startDelay = 2000;
-        float multStep = 1 / 8f;
+        int inputs = 2;
+        
+        float multStep;
+        float fairFactor;
 
         public Rhythm()
         {
@@ -63,9 +67,30 @@ namespace Titanium.Gambits
             name = "Rhythm";
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
-            base.start(gameTime);
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    inputs = 1;
+                    fairFactor = 1.3f;
+                    break;
+                case Difficulty.Medium:
+                    inputs = 2;
+                    fairFactor = 1.6f;
+                    break;
+                case Difficulty.Hard:
+                    inputs = 3;
+                    fairFactor = 2f;
+                    break;
+                default:
+                    inputs = 2;
+                    fairFactor = 1.6f;
+                    break;
+
+            }
+            multStep = 1f / (inputs * directions);
             rng = new Random(gameTime.TotalGameTime.Milliseconds);
             rhythmString = makeRhythmString();
             leftLine = new Rectangle();
@@ -153,7 +178,7 @@ namespace Titanium.Gambits
                 switch(input.result)
                 {
                     case RhythmInput.Result.fair:
-                        multiplier += multStep/1.5f;
+                        multiplier += multStep/fairFactor;
                         break;
                     case RhythmInput.Result.perfect:
                         multiplier += multStep;
@@ -169,7 +194,7 @@ namespace Titanium.Gambits
             List<RhythmInput> list = new List<RhythmInput>();
             for(int i=0; i<4; ++i)
             {
-                for(int j=0; j<2; ++j)
+                for(int j=0; j<inputs; ++j)
                     list.Add(new RhythmInput((float)rng.NextDouble(), new Vector2(width-inputOffset, height), (Direction)i, icons));
             }
 
