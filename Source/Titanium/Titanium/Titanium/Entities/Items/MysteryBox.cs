@@ -35,6 +35,10 @@ namespace Titanium.Entities.Items
         private static float DAMAGE_PROB = .45f;
         private static float NONE_PROB = .10f;
 
+        private bool collected = false;
+        private static int ANIM_TIME = 30;
+        private int animTime = ANIM_TIME;
+
         public MysteryBox(Vector3 position, Tile MysteryBoxTile)
         {
             // Add this to the collidables list
@@ -107,6 +111,16 @@ namespace Titanium.Entities.Items
             return tempPos;
         }
 
+        public bool getCollected()
+        {
+            return collected;
+        }
+
+        public void setCollected()
+        {
+            collected = true;
+        }
+
         /// <summary>
         /// returns actual position;
         /// getPOSITION will return position with Y = 0.
@@ -126,7 +140,20 @@ namespace Titanium.Entities.Items
         /// <param name="inputState"></param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            //NA
+            // Update collected state
+            if (collected)
+            {
+                if (animTime > 0)
+                {
+                    animTime--;
+                }
+                else
+                {
+                    //remove from tile and list
+                    getTile().deleteEntity(this);
+                    ArenaScene.instance.collidables.Remove(this);
+                }
+            }
         }
 
         /// <summary>

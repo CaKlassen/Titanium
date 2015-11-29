@@ -43,7 +43,8 @@ namespace Titanium
     {
         EASY,
         MEDIUM,
-        HARD
+        HARD, 
+        VERY_HARD
     }
 
     /// <summary>
@@ -100,7 +101,7 @@ namespace Titanium
             int maxLength = (int) Math.Floor(Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2)));
 
             // Generate the arena, starting with the Start Tile
-            generateTile(null, TileConnections.NONE, 1, maxLength);
+            generateTile(null, TileConnections.NONE, 2, maxLength);
             
             // Fill empty tiles
             fillEmptyTiles();
@@ -322,6 +323,12 @@ namespace Titanium
                 }
             }
 
+            if (ArenaController.instance.getLevel() == 9)
+            {
+                // Boss
+                numEnemies = 1;
+            }
+
             for (int i = 0; i < numEnemies; i++)
             {
                 int x, y;
@@ -387,6 +394,13 @@ namespace Titanium
                     {
                         enemy = PartyUtils.Enemy.Spider;
                     }
+
+                    break;
+                }
+
+                case ArenaDifficulty.VERY_HARD:
+                {
+                    enemy = PartyUtils.Enemy.Boss;
 
                     break;
                 }
@@ -485,8 +499,55 @@ namespace Titanium
 
                     case ArenaDifficulty.HARD:
                     {
+                        bool obstacleType = r.Next(2) == 0;
 
+                        if (obstacleType)
+                        {
+                            // Projectile Dispensers
+                            ProjectileDispenser dispenser;
 
+                            do
+                            {
+                                tile = tiles[r.Next(height), r.Next(width)];
+                            }
+                            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+
+                            // Create the dispenser to fire across the path
+                            Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
+                            Vector3 pos = tile.getModelPos();
+                            pos.X -= (Tile.TILE_WIDTH / 2) * dir.X;
+                            pos.Z -= (Tile.TILE_HEIGHT / 2) * dir.Z;
+
+                            dispenser = new ProjectileDispenser(pos, dir, 10);
+                            dispenser.LoadModel(Content);
+
+                            tile.addEntity(dispenser);
+                        }
+                        else
+                        {
+                            // Spikes
+                            Spikes spikes;
+
+                            do
+                            {
+                                tile = tiles[r.Next(height), r.Next(width)];
+                            }
+                            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0);
+
+                            // Create the spikes on the path
+                            Vector3 pos = tile.getModelPos();
+
+                            spikes = new Spikes(pos);
+                            spikes.LoadModel(Content);
+
+                            tile.addEntity(spikes);
+                        }
+
+                        break;
+                    }
+
+                    case ArenaDifficulty.VERY_HARD:
+                    {
                         break;
                     }
                 }
@@ -505,7 +566,7 @@ namespace Titanium
             {
                 tile = tiles[r.Next(height), r.Next(width)];
             }
-            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() != 1);
+            while (tile == startTile || tile == endTile || tile.getNumConnections() != 1);
 
             // Create the potion
             Vector3 pos = tile.getModelPos();
@@ -530,7 +591,7 @@ namespace Titanium
             {
                 tile = tiles[r.Next(height), r.Next(width)];
             }
-            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() != 1);
+            while (tile == startTile || tile == endTile || tile.getNumConnections() != 1);
 
             // Create the potion
             Vector3 pos = tile.getModelPos();

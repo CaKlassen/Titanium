@@ -114,7 +114,7 @@ namespace Titanium.Entities
                     return ArenaDifficulty.HARD;
 
                 case 9:
-                    return ArenaDifficulty.HARD;
+                    return ArenaDifficulty.VERY_HARD;
 
                 default:
                     return ArenaDifficulty.EASY;
@@ -183,7 +183,7 @@ namespace Titanium.Entities
                     return 10;
 
                 case 9:
-                    return 10;
+                    return 6;
 
                 default:
                     return 6;
@@ -213,13 +213,13 @@ namespace Titanium.Entities
                 return 70;
 
                 case 7:
-                return 90;
+                return 70;
 
                 case 8:
-                return 80;
+                return 600;
 
                 case 9:
-                return 70;
+                return 0;
 
                 default:
                 return 90;
