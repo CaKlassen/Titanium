@@ -101,7 +101,18 @@ namespace Titanium
             int maxLength = (int) Math.Floor(Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2)));
 
             // Generate the arena, starting with the Start Tile
-            generateTile(null, TileConnections.NONE, 2, maxLength);
+            if (width == 6)
+            {
+                generateTile(null, TileConnections.NONE, 2, maxLength);
+            }
+            else if (width == 8)
+            {
+                generateTile(null, TileConnections.NONE, 3, maxLength);
+            }
+            else
+            {
+                generateTile(null, TileConnections.NONE, 4, maxLength);
+            }
             
             // Fill empty tiles
             fillEmptyTiles();
@@ -339,7 +350,7 @@ namespace Titanium
                     x = r.Next(width);
                     y = r.Next(height);
                 }
-                while (tiles[y, x].getNumConnections() == 0 || tiles[y, x] == endTile || tiles[y, x] == startTile);
+                while (tiles[y, x].getNumConnections() < 2 || tiles[y, x] == endTile || tiles[y, x] == startTile);
 
                 // Create an enemy
                 tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content, getRandomEnemy()));
@@ -459,7 +470,7 @@ namespace Titanium
                         {
                             tile = tiles[r.Next(height), r.Next(width)];
                         }
-                        while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+                        while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
 
                         // Create the dispenser to fire across the path
                         Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
@@ -484,7 +495,7 @@ namespace Titanium
                         {
                             tile = tiles[r.Next(height), r.Next(width)];
                         }
-                        while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0);
+                        while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0);
 
                         // Create the spikes on the path
                         Vector3 pos = tile.getModelPos();
@@ -510,7 +521,7 @@ namespace Titanium
                             {
                                 tile = tiles[r.Next(height), r.Next(width)];
                             }
-                            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+                            while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
 
                             // Create the dispenser to fire across the path
                             Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
@@ -532,7 +543,7 @@ namespace Titanium
                             {
                                 tile = tiles[r.Next(height), r.Next(width)];
                             }
-                            while (tile == startTile || tile == endTile || tile.getNumConnections() == 0 || tile.getEntities().Count != 0);
+                            while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0);
 
                             // Create the spikes on the path
                             Vector3 pos = tile.getModelPos();

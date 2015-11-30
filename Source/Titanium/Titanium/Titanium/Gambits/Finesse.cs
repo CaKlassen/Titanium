@@ -60,35 +60,8 @@ namespace Titanium.Gambits
         };
         static InputAction[] leftThumb = {
             new InputAction(
-                new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
-                new Keys[] { Keys.Up },
-                false
-                ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
-                new Keys[] { Keys.Down },
-                false
-                ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadLeft, Buttons.LeftThumbstickLeft },
-                new Keys[] { Keys.Left },
-                false
-                ),
-            new InputAction(
-                new Buttons[] { Buttons.DPadRight, Buttons.LeftThumbstickRight },
-                new Keys[] { Keys.Right },
-                false
-                ),
-        };
-        InputAction[] rightThumb = {
-            new InputAction(
                 new Buttons[] { Buttons.A },
                 new Keys[] { Keys.Z },
-                false
-                ),
-            new InputAction(
-                new Buttons[] { Buttons.B },
-                new Keys[] { Keys.V},
                 false
                 ),
             new InputAction(
@@ -97,10 +70,37 @@ namespace Titanium.Gambits
                 false
                 ),
             new InputAction(
+                new Buttons[] { Buttons.A },
+                new Keys[] { Keys.Z },
+                false
+                ),
+            new InputAction(
+                new Buttons[] { Buttons.X },
+                new Keys[] { Keys.X},
+                false
+                )
+        };
+        InputAction[] rightThumb = {
+            new InputAction(
+                new Buttons[] { Buttons.B },
+                new Keys[] { Keys.V},
+                false
+                ),
+            new InputAction(
                 new Buttons[] { Buttons.Y },
                 new Keys[] { Keys.C},
                 false
                 ),
+            new InputAction(
+                new Buttons[] { Buttons.B },
+                new Keys[] { Keys.V},
+                false
+                ),
+            new InputAction(
+                new Buttons[] { Buttons.Y },
+                new Keys[] { Keys.C},
+                false
+                )
         };
 
         static int leftOffset = 100;
