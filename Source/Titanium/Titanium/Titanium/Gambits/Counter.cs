@@ -33,7 +33,7 @@ namespace Titanium.Gambits
         Texture2D pixel;
 
 
-        float speed = 4f;
+        float speed = 5f;
         int perfectWidth;        
         int fairWidth;
 
@@ -55,16 +55,20 @@ namespace Titanium.Gambits
             switch ((Difficulty)difficulty)
             {
                 case Difficulty.Easy:
-                    perfectWidth = 32;
+                    perfectWidth = 20;
+                    speed = 5f;
                     break;
                 case Difficulty.Medium:
-                    perfectWidth = 24;
+                    perfectWidth = 15;
+                    speed = 6f;
                     break;
                 case Difficulty.Hard:
-                    perfectWidth = 16;
+                    perfectWidth = 10;
+                    speed = 7f;
                     break;
                 default:
-                    perfectWidth = 24;
+                    perfectWidth = 20;
+                    speed = 5f;
                     break;
 
             }
@@ -75,7 +79,6 @@ namespace Titanium.Gambits
             fair = new Rectangle();
             position = Vector2.Zero;
             startDelay = 500;
-            speed = 4f;
             setLine();
         }
 
@@ -168,8 +171,13 @@ namespace Titanium.Gambits
         public void setTrack()
         {
             track = new Rectangle((int)position.X + trackOffsetX , (int)position.Y + trackOffsetY, trackWidth, trackHeight);
-            perfect = new Rectangle(track.Center.X-(perfectWidth / 2), track.Top, perfectWidth, trackHeight);
-            fair = new Rectangle(track.Center.X - (fairWidth / 2), track.Top, fairWidth, trackHeight);
+
+            // Determine a random position for the success area
+            Random r = new Random();
+            int trackCentre = r.Next(fairWidth / 2, trackWidth - fairWidth / 2);
+
+            perfect = new Rectangle(track.X + trackCentre - perfectWidth / 2, track.Top, perfectWidth, trackHeight);
+            fair = new Rectangle(track.X + trackCentre - (fairWidth / 2), track.Top, fairWidth, trackHeight);
         }
 
         public override void load(ContentManager content)
