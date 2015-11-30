@@ -246,6 +246,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
+    <Compile Include="Fonts\ScoreBoardFont.spritefont">
+      <Name>ScoreBoardFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Stats\PlayerFile.txt">
       <Name>PlayerFile</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1027,6 +1032,13 @@
   <ItemGroup>
     <Compile Include="Models\BossMap.png">
       <Name>BossMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Arena-Sign.png">
+      <Name>Arena-Sign</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

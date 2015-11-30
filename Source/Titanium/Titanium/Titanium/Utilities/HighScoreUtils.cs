@@ -34,8 +34,13 @@ namespace Titanium.Utilities
                 partyTotalHPsum += PartyUtils.partyMembers[i].getBaseHP();
             }
 
-            score = ((partyCurHPsum / partyTotalHPsum) * HealthMultiplier) + 
-                ((ArenaScene.instance.potionsUsed == 0 ? 1 : 0) * PotionMultiplier);
+            int health = (int)(((float)partyCurHPsum / (float)partyTotalHPsum) * HealthMultiplier);
+            int potion = (ArenaScene.instance.potionsUsed == 0 ? 1 : 0) * PotionMultiplier;
+
+            ArenaScene.instance.ScoreDisplay.HealthBonus = health;
+            ArenaScene.instance.ScoreDisplay.PotionBonus = potion;
+
+            score = health + potion;
 
             //save Arena level score
 
