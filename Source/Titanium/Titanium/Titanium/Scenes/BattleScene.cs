@@ -56,7 +56,7 @@ namespace Titanium.Scenes
 
             arena = new InputAction(
                 new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.Y },
+                new Keys[] { Keys.C },
                 true
                 );
 
@@ -85,7 +85,7 @@ namespace Titanium.Scenes
 
             arena = new InputAction(
                 new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.Y },
+                new Keys[] { Keys.C },
                 true
                 );
 
