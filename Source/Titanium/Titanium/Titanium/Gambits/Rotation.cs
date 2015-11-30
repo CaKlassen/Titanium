@@ -75,20 +75,52 @@ namespace Titanium.Gambits
             switch ((Difficulty)difficulty)
             {
                 case Difficulty.Easy:
-                    maxRotations = 10;
+
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 10;
+                    }
+                    else
+                    {
+                        maxRotations = 6;
+                    }
+                    
                     timeLimit = 5000;
                     break;
                 case Difficulty.Medium:
-                    maxRotations = 15;
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 15;
+                    }
+                    else
+                    {
+                        maxRotations = 9;
+                    }
                     timeLimit = 5750;
                     break;
                 case Difficulty.Hard:
-                    maxRotations = 20;
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 20;
+                    }
+                    else
+                    {
+                        maxRotations = 12;
+                    }
+
                     timeLimit = 6500;
                     break;
                 default:
-                    maxRotations = 15;
-                    timeLimit = 5750;
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 15;
+                    }
+                    else
+                    {
+                        maxRotations = 9;
+                    }
+
+                timeLimit = 5750;
                     break;
 
             }
@@ -106,8 +138,16 @@ namespace Titanium.Gambits
         {
             font = content.Load<SpriteFont>("Fonts/NumbersFont");
 
-            icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
-            icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
+                icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
+            }
+            else
+            {
+                icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Keys-CW");
+                icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Keys-CCW");
+            }
         }
 
         public override int totalHeight()

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Titanium.Utilities;
 using Titanium.Scenes;
+using Microsoft.Xna.Framework.Input;
 
 namespace Titanium.Entities
 {
@@ -67,7 +68,15 @@ namespace Titanium.Entities
         public void load(ContentManager Content)
         {
             board = Content.Load<Texture2D>("Sprites/Arena-Sign");
-            Abutton = Content.Load<Texture2D>("ButtonIcons/HUD-Face-A");
+
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                Abutton = Content.Load<Texture2D>("ButtonIcons/HUD-Face-A");
+            }
+            else
+            {
+                Abutton = Content.Load<Texture2D>("ButtonIcons/HUD-Key-Z");
+            }
 
             DOWN_POS = new Vector2(0, BaseGame.SCREEN_HEIGHT - board.Height);
 
