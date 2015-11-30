@@ -94,7 +94,7 @@ namespace Titanium.Entities
                     HighScoreUtils.updateHighScores(data.highscores, getScore());
                     save.saveHighScores(data.highscores);
 
-                    ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(), true);
+                    ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(true), true);
                 }
             }
         }

@@ -18,7 +18,9 @@ namespace Titanium.Utilities
         LEVEL8,
         LEVEL9,
         BATTLE_FIRST,
-        BATTLE_BOSS
+        BATTLE_BOSS,
+        END_WIN,
+        END_LOSE
     }
 
     public static class DialogueUtils
@@ -80,6 +82,16 @@ namespace Titanium.Utilities
                 case ConversationType.BATTLE_BOSS:
                 {
                     return makeBattleBoss();
+                }
+
+                case ConversationType.END_WIN:
+                {
+                    return makeEndWin();
+                }
+
+                case ConversationType.END_LOSE:
+                {
+                    return makeEndLose();
                 }
 
                 default:
@@ -291,6 +303,47 @@ namespace Titanium.Utilities
             c.addTextbox(new Textbox("Clementine want kill this thing.", TextChar.CLEM));
             c.addTextbox(new Textbox("Finally, something for us to unite over.", TextChar.LEO));
             c.addTextbox(new Textbox("Let's kill this freak.", TextChar.KLEPTO));
+
+            return c;
+        }
+
+        private static Conversation makeEndWin()
+        {
+            Conversation c = new Conversation();
+            c.addTextbox(new Textbox("Fresh air at last!", TextChar.LEO));
+            c.addTextbox(new Textbox("Depends on your definition of 'fresh', I suppose.", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("Where is your enthusiasm, sir? We have bested our foe!", TextChar.LEO));
+            c.addTextbox(new Textbox("The bards will sing tales of my triumphs for generations to come!", TextChar.LEO));
+            c.addTextbox(new Textbox("YOUR triumphs?", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("Of course! Without my leadership, we would surely have perished.", TextChar.LEO));
+            c.addTextbox(new Textbox("I see...", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("But worry not, my conniving companion. I shall not forget your efforts.", TextChar.LEO));
+            c.addTextbox(new Textbox("... That being said, there is some final business to attend to...", TextChar.LEO));
+            c.addTextbox(new Textbox("I can barely contain my excitement.", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("You see, there is but one problem. During our misadventures, you both committed a crime...", TextChar.LEO));
+            c.addTextbox(new Textbox("A most dastardly, unforgivable crime...", TextChar.LEO));
+            c.addTextbox(new Textbox("You have trespassed in my father's royal waterways!", TextChar.LEO));
+            c.addTextbox(new Textbox("Give me a break.", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("For this crime, you will be punished accordingly. A tribunal of three will decide your f--", TextChar.LEO));
+            c.addTextbox(new Textbox("Hey, Clementine?", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("Clementine listens.", TextChar.CLEM));
+            c.addTextbox(new Textbox("You're free to eat the small prince now.", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("Clementine has long awaited this moment.", TextChar.CLEM));
+            c.addTextbox(new Textbox("Wait, what? You can't do this, I'm a PRINCE!", TextChar.LEO));
+            c.addTextbox(new Textbox("No! Stop! NOOOOO--", TextChar.LEO));
+            c.addTextbox(new Textbox("...", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("...", TextChar.KLEPTO));
+            c.addTextbox(new Textbox("... Much better.", TextChar.KLEPTO));
+
+            return c;
+        }
+
+        private static Conversation makeEndLose()
+        {
+            Conversation c = new Conversation();
+            c.addTextbox(new Textbox("... No... Not like this...", TextChar.LEO));
+            c.addTextbox(new Textbox("Hee hee! It seems your performance has come to an untimely end!", TextChar.VILLAIN));
+            c.addTextbox(new Textbox("... But what a MARVELOUS performance it was...", TextChar.VILLAIN));
 
             return c;
         }
