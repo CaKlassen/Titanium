@@ -78,10 +78,24 @@ namespace Titanium.Entities
             if (getNumEnemies() == 0)
             {
                 // Increment the level
-                level++;
 
-                score += HighScoreUtils.CalculateHighScore(1000, 250);
-                ArenaScene.instance.loadNewArena(getLevelDifficulty());
+                if (level < 9)
+                {
+                    level++;
+
+                    score += HighScoreUtils.CalculateHighScore(1000, 250);
+                    ArenaScene.instance.loadNewArena(getLevelDifficulty());
+                }
+                else
+                {
+                    // Save the player's achieved score
+                    SaveUtils save = SaveUtils.getInstance();
+                    HighscoreData data = save.loadHighScores();
+                    HighScoreUtils.updateHighScores(data.highscores, getScore());
+                    save.saveHighScores(data.highscores);
+
+                    ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(), true);
+                }
             }
         }
         

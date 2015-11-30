@@ -150,13 +150,13 @@ namespace Titanium.Gambits
             if (line.Intersects(perfect))
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                return 0.5f;
+                return 0.25f;
             }
                 
             if (line.Intersects(fair))
             {
                 SoundUtils.Play(SoundUtils.Sound.Success);
-                return 0.7f;
+                return 0.75f;
             }
             SoundUtils.Play(SoundUtils.Sound.Failure);
             return 1f;
