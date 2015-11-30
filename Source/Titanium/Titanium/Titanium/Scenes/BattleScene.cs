@@ -180,7 +180,7 @@ namespace Titanium.Scenes
                         HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
                         save.saveHighScores(data.highscores);
 
-                        ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(), true);
+                        ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(false), true);
                     }
                 }
             }
