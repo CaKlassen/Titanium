@@ -132,6 +132,7 @@
     <Compile Include="BaseGame.cs" />
     <Compile Include="Scenes\ArenaScene.cs" />
     <Compile Include="Scenes\BattleScene.cs" />
+    <Compile Include="Scenes\EndGameScene.cs" />
     <Compile Include="Scenes\HighScoresScene.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Scenes\Panels\BattleMenuPanel.cs" />

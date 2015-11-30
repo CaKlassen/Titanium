@@ -180,11 +180,7 @@ namespace Titanium.Scenes
                         HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
                         save.saveHighScores(data.highscores);
 
-                        // Delete the player's save file
-                        save.DeleteSaveFile();
-
-                        SceneManager.changeScene(SceneState.main);
-                        PartyUtils.Reset();
+                        ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(), true);
                     }
                 }
             }

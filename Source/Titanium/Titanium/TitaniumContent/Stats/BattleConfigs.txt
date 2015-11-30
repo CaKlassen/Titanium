@@ -72,13 +72,6 @@ PSlime~PSlime Empty PSlime PSlime
 
 ##
 
-Spider~Spider Spider Empty Empty
-Spider~Spider Empty Spider Empty
-Spider~Spider Empty Empty Spider
-Spider~Empty Spider Spider Empty
-Spider~Empty Spider Empty Spider
-Spider~Empty Empty Spider Spider
-
 Spider~Spider Spider Spider Empty
 Spider~Spider Empty Spider Spider
 Spider~Empty Spider Spider Spider
@@ -91,13 +84,6 @@ Spider~CSpider Spider Spider Spider
 Spider~CSpider Empty Spider Spider
 
 ##
-
-CSpider~CSpider CSpider Empty Empty
-CSpider~CSpider Empty CSpider CSpider
-CSpider~CSpider Empty Empty CSpider
-CSpider~Empty CSpider CSpider Empty
-CSpider~Empty CSpider Empty CSpider
-CSpider~Empty Empty CSpider CSpider
 
 CSpider~CSpider CSpider CSpider Empty
 CSpider~CSpider CSpider Empty CSpider

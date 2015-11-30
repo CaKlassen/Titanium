@@ -14,7 +14,8 @@ namespace Titanium.Scenes
         main,
         arena,
         battle,
-        highScores
+        highScores,
+        endGame
     }
 
     /// <summary>
@@ -23,7 +24,7 @@ namespace Titanium.Scenes
     /// </summary>
     class SceneManager : DrawableGameComponent
     {
-        public static int NUM_SCENESTATES = 4;
+        public static int NUM_SCENESTATES = 5;
         public static int WAIT_TIME = 15;
 
         Scene[] scenes = new Scene[NUM_SCENESTATES];

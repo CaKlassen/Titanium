@@ -94,12 +94,12 @@ namespace Titanium.Scenes
 
             rotateDown = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickDown },
-                new Keys[] { Keys.NumPad2 },
+                new Keys[] { Keys.K },
                 false
                 );
             rotateUp = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickUp },
-                new Keys[] { Keys.NumPad8 },
+                new Keys[] { Keys.I },
                 false
                 );
 
@@ -297,6 +297,21 @@ namespace Titanium.Scenes
                 foreach (PlayerSprite ps in PartyUtils.getParty())
                 {
                     ps.getCombatInfo().updateArena(ps.getStats());
+                }
+
+                List<PlayerSprite> party = PartyUtils.getParty();
+
+                if (party[0].getHealth() <= 0 && party[1].getHealth() <= 0 && party[2].getHealth() <= 0)
+                {
+                    // We have died in the arena :(
+
+                    // Save the player's achieved score
+                    SaveUtils save = SaveUtils.getInstance();
+                    HighscoreData data = save.loadHighScores();
+                    HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
+                    save.saveHighScores(data.highscores);
+
+                    ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(), true);
                 }
 
                 controller.update();
