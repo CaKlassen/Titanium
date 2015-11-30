@@ -55,6 +55,7 @@ namespace Titanium.Scenes
         private ArenaSkybox skybox;
         private BasicEffect effect;
         public int potionsUsed;
+        public bool MysteryBoxUsed;
 
         private Conversation currentConversation = null;
         private bool firstBattle = true;
@@ -191,6 +192,7 @@ namespace Titanium.Scenes
             skybox = new ArenaSkybox(getStartTile(), content);
 
             potionsUsed = 0;
+            MysteryBoxUsed = false;
 
             //load CombatInfo at top left
             Vector2 start = new Vector2(10, 45);
@@ -448,6 +450,7 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
+            MysteryBoxUsed = false;
 
             // Load the level start conversation
             currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
