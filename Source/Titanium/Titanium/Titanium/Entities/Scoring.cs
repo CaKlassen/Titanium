@@ -93,7 +93,7 @@ namespace Titanium.Entities
             }
 
             if(show1)
-                sb.DrawString(font, "Score for " + ArenaController.instance.getLevelType() + " , ACT - " + ArenaController.instance.getLevel(), new Vector2(TEXT_X_POS-70, 160), Color.Black);
+                sb.DrawString(font, "Score for " + ArenaController.instance.getLevelType() + ", ACT - " + ArenaController.instance.getLevel(), new Vector2(TEXT_X_POS-70, 160), Color.Black);
             if(show2)
                 sb.DrawString(font, "Potion Bonus: " + PotionBonus, new Vector2(TEXT_X_POS, 270), Color.Black);
 
@@ -177,10 +177,14 @@ namespace Titanium.Entities
             }
 
             if (down)
-                boardPos.Y += MathUtils.smoothChange(UP_POS.Y, DOWN_POS.Y, 40);
+                boardPos.Y += MathUtils.smoothChange(boardPos.Y, DOWN_POS.Y, 10);
 
-            if (boardPos.Y >= 0)
+            if (boardPos.Y >= -1)
+            {
                 down = false;
+
+                boardPos = DOWN_POS;
+            }
 
         }
 
