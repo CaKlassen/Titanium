@@ -23,6 +23,7 @@ namespace Titanium.Utilities
         /// <returns>The "high score" for the arena</returns>
         public static int CalculateHighScore(int HealthMultiplier, int PotionMultiplier)
         {
+            int MysteryMultiplyer = 5000;
             int score = 0;
 
             int partyCurHPsum = 0;
@@ -36,11 +37,13 @@ namespace Titanium.Utilities
 
             int health = (int)(((float)partyCurHPsum / (float)partyTotalHPsum) * HealthMultiplier);
             int potion = (ArenaScene.instance.potionsUsed == 0 ? 1 : 0) * PotionMultiplier;
+            int mystery = (ArenaScene.instance.MysteryBoxUsed == true ? 1 : 0) * MysteryMultiplyer;
 
             ArenaScene.instance.ScoreDisplay.HealthBonus = health;
             ArenaScene.instance.ScoreDisplay.PotionBonus = potion;
+            ArenaScene.instance.ScoreDisplay.MysteryBoxBonus = mystery;
 
-            score = health + potion;
+            score = health + potion + mystery;
 
             //save Arena level score
 

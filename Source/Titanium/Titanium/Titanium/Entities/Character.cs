@@ -196,6 +196,7 @@ namespace Titanium.Entities
                                     mb.RevealMystery();
                                     mb.setCollected();
                                 }
+                                ArenaScene.instance.MysteryBoxUsed = true;
                                 break;
                         }
                     }

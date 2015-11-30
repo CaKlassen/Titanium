@@ -20,7 +20,8 @@ namespace Titanium.Entities
 
         private static Vector2 DOWN_POS = new Vector2(0, 0);
         private static Vector2 UP_POS = new Vector2(0, -BaseGame.SCREEN_HEIGHT);
-        public static int TEXT_X_POS = 450;
+        public static int TEXT_X_POS = 430;
+        private int MYSTERY_Y_POS = 0;
         private Vector2 boardPos;
         private Vector2 buttonPos;
         private SpriteFont font;
@@ -28,6 +29,7 @@ namespace Titanium.Entities
 
         public int PotionBonus;
         public int HealthBonus;
+        public int MysteryBoxBonus;
         private int finalScore;
         private int GameScore;
         
@@ -40,11 +42,14 @@ namespace Titanium.Entities
         float timer = TIMER;
         private int text;
 
+        private bool MysteryBoxLevel = false;
+
         bool show1 = false;
         bool show2 = false;
         bool show3 = false;
         bool show4 = false;
         bool show5 = false;
+        bool show6 = false;
 
         public bool Begin
         {
@@ -63,6 +68,12 @@ namespace Titanium.Entities
             down = true;
             text = 0;
             GameScore = ArenaController.instance.getScore();
+
+            if(ArenaController.instance.getLevel() == 5 || ArenaController.instance.getLevel() == 9)
+            {
+                MysteryBoxLevel = true;
+                MYSTERY_Y_POS = 90;
+            }
         }
 
         public void load(ContentManager Content)
@@ -102,17 +113,26 @@ namespace Titanium.Entities
             }
 
             if(show1)
-                sb.DrawString(font, "Score for " + ArenaController.instance.getLevelType() + ", ACT - " + ArenaController.instance.getLevel(), new Vector2(TEXT_X_POS-70, 160), Color.Black);
+                sb.DrawString(font, "Score for " + ArenaController.instance.getLevelType() + ", ACT - " + ArenaController.instance.getLevel(), new Vector2(TEXT_X_POS-80, 160 - MYSTERY_Y_POS), Color.Black);
             if(show2)
-                sb.DrawString(font, "Potion Bonus: " + PotionBonus, new Vector2(TEXT_X_POS, 270), Color.Black);
+                sb.DrawString(font, "Potion Bonus: " + PotionBonus, new Vector2(TEXT_X_POS, 270 - MYSTERY_Y_POS), Color.Black);
 
             if(show3)
-                sb.DrawString(font, "Health Bonus: " + HealthBonus, new Vector2(TEXT_X_POS, 360), Color.Black);
+                sb.DrawString(font, "Health Bonus: " + HealthBonus, new Vector2(TEXT_X_POS, 360 - MYSTERY_Y_POS), Color.Black);
 
-            if(show4)
-                sb.DrawString(font, "Final Score: " + finalScore, new Vector2(TEXT_X_POS, 450), Color.Black);
+            if(show4)                
+                sb.DrawString(font, "Mystery Box Bonus: " + MysteryBoxBonus, new Vector2(TEXT_X_POS, 450 - MYSTERY_Y_POS), Color.Black);
 
             if (show5)
+            {
+                int posY = 450;
+                if (MysteryBoxLevel)
+                    posY = 540;
+                    
+                sb.DrawString(font, "Final Score: " + finalScore, new Vector2(TEXT_X_POS, posY - MYSTERY_Y_POS), Color.Black);
+            }
+
+            if (show6)
             {
                 sb.DrawString(contFont, "Total Game Score: " + GameScore, new Vector2(90, buttonPos.Y + 20), Color.Black);
                 sb.DrawString(contFont, "CONTINUE", new Vector2(buttonPos.X - 110, buttonPos.Y + 20), Color.Black);
@@ -154,14 +174,29 @@ namespace Titanium.Entities
                         timer = TIMER;
                         break;
                     case 3:
+                        if (MysteryBoxLevel)
+                        {
+                            SoundUtils.Play(SoundUtils.Sound.Complete);
+                            show4 = true;
+                            timer = TIMER;
+                        }
+                        else
+                        {
+                            timer = 0.0f;
+                        }
+
+                        text++;                        
+                        break;
+                    case 4:
                         finalScore = PotionBonus + HealthBonus;
                         SoundUtils.Play(SoundUtils.Sound.Complete);
-                        show4 = true;
+                        show5 = true;
                         text++;
                         timer = TIMER;
                         break;
-                    case 4:
-                        show5 = true;
+           
+                    case 5:
+                        show6 = true;
                         textDone = true;
                         break;
                 }
