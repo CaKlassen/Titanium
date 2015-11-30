@@ -109,6 +109,7 @@
     <Compile Include="Entities\Items\MysteryBox.cs" />
     <Compile Include="Entities\Items\Potion.cs" />
     <Compile Include="Entities\PlayerSprite.cs" />
+    <Compile Include="Entities\Scoring.cs" />
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Battle\UnitStats.cs" />
     <Compile Include="Entities\Textbox.cs" />

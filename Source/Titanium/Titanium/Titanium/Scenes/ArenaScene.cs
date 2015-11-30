@@ -72,6 +72,8 @@ namespace Titanium.Scenes
         bool paused = false;
         MenuPanel pauseMenu;
 
+        public Scoring ScoreDisplay;
+
         public List<Entity> collidables;
 
         /**
@@ -204,6 +206,10 @@ namespace Titanium.Scenes
             // Load the level start conversation
             currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
             currentConversation.load(content);
+
+            //load score dispaly
+            ScoreDisplay = new Scoring();
+            ScoreDisplay.load(content);
         }
 
         /**
@@ -308,6 +314,14 @@ namespace Titanium.Scenes
                 collidables.Clear();
                 controller.moveToNextArena();
             }
+
+            //scoring
+            if(ScoreDisplay.Begin)
+            {
+                ScoreDisplay.Update(gameTime, inputState);
+            }
+
+
         }
 
         /**
@@ -382,7 +396,12 @@ namespace Titanium.Scenes
             {
                 currentConversation.Draw(sb, null);
             }
-;
+
+            //if EOL, draw score calculations
+            if (ScoreDisplay.Begin)
+            {
+                ScoreDisplay.DrawScore(sb);
+            }
         }
 
         /**
@@ -433,6 +452,10 @@ namespace Titanium.Scenes
             // Load the level start conversation
             currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
             currentConversation.load(content);
+
+            //load score dispaly
+            ScoreDisplay = new Scoring();
+            ScoreDisplay.load(content);
 
             // Debug arena
             printDebugArena();
