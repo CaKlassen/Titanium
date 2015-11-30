@@ -17,44 +17,44 @@ namespace Titanium.Gambits
         static InputAction[] leftIndex = {
             new InputAction(
                 new Buttons[] { Buttons.LeftShoulder },
-                new Keys[] { },
+                new Keys[] { Keys.J },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.LeftTrigger },
-                new Keys[] { },
+                new Keys[] { Keys.K },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.LeftShoulder },
-                new Keys[] { },
+                new Keys[] { Keys.J },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.LeftTrigger },
-                new Keys[] { },
+                new Keys[] { Keys.K },
                 false
                 ),
         };
         static InputAction[] rightIndex = {
             new InputAction(
                 new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { Keys.D2 },
+                new Keys[] { Keys.I },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.RightTrigger },
-                new Keys[] { Keys.W},
+                new Keys[] { Keys.L },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.RightShoulder },
-                new Keys[] { Keys.D2},
+                new Keys[] { Keys.I },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.RightTrigger },
-                new Keys[] { Keys.W},
+                new Keys[] { Keys.L },
                 false
                 ),
         };
@@ -83,12 +83,12 @@ namespace Titanium.Gambits
         InputAction[] rightThumb = {
             new InputAction(
                 new Buttons[] { Buttons.A },
-                new Keys[] { Keys.A },
+                new Keys[] { Keys.Z },
                 false
                 ),
             new InputAction(
                 new Buttons[] { Buttons.B },
-                new Keys[] { Keys.B},
+                new Keys[] { Keys.V},
                 false
                 ),
             new InputAction(
@@ -98,7 +98,7 @@ namespace Titanium.Gambits
                 ),
             new InputAction(
                 new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.Y},
+                new Keys[] { Keys.C},
                 false
                 ),
         };
