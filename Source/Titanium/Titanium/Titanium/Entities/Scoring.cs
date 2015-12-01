@@ -188,7 +188,7 @@ namespace Titanium.Entities
                         text++;                        
                         break;
                     case 4:
-                        finalScore = PotionBonus + HealthBonus;
+                        finalScore = PotionBonus + HealthBonus + MysteryBoxBonus;
                         SoundUtils.Play(SoundUtils.Sound.Complete);
                         show5 = true;
                         text++;
