@@ -44,6 +44,8 @@ namespace Titanium.Entities.Items
         SkinningData data;
         bool started = false;
 
+        private Matrix World;
+
         public MysteryBox(Vector3 position, Tile MysteryBoxTile)
         {
             // Add this to the collidables list
@@ -54,7 +56,6 @@ namespace Titanium.Entities.Items
             modelRotation = 0f;
             MBtile = MysteryBoxTile;
             BoxAmbience = BOX_DARK_AMBIENCE;
-
             setupOutcomes();
         }
 
@@ -96,12 +97,12 @@ namespace Titanium.Entities.Items
 
                 // Copy any parent transforms.
                 Matrix worldMatrix = Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation) * Matrix.CreateTranslation(ModelPos);
-
+             
                 effect.CurrentTechnique = effect.Techniques["SkinnedTech"];
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
-                {
+                {                       
                     // This is where the mesh orientation is set, as well as our camera and projection.
                     foreach (ModelMeshPart part in mesh.MeshParts)
                     {
@@ -120,6 +121,7 @@ namespace Titanium.Entities.Items
                     // Draw the mesh, using the effects set above.
                     mesh.Draw();
                 }
+                
                 glow();
             }
             effect.Parameters["AmbientIntensity"].SetValue(ArenaScene.ARENA_AMBIENCE);
