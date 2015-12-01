@@ -5,6 +5,8 @@ float4x4 World;
 float4x4 View;
 float4x4 Projection;
 
+float4x3 Bones[72];
+
 // Light related
 float4 AmbientColor;
 float AmbientIntensity;
@@ -47,6 +49,17 @@ struct VertexShaderInput
 	float3 TextureCoordinate : TEXCOORD0;
 };
 
+struct VertexShaderSkinnedInput
+{
+	float4 Position : POSITION0;
+	float3 Normal   : NORMAL0;
+	int4   Indices  : BLENDINDICES0;
+	float4 Weights  : BLENDWEIGHT0;
+	//Texture shading
+	float3 TextureCoordinate : TEXCOORD0;
+};
+
+
 // The output from the vertex shader, used for later processing
 struct VertexShaderOutput
 {
@@ -58,10 +71,45 @@ struct VertexShaderOutput
 	float3 TextureCoordinate : TEXCOORD3;
 };
 
+void Skin(inout VertexShaderSkinnedInput vin, uniform int boneCount)
+{
+	float4x3 skinning = 0;
+
+	[unroll]
+	for (int i = 0; i < boneCount; i++)
+	{
+		skinning += Bones[vin.Indices[i]] * vin.Weights[i];
+	}
+
+	vin.Position.xyz = mul(vin.Position, skinning);
+	vin.Normal = mul(vin.Normal, (float3x3)skinning);
+}
+
 // The VertexShader.
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input, float3 Normal : NORMAL)
 {
 	VertexShaderOutput output;
+	
+	float4 worldPosition = mul(input.Position, World);
+	float4 viewPosition = mul(worldPosition, View);
+	output.Position = mul(viewPosition, Projection);
+	output.PositionOut = worldPosition;
+
+	float3 normal = normalize(mul(Normal, World));
+	output.Normal = normal;
+	output.View = normalize(float4(EyePosition, 1.0) - worldPosition);
+
+	//Texture shading
+	output.TextureCoordinate = input.TextureCoordinate;
+
+	return output;
+}
+
+VertexShaderOutput VertexShaderSkinnedFunction(VertexShaderSkinnedInput input, float3 Normal : NORMAL)
+{
+	VertexShaderOutput output;
+
+	Skin(input, 3);
 
 	float4 worldPosition = mul(input.Position, World);
 	float4 viewPosition = mul(worldPosition, View);
@@ -77,6 +125,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input, float3 Normal :
 
 	return output;
 }
+
 
 // The Pixel Shader
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
@@ -115,6 +164,15 @@ technique ShaderTech
 	pass Pass1
 	{
 		VertexShader = compile vs_2_0 VertexShaderFunction();
+		PixelShader = compile ps_2_0 PixelShaderFunction();
+	}
+}
+
+technique SkinnedTech
+{
+	pass Pass1
+	{
+		VertexShader = compile vs_2_0 VertexShaderSkinnedFunction();
 		PixelShader = compile ps_2_0 PixelShaderFunction();
 	}
 }

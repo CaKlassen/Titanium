@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Titanium.Arena;
 using Titanium.Utilities;
 using Titanium.Scenes;
+using SkinnedModel;
 
 namespace Titanium.Entities.Items
 {
@@ -39,6 +40,10 @@ namespace Titanium.Entities.Items
         private static int ANIM_TIME = 30;
         private int animTime = ANIM_TIME;
 
+        AnimationPlayer animationPlayer;
+        SkinningData data;
+        bool started = false;
+
         public MysteryBox(Vector3 position, Tile MysteryBoxTile)
         {
             // Add this to the collidables list
@@ -61,6 +66,20 @@ namespace Titanium.Entities.Items
         {
             myModel = cm.Load<Model>("Models/Box");
             texture = cm.Load<Texture2D>("Models/BoxUV");
+
+            // Look up our custom skinning information.
+            data = myModel.Tag as SkinningData;
+
+            if (data == null)
+                throw new InvalidOperationException
+                    ("This model does not contain a SkinningData tag.");
+
+            // Create an animation player, and start decoding an animation clip.
+            animationPlayer = new AnimationPlayer(data);
+
+            AnimationClip clip = data.AnimationClips["Armature|open_box"];
+            animationPlayer.StartClip(clip);
+
         }
 
         /// <summary>
@@ -72,8 +91,13 @@ namespace Titanium.Entities.Items
         {
             if (myModel != null)//don't do anything if the model is null
             {
+                // Retrieve the bones
+                Matrix[] bones = animationPlayer.GetSkinTransforms();
+
                 // Copy any parent transforms.
                 Matrix worldMatrix = Matrix.CreateScale(scale, scale, scale) * Matrix.CreateRotationY(modelRotation) * Matrix.CreateTranslation(ModelPos);
+
+                effect.CurrentTechnique = effect.Techniques["SkinnedTech"];
 
                 // Draw the model. A model can have multiple meshes, so loop.
                 foreach (ModelMesh mesh in myModel.Meshes)
@@ -85,6 +109,7 @@ namespace Titanium.Entities.Items
                         foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                         {
                             part.Effect = effect;
+                            effect.Parameters["Bones"].SetValue(bones);
                             effect.Parameters["AmbientIntensity"].SetValue(BoxAmbience);
                             effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
                             effect.Parameters["ModelTexture"].SetValue(texture);
@@ -98,6 +123,9 @@ namespace Titanium.Entities.Items
                 glow();
             }
             effect.Parameters["AmbientIntensity"].SetValue(ArenaScene.ARENA_AMBIENCE);
+
+
+            effect.CurrentTechnique = effect.Techniques["ShaderTech"];
         }
 
         /// <summary>
@@ -140,9 +168,17 @@ namespace Titanium.Entities.Items
         /// <param name="inputState"></param>
         public override void Update(GameTime gameTime, InputState inputState)
         {
+            if (!started)
+            {
+                animationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
+                started = true;
+            }
+
             // Update collected state
             if (collected)
             {
+                animationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
+
                 if (animTime > 0)
                 {
                     animTime--;

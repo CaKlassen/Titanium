@@ -159,6 +159,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
+      <Project>{4636c7e1-b845-4b83-b96d-64a11b8a4515}</Project>
+      <Name>SkinnedModelPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SkinnedModel\SkinnedModelWindows.csproj">
+      <Project>{0d41e29b-829f-4255-bca5-64dc2677da6d}</Project>
+      <Name>SkinnedModelWindows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TitaniumContent\TitaniumContent.contentproj">
       <Name>TitaniumContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
