@@ -75,7 +75,7 @@ namespace Titanium.Utilities
                 }
             }
             return false;
-
+            
         }
     }
 }
