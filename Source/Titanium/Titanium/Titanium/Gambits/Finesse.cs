@@ -60,23 +60,23 @@ namespace Titanium.Gambits
         };
         static InputAction[] leftThumb = {
             new InputAction(
-                new Buttons[] { Buttons.A },
+                new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
                 new Keys[] { Keys.Z },
                 false
                 ),
             new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.X},
+                new Buttons[] {Buttons.DPadDown , Buttons.LeftThumbstickDown},
+                new Keys[] { Keys.X },
                 false
                 ),
             new InputAction(
-                new Buttons[] { Buttons.A },
+                new Buttons[] { Buttons.DPadLeft , Buttons.LeftThumbstickLeft },
                 new Keys[] { Keys.Z },
                 false
                 ),
             new InputAction(
-                new Buttons[] { Buttons.X },
-                new Keys[] { Keys.X},
+                new Buttons[] { Buttons.DPadRight , Buttons.LeftThumbstickRight },
+                new Keys[] { Keys.X },
                 false
                 )
         };

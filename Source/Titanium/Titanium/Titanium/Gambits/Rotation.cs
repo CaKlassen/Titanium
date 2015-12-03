@@ -32,8 +32,6 @@ namespace Titanium.Gambits
         int count;
         int maxRotations = 15;
 
-        float multStep;
-
         InputAction[] circle;
 
         public Rotation() : base()
@@ -126,7 +124,6 @@ namespace Titanium.Gambits
             }
             current = 0;
             count = 0;
-            multStep = 1f / maxRotations;
             if(clockwise == null)
                 clockwise = new Random(gameTime.TotalGameTime.Milliseconds).Next(2) == 0;
 
@@ -191,7 +188,7 @@ namespace Titanium.Gambits
             {
                 finished = true;
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                multiplier = 0f + (count * multStep);
+                multiplier = (count / maxRotations);
             }
             base.update(gameTime, state);
         }
