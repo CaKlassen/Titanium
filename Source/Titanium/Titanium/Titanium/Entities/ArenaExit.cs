@@ -76,6 +76,7 @@ namespace Titanium.Entities
         /// <param name="sb">The spritebatch object for rendering</param>
         public override void Draw(SpriteBatch sb, Effect effect)
         {
+
             if (myModel != null)//don't do anything if the model is null
             {
                 // Copy any parent transforms.
@@ -93,6 +94,7 @@ namespace Titanium.Entities
                             part.Effect = effect;
 
                             effect.Parameters["World"].SetValue(mesh.ParentBone.Transform * worldMatrix);
+                            effect.Parameters["AmbientIntensity"].SetValue(_currentTile.TileAmbience);
 
                             if (ArenaController.instance.getNumEnemies() == 0)
                             {
@@ -103,6 +105,7 @@ namespace Titanium.Entities
                                 effect.Parameters["ModelTexture"].SetValue(myTexture);
                             }
 
+
                             Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * worldMatrix));
                         }
                     }
@@ -110,6 +113,8 @@ namespace Titanium.Entities
                     mesh.Draw();
                 }
             }
+
+            effect.Parameters["AmbientIntensity"].SetValue(ArenaScene.ARENA_AMBIENCE);
         }
 
         /// <summary>
