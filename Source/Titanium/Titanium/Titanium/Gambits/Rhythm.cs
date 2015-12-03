@@ -151,11 +151,12 @@ namespace Titanium.Gambits
                 setLines();
                 foreach (RhythmInput input in rhythmString)
                 {
-                    if (input.inRange(leftLine.Right, rightLine.Left))
+                    if (input.inRange(leftLine, rightLine))
                     {
                         if (input.action.wasPressed(state))
                         {
                             input.checkResult(leftLine.Right, rightLine.Left);
+                            break;
                         }
 
                     }
@@ -195,7 +196,12 @@ namespace Titanium.Gambits
             for(int i=0; i<4; ++i)
             {
                 for(int j=0; j<inputs; ++j)
-                    list.Add(new RhythmInput((float)rng.NextDouble(), new Vector2(width-inputOffset, height), (Direction)i, icons));
+                {
+                    double num = rng.NextDouble();
+                    if(!tooClose((Direction)i, num, list))
+                    list.Add(new RhythmInput((float)num, new Vector2(width - inputOffset, height), (Direction)i, icons));
+                }
+                    
             }
 
             list.Sort(delegate (RhythmInput a, RhythmInput b)
@@ -205,6 +211,19 @@ namespace Titanium.Gambits
                 return 0;
             });
             return list;
+        }
+
+        bool tooClose(Direction dir, double num, List<RhythmInput> list)
+        {
+            foreach(RhythmInput input in list)
+            {
+                if(input.direction == dir)
+                {
+                    if (Math.Abs((float)num - input.Offset) < 0.075)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void setLines()
@@ -234,12 +253,12 @@ namespace Titanium.Gambits
 
         class RhythmInput
         {
-            static int wiggle = 3;
+            static int wiggle = 8;
 
             public enum Result { perfect, fair, miss, pending };
             public Result result;
 
-            Direction direction;
+            public Direction direction;
             Vector2 offset;
             Rectangle position;
             Texture2D icon;
@@ -260,19 +279,23 @@ namespace Titanium.Gambits
 
             public void setColor()
             {
+
                 switch (result)
                 {
                     case Result.perfect:
                         Console.WriteLine("PERFECT");
                         SoundUtils.Play(SoundUtils.Sound.Success);
+                        color = Color.Green;
                         break;
                     case Result.fair:
                         Console.WriteLine("FAIR");
                         SoundUtils.Play(SoundUtils.Sound.Input);
+                        color = Color.Yellow;
                         break;
                     case Result.miss:
                         Console.WriteLine("MISS");
                         SoundUtils.Play(SoundUtils.Sound.Failure);
+                        color = Color.Black;
                         break;
                     default:
                         color = Color.White;
@@ -296,19 +319,17 @@ namespace Titanium.Gambits
                 setColor();
             }
 
-            public bool inRange(int left, int right)
+            public bool inRange(Rectangle left, Rectangle right)
             {
-                if (position.Width < 1)
-                    return false;
                 if (result != Result.pending)
                     return false;
-                else if (position.Right < left)
+                if (position.Right < left.Left-wiggle)
                 {
                     result = Result.miss;
                     setColor();
                     return false;
                 }
-                else if (position.Left - right < inputOffset)
+                if (left.Intersects(position) || right.Intersects(position) || ( position.Left >= left.Left && position.Right <= right.Right) )
                 {
                     return true;
                 }

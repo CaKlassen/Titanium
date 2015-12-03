@@ -35,7 +35,6 @@ namespace Titanium.Gambits
 
 
         int ceiling = 25;
-        float multStep;
 
         public override void start(GameTime gameTime, int difficulty)
         {
@@ -56,7 +55,6 @@ namespace Titanium.Gambits
                     break;
 
             }
-            multStep = 1f / ceiling;
             rng = new Random(gameTime.TotalGameTime.Seconds);
             action = actions[rng.Next(actions.Length)];
             count = 0;
@@ -83,7 +81,7 @@ namespace Titanium.Gambits
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
                 finished = true;
-                multiplier = 0 + (multStep * count);
+                multiplier = (count / ceiling);
             }
             else if (action.Evaluate(state, null, out player))
             {

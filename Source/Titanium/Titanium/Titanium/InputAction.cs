@@ -209,6 +209,15 @@ namespace Titanium
                 return 0;
         }
 
+
+        public Keys getKey(int i)
+        {
+            if (i < keys.Length)
+                return keys[i];
+            else
+                return 0;
+        }
+
         public bool wasPressed(InputState state)
         {
             PlayerIndex player;
@@ -222,10 +231,11 @@ namespace Titanium
 
         public static Texture2D GetIcon(InputAction action, int i)
         {
-            Buttons btn = action.getBtn(i);
+            
 
             if (GamePad.GetState(PlayerIndex.One).IsConnected)
             {
+                Buttons btn = action.getBtn(i);
                 switch (btn)
                 {
                     case Buttons.A:
@@ -262,35 +272,36 @@ namespace Titanium
             }
             else
             {
-                switch (btn)
+                Keys key = action.getKey(i);
+                switch (key)
                 {
-                    case Buttons.A:
+                    case Keys.Z:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Z");
-                    case Buttons.B:
+                    case Keys.V:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-V");
-                    case Buttons.X:
+                    case Keys.X:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-X");
-                    case Buttons.Y:
+                    case Keys.C:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-C");
-                    case Buttons.LeftShoulder:
+                    case Keys.J:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-J");
-                    case Buttons.RightShoulder:
+                    case Keys.I:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-I");
-                    case Buttons.LeftTrigger:
+                    case Keys.K:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-K");
-                    case Buttons.RightTrigger:
+                    case Keys.L:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-L");
-                    case Buttons.DPadUp:
+                    case Keys.Up:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Up");
-                    case Buttons.DPadDown:
+                    case Keys.Down:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Down");
-                    case Buttons.DPadLeft:
+                    case Keys.Left:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Left");
-                    case Buttons.DPadRight:
+                    case Keys.Right:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Right");
-                    case Buttons.Start:
+                    case Keys.Enter:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Enter");
-                    case Buttons.Back:
+                    case Keys.Escape:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Escape");
                     default:
                     return content.Load<Texture2D>("ButtonIcons/HUD-Key-Z");
