@@ -39,6 +39,7 @@ namespace Titanium.Entities
         public enum State { Idle, Running, FinishedRunning, Attacking, Returning, FinishedReturning, Hurt, Resting, Dead }
         public State currentState;
         public Sprite enemySprite;
+        int damageDone = 0;
         public float attackMultiplier;
 
         public Sprite(List<SpriteAction> actions)
@@ -84,6 +85,7 @@ namespace Titanium.Entities
             this.idleFrameCount = this.frameCount;
             this.rawStats.normalize();
         }
+        
 
         public override void Draw(SpriteBatch sb, Effect effect)
         {
@@ -101,7 +103,7 @@ namespace Titanium.Entities
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            if (!checkDeath())
+            if (this.currentState != State.Dead)
             {
                 elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
                 combatInfo.update(rawStats);
@@ -127,7 +129,6 @@ namespace Titanium.Entities
                     if (hurtFrameCount >= 20)
                     {
                         changeState(State.Idle);
-                        this.combatInfo.takingDamage = false;
                         hurtFrameCount = 0;
                     }
                     else
@@ -137,11 +138,14 @@ namespace Titanium.Entities
                 }
                 if (currentState == State.Attacking)
                 {
-                    int damageDone = 0;
+                    damageDone = 0;
                     damageDone += (int)Math.Round(this.rawStats.baseAttack * attackMultiplier);
                     enemySprite.takeDamage(damageDone);
                     animationDirectionLR = Direction.None;
                     animationDirectionUD = Direction.None;
+                    this.combatInfo.enemyRect = enemySprite.destRect;
+                    this.combatInfo.damageGiven = damageDone;
+                    this.combatInfo.givingDamage = true;
                     changeState(State.Returning);
                 }
                 if (currentState == State.Returning)
@@ -152,6 +156,7 @@ namespace Titanium.Entities
                 {
                     animationDirectionLR = Direction.None;
                     animationDirectionUD = Direction.None;
+                    this.combatInfo.givingDamage = false;
                     changeState(State.Resting);
                 }
             }
@@ -236,7 +241,6 @@ namespace Titanium.Entities
             }
         }
 
-
         public int getHealth() { return rawStats.currentHP; }
         public int getMana() { return rawStats.currentMP; }
         public UnitStats getStats() { return rawStats; }
@@ -276,8 +280,6 @@ namespace Titanium.Entities
         public void takeDamage(int damage)
         {
             SoundUtils.Play(SoundUtils.Sound.Hit);
-            this.combatInfo.takingDamage = true;
-            this.combatInfo.damageTaken = damage;
             changeState(State.Hurt);
             int newHealth = this.rawStats.currentHP;
             newHealth -= damage;
@@ -322,6 +324,14 @@ namespace Titanium.Entities
             this.attackMultiplier = multiplier;
             targetRect = s.destRect;
             changeState(State.Running);
+        }
+
+        public void hitTargetRanged(Sprite s, float multiplier)
+        {
+            this.enemySprite = s;
+            this.attackMultiplier = multiplier;
+            targetRect = s.destRect;
+            changeState(State.Attacking);
         }
 
         public bool checkDeath()
