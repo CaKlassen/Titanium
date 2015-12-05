@@ -12,12 +12,14 @@ namespace Titanium.Battle
     {
         Texture2D barFrame, barFrame2;
         Rectangle destRect, frameRect, destRectArena, frameRectArena;
+        public Rectangle enemyRect;
         Color hpColor;
         String name = "";
         String health = "";
         SpriteFont numbersFontSmall, numbersFontLarge, hpFont;
-        UnitStats unitStats; public int damageTaken = 0;
-        public bool takingDamage = false;
+        UnitStats unitStats;
+        public int damageGiven = 0;
+        public bool givingDamage = false;
         int damagePos = 0;
 
         public object GraphicDevice { get; private set; }
@@ -63,7 +65,7 @@ namespace Titanium.Battle
 
             health = u.currentHP + "/" + u.baseHP;
 
-            if (takingDamage)
+            if (givingDamage)
             {
                 damagePos++;
             }
@@ -138,10 +140,10 @@ namespace Titanium.Battle
                 //enemy hp maybe
             }
 
-            if (takingDamage)
+            if (givingDamage)
             {
-                Vector2 spacing = numbersFontLarge.MeasureString(damageTaken + "");
-                sb.DrawString(numbersFontLarge, damageTaken + "", new Vector2(destRect.X + barFrame.Width / 2 - spacing.X / 2, destRect.Y - damagePos), Color.Red);
+                Vector2 spacing = numbersFontLarge.MeasureString(damageGiven + "");
+                sb.DrawString(numbersFontLarge, damageGiven + "", new Vector2(enemyRect.X + barFrame.Width / 2 - spacing.X / 2, enemyRect.Y - damagePos), Color.Red);
             }
         }
 
