@@ -127,6 +127,7 @@ namespace Titanium.Entities
                     if (hurtFrameCount >= 20)
                     {
                         changeState(State.Idle);
+                        this.combatInfo.takingDamage = false;
                         hurtFrameCount = 0;
                     }
                     else
@@ -275,6 +276,8 @@ namespace Titanium.Entities
         public void takeDamage(int damage)
         {
             SoundUtils.Play(SoundUtils.Sound.Hit);
+            this.combatInfo.takingDamage = true;
+            this.combatInfo.damageTaken = damage;
             changeState(State.Hurt);
             int newHealth = this.rawStats.currentHP;
             newHealth -= damage;
