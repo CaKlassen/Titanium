@@ -13,7 +13,7 @@ namespace Titanium.Gambits
     class Rotation : BaseGambit
     {
         // The time limit in ms
-        int timeLimit = 5000;
+        int timeLimit = 6000;
 
         // The current input the user must perform
         int current;
@@ -30,8 +30,7 @@ namespace Titanium.Gambits
         PlayerIndex player;
 
         int count;
-
-        float multStep = 1 / 15f;
+        int maxRotations = 15;
 
         InputAction[] circle;
 
@@ -68,25 +67,84 @@ namespace Titanium.Gambits
             base.draw(pos, sb);
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 10;
+                    }
+                    else
+                    {
+                        maxRotations = 6;
+                    }
+                    
+                    timeLimit = 5000;
+                    break;
+                case Difficulty.Medium:
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 15;
+                    }
+                    else
+                    {
+                        maxRotations = 9;
+                    }
+                    timeLimit = 5750;
+                    break;
+                case Difficulty.Hard:
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 20;
+                    }
+                    else
+                    {
+                        maxRotations = 12;
+                    }
+
+                    timeLimit = 6500;
+                    break;
+                default:
+                    if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                    {
+                        maxRotations = 15;
+                    }
+                    else
+                    {
+                        maxRotations = 9;
+                    }
+
+                timeLimit = 5750;
+                    break;
+
+            }
             current = 0;
             count = 0;
-
             if(clockwise == null)
                 clockwise = new Random(gameTime.TotalGameTime.Milliseconds).Next(2) == 0;
 
             icon = icons[clockwise.GetValueOrDefault() ? 0 : 1];
             timeleft = timeLimit;
-            base.start(gameTime);
         }
 
         public override void load(ContentManager content)
         {
             font = content.Load<SpriteFont>("Fonts/NumbersFont");
 
-            icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
-            icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CW");
+                icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Stick-Right-CCW");
+            }
+            else
+            {
+                icons[0] = content.Load<Texture2D>("ButtonIcons/HUD-Keys-CW");
+                icons[1] = content.Load<Texture2D>("ButtonIcons/HUD-Keys-CCW");
+            }
         }
 
         public override int totalHeight()
@@ -130,7 +188,7 @@ namespace Titanium.Gambits
             {
                 finished = true;
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                multiplier = 0f + (count * multStep);
+                multiplier = (count / maxRotations);
             }
             base.update(gameTime, state);
         }

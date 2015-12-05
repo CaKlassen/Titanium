@@ -169,7 +169,10 @@ namespace Titanium.Entities
 
                             case "ArenaExit":
                                 // Continue to the next 
-                                ArenaController.instance.moveToNextArena();
+                                //calculate and draw score
+                                if (ArenaController.instance.getNumEnemies() == 0)
+                                    ArenaScene.instance.ScoreDisplay.Begin = true;
+                                //ArenaController.instance.moveToNextArena();
                                 break;
 
                             case "Potion":
@@ -193,6 +196,7 @@ namespace Titanium.Entities
                                     mb.RevealMystery();
                                     mb.setCollected();
                                 }
+                                ArenaScene.instance.MysteryBoxUsed = true;
                                 break;
                         }
                     }

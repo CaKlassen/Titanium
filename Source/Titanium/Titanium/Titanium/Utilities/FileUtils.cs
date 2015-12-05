@@ -134,6 +134,10 @@ namespace Titanium.Utilities
             {
                 return PartyUtils.Enemy.CinderSpider;
             }
+            else if (check.Equals("boss"))
+            {
+                return PartyUtils.Enemy.Boss;
+            }
             else if (check.Equals("empty"))
             {
                 return PartyUtils.Enemy.Empty;

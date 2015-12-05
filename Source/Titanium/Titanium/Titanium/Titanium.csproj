@@ -109,6 +109,7 @@
     <Compile Include="Entities\Items\MysteryBox.cs" />
     <Compile Include="Entities\Items\Potion.cs" />
     <Compile Include="Entities\PlayerSprite.cs" />
+    <Compile Include="Entities\Scoring.cs" />
     <Compile Include="Entities\Sprite.cs" />
     <Compile Include="Battle\UnitStats.cs" />
     <Compile Include="Entities\Textbox.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Gambits\Quick.cs" />
     <Compile Include="Gambits\Rhythm.cs" />
     <Compile Include="Gambits\Rotation.cs" />
+    <Compile Include="Gambits\Roulette.cs" />
     <Compile Include="InputAction.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="BaseGame.cs" />
     <Compile Include="Scenes\ArenaScene.cs" />
     <Compile Include="Scenes\BattleScene.cs" />
+    <Compile Include="Scenes\EndGameScene.cs" />
     <Compile Include="Scenes\HighScoresScene.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Scenes\Panels\BattleMenuPanel.cs" />
@@ -156,6 +159,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
+      <Project>{4636c7e1-b845-4b83-b96d-64a11b8a4515}</Project>
+      <Name>SkinnedModelPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SkinnedModel\SkinnedModelWindows.csproj">
+      <Project>{0d41e29b-829f-4255-bca5-64dc2677da6d}</Project>
+      <Name>SkinnedModelWindows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TitaniumContent\TitaniumContent.contentproj">
       <Name>TitaniumContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

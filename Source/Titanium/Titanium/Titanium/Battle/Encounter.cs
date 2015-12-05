@@ -226,7 +226,7 @@ namespace Titanium.Battle
             {
                 SoundUtils.Play(SoundUtils.Sound.Input);
                 targetedEnemy = target;
-                battleMenu.start(selectedSkill.gambit, gameTime);
+                battleMenu.start(selectedSkill.gambit, target.getStats().difficulty, gameTime);
                 state = EncounterState.Gambit;
             }
 

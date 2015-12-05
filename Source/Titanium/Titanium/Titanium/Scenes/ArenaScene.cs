@@ -43,6 +43,8 @@ namespace Titanium.Scenes
                     rotateDown,
                     pause;
 
+        InputAction skip = InputAction.LB;
+
         ContentManager content;
         public Effect HLSLeffect;
 
@@ -53,6 +55,7 @@ namespace Titanium.Scenes
         private ArenaSkybox skybox;
         private BasicEffect effect;
         public int potionsUsed;
+        public bool MysteryBoxUsed;
 
         private Conversation currentConversation = null;
         private bool firstBattle = true;
@@ -69,6 +72,8 @@ namespace Titanium.Scenes
 
         bool paused = false;
         MenuPanel pauseMenu;
+
+        public Scoring ScoreDisplay;
 
         public List<Entity> collidables;
 
@@ -89,12 +94,12 @@ namespace Titanium.Scenes
 
             rotateDown = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickDown },
-                new Keys[] { Keys.NumPad2 },
+                new Keys[] { Keys.K },
                 false
                 );
             rotateUp = new InputAction(
                 new Buttons[] { Buttons.RightThumbstickUp },
-                new Keys[] { Keys.NumPad8 },
+                new Keys[] { Keys.I },
                 false
                 );
 
@@ -187,6 +192,7 @@ namespace Titanium.Scenes
             skybox = new ArenaSkybox(getStartTile(), content);
 
             potionsUsed = 0;
+            MysteryBoxUsed = false;
 
             //load CombatInfo at top left
             Vector2 start = new Vector2(10, 45);
@@ -202,6 +208,10 @@ namespace Titanium.Scenes
             // Load the level start conversation
             currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
             currentConversation.load(content);
+
+            //load score dispaly
+            ScoreDisplay = new Scoring();
+            ScoreDisplay.load(content);
         }
 
         /**
@@ -289,6 +299,21 @@ namespace Titanium.Scenes
                     ps.getCombatInfo().updateArena(ps.getStats());
                 }
 
+                List<PlayerSprite> party = PartyUtils.getParty();
+
+                if (party[0].getHealth() <= 0 && party[1].getHealth() <= 0 && party[2].getHealth() <= 0)
+                {
+                    // We have died in the arena :(
+
+                    // Save the player's achieved score
+                    SaveUtils save = SaveUtils.getInstance();
+                    HighscoreData data = save.loadHighScores();
+                    HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
+                    save.saveHighScores(data.highscores);
+
+                    ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(false), true);
+                }
+
                 controller.update();
             }
             else
@@ -299,6 +324,21 @@ namespace Titanium.Scenes
                     SceneManager.changeScene(SceneState.main);
                 }
             }
+
+            // DEBUG
+            if (skip.Evaluate(inputState, null, out player))
+            {
+                collidables.Clear();
+                controller.moveToNextArena();
+            }
+
+            //scoring
+            if(ScoreDisplay.Begin)
+            {
+                ScoreDisplay.Update(gameTime, inputState);
+            }
+
+
         }
 
         /**
@@ -373,7 +413,12 @@ namespace Titanium.Scenes
             {
                 currentConversation.Draw(sb, null);
             }
-;
+
+            //if EOL, draw score calculations
+            if (ScoreDisplay.Begin)
+            {
+                ScoreDisplay.DrawScore(sb);
+            }
         }
 
         /**
@@ -420,10 +465,15 @@ namespace Titanium.Scenes
             //load model
             Hero.LoadModel(content, SceneManager.GraphicsDevice.Viewport.AspectRatio);
             potionsUsed = 0;
+            MysteryBoxUsed = false;
 
             // Load the level start conversation
             currentConversation = DialogueUtils.makeConversation((ConversationType)controller.getLevel() - 1);
             currentConversation.load(content);
+
+            //load score dispaly
+            ScoreDisplay = new Scoring();
+            ScoreDisplay.load(content);
 
             // Debug arena
             printDebugArena();
@@ -438,8 +488,15 @@ namespace Titanium.Scenes
 
             if (firstBattle && controller.getLevel() == 1)
             {
+                // First fight
                 c = DialogueUtils.makeConversation(ConversationType.BATTLE_FIRST);
                 firstBattle = false;
+            }
+
+            if (battleBuilder.getFront()[1] == PartyUtils.Enemy.Boss)
+            {
+                // If this is the boss fight
+                c = DialogueUtils.makeConversation(ConversationType.BATTLE_BOSS);
             }
 
             // Create and switch to the battle

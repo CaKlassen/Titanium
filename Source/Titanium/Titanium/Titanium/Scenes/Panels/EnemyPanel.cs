@@ -39,6 +39,8 @@ namespace Titanium.Scenes.Panels
         GambitResult result;
         Counter counterGambit;
 
+        Sprite actingSprite;
+
         public Sprite this[int key]
         {
             get
@@ -130,7 +132,7 @@ namespace Titanium.Scenes.Panels
                     {
                         if (currentDelay > DELAY)
                         {
-                            encounter.battleMenu.start(counterGambit, gameTime);
+                            encounter.battleMenu.start(counterGambit, actingSprite.getStats().difficulty, gameTime);
                             gambitActive = true;
                         }
                         else
@@ -165,6 +167,7 @@ namespace Titanium.Scenes.Panels
                     switch (this[i].currentState)
                     {
                         case Sprite.State.Idle:
+                            actingSprite = this[i];
                             return true;
                         default:
                             break;

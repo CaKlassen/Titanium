@@ -33,11 +33,28 @@ namespace Titanium.Gambits
         InputAction action;
         Random rng;
 
-        float multStep = 1 / 25f;
 
-        public override void start(GameTime gameTime)
+        int ceiling = 25;
+
+        public override void start(GameTime gameTime, int difficulty)
         {
-            base.start(gameTime);
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    ceiling = 25;
+                    break;
+                case Difficulty.Medium:
+                    ceiling = 35;
+                    break;
+                case Difficulty.Hard:
+                    ceiling = 45;
+                    break;
+                default:
+                    ceiling = 35;
+                    break;
+
+            }
             rng = new Random(gameTime.TotalGameTime.Seconds);
             action = actions[rng.Next(actions.Length)];
             count = 0;
@@ -64,7 +81,7 @@ namespace Titanium.Gambits
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
                 finished = true;
-                multiplier = 0 + (multStep * count);
+                multiplier = (count / ceiling);
             }
             else if (action.Evaluate(state, null, out player))
             {

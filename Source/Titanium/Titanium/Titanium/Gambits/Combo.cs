@@ -61,19 +61,38 @@ namespace Titanium.Gambits
             message = "Press the buttons in order!";
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
-            base.start(gameTime);
+            base.start(gameTime, difficulty);
+            switch((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    length = 6;
+                    timeLimit = 7000;
+                    break;
+                case Difficulty.Medium:
+                    length = 8;
+                    timeLimit = 8500;
+                    break;
+                case Difficulty.Hard:
+                    length = 10;
+                    timeLimit = 10000;
+                    break;
+                default:
+                    break;
+                    
+            }
+            multStep = 1f / length;
             icons = new List<Texture2D>();
             current = 0;
             comboString = makeComboString(DateTime.Now.Millisecond);
             timeLeft = timeLimit;
-            multStep = 1 / 8f;
+            
         }
 
         public override void draw(Vector2 pos, SpriteBatch sb)
         {
-            int width = 0;
+            int width = -20;
             int height = 0;
             Texture2D icon;
 

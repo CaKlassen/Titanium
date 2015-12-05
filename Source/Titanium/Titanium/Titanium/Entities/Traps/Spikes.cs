@@ -85,7 +85,7 @@ namespace Titanium.Entities.Traps
                 //character is not on a 3rd step
                 collisions = false;//turn off collision detection so no accidental collision are detected.
                 change = SPIKES_LOWERED;//lower spikes
-                timer = 0.5f;//reset spike damage timer
+                timer = 0.15f;//reset spike damage timer
             }
 
             Position.Y += MathUtils.smoothChange(Position.Y, change, 5);

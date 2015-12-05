@@ -16,8 +16,6 @@ namespace Titanium.Gambits
         static int trackWidth = 400;
         static int trackHeight = 15;
         static int lineHeight = 80;
-        static int perfectWidth = 24;
-        static int fairWidth = 72;
         static int trackOffsetX = 90;
         static int trackOffsetY = 80;
         static string[] helpText = { "Hit", "at the right time!" };
@@ -35,7 +33,10 @@ namespace Titanium.Gambits
         Texture2D pixel;
 
 
-        float speed = 4f;
+        float speed = 5f;
+        int perfectWidth;        
+        int fairWidth;
+
 
         Vector2 position;
 
@@ -48,16 +49,36 @@ namespace Titanium.Gambits
             helpOffset = new Vector2(530, 180);
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
-            base.start(gameTime);
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    perfectWidth = 20;
+                    speed = 5f;
+                    break;
+                case Difficulty.Medium:
+                    perfectWidth = 15;
+                    speed = 6f;
+                    break;
+                case Difficulty.Hard:
+                    perfectWidth = 10;
+                    speed = 7f;
+                    break;
+                default:
+                    perfectWidth = 20;
+                    speed = 5f;
+                    break;
+
+            }
+            fairWidth = perfectWidth * 3;
             line = new Rectangle();
             track = new Rectangle();
             perfect = new Rectangle();
             fair = new Rectangle();
             position = Vector2.Zero;
             startDelay = 500;
-            speed = 4f;
             setLine();
         }
 
@@ -129,16 +150,16 @@ namespace Titanium.Gambits
             if (line.Intersects(perfect))
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                return 0.1f;
+                return 0.25f;
             }
                 
             if (line.Intersects(fair))
             {
                 SoundUtils.Play(SoundUtils.Sound.Success);
-                return 0.2f;
+                return 0.75f;
             }
             SoundUtils.Play(SoundUtils.Sound.Failure);
-            return 0.3f;
+            return 1f;
         }
 
 
@@ -150,8 +171,13 @@ namespace Titanium.Gambits
         public void setTrack()
         {
             track = new Rectangle((int)position.X + trackOffsetX , (int)position.Y + trackOffsetY, trackWidth, trackHeight);
-            perfect = new Rectangle(track.Center.X-(perfectWidth / 2), track.Top, perfectWidth, trackHeight);
-            fair = new Rectangle(track.Center.X - (fairWidth / 2), track.Top, fairWidth, trackHeight);
+
+            // Determine a random position for the success area
+            Random r = new Random();
+            int trackCentre = r.Next(fairWidth / 2, trackWidth - fairWidth / 2);
+
+            perfect = new Rectangle(track.X + trackCentre - perfectWidth / 2, track.Top, perfectWidth, trackHeight);
+            fair = new Rectangle(track.X + trackCentre - (fairWidth / 2), track.Top, fairWidth, trackHeight);
         }
 
         public override void load(ContentManager content)

@@ -19,6 +19,7 @@ namespace Titanium.Gambits
         public static int bufferWidth = 65;
         public static int inputOffset = 70;
         public static float speed = 3f;
+        static int directions = 4;
         public static string[] iconDirs = { "arrow-up", "arrow-left", "arrow-down", "arrow-right" };
 
         enum Direction { up, left, down, right }
@@ -55,7 +56,10 @@ namespace Titanium.Gambits
         Random rng;
         List<Texture2D> icons;
         int startDelay = 2000;
-        float multStep = 1 / 8f;
+        int inputs = 2;
+        
+        float multStep;
+        float fairFactor;
 
         public Rhythm()
         {
@@ -63,9 +67,30 @@ namespace Titanium.Gambits
             name = "Rhythm";
         }
 
-        public override void start(GameTime gameTime)
+        public override void start(GameTime gameTime, int difficulty)
         {
-            base.start(gameTime);
+            base.start(gameTime, difficulty);
+            switch ((Difficulty)difficulty)
+            {
+                case Difficulty.Easy:
+                    inputs = 1;
+                    fairFactor = 1.3f;
+                    break;
+                case Difficulty.Medium:
+                    inputs = 2;
+                    fairFactor = 1.6f;
+                    break;
+                case Difficulty.Hard:
+                    inputs = 3;
+                    fairFactor = 2f;
+                    break;
+                default:
+                    inputs = 2;
+                    fairFactor = 1.6f;
+                    break;
+
+            }
+            multStep = 1f / (inputs * directions);
             rng = new Random(gameTime.TotalGameTime.Milliseconds);
             rhythmString = makeRhythmString();
             leftLine = new Rectangle();
@@ -126,11 +151,12 @@ namespace Titanium.Gambits
                 setLines();
                 foreach (RhythmInput input in rhythmString)
                 {
-                    if (input.inRange(leftLine.Right, rightLine.Left))
+                    if (input.inRange(leftLine, rightLine))
                     {
                         if (input.action.wasPressed(state))
                         {
                             input.checkResult(leftLine.Right, rightLine.Left);
+                            break;
                         }
 
                     }
@@ -153,7 +179,7 @@ namespace Titanium.Gambits
                 switch(input.result)
                 {
                     case RhythmInput.Result.fair:
-                        multiplier += multStep/1.5f;
+                        multiplier += multStep/fairFactor;
                         break;
                     case RhythmInput.Result.perfect:
                         multiplier += multStep;
@@ -169,8 +195,13 @@ namespace Titanium.Gambits
             List<RhythmInput> list = new List<RhythmInput>();
             for(int i=0; i<4; ++i)
             {
-                for(int j=0; j<2; ++j)
-                    list.Add(new RhythmInput((float)rng.NextDouble(), new Vector2(width-inputOffset, height), (Direction)i, icons));
+                for(int j=0; j<inputs; ++j)
+                {
+                    double num = rng.NextDouble();
+                    if(!tooClose((Direction)i, num, list))
+                    list.Add(new RhythmInput((float)num, new Vector2(width - inputOffset, height), (Direction)i, icons));
+                }
+                    
             }
 
             list.Sort(delegate (RhythmInput a, RhythmInput b)
@@ -180,6 +211,19 @@ namespace Titanium.Gambits
                 return 0;
             });
             return list;
+        }
+
+        bool tooClose(Direction dir, double num, List<RhythmInput> list)
+        {
+            foreach(RhythmInput input in list)
+            {
+                if(input.direction == dir)
+                {
+                    if (Math.Abs((float)num - input.Offset) < 0.075)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void setLines()
@@ -209,12 +253,12 @@ namespace Titanium.Gambits
 
         class RhythmInput
         {
-            static int wiggle = 3;
+            static int wiggle = 8;
 
             public enum Result { perfect, fair, miss, pending };
             public Result result;
 
-            Direction direction;
+            public Direction direction;
             Vector2 offset;
             Rectangle position;
             Texture2D icon;
@@ -235,19 +279,23 @@ namespace Titanium.Gambits
 
             public void setColor()
             {
+
                 switch (result)
                 {
                     case Result.perfect:
                         Console.WriteLine("PERFECT");
                         SoundUtils.Play(SoundUtils.Sound.Success);
+                        color = Color.Green;
                         break;
                     case Result.fair:
                         Console.WriteLine("FAIR");
                         SoundUtils.Play(SoundUtils.Sound.Input);
+                        color = Color.Yellow;
                         break;
                     case Result.miss:
                         Console.WriteLine("MISS");
                         SoundUtils.Play(SoundUtils.Sound.Failure);
+                        color = Color.Black;
                         break;
                     default:
                         color = Color.White;
@@ -271,19 +319,17 @@ namespace Titanium.Gambits
                 setColor();
             }
 
-            public bool inRange(int left, int right)
+            public bool inRange(Rectangle left, Rectangle right)
             {
-                if (position.Width < 1)
-                    return false;
                 if (result != Result.pending)
                     return false;
-                else if (position.Right < left)
+                if (position.Right < left.Left-wiggle)
                 {
                     result = Result.miss;
                     setColor();
                     return false;
                 }
-                else if (position.Left - right < inputOffset)
+                if (left.Intersects(position) || right.Intersects(position) || ( position.Left >= left.Left && position.Right <= right.Right) )
                 {
                     return true;
                 }
