@@ -26,16 +26,16 @@ namespace Titanium.Utilities
         static Skill[][] SKILLS =
         {
             new Skill[]{
-                new Skill("Fireball", new Roulette(), testAction),
-                new Skill("Frostbolt", new Combo(), testActionRanged)
+                new Skill("Chaos Blade", new Roulette(), testAction),
+                new Skill("Frost Bolt", new Combo(), testActionRanged)
             },
             new Skill[]{
-                new Skill("Arcane Arrow", new Finesse(), testAction),
+                new Skill("Backstab", new Finesse(), testAction),
                 new Skill("Throwing Knife", new Rotation(), testAction)
             },
             new Skill[]{
-                new Skill("Bite", new Mash(), testAction),
-                new Skill("Claw", new Rhythm(), testAction)
+                new Skill("Rampage", new Mash(), testAction),
+                new Skill("Flurry of Claws", new Rhythm(), testAction)
             }
         };
 

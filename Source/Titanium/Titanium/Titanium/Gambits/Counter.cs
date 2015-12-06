@@ -182,7 +182,7 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("Fonts/NumbersFont");
+            font = content.Load<SpriteFont>("Fonts/MainFontSmall");
         }
 
         public override int totalHeight()
