@@ -356,6 +356,12 @@ namespace Titanium.Entities
             currentState = s;
         }
 
+        public void reset()
+        {
+            this.combatInfo.givingDamage = false;
+        }
+
+
         public void hitTarget(Sprite s, float multiplier)
         {
             this.enemySprite = s;
