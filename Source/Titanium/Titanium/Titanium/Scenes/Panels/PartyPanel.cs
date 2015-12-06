@@ -106,6 +106,7 @@ namespace Titanium.Scenes.Panels
                 if (hero.currentState != Sprite.State.Dead)
                 {
                     hero.changeState(Sprite.State.Idle);
+                    hero.reset();
                     hero.animationDirectionLR = Sprite.Direction.None;
                     hero.animationDirectionUD = Sprite.Direction.None;
                     hero.destRect = hero.originalRect;
