@@ -12,13 +12,15 @@ namespace Titanium.Battle
     {
         Texture2D barFrame, barFrame2;
         Rectangle destRect, frameRect, destRectArena, frameRectArena;
+        public Rectangle enemyRect;
         Color hpColor;
         String name = "";
         String health = "";
-        int curHP, maxHP;
-        float hpLength;
         SpriteFont numbersFontSmall, numbersFontLarge, hpFont;
         UnitStats unitStats;
+        public int damageGiven = 0;
+        public bool givingDamage = false;
+        int damagePos = 0;
 
         public object GraphicDevice { get; private set; }
 
@@ -31,6 +33,7 @@ namespace Titanium.Battle
         {
             barFrame = content.Load<Texture2D>("Sprites/HealthBar2");
             numbersFontSmall = content.Load<SpriteFont>("Fonts/MainFontSmall");
+            numbersFontLarge = content.Load<SpriteFont>("Fonts/NumbersFontBig");
             hpFont = content.Load<SpriteFont>("Fonts/NumbersFont");
             Rectangle tempRect = r;
             frameRect = new Rectangle(tempRect.X, tempRect.Y-barFrame.Height/2, barFrame.Width, barFrame.Height/2);
@@ -61,6 +64,15 @@ namespace Titanium.Battle
             destRect = new Rectangle(destRect.X, destRect.Y, (int)newLength, destRect.Height);
 
             health = u.currentHP + "/" + u.baseHP;
+
+            if (givingDamage)
+            {
+                damagePos++;
+            }
+            else
+            {
+                damagePos = 0;
+            }
 
             if (hpPercent > 0.75)
             {
@@ -126,6 +138,12 @@ namespace Titanium.Battle
             else
             {
                 //enemy hp maybe
+            }
+
+            if (givingDamage)
+            {
+                Vector2 spacing = numbersFontLarge.MeasureString(damageGiven + "");
+                sb.DrawString(numbersFontLarge, damageGiven + "", new Vector2(enemyRect.X + barFrame.Width / 2 - spacing.X / 2, enemyRect.Y - damagePos), Color.Red);
             }
         }
 
