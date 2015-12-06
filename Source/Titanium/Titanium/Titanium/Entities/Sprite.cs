@@ -16,7 +16,7 @@ namespace Titanium.Entities
         protected Rectangle sourceRect, targetRect;
         public Rectangle destRect, originalRect;
         private double elapsed, delay;
-        protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount;
+        protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount, iceFrameCount;
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
         public CombatInfo getCombatInfo()
@@ -27,7 +27,7 @@ namespace Titanium.Entities
         public delegate void SpriteAction(Sprite target);
 
         //For testing purpose only
-        protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile, shadow;
+        protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile, shadow, ice;
 
         static int offsetX = 30;
         static int offsetY = -20;
@@ -36,7 +36,7 @@ namespace Titanium.Entities
 
         public enum Direction { Up, Down, Left, Right, None }
         public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
-        public enum State { Idle, Running, FinishedRunning, Attacking, Returning, FinishedReturning, Hurt, Resting, Dead }
+        public enum State { Idle, Running, FinishedRunning, Attacking, RangedAttacking, Returning, FinishedReturning, Hurt, Resting, Dead }
         public State currentState;
         public Sprite enemySprite;
         int damageDone = 0;
@@ -54,6 +54,7 @@ namespace Titanium.Entities
             changeState(State.Idle);
             attackMultiplier = 1.0f;
             combatInfo = new CombatInfo();
+            iceFrameCount = 0;
         }
 
         public void refresh()
@@ -67,6 +68,7 @@ namespace Titanium.Entities
             idleFile = content.Load<Texture2D>("Sprites/" + filePath + "_idle");
             runFile = content.Load<Texture2D>("Sprites/" + filePath + "_run");
             hurtFile = content.Load<Texture2D>("Sprites/" + filePath + "_hurt");
+            ice = content.Load<Texture2D>("Sprites/Ice");
             currentSpriteFile = idleFile;
             destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
             originalRect = destRect;
@@ -94,12 +96,18 @@ namespace Titanium.Entities
                 sb.Draw(shadow, new Vector2(destRect.Left + offsetX, destRect.Bottom + offsetY), Color.White);
                 sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
                 combatInfo.draw(sb);
+                if (started)
+                {
+                    sb.Draw(ice, enemySprite.destRect, new Rectangle(0 + iceFrameCount * 70, 0, 70, 120), Color.White);
+                }
+
             } else
             {
                 changeState(State.Dead);
             }
         }
 
+        bool started = false;
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
@@ -148,6 +156,35 @@ namespace Titanium.Entities
                     this.combatInfo.givingDamage = true;
                     changeState(State.Returning);
                 }
+                if (currentState == State.RangedAttacking)
+                {
+                    if (!started)
+                    {
+                        damageDone = 0;
+                        damageDone += (int)Math.Round(this.rawStats.baseAttack * attackMultiplier);
+                        enemySprite.takeDamage(damageDone);
+                        this.combatInfo.enemyRect = enemySprite.destRect;
+                        this.combatInfo.damageGiven = damageDone;
+                        this.combatInfo.givingDamage = true;
+                        started = true;
+                    }
+                    if (hurtFrameCount >= 5 && iceFrameCount >= 6)
+                    {
+                        changeState(State.FinishedReturning);
+                        hurtFrameCount = 0;
+                        iceFrameCount = 0;
+                        started = false;
+                    }
+                    else
+                    {
+                        if (hurtFrameCount >= 5)
+                        {
+                            iceFrameCount++;
+                        }
+                        hurtFrameCount++;
+                    }
+                }
+
                 if (currentState == State.Returning)
                 {
                     updateReturn();
@@ -331,7 +368,7 @@ namespace Titanium.Entities
             this.enemySprite = s;
             this.attackMultiplier = multiplier;
             targetRect = s.destRect;
-            changeState(State.Attacking);
+            changeState(State.RangedAttacking);
         }
 
         public bool checkDeath()
