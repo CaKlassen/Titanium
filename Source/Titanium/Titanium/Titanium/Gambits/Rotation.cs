@@ -53,11 +53,29 @@ namespace Titanium.Gambits
         {
             icons = new Texture2D[2];
             this.timeLimit = timeLimit;
+
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                message = "Rotate the stick in the direction shown!";
+            }
+            else
+            {
+                message = "Press the series of keys in the direction shown!";
+            }
         }
 
         public Rotation(bool clockwise) : base()
         {
             icons = new Texture2D[2];
+
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                message = "Rotate the stick in the direction shown!";
+            }
+            else
+            {
+                message = "Press the series of keys in the direction shown!";
+            }
         }
 
         public Rotation(int timeLimit, bool clockwise) : base()
@@ -65,6 +83,15 @@ namespace Titanium.Gambits
             icons = new Texture2D[2];
             this.timeLimit = timeLimit;
             this.clockwise = clockwise;
+
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                message = "Rotate the stick in the direction shown!";
+            }
+            else
+            {
+                message = "Press the series of keys in the direction shown!";
+            }
         }
 
         public override void draw(Vector2 pos, SpriteBatch sb)
