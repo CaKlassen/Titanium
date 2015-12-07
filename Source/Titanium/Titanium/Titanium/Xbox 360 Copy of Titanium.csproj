@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{77CCA01D-B1D6-43EC-9D1F-E477FFCFC5E3}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Titanium</RootNamespace>
+    <AssemblyName>Titanium</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Xbox 360</XnaPlatform>
+    <XnaProfile>HiDef</XnaProfile>
+    <XnaCrossPlatformGroupID>586fbf48-09fd-456b-8c91-0493d7d60041</XnaCrossPlatformGroupID>
+    <XnaOutputType>Game</XnaOutputType>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <Thumbnail>GameThumbnail.png</Thumbnail>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
+    <XnaCompressContent>true</XnaCompressContent>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
+      <Project>{4636C7E1-B845-4B83-B96D-64A11B8A4515}</Project>
+      <Name>SkinnedModelPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SkinnedModel\SkinnedModelXbox.csproj">
+      <Project>{33670229-CE14-4705-A4C2-CAE8FEF5F520}</Project>
+      <Name>SkinnedModelXbox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TitaniumContent\TitaniumContent.contentproj">
+      <Name>TitaniumContent</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Arena\ArenaBuilder.cs" />
+    <Compile Include="Arena\ArenaController.cs" />
+    <Compile Include="Arena\BattleBuilder.cs" />
+    <Compile Include="Arena\Tile.cs" />
+    <Compile Include="Battle\CombatInfo.cs" />
+    <Compile Include="Battle\Encounter.cs" />
+    <Compile Include="Battle\Skill.cs" />
+    <Compile Include="Battle\SpriteSheet.cs" />
+    <Compile Include="Battle\UnitStats.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="Entities\ArenaSkybox.cs" />
+    <Compile Include="Entities\ArenaTable.cs" />
+    <Compile Include="Entities\ArenaEnemy.cs" />
+    <Compile Include="Entities\Character.cs" />
+    <Compile Include="Entities\ArenaExit.cs" />
+    <Compile Include="Entities\Conversation.cs" />
+    <Compile Include="Entities\EnemySprite.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Items\MysteryBox.cs" />
+    <Compile Include="Entities\Items\Potion.cs" />
+    <Compile Include="Entities\PlayerSprite.cs" />
+    <Compile Include="Entities\Scoring.cs" />
+    <Compile Include="Entities\Sprite.cs" />
+    <Compile Include="Entities\Textbox.cs" />
+    <Compile Include="Entities\Traps\Projectile.cs" />
+    <Compile Include="Entities\Traps\ProjectileDispenser.cs" />
+    <Compile Include="Entities\Traps\Spikes.cs" />
+    <Compile Include="Gambits\BaseGambit.cs" />
+    <Compile Include="Gambits\Combo.cs" />
+    <Compile Include="Gambits\Counter.cs" />
+    <Compile Include="Gambits\Finesse.cs" />
+    <Compile Include="Gambits\Mash.cs" />
+    <Compile Include="Gambits\Quick.cs" />
+    <Compile Include="Gambits\Rhythm.cs" />
+    <Compile Include="Gambits\Rotation.cs" />
+    <Compile Include="Gambits\Roulette.cs" />
+    <Compile Include="InputAction.cs" />
+    <Compile Include="InputState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="BaseGame.cs" />
+    <Compile Include="Scenes\ArenaScene.cs" />
+    <Compile Include="Scenes\BattleScene.cs" />
+    <Compile Include="Scenes\EndGameScene.cs" />
+    <Compile Include="Scenes\HighScoresScene.cs" />
+    <Compile Include="Scenes\MainMenuScene.cs" />
+    <Compile Include="Scenes\Panels\BattleMenuPanel.cs" />
+    <Compile Include="Scenes\Panels\EnemyPanel.cs" />
+    <Compile Include="Scenes\Panels\MenuItem.cs" />
+    <Compile Include="Scenes\Panels\MenuPanel.cs" />
+    <Compile Include="Scenes\Panels\Panel.cs" />
+    <Compile Include="Scenes\Panels\PartyPanel.cs" />
+    <Compile Include="Scenes\Scene.cs" />
+    <Compile Include="Scenes\SceneManager.cs" />
+    <Compile Include="Utilities\DialogueUtils.cs" />
+    <Compile Include="Utilities\FileUtils.cs" />
+    <Compile Include="Utilities\HighScoreUtils.cs" />
+    <Compile Include="Utilities\MathUtils.cs" />
+    <Compile Include="Utilities\PartyUtils.cs" />
+    <Compile Include="Utilities\PhysicsUtils.cs" />
+    <Compile Include="Utilities\SaveUtils.cs" />
+    <Compile Include="Utilities\SoundUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Game.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameThumbnail.png">
+      <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FileHelpers">
+      <HintPath>..\..\..\..\Assets\DLLs\FileHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="Microsoft.Xna.Framework.Game" />
+    <Reference Include="Microsoft.Xna.Framework.GamerServices" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics" />
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>

@@ -1,0 +1,786 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Titanium.Arena;
+using Titanium.Entities;
+using Titanium.Entities.Traps;
+using Titanium.Utilities;
+using Titanium.Entities.Items;
+
+namespace Titanium
+{
+    /// <summary>
+    /// A list of possible arena tiles.
+    /// </summary>
+    public enum ArenaTiles
+    {
+        EMPTY,
+        CROSS,
+        STR_HOR,
+        STR_VERT,
+        DE_TOP,
+        DE_BOTTOM,
+        DE_LEFT,
+        DE_RIGHT,
+        CORNER_TL,
+        CORNER_TR,
+        CORNER_BL,
+        CORNER_BR,
+        TRI_UP,
+        TRI_DOWN,
+        TRI_LEFT,
+        TRI_RIGHT
+    }
+
+    /// <summary>
+    /// The possible difficulties for the arena.
+    /// </summary>
+    public enum ArenaDifficulty
+    {
+        EASY,
+        MEDIUM,
+        HARD, 
+        VERY_HARD
+    }
+
+    /// <summary>
+    /// This class provides functionality to construct an arena.
+    /// </summary>
+    public class ArenaBuilder
+    {
+        public static ArenaBuilder instance;
+
+        private static int EDGE_START_BUFFER = 2;
+        private static int MAX_TRIES = 50;
+
+        private Tile[,] tiles;
+        private Tile startTile;
+        private Tile endTile;
+
+        private int width;
+        private int height;
+        private ContentManager Content;
+        private ArenaDifficulty difficulty;
+        private Random r;
+        
+
+        /// <summary>
+        /// The base arena builder constructor
+        /// </summary>
+        /// <param name="width">The width of the arena</param>
+        /// <param name="height">The height of the arena</param>
+        /// <param name="Content">The content manager to use for loading</param>
+        /// <param name="aspectRatio">The aspect ratio of the screen</param>
+        /// <param name="difficulty">The difficulty of the arena</param>
+        public ArenaBuilder(int width, int height, ContentManager Content, float aspectRatio, ArenaDifficulty difficulty)
+        {
+            instance = this;
+            r = ArenaController.instance.getGenerator();
+
+            this.width = width;
+            this.height = height;
+            this.Content = Content;
+            this.difficulty = difficulty;
+
+        }
+
+        /// <summary>
+        /// This function constructs the layout for an arena.
+        /// </summary>
+        /// <returns>A 2D array of tiles</returns>
+        public Tile[,] buildArenaBase()
+        {
+            // Create the tile array
+            tiles = new Tile[height, width];
+
+            // Determine the maximum length of a path
+            int maxLength = (int) Math.Floor(Math.Sqrt(Math.Pow(width, 2) + Math.Pow(height, 2)));
+
+            // Generate the arena, starting with the Start Tile
+            if (width == 6)
+            {
+                generateTile(null, TileConnections.NONE, 2, maxLength);
+            }
+            else if (width == 8)
+            {
+                generateTile(null, TileConnections.NONE, 3, maxLength);
+            }
+            else
+            {
+                generateTile(null, TileConnections.NONE, 4, maxLength);
+            }
+            
+            // Fill empty tiles
+            fillEmptyTiles();
+
+            // Set the exit point of the arena
+            setExit();
+
+            // Generate the enemies in the arena
+            generateEnemies();
+
+            // Generate the obstacles in the arena
+            generateObstacles();
+
+            // Generate the potion in the arena
+            generatePotion();
+
+            int level = ArenaController.instance.getLevel();
+
+            if (level == 5 || level == 9)
+            {
+                generateMysteryBox();
+            }
+
+            return tiles;
+        }
+
+        /// <summary>
+        /// This function generates a tile recursively in the arena.
+        /// </summary>
+        /// <param name="parent">The parent tile (or null if it's the first tile)</param>
+        /// <param name="dir">The direction from the parent (or null)</param>
+        /// <param name="numConnections">The number of connections to try to create</param>
+        /// <param name="maxLength">The maximum length of this path</param>
+        /// <returns>The generated tile</returns>
+        private Tile generateTile(Tile parent, TileConnections dir, int numConnections, int maxLength)
+        {
+            Tile tile;
+
+            if (parent == null)
+            {
+                // This is the first tile in the arena
+                int xPos = r.Next(EDGE_START_BUFFER, tiles.GetLength(1) - EDGE_START_BUFFER);
+                int yPos = r.Next(EDGE_START_BUFFER, tiles.GetLength(0) - EDGE_START_BUFFER);
+
+                tile = new Tile(parent, xPos, yPos);
+                startTile = tile;
+                tiles[yPos, xPos] = tile;
+            }
+            else
+            {
+                // This is an extension of the arena
+                
+                // Set the connection with the parent
+                switch(dir)
+                {
+                    case TileConnections.LEFT:
+                    {
+                        tile = new Tile(parent, (int)parent.getPos().X - 1, (int)parent.getPos().Y);
+                        tile.setConnection(TileConnections.RIGHT, parent);
+                        tiles[(int)parent.getPos().Y, (int)parent.getPos().X - 1] = tile;
+
+                        break;
+                    }
+
+                    case TileConnections.RIGHT:
+                    {
+                        tile = new Tile(parent, (int)parent.getPos().X + 1, (int)parent.getPos().Y);
+                        tile.setConnection(TileConnections.LEFT, parent);
+                        tiles[(int)parent.getPos().Y, (int)parent.getPos().X + 1] = tile;
+
+                        break;
+                    }
+
+                    case TileConnections.TOP:
+                    {
+                        tile = new Tile(parent, (int)parent.getPos().X, (int)parent.getPos().Y - 1);
+                        tile.setConnection(TileConnections.BOTTOM, parent);
+                        tiles[(int)parent.getPos().Y - 1, (int)parent.getPos().X] = tile;
+
+                        break;
+                    }
+
+                    case TileConnections.BOTTOM:
+                    {
+                        tile = new Tile(parent, (int)parent.getPos().X, (int)parent.getPos().Y + 1);
+                        tile.setConnection(TileConnections.TOP, parent);
+                            tiles[(int)parent.getPos().Y + 1, (int)parent.getPos().X] = tile;
+
+                        break;
+                    }
+
+                    default:
+                    {
+                        // We won't get here
+                        tile = new Tile(parent, (int)parent.getPos().X, (int)parent.getPos().Y);
+
+                        break;
+                    }
+                }
+            }
+
+            // Determine the directions
+            for (int i = 0; i < numConnections; i++)
+            {
+                TileConnections connection = TileConnections.NONE;
+
+                // Find a free connection
+                for (int j = 0; j < MAX_TRIES; j++)
+                {
+                    connection = (TileConnections)r.Next(4);
+
+                    if (tile.getConnection(connection) == null)
+                    {
+                        int x = (int) tile.getPos().X;
+                        int y = (int) tile.getPos().Y;
+
+                        // Check the position in the array
+                        if ((y + 1 < height && connection == TileConnections.BOTTOM && tiles[y + 1, x] == null)||
+                            (y - 1 >= 0 && connection == TileConnections.TOP && tiles[y - 1, x] == null) ||
+                            (x + 1 < width && connection == TileConnections.RIGHT && tiles[y, x + 1] == null) ||
+                            (x - 1 >= 0 && connection == TileConnections.LEFT && tiles[y, x - 1] == null))
+                        {
+                            // We've found our next path
+                            break;
+                        }
+                        else
+                        {
+                            connection = TileConnections.NONE;
+                        }
+                    }
+                    else
+                    {
+                        connection = TileConnections.NONE;
+                    }
+                }
+
+                // If we found the next connection
+                if (connection != TileConnections.NONE)
+                {
+                    // Determine the next number of connections
+                    int nextNumConnections = r.Next(1, 4);
+                    if (maxLength == 0)
+                    {
+                        nextNumConnections = 0;
+                    }
+
+                    tile.setConnection(connection, generateTile(tile, connection, nextNumConnections, maxLength - 1));
+                }
+                else
+                {
+                    // We have no more connection opportunities
+                    break;
+                }
+            }
+
+            // Set the tile's art
+            setArenaTile(tile);
+            
+            return tile;
+        }
+
+        /// <summary>
+        /// This function sets the exit point of the arena
+        /// </summary>
+        private void setExit()
+        {
+            Tile curTile = getStartTile();
+            List<Tile> visited = new List<Tile>();
+
+            // Keep digging into the maze until we reach an end point
+            while (curTile == startTile || curTile.getNumConnections() > 1)
+            {
+                int nextDir;
+
+                do
+                {
+                    // Look in a random direction
+                    nextDir = r.Next(4);    
+                }
+                while (visited.Contains(curTile.getConnection((TileConnections) nextDir)) ||
+                    curTile.getConnection((TileConnections) nextDir) == null);
+
+                // Set the next tile in the search
+                visited.Add(curTile);
+                curTile = curTile.getConnection((TileConnections) nextDir);
+            }
+
+            // Add the exit door to the tile
+            curTile.addEntity(new ArenaExit(curTile, Content));
+            endTile = curTile;
+        }
+        
+        /// <summary>
+        /// This function generates the enemies within the arena
+        /// </summary>
+        private void generateEnemies()
+        {
+            int numEnemies = 0;
+
+            // Determine the number of enemies based on the difficulty
+            switch(width)
+            {
+                case 6:
+                {
+                    numEnemies = r.Next(2, 4);
+                    break;
+                }
+
+                case 8:
+                {
+                    numEnemies = r.Next(3, 5);
+                    break;
+                }
+
+                case 10:
+                {
+                    numEnemies = r.Next(4, 6);
+                    break;
+                }
+            }
+
+            if (ArenaController.instance.getLevel() == 9)
+            {
+                // Boss
+                numEnemies = 1;
+            }
+
+            for (int i = 0; i < numEnemies; i++)
+            {
+                int x, y;
+
+                // Look for a not-empty, not-starting tile
+                do
+                {
+                    x = r.Next(width);
+                    y = r.Next(height);
+                }
+                while (tiles[y, x].getNumConnections() < 2 || tiles[y, x] == endTile || tiles[y, x] == startTile);
+
+                // Create an enemy
+                tiles[y, x].addEntity(new ArenaEnemy(tiles[y, x], Content, getRandomEnemy()));
+            }
+        }
+
+        private PartyUtils.Enemy getRandomEnemy()
+        {
+            PartyUtils.Enemy enemy;
+            int percent = r.Next(100);
+
+            // Calculate the likelihood of a harder enemy spawning
+            int hardThreshold = ArenaController.instance.getDifficultEnemyThreshold();
+
+            switch (difficulty)
+            {
+                case ArenaDifficulty.EASY:
+                {
+                    if (percent > hardThreshold)
+                    {
+                        enemy = PartyUtils.Enemy.Redbat;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.Bat;
+                    }
+
+                    break;
+                }
+
+                case ArenaDifficulty.MEDIUM:
+                {
+                    if (percent > hardThreshold)
+                    {
+                        enemy = PartyUtils.Enemy.PoisonSlime;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.Slime;
+                    }
+
+                    break;
+                }
+
+                case ArenaDifficulty.HARD:
+                {
+                    if (percent > hardThreshold)
+                    {
+                        enemy = PartyUtils.Enemy.CinderSpider;
+                    }
+                    else
+                    {
+                        enemy = PartyUtils.Enemy.Spider;
+                    }
+
+                    break;
+                }
+
+                case ArenaDifficulty.VERY_HARD:
+                {
+                    enemy = PartyUtils.Enemy.Boss;
+
+                    break;
+                }
+
+                default:
+                {
+                    enemy = PartyUtils.Enemy.Bat;
+
+                    break;
+                }
+            }
+
+            return enemy;
+        }
+
+        /// <summary>
+        /// This function generates obstacles for the arena
+        /// </summary>
+        private void generateObstacles()
+        {
+            int numObstacles = 0;
+
+            switch (width)
+            {
+                case 6:
+                {
+                    numObstacles = r.Next(1, 3);
+                    break;
+                }
+
+                case 8:
+                {
+                    numObstacles = r.Next(2, 4);
+                    break;
+                }
+
+                case 10:
+                {
+                    numObstacles = r.Next(3, 5);
+                    break;
+                }
+            }
+
+            Tile tile = null;
+
+            for (int i = 0; i < numObstacles; i++)
+            {
+                switch (difficulty)
+                {
+                    case ArenaDifficulty.EASY:
+                    {
+                        // Projectile Dispensers
+                        ProjectileDispenser dispenser;
+
+                        do
+                        {
+                            tile = tiles[r.Next(height), r.Next(width)];
+                        }
+                        while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+
+                        // Create the dispenser to fire across the path
+                        Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
+                        Vector3 pos = tile.getModelPos();
+                        pos.X -= (Tile.TILE_WIDTH / 2) * dir.X;
+                        pos.Z -= (Tile.TILE_HEIGHT / 2) * dir.Z;
+
+                        dispenser = new ProjectileDispenser(pos, dir, 10);
+                        dispenser.LoadModel(Content);
+
+                        tile.addEntity(dispenser);
+
+                        break;
+                    }
+
+                    case ArenaDifficulty.MEDIUM:
+                    {
+                        // Spikes
+                        Spikes spikes;
+
+                        do
+                        {
+                            tile = tiles[r.Next(height), r.Next(width)];
+                        }
+                        while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0);
+
+                        // Create the spikes on the path
+                        Vector3 pos = tile.getModelPos();
+
+                        spikes = new Spikes(pos);
+                        spikes.LoadModel(Content);
+
+                        tile.addEntity(spikes);
+
+                        break;
+                    }
+
+                    case ArenaDifficulty.HARD:
+                    {
+                        bool obstacleType = r.Next(2) == 0;
+
+                        if (obstacleType)
+                        {
+                            // Projectile Dispensers
+                            ProjectileDispenser dispenser;
+
+                            do
+                            {
+                                tile = tiles[r.Next(height), r.Next(width)];
+                            }
+                            while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0 || tile.getNumConnections() >= 3);
+
+                            // Create the dispenser to fire across the path
+                            Vector3 dir = ProjectileDispenser.getFireDirection(tile.getType());
+                            Vector3 pos = tile.getModelPos();
+                            pos.X -= (Tile.TILE_WIDTH / 2) * dir.X;
+                            pos.Z -= (Tile.TILE_HEIGHT / 2) * dir.Z;
+
+                            dispenser = new ProjectileDispenser(pos, dir, 10);
+                            dispenser.LoadModel(Content);
+
+                            tile.addEntity(dispenser);
+                        }
+                        else
+                        {
+                            // Spikes
+                            Spikes spikes;
+
+                            do
+                            {
+                                tile = tiles[r.Next(height), r.Next(width)];
+                            }
+                            while (tile == startTile || tile == endTile || tile.getNumConnections() < 2 || tile.getEntities().Count != 0);
+
+                            // Create the spikes on the path
+                            Vector3 pos = tile.getModelPos();
+
+                            spikes = new Spikes(pos);
+                            spikes.LoadModel(Content);
+
+                            tile.addEntity(spikes);
+                        }
+
+                        break;
+                    }
+
+                    case ArenaDifficulty.VERY_HARD:
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function generates the potion for the arena
+        /// </summary>
+        private void generatePotion()
+        {
+            Tile tile;
+            Potion potion;
+
+            do
+            {
+                tile = tiles[r.Next(height), r.Next(width)];
+            }
+            while (tile == startTile || tile == endTile || tile.getNumConnections() != 1);
+
+            // Create the potion
+            Vector3 pos = tile.getModelPos();
+            pos.Y += 11;
+            pos.Z += 20;
+
+            potion = new Potion(pos, 50, tile);
+            potion.LoadModel(Content);
+
+            tile.addEntity(potion);
+        }
+
+        /// <summary>
+        /// This function generates the mystery box for the arena
+        /// </summary>
+        private void generateMysteryBox()
+        {
+            Tile tile;
+            MysteryBox box;
+
+            do
+            {
+                tile = tiles[r.Next(height), r.Next(width)];
+            }
+            while (tile == startTile || tile == endTile || tile.getNumConnections() != 1);
+
+            // Create the potion
+            Vector3 pos = tile.getModelPos();
+            pos.Y += 40;
+
+            box = new MysteryBox(pos, tile);
+            box.LoadModel(Content);
+
+            tile.addEntity(box);
+        }
+
+        /// <summary>
+        /// This function sets the tile's graphical component.
+        /// </summary>
+        /// <param name="tile">The tile to set the art of</param>
+        private void setArenaTile(Tile tile)
+        {
+            Tile[] connections = new Tile[4];
+
+            // Retrieve the connections from the tile
+            for (int i = 0; i < connections.Length; i++)
+            {
+                connections[i] = tile.getConnection((TileConnections) i);
+            }
+
+            string type = ArenaController.instance.getLevelType();
+
+            if (connections[0] != null)
+            {
+                // LEFT CONNECTION //
+
+                if (connections[1] != null)
+                {
+                    if (connections[2] != null)
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Cross
+                            tile.setArenaTile(ArenaTiles.CROSS, type, Content);
+                        }
+                        else
+                        {
+                            // Tri-Up
+                            tile.setArenaTile(ArenaTiles.TRI_UP, type, Content);
+                        }
+                    }
+                    else
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Tri-left
+                            tile.setArenaTile(ArenaTiles.TRI_LEFT, type, Content);
+                        }
+                        else
+                        {
+                            // Corner Bottom Right
+                            tile.setArenaTile(ArenaTiles.CORNER_BR, type, Content);
+                        }
+                    }
+                }
+                else
+                {
+                    if (connections[2] != null)
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Tri-Bottom
+                            tile.setArenaTile(ArenaTiles.TRI_DOWN, type, Content);
+                        }
+                        else
+                        {
+                            // Straight Horizontal
+                            tile.setArenaTile(ArenaTiles.STR_HOR, type, Content);
+                        }
+                    }
+                    else
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Corner Top Right
+                            tile.setArenaTile(ArenaTiles.CORNER_TR, type, Content);
+                        }
+                        else
+                        {
+                            // Dead End Right
+                            tile.setArenaTile(ArenaTiles.DE_RIGHT, type, Content);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // NO LEFT CONNECTION //
+
+                if (connections[1] != null)
+                {
+                    if (connections[2] != null)
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Tri-Right
+                            tile.setArenaTile(ArenaTiles.TRI_RIGHT, type, Content);
+                        }
+                        else
+                        {
+                            // Corner Bottom Left
+                            tile.setArenaTile(ArenaTiles.CORNER_BL, type, Content);
+                        }
+                    }
+                    else
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Straight Vertical
+                            tile.setArenaTile(ArenaTiles.STR_VERT, type, Content);
+                        }
+                        else
+                        {
+                            // Dead End Bottom
+                            tile.setArenaTile(ArenaTiles.DE_BOTTOM, type, Content);
+                        }
+                    }
+                }
+                else
+                {
+                    if (connections[2] != null)
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Corner Top Left
+                            tile.setArenaTile(ArenaTiles.CORNER_TL, type, Content);
+                        }
+                        else
+                        {
+                            // Dead End Left
+                            tile.setArenaTile(ArenaTiles.DE_LEFT, type, Content);
+                        }
+                    }
+                    else
+                    {
+                        if (connections[3] != null)
+                        {
+                            // Dead End Top
+                            tile.setArenaTile(ArenaTiles.DE_TOP, type, Content);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function fills the rest of the arena with empty tiles.
+        /// </summary>
+        private void fillEmptyTiles()
+        {
+            string type = ArenaController.instance.getLevelType();
+            
+
+            for (int i = 0; i < tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < tiles.GetLength(1); j++)
+                {
+                    if (tiles[i, j] == null)
+                    {
+                        tiles[i, j] = new Tile(null, j, i);
+                        tiles[i, j].setArenaTile(ArenaTiles.EMPTY, type, Content);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function returns the starting tile of the arena.
+        /// </summary>
+        /// <returns>The starting tile of the arena</returns>
+        public Tile getStartTile()
+        {
+            return startTile;
+        }
+    }
+}

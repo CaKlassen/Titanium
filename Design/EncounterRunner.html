@@ -1,0 +1,197 @@
+<div id="info">
+</div>
+<hr>
+<div id="result"></div>
+<script>
+var NUMBER_OF_RUNS = 10000;
+
+var base_health = 100;
+var prince = {
+	hpMultiplier: 1,
+};
+var wolf = {
+	hpMultiplier: 1.2,
+};
+var thief = {
+	hpMultiplier: 0.8
+};
+
+var blueBat = {
+	name : "Blue Bat",
+	attack : 0.1,
+	hpMultiplier : 0.7,
+	hp : 80
+};
+
+var redBat = {
+	name : "Red Bat",
+	attack : 0.2,
+	hpMultiplier : 1.2,
+	hp : 130
+};
+
+var party = [prince, wolf, thief];
+
+var deaths = 0;
+var blues = 0;
+var reds = 0;
+
+var multipliers = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+var currentRun = 0;
+
+function resetParty()
+{
+	for (var i = party.length - 1; i >= 0; i--) {
+		var multiplier = party[i].hpMultiplier;
+		party[i].hp = multiplier * base_health
+		party[i].attack = multipliers[currentRun];
+	}
+}
+
+function arenaRunner(runs)
+{
+	
+	var str = ""
+	var encounters = 3;
+	currentRun = 0;
+	document.getElementById("result").innerHTML = "";
+	while(currentRun < multipliers.length)
+	{
+		deaths = 0;
+
+		for (var i = runs - 1; i >= 0; i--) {
+			resetParty();
+			if(runArena(encounters))
+				continue;
+			deaths += 1;
+		}
+		document.getElementById("result").innerHTML += "Multiplier: " + multipliers[currentRun] + "<br>Deaths: " + deaths + "<br><br>";
+		currentRun++;
+	}
+}
+
+function runArena(num)
+{
+	var encounters = makeEncounters(num);
+	for (var i = encounters.length - 1; i >= 0; i--) {
+		if(runEncounter(encounters[i]))
+			continue;
+		return false;
+	}
+	return true;
+}
+
+function runEncounter(encounter)
+{
+	var turns = 0;
+	while(!partyDead())
+	{
+		turns++;
+		playerTurn(encounter);
+		if(encounter.enemiesDead())
+			return true;
+		encounter.enemyTurn();
+	}
+	return false;
+}
+
+function partyDead()
+{
+	for (var i = party.length - 1; i >= 0; i--) {
+		if(party[i].hp > 0)
+			return false;
+	}
+	return true;
+}
+
+function makeEncounters(num)
+{
+	var encounters = [];
+	for (var i = num - 1; i >= 0; i--) {
+		if(Math.random() < 0.1)
+		{
+			var enemyParty = redBatParty()
+			blues += 1;
+		}
+			
+		else
+		{
+			var enemyParty = blueBatParty()
+			reds += 1;
+		}
+		encounter = {
+			enemies: enemyParty,
+			enemyTurn: function(){
+				for (var i = this.enemies.length - 1; i >= 0; i--) {
+					for (var j = party.length - 1; j >= 0; j--) {
+						if(party[j].hp >= 0)
+						{
+							party[j].hp -= this.enemies[i].attack * base_health;
+							break;
+						}
+					};
+					
+				}
+			},
+
+			damageEnemy : function(dmg){
+				for (var i = this.enemies.length - 1; i >= 0; i--) {
+					if (this.enemies[i].hp > 0)
+					{
+						this.enemies[i].hp -= dmg
+						break;
+					}
+				}
+			},
+			enemiesDead : function(){
+				for (var i = this.enemies.length - 1; i >= 0; i--) {
+					if (this.enemies[i].hp > 0)
+						return false;
+				}
+				return true;
+			} 
+		}
+		encounters.push(encounter);
+	}
+	return encounters
+}
+
+function playerTurn(encounter)
+{
+	for (var i = party.length - 1; i >= 0; i--) {
+		if(party[i].hp > 0)
+			encounter.damageEnemy(party[i].attack * base_health)
+	}
+}
+
+function redBatParty()
+{
+	var party = [];
+	var num = Math.floor((Math.random() * 3)) + 1;
+	for (var i = num - 1; i >= 0; i--) {
+		party.push(JSON.parse(JSON.stringify(redBat)));
+	}
+	return party;
+}
+
+function blueBatParty()
+{
+	var party = [];
+	var num = Math.floor((Math.random() * 3)) + 2;
+	for (var i = num - 1; i >= 0; i--) {
+		if(Math.random() > .95 )
+			party.push(JSON.parse(JSON.stringify(redBat)));
+		else
+			party.push(JSON.parse(JSON.stringify(blueBat)));
+	}
+	return party;
+}
+document.getElementById("info").innerHTML = "<b>Party HP</b><br>Prince: " + prince.hpMultiplier * base_health + "<br>Thief: " + thief.hpMultiplier * base_health + "<br>Wolf: " + wolf.hpMultiplier * base_health +"<br>";
+document.getElementById("info").innerHTML += "<br><b>Blue Bat</b><br>Attack Mod: " + blueBat.attack + "<br>HP: " + blueBat.hp + "<br>"; 
+document.getElementById("info").innerHTML += "<br><b>Red Bat</b><br>Attack Mod: " + redBat.attack + "<br>HP: " + redBat.hp;
+document.getElementById("info").innerHTML += "<br><br><b>Number of runs:</b> " + NUMBER_OF_RUNS;
+
+arenaRunner(NUMBER_OF_RUNS);
+
+
+</script>
