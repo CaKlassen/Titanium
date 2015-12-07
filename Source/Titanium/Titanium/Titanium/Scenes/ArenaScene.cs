@@ -105,7 +105,7 @@ namespace Titanium.Scenes
 
             bgm = SoundUtils.Music.ArenaTheme;
             pauseMenu = new MenuPanel("Pause Menu", new List<MenuItem>() {
-                new MenuItem("Back to Arena", pause),
+                new MenuItem("Resume Game", pause),
                 new MenuItem("Main Menu", menu)
             });
         }
@@ -141,7 +141,7 @@ namespace Titanium.Scenes
 
             bgm = SoundUtils.Music.ArenaTheme;
             pauseMenu = new MenuPanel("Pause Menu", new List<MenuItem>() {
-                new MenuItem("Back to Arena", pause),
+                new MenuItem("Resume Game", pause),
                 new MenuItem("Main Menu", menu)
             });
         }

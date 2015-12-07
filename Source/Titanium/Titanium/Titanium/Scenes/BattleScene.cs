@@ -32,7 +32,7 @@ namespace Titanium.Scenes
         BaseGambit currentGambit;
 
         InputAction pause;
-        InputAction arena;
+        InputAction menu;
 
         Encounter currentEncounter;
 
@@ -48,23 +48,14 @@ namespace Titanium.Scenes
          */
         public BattleScene(List<PartyUtils.Enemy> front, List<PartyUtils.Enemy> back, Conversation conversation) : base()
         {
-            pause = new InputAction(
-                new Buttons[] { Buttons.Start },
-                new Keys[] { Keys.Escape },
-                true
-                );
-
-            arena = new InputAction(
-                new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.C },
-                true
-                );
+            menu = InputAction.Y;
+            pause = InputAction.START;
 
             pauseMenu = new MenuPanel("Pause Menu",
                 new List<MenuItem>()
                 {
-                    new MenuItem("Back to arena", arena),
-                    new MenuItem("Back to battle", pause)
+                    new MenuItem("Resume Game", pause),
+                    new MenuItem("Main Menu", menu)
                 }
                 );
 
@@ -77,23 +68,14 @@ namespace Titanium.Scenes
 
         public BattleScene() : base()
         {
-            pause = new InputAction(
-                new Buttons[] { Buttons.Start },
-                new Keys[] { Keys.Escape },
-                true
-                );
-
-            arena = new InputAction(
-                new Buttons[] { Buttons.Y },
-                new Keys[] { Keys.C },
-                true
-                );
+            menu = InputAction.Y;
+            pause = InputAction.START;
 
             pauseMenu = new MenuPanel("Pause Menu",
                 new List<MenuItem>()
                 {
-                    new MenuItem("Back to arena", arena),
-                    new MenuItem("Back to battle", pause)
+                    new MenuItem("Resume Game", pause),
+                    new MenuItem("Main menu", menu)
                 }
                 );
 
@@ -154,10 +136,10 @@ namespace Titanium.Scenes
 
             if (paused)
             {
-                if (arena.Evaluate(inputState, null, out player))
+                if (menu.Evaluate(inputState, null, out player))
                 {
                     SoundUtils.Play(SoundUtils.Sound.Input);
-                    SceneManager.changeScene(SceneState.arena);
+                    SceneManager.changeScene(SceneState.main);
                 }
             }
             else

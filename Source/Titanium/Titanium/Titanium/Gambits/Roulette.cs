@@ -43,17 +43,17 @@ namespace Titanium.Gambits
             switch((Difficulty)difficulty)
             {
                 case Difficulty.Easy:
-                    speed = 3;
+                    speed = 2;
                     wheelNum = 3;
                     iconNum = 3;
                     break;
                 case Difficulty.Medium:
                     speed = 3;
-                    wheelNum = 4;
+                    wheelNum = 3;
                     iconNum = 4;
                     break;
                 case Difficulty.Hard:
-                    speed = 4;
+                    speed = 3;
                     wheelNum = 4;
                     iconNum = 4;
                     break;
