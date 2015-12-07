@@ -223,7 +223,7 @@ namespace Titanium.Gambits
             {
                 finished = true;
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                multiplier = ((float)count / maxRotations);
+                multiplier = MathHelper.Clamp(((float)count / maxRotations), 0, 1);
             }
             base.update(gameTime, state);
         }
