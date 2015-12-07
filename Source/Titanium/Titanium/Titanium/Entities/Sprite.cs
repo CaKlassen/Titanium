@@ -359,6 +359,7 @@ namespace Titanium.Entities
         public void reset()
         {
             this.combatInfo.givingDamage = false;
+            this.started = false;
         }
 
 
