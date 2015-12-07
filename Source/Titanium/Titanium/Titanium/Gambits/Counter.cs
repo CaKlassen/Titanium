@@ -59,11 +59,11 @@ namespace Titanium.Gambits
                     speed = 5f;
                     break;
                 case Difficulty.Medium:
-                    perfectWidth = 15;
+                    perfectWidth = 17;
                     speed = 6f;
                     break;
                 case Difficulty.Hard:
-                    perfectWidth = 10;
+                    perfectWidth = 13;
                     speed = 7f;
                     break;
                 default:
