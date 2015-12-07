@@ -1,7 +1,7 @@
-Cave Bat,Bat,2,5,15,5,5,15,80,0,1
-Blood Bat,Redbat,2,50,100,50,40,20,95,0,1
+Cave Bat,Bat,2,5,15,5,5,30,80,0,1
+Blood Bat,Redbat,2,50,100,50,40,40,95,0,1
 Sludger,Slime,2,20,60,25,25,30,160,0,2
-Poison Sludger,PoisonSlime,2,20,60,25,25,35,200,0,2
-Spider,Spider,2,20,60,25,25,35,130,0,3
-Cinder Spider,CinderSpider,2,20,60,25,25,40,140,0,3
+Poison Sludger,PoisonSlime,2,20,60,25,25,40,200,0,2
+Spider,Spider,2,20,60,25,25,40,130,0,3
+Cinder Spider,CinderSpider,2,20,60,25,25,50,140,0,3
 The Director,Boss,2,20,60,25,25,50,1000,0,3

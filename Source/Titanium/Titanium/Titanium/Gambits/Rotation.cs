@@ -38,7 +38,15 @@ namespace Titanium.Gambits
         {
             icons = new Texture2D[2];
             name = "Rotation";
-            message = "Rotate the stick in the direction shown!";
+
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+            {
+                message = "Rotate the stick in the direction shown!";
+            }
+            else
+            {
+                message = "Press the series of keys in the direction shown!";
+            }
         }
 
         public Rotation(int timeLimit) : base()
@@ -133,7 +141,7 @@ namespace Titanium.Gambits
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("Fonts/NumbersFont");
+            font = content.Load<SpriteFont>("Fonts/MainFontSmall");
 
             if (GamePad.GetState(PlayerIndex.One).IsConnected)
             {
@@ -188,7 +196,7 @@ namespace Titanium.Gambits
             {
                 finished = true;
                 SoundUtils.Play(SoundUtils.Sound.Complete);
-                multiplier = (count / maxRotations);
+                multiplier = ((float)count / maxRotations);
             }
             base.update(gameTime, state);
         }
