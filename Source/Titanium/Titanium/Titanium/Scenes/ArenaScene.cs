@@ -311,7 +311,7 @@ namespace Titanium.Scenes
                     HighScoreUtils.updateHighScores(data.highscores, ArenaController.instance.getScore());
                     save.saveHighScores(data.highscores);
 
-                    ArenaScene.instance.SceneManager.setScene(SceneState.endGame, new EndGameScene(false), true);
+                    SceneManager.setScene(SceneState.endGame, new EndGameScene(false), true);
                 }
 
                 controller.update();
@@ -449,6 +449,9 @@ namespace Titanium.Scenes
             SaveUtils.getInstance().saveGame(GameSave);
 
             controller.setGenerator(new Random(GameSave.seed));
+
+            // Set the new ambience colour
+            ambientColour = controller.getAmbience();
 
             // Generate the arena
             ArenaBuilder builder = new ArenaBuilder(controller.getLevelSize(), controller.getLevelSize(),

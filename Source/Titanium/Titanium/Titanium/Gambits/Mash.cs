@@ -85,7 +85,7 @@ namespace Titanium.Gambits
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
                 finished = true;
-                multiplier = ((float) count / ceiling);
+                multiplier = MathHelper.Clamp(((float) count / ceiling), 0, 1);
             }
             else if (action.Evaluate(state, null, out player))
             {
