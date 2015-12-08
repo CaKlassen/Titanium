@@ -12,12 +12,14 @@ namespace Titanium.Battle
     {
         Texture2D barFrame, barFrame2;
         Rectangle destRect, frameRect, destRectArena, frameRectArena;
+        public Rectangle enemyRect;
         Color hpColor;
         String name = "";
         String health = "";
         SpriteFont numbersFontSmall, numbersFontLarge, hpFont;
-        UnitStats unitStats; public int damageTaken = 0;
-        public bool takingDamage = false;
+        UnitStats unitStats;
+        public int damageGiven = 0;
+        public bool givingDamage = false;
         int damagePos = 0;
 
         public object GraphicDevice { get; private set; }
@@ -63,7 +65,7 @@ namespace Titanium.Battle
 
             health = u.currentHP + "/" + u.baseHP;
 
-            if (takingDamage)
+            if (givingDamage)
             {
                 damagePos++;
             }
@@ -119,18 +121,21 @@ namespace Titanium.Battle
         {
             sb.Draw(barFrame, new Rectangle(destRect.X, destRect.Y + 2, destRect.Width, destRect.Height - 3), new Rectangle(0, barFrame.Height / 2 + 1, barFrame.Width, barFrame.Height / 2), hpColor);
             sb.Draw(barFrame, frameRect, new Rectangle(0, 0, barFrame.Width, barFrame.Height / 2), Color.White);
+
+            Vector2 spacing = numbersFontSmall.MeasureString(name);
+
             if (frameRect.X <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 3)
             {
-                sb.DrawString(numbersFontSmall, name, new Vector2(frameRect.X, frameRect.Y - 20), Color.SteelBlue);
+                sb.DrawString(numbersFontSmall, name, new Vector2(frameRect.X + 2, frameRect.Y - spacing.Y + 5), Color.SteelBlue);
             }
             else
             {
-                sb.DrawString(numbersFontSmall, name, new Vector2(frameRect.X, frameRect.Y - 20), Color.Tomato);
+                sb.DrawString(numbersFontSmall, name, new Vector2(frameRect.X + 2, frameRect.Y - spacing.Y + 5), Color.Tomato);
             }
 
             if (frameRect.X <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 3)
             {
-                Vector2 spacing = hpFont.MeasureString(health);
+                spacing = hpFont.MeasureString(health);
                 sb.DrawString(hpFont, health, new Vector2(frameRect.X+frameRect.Width-spacing.X-6, frameRect.Y+2), Color.White);
             }
             else
@@ -138,10 +143,10 @@ namespace Titanium.Battle
                 //enemy hp maybe
             }
 
-            if (takingDamage)
+            if (givingDamage)
             {
-                Vector2 spacing = numbersFontLarge.MeasureString(damageTaken + "");
-                sb.DrawString(numbersFontLarge, damageTaken + "", new Vector2(destRect.X + barFrame.Width / 2 - spacing.X / 2, destRect.Y - damagePos), Color.Red);
+                spacing = numbersFontLarge.MeasureString(damageGiven + "");
+                sb.DrawString(numbersFontLarge, damageGiven + "", new Vector2(enemyRect.X + barFrame.Width / 2 - spacing.X / 2, enemyRect.Y - damagePos), Color.Red);
             }
         }
 

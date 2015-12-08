@@ -16,18 +16,18 @@ namespace Titanium.Entities
         protected Rectangle sourceRect, targetRect;
         public Rectangle destRect, originalRect;
         private double elapsed, delay;
-        protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount;
+        protected int frames, posX, posY, frameCount, hurtFrameCount, runFrameCount, idleFrameCount, iceFrameCount;
         protected UnitStats rawStats;
         protected CombatInfo combatInfo;
         public CombatInfo getCombatInfo()
         {
             return combatInfo;
         }
-        
+
         public delegate void SpriteAction(Sprite target);
 
         //For testing purpose only
-        protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile, shadow;
+        protected Texture2D currentSpriteFile, idleFile, hurtFile, runFile, shadow, ice;
 
         static int offsetX = 30;
         static int offsetY = -20;
@@ -36,9 +36,10 @@ namespace Titanium.Entities
 
         public enum Direction { Up, Down, Left, Right, None }
         public Direction animationDirectionLR = Direction.None, animationDirectionUD = Direction.None;
-        public enum State { Idle, Running, FinishedRunning, Attacking, Returning, FinishedReturning, Hurt, Resting, Dead }
+        public enum State { Idle, Running, FinishedRunning, Attacking, RangedAttacking, Returning, FinishedReturning, Hurt, Resting, Dead }
         public State currentState;
         public Sprite enemySprite;
+        int damageDone = 0;
         public float attackMultiplier;
 
         public Sprite(List<SpriteAction> actions)
@@ -53,6 +54,7 @@ namespace Titanium.Entities
             changeState(State.Idle);
             attackMultiplier = 1.0f;
             combatInfo = new CombatInfo();
+            iceFrameCount = 0;
         }
 
         public void refresh()
@@ -66,6 +68,7 @@ namespace Titanium.Entities
             idleFile = content.Load<Texture2D>("Sprites/" + filePath + "_idle");
             runFile = content.Load<Texture2D>("Sprites/" + filePath + "_run");
             hurtFile = content.Load<Texture2D>("Sprites/" + filePath + "_hurt");
+            ice = content.Load<Texture2D>("Sprites/Ice");
             currentSpriteFile = idleFile;
             destRect = new Rectangle(posX, posY, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
             originalRect = destRect;
@@ -85,23 +88,31 @@ namespace Titanium.Entities
             this.rawStats.normalize();
         }
 
+
         public override void Draw(SpriteBatch sb, Effect effect)
         {
             if (!checkDeath())
             {
                 sb.Draw(shadow, new Vector2(destRect.Left + offsetX, destRect.Bottom + offsetY), Color.White);
                 sb.Draw(currentSpriteFile, destRect, sourceRect, Color.White);
+                if (started)
+                {
+                    sb.Draw(ice, enemySprite.destRect, new Rectangle(0 + iceFrameCount * 70, 0, 70, 120), Color.White);
+                }
                 combatInfo.draw(sb);
-            } else
+
+            }
+            else
             {
                 changeState(State.Dead);
             }
         }
 
+        bool started = false;
 
         public override void Update(GameTime gameTime, InputState inputState)
         {
-            if (!checkDeath())
+            if (this.currentState != State.Dead)
             {
                 elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
                 combatInfo.update(rawStats);
@@ -127,7 +138,6 @@ namespace Titanium.Entities
                     if (hurtFrameCount >= 20)
                     {
                         changeState(State.Idle);
-                        this.combatInfo.takingDamage = false;
                         hurtFrameCount = 0;
                     }
                     else
@@ -137,13 +147,45 @@ namespace Titanium.Entities
                 }
                 if (currentState == State.Attacking)
                 {
-                    int damageDone = 0;
+                    damageDone = 0;
                     damageDone += (int)Math.Round(this.rawStats.baseAttack * attackMultiplier);
                     enemySprite.takeDamage(damageDone);
                     animationDirectionLR = Direction.None;
                     animationDirectionUD = Direction.None;
+                    this.combatInfo.enemyRect = enemySprite.destRect;
+                    this.combatInfo.damageGiven = damageDone;
+                    this.combatInfo.givingDamage = true;
                     changeState(State.Returning);
                 }
+                if (currentState == State.RangedAttacking)
+                {
+                    if (!started)
+                    {
+                        damageDone = 0;
+                        damageDone += (int)Math.Round(this.rawStats.baseAttack * attackMultiplier);
+                        enemySprite.takeDamage(damageDone);
+                        this.combatInfo.enemyRect = enemySprite.destRect;
+                        this.combatInfo.damageGiven = damageDone;
+                        this.combatInfo.givingDamage = true;
+                        started = true;
+                    }
+                    if (hurtFrameCount >= 10 && iceFrameCount >= 6)
+                    {
+                        changeState(State.FinishedReturning);
+                        hurtFrameCount = 0;
+                        iceFrameCount = 0;
+                        started = false;
+                    }
+                    else
+                    {
+                        if (hurtFrameCount >= 10)
+                        {
+                            iceFrameCount++;
+                        }
+                        hurtFrameCount++;
+                    }
+                }
+
                 if (currentState == State.Returning)
                 {
                     updateReturn();
@@ -152,6 +194,7 @@ namespace Titanium.Entities
                 {
                     animationDirectionLR = Direction.None;
                     animationDirectionUD = Direction.None;
+                    this.combatInfo.givingDamage = false;
                     changeState(State.Resting);
                 }
             }
@@ -205,14 +248,14 @@ namespace Titanium.Entities
             {
                 animationDirectionLR = Direction.Right;
                 Rectangle tempRect = destRect;
-                destRect = new Rectangle(tempRect.X+=5, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                destRect = new Rectangle(tempRect.X += 5, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
             else if (this.destRect.X > this.targetRect.X + this.targetRect.Width && animationDirectionLR != Direction.Right)
             {
                 animationDirectionLR = Direction.Left;
                 Rectangle tempRect = destRect;
-                destRect = new Rectangle(tempRect.X-=5, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                destRect = new Rectangle(tempRect.X -= 5, tempRect.Y, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
 
@@ -220,14 +263,14 @@ namespace Titanium.Entities
             {
                 animationDirectionUD = Direction.Down;
                 Rectangle tempRect = destRect;
-                destRect = new Rectangle(tempRect.X, tempRect.Y+=5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                destRect = new Rectangle(tempRect.X, tempRect.Y += 5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
             else if (this.destRect.Y > this.targetRect.Y && animationDirectionUD != Direction.Down)
             {
                 animationDirectionUD = Direction.Up;
                 Rectangle tempRect = destRect;
-                destRect = new Rectangle(tempRect.X, tempRect.Y-=5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
+                destRect = new Rectangle(tempRect.X, tempRect.Y -= 5, currentSpriteFile.Width / frameCount, currentSpriteFile.Height);
                 changed = true;
             }
             if (!changed)
@@ -236,11 +279,10 @@ namespace Titanium.Entities
             }
         }
 
-
         public int getHealth() { return rawStats.currentHP; }
         public int getMana() { return rawStats.currentMP; }
         public UnitStats getStats() { return rawStats; }
-       
+
         public void setHealth(int hp)
         {
             rawStats.currentHP = hp;
@@ -276,8 +318,6 @@ namespace Titanium.Entities
         public void takeDamage(int damage)
         {
             SoundUtils.Play(SoundUtils.Sound.Hit);
-            this.combatInfo.takingDamage = true;
-            this.combatInfo.damageTaken = damage;
             changeState(State.Hurt);
             int newHealth = this.rawStats.currentHP;
             newHealth -= damage;
@@ -295,7 +335,7 @@ namespace Titanium.Entities
 
         public void changeState(State s)
         {
-            switch(s)
+            switch (s)
             {
                 case State.Running:
                     this.currentSpriteFile = runFile;
@@ -316,12 +356,27 @@ namespace Titanium.Entities
             currentState = s;
         }
 
+        public void reset()
+        {
+            this.combatInfo.givingDamage = false;
+            this.started = false;
+        }
+
+
         public void hitTarget(Sprite s, float multiplier)
         {
             this.enemySprite = s;
             this.attackMultiplier = multiplier;
             targetRect = s.destRect;
             changeState(State.Running);
+        }
+
+        public void hitTargetRanged(Sprite s, float multiplier)
+        {
+            this.enemySprite = s;
+            this.attackMultiplier = multiplier;
+            targetRect = s.destRect;
+            changeState(State.RangedAttacking);
         }
 
         public bool checkDeath()
@@ -336,7 +391,7 @@ namespace Titanium.Entities
 
         public int getWidth()
         {
-            return currentSpriteFile.Width/frameCount;
+            return currentSpriteFile.Width / frameCount;
         }
 
         public int getHeight()

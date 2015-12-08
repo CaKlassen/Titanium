@@ -74,22 +74,19 @@ namespace Titanium.Gambits
             {
                 case Difficulty.Easy:
                     inputs = 1;
-                    fairFactor = 1.3f;
                     break;
                 case Difficulty.Medium:
                     inputs = 2;
-                    fairFactor = 1.6f;
                     break;
                 case Difficulty.Hard:
                     inputs = 3;
-                    fairFactor = 2f;
                     break;
                 default:
                     inputs = 2;
-                    fairFactor = 1.6f;
                     break;
 
             }
+            fairFactor = 1f;
             multStep = 1f / (inputs * directions);
             rng = new Random(gameTime.TotalGameTime.Milliseconds);
             rhythmString = makeRhythmString();
@@ -197,8 +194,11 @@ namespace Titanium.Gambits
             {
                 for(int j=0; j<inputs; ++j)
                 {
-                    double num = rng.NextDouble();
-                    if(!tooClose((Direction)i, num, list))
+                    double num;
+                    do
+                    {
+                        num = rng.NextDouble();
+                    } while (tooClose(num, list));
                     list.Add(new RhythmInput((float)num, new Vector2(width - inputOffset, height), (Direction)i, icons));
                 }
                     
@@ -213,15 +213,12 @@ namespace Titanium.Gambits
             return list;
         }
 
-        bool tooClose(Direction dir, double num, List<RhythmInput> list)
+        bool tooClose(double num, List<RhythmInput> list)
         {
             foreach(RhythmInput input in list)
             {
-                if(input.direction == dir)
-                {
-                    if (Math.Abs((float)num - input.Offset) < 0.075)
-                        return true;
-                }
+                if (Math.Abs((float)num - input.Offset) < 0.02)
+                    return true;
             }
             return false;
         }
@@ -285,12 +282,12 @@ namespace Titanium.Gambits
                     case Result.perfect:
                         Console.WriteLine("PERFECT");
                         SoundUtils.Play(SoundUtils.Sound.Success);
-                        color = Color.Green;
+                        color = Color.Transparent;//Color.Green;
                         break;
                     case Result.fair:
                         Console.WriteLine("FAIR");
                         SoundUtils.Play(SoundUtils.Sound.Input);
-                        color = Color.Yellow;
+                        color = Color.Transparent;
                         break;
                     case Result.miss:
                         Console.WriteLine("MISS");

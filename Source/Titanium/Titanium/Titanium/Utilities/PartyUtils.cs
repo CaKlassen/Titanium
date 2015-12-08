@@ -18,19 +18,24 @@ namespace Titanium.Utilities
             player.hitTarget(target, gambitResult.multiplier);
         }
 
+        public static void testActionRanged(Sprite player, Sprite target, GambitResult gambitResult)
+        {
+            player.hitTargetRanged(target, gambitResult.multiplier);
+        }
+
         static Skill[][] SKILLS =
         {
             new Skill[]{
-                new Skill("Fireball", new Combo(), testAction),
-                new Skill("Frostbolt", new Combo(), testAction)
+                new Skill("Chaos Blade", new Roulette(), testAction),
+                new Skill("Frost Bolt", new Combo(), testActionRanged)
             },
             new Skill[]{
-                new Skill("Arcane Arrow", new Finesse(), testAction),
+                new Skill("Backstab", new Finesse(), testAction),
                 new Skill("Throwing Knife", new Rotation(), testAction)
             },
             new Skill[]{
-                new Skill("Bite", new Mash(), testAction),
-                new Skill("Claw", new Rhythm(), testAction)
+                new Skill("Rampage", new Mash(), testAction),
+                new Skill("Flurry of Claws", new Rhythm(), testAction)
             }
         };
 
