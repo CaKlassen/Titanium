@@ -161,10 +161,24 @@ namespace Titanium.Entities
         {
             sb.Begin();
 
+            // Draw the skip prompt
+            sb.DrawString(textFont, "Skip: ", new Vector2(BaseGame.SCREEN_WIDTH - textFont.MeasureString("Skip: XXX  ").X, 10), Color.Gray * alpha);
+            sb.Draw(InputAction.B.icon(), new Vector2(BaseGame.SCREEN_WIDTH - textFont.MeasureString("XXX  ").X, 10), 
+                null, Color.White * alpha, 0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+
+            // Draw the portrait and text
             sb.Draw(portrait, new Vector2(PORTRAIT_OFF, BaseGame.SCREEN_HEIGHT - portrait.Height - PORTRAIT_OFF), Color.White * alpha);
 
             sb.DrawString(nameFont, charName, namePos, nameColor * alpha);
             sb.DrawString(textFont, partText, textPos, textColor * alpha);
+
+            // Draw the continue character
+            if (done)
+            {
+                sb.Draw(InputAction.A.icon(), new Vector2(BaseGame.SCREEN_WIDTH - InputAction.A.icon().Width * 0.5f - 8, BaseGame.SCREEN_HEIGHT - InputAction.A.icon().Height * 0.5f - 8),
+                   null, Color.White * alpha, 0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+
+            }
 
             sb.End();
         }

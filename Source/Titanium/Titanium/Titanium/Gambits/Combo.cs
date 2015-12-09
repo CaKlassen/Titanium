@@ -68,15 +68,15 @@ namespace Titanium.Gambits
             {
                 case Difficulty.Easy:
                     length = 6;
-                    timeLimit = 7000;
+                    timeLimit = 5500;
                     break;
                 case Difficulty.Medium:
                     length = 8;
-                    timeLimit = 8500;
+                    timeLimit = 6500;
                     break;
                 case Difficulty.Hard:
                     length = 10;
-                    timeLimit = 10000;
+                    timeLimit = 7000;
                     break;
                 default:
                     break;

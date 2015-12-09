@@ -32,7 +32,7 @@ namespace Titanium.Arena
         public static int TILE_HEIGHT = 128;
         public static float tileScale = 0.5f;
         public static float UNDISCOVERED_AMBIENCE = 0.045f;
-        public static float DISCOVERED_AMBIENCE = 0.8f;
+        public static float DISCOVERED_AMBIENCE = 1f;
 
         private ArenaTiles tile;
         private Texture2D texture;

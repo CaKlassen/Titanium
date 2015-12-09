@@ -23,7 +23,6 @@ namespace Titanium.Scenes
         // Possible player actions
         InputAction newGame;
         InputAction loadGame;
-        InputAction battle;
         InputAction scores;
 
         private static int MOVE_SPEED = 15;
@@ -44,7 +43,6 @@ namespace Titanium.Scenes
             // Initialize the player actions
             newGame = InputAction.A;
             loadGame = InputAction.X;
-            battle = InputAction.B;
             scores = InputAction.Y;
 
             // Create the actual Main Menu panel
@@ -52,7 +50,6 @@ namespace Titanium.Scenes
             {
                 new MenuItem("New Game", newGame),
                 new MenuItem("Load Game", loadGame),
-                new MenuItem("(TEMP) Battle", battle),
                 new MenuItem("High Scores", scores)
             });
 
@@ -113,11 +110,6 @@ namespace Titanium.Scenes
                 {
                     menuLoadGame();
                 }
-            }
-            else if (battle.Evaluate(inputState, null, out player))
-            {
-                SoundUtils.Play(SoundUtils.Sound.Input);
-                menuBattle();
             }
             else if (scores.Evaluate(inputState, null, out player))
             {

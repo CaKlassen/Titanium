@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,6 +100,38 @@ namespace Titanium.Entities
             }
         }
         
+        public Color getAmbience()
+        {
+            switch(level)
+            {
+                case 1:
+                case 2:
+                case 3:
+                {
+                    return new Color(0.318f, 0.365f, 0.404f, 1);
+                }
+
+                case 4:
+                case 5:
+                case 6:
+                {
+                    return new Color(0.259f, 0.310f, 0.247f, 1);
+                }
+
+                case 7:
+                case 8:
+                case 9:
+                {
+                    return new Color(0.30f, 0.263f, 0.239f, 1);
+                }
+
+                default:
+                {
+                    return Color.White;
+                }
+            }
+        }
+
         public ArenaDifficulty getLevelDifficulty()
         {
             switch(level)

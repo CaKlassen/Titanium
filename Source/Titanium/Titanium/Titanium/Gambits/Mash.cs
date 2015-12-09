@@ -43,15 +43,19 @@ namespace Titanium.Gambits
             {
                 case Difficulty.Easy:
                     ceiling = 25;
+                    timeLimit = 5000;
                     break;
                 case Difficulty.Medium:
                     ceiling = 35;
+                    timeLimit = 6500;
                     break;
                 case Difficulty.Hard:
                     ceiling = 45;
+                    timeLimit = 8000;
                     break;
                 default:
-                    ceiling = 35;
+                    ceiling = 25;
+                    timeLimit = 5000;
                     break;
 
             }
@@ -81,7 +85,7 @@ namespace Titanium.Gambits
             {
                 SoundUtils.Play(SoundUtils.Sound.Complete);
                 finished = true;
-                multiplier = (count / ceiling);
+                multiplier = MathHelper.Clamp(((float) count / ceiling), 0, 1);
             }
             else if (action.Evaluate(state, null, out player))
             {

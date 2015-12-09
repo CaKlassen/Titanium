@@ -282,12 +282,12 @@ namespace Titanium.Gambits
                     case Result.perfect:
                         Console.WriteLine("PERFECT");
                         SoundUtils.Play(SoundUtils.Sound.Success);
-                        color = Color.Green;
+                        color = Color.Transparent;//Color.Green;
                         break;
                     case Result.fair:
                         Console.WriteLine("FAIR");
                         SoundUtils.Play(SoundUtils.Sound.Input);
-                        color = Color.Yellow;
+                        color = Color.Transparent;
                         break;
                     case Result.miss:
                         Console.WriteLine("MISS");

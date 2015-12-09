@@ -21,14 +21,14 @@ namespace Titanium.Gambits
         public Roulette()
         {
             name = "Roulette";
-            message = "Match the spinning wheels with:";
+            message = "Match the icons with:";
             helpOffset -= new Vector2(0, 50);
         }
 
 
         public override void load(ContentManager content)
         {
-            font = content.Load<SpriteFont>("Fonts/NumbersFont");
+            font = content.Load<SpriteFont>("Fonts/MainFontSmall");
 
             List<Texture2D> icons = new List<Texture2D>();
             foreach (string dir in iconDirs)
@@ -43,23 +43,23 @@ namespace Titanium.Gambits
             switch((Difficulty)difficulty)
             {
                 case Difficulty.Easy:
-                    speed = 4;
+                    speed = 2;
                     wheelNum = 3;
                     iconNum = 3;
                     break;
                 case Difficulty.Medium:
-                    speed = 5;
-                    wheelNum = 4;
-                    iconNum = 3;
+                    speed = 3;
+                    wheelNum = 3;
+                    iconNum = 4;
                     break;
                 case Difficulty.Hard:
-                    speed = 6;
+                    speed = 3;
                     wheelNum = 4;
                     iconNum = 4;
                     break;
                 default:
-                    speed = 4;
-                    wheelNum = 4;
+                    speed = 3;
+                    wheelNum = 3;
                     break;
             }
             for(int i=0; i<wheelNum; i++)
